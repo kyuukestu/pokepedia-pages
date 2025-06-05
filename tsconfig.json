@@ -10,5 +10,7 @@
     {
       "path": "./tsconfig.vitest.json"
     }
-  ]
+  ],
+  "include": ["auto-imports.d.ts"],
+  "exclude": ["node_modules"]
 }
