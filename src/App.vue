@@ -1,17 +1,9 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import WelcomeView from './views/WelcomeView.vue'
+import SvgIcon from '@jamescoyle/vue-icon'
 </script>
 
 <template>
-  <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-    </nav>
-  </header>
-
-  <RouterView />
   <WelcomeView />
 </template>
 

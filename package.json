@@ -19,8 +19,12 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/font": "^7.4.47",
+    "@mdi/js": "^7.4.47",
     "gh-pages": "^6.3.0",
     "pinia": "^3.0.1",
+    "tailwind": "^4.0.0",
     "unplugin-auto-import": "^19.3.0",
     "unplugin-vue-components": "^28.7.0",
     "vite-plugin-vuetify": "^2.1.1",

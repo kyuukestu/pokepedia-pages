@@ -2,10 +2,10 @@
 import MasterNav from '@/components/MasterNav.vue'
 </script>
 <template>
-  <v-card>
-    <v-layout>
+  <v-layout>
+    <v-card class="w-full h-full">
       <MasterNav />
       <slot></slot>
-    </v-layout>
-  </v-card>
+    </v-card>
+  </v-layout>
 </template>
