@@ -1,0 +1,1 @@
+import{d as a,a as o,V as t,o as c,_ as l}from"./index-DrEFAhP_.js";const r=a({__name:"WelcomeOverlay",props:{isActive:{type:Boolean,default:!0}},setup(e){return(s,n)=>(c(),o(t,{activator:"","location-strategy":"connected","scroll-strategy":"none","model-value":e.isActive},null,8,["model-value"]))}}),p=l(r,[["__scopeId","data-v-f240b47b"]]);export{p as default};
