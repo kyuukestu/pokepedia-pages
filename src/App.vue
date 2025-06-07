@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import WelcomeView from './views/WelcomeView.vue'
-import SvgIcon from '@jamescoyle/vue-icon'
+import HomeView from '@/views/HomeView.vue'
+import MasterNav from '@/components/navigation/MasterNav.vue'
 </script>
 
 <template>
-  <WelcomeView />
+  <v-app>
+    <MasterNav />
+    <v-main>
+      <RouterView />
+    </v-main>
+  </v-app>
 </template>
 
 <style scoped>

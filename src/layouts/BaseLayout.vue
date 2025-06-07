@@ -1,10 +1,7 @@
-<script setup lang="ts">
-import MasterNav from '@/components/MasterNav.vue'
-</script>
+<script setup lang="ts"></script>
 <template>
   <v-layout>
     <v-card class="w-full h-full">
-      <MasterNav />
       <slot></slot>
     </v-card>
   </v-layout>
