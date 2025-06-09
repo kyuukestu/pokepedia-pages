@@ -1,6 +1,43 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // Make sure the file exists at this path, or update the path if needed
-import HomeView from '../views/HomeView.vue'
+
+const sandboxLinks = [
+  { title: 'Trainer 101' },
+  { title: 'Regions' },
+  { title: 'Law Enforcement' },
+  { title: 'Supervisory Boards' },
+  { title: 'PokeCorp' },
+  { title: 'PokeAcademia' },
+  { title: 'PokeTech' },
+  { title: 'Sandbox Events' },
+  { title: 'Characters' },
+  { title: 'Misc' },
+]
+
+const syncLinks = [
+  { title: 'Setting' },
+  { title: 'Fortitude' },
+  { title: 'Sync Events' },
+  { title: 'Swarms' },
+  { title: 'PokeJobs' },
+  { title: 'Vocations' },
+  { title: 'PokeAcademy' },
+]
+
+const sandboxRoutes = sandboxLinks.map((route) => ({
+  path: `${route.title.toLowerCase().replace(' ', '-')}`,
+  name: route.title,
+  component: () => import(`../views/sandbox/ToC/${route.title.replace(' ', '')}View.vue`),
+}))
+
+const syncRoutes = syncLinks.map((route) => ({
+  path: `${route.title.toLowerCase().replace(' ', '-')}`,
+  name: route.title,
+  component: () => import(`../views/sync/ToC/${route.title.replace(' ', '')}View.vue`),
+}))
+
+// console.log(`Sandbox Routes: ${JSON.stringify(sandboxRoutes)}`)
+// console.log(`Sync Routes: ${JSON.stringify(syncRoutes)}`)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,7 +45,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('../views/HomeView.vue'),
     },
     {
       path: '/about',
@@ -23,55 +60,15 @@ const router = createRouter({
       name: 'welcome',
       component: () => import('../views/WelcomeView.vue'),
     },
+    // Sandbox Routes
     {
-      path: '/trainer-101',
-      name: 'trainer-101',
-      component: () => import('../views/ToC/Trainer101View.vue'),
+      path: '/sandbox',
+      children: sandboxRoutes,
     },
+    // Sync Routes
     {
-      path: '/regions',
-      name: 'regions',
-      component: () => import('../views/ToC/RegionsView.vue'),
-    },
-    {
-      path: '/law-enforcement',
-      name: 'law-enforcement',
-      component: () => import('../views/ToC/LawEnforcementView.vue'),
-    },
-    {
-      path: '/supervisory-boards',
-      name: 'supervisory-boards',
-      component: () => import('../views/ToC/SupervisoryBoardsView.vue'),
-    },
-    {
-      path: '/pokecorp',
-      name: 'pokecorp',
-      component: () => import('../views/ToC/PokeCorpView.vue'),
-    },
-    {
-      path: '/pokeacademia',
-      name: 'pokeacademia',
-      component: () => import('../views/ToC/PokeAcademiaView.vue'),
-    },
-    {
-      path: '/poketech',
-      name: 'poketech',
-      component: () => import('../views/ToC/PokeTechView.vue'),
-    },
-    {
-      path: '/events',
-      name: 'events',
-      component: () => import('../views/ToC/EventsView.vue'),
-    },
-    {
-      path: '/misc',
-      name: 'misc',
-      component: () => import('../views/ToC/MiscView.vue'),
-    },
-    {
-      path: '/characters',
-      name: 'characters',
-      component: () => import('../views/ToC/CharactersView.vue'),
+      path: '/sync',
+      children: syncRoutes,
     },
   ],
 })

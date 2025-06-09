@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-// const isActive = ref(true)
 const show = ref(false)
 </script>
-
 <template>
   <!-- <v-btn @click="isActive = !isActive">
     Welcome <v-icon>{{ 'mdi-human-greeting' }}</v-icon>
@@ -21,49 +19,24 @@ const show = ref(false)
         src="https://i.pinimg.com/1200x/28/e8/67/28e867f8687640f8f6df67ffc7881570.jpg"
         aspect-ration="19/10"
       />
-
-      <v-card-text class="py-0 text-gray ms-4">
-        <div>Welcome to to our Pokémon Role Play Wikia!</div>
-        <div>Poképedia for short!</div>
-        <div>
-          An ever-expanding compendium of useful information about the World of Pokémon as presented
-          in the Role Play! This wikia serves to answer many, eventually any, of the questions that
-          inevitable arise when roleplaying in a world as diverse and long-running as pokémon.
-        </div>
-        <div>
-          This Wikia covers basic information on the Pokémon World and any changes that arise as a
-          result of RP events or OOC decisions. Whether you're a seasoned member of the role play or
-          just starting our, this Wikia is your go-to resource for lore, mechanic changes,
-          locations, rules, Ocs (maybe), and more.
-        </div>
-
-        <v-card-actions>
-          <v-spacer />
-          <v-btn :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="show = !show" />
-        </v-card-actions>
-
-        <v-expand-transition>
-          <div v-show="show">
-            <v-divider />
-            <v-card-text>
-              <h2>What Is This Role Play About?</h2>
-              <p>
-                We run an Open-World, Sandbox-style Pokémon RP where the entire Pokéverse is your
-                Cloyster!
-                <br />
-                What's that all mean? It means when we role play, we draw from all forms of
-                Poké-Media: The
-                <span>Main Series Games</span> are our primary source, but Side Games (Ranger,
-                Conquest, Mystery Dungeon, et al.), Anime, Manga, etc. are all valid sources from
-                which to draw inspiration to flesh-out the world.
-                <br />
-                Our role play introduces new regions, factions, lore, regional variants, and many
-                more that expand the Pokémon experience!
-              </p>
-            </v-card-text>
-          </div>
-        </v-expand-transition>
+      <v-card-text>
+        Gonna add an expand below here; it will provide two options that divert you to either the
+        Sandbox or the Sync Introduction Pages.
       </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="show = !show" />
+      </v-card-actions>
+      <v-expand-transition>
+        <div v-show="show">
+          <v-divider />
+          <v-card-text style="display: flex; flex-direction: row; justify-content: space-evenly">
+            <v-btn text="Sandbox" variant="outlined" size="x-large" class="w-40" :ripple="true" />
+            <v-divider vertical :thickness="5" />
+            <v-btn text="Sync" variant="outlined" size="x-large" class="w-40" :ripple="true" />
+          </v-card-text>
+        </div>
+      </v-expand-transition>
     </v-card>
     <section>
       <h2>What You'll Find Here</h2>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useTheme } from 'vuetify'
-import ToCNav from './ToCNav.vue'
+import sandboxNav from './sandboxNav.vue'
+import SyncNav from './syncNav.vue'
 
 const drawer = ref(false)
 const theme = useTheme()
@@ -30,7 +31,8 @@ const toggleTheme = () => {
       <v-list-item prepend-icon="mdi-home-city" title="Home" value="home" to="/" />
       <v-list-item prepend-icon="mdi-information" title="Welcome" value="welcome" to="/welcome" />
       <v-list-item prepend-icon="mdi-chat-question" title="About" value="about" to="/about" />
-      <ToCNav />
+      <sandboxNav />
+      <SyncNav />
     </v-list>
   </v-navigation-drawer>
 </template>
