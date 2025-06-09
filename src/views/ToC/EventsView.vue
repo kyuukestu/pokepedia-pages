@@ -4,19 +4,26 @@ import { useDate } from 'vuetify'
 
 const calendar = ref()
 
-const today = ref(new Date())
-const events = ref([])
+const today = ref([new Date()])
+interface CalendarEvent {
+  title: string
+  start: Date
+  end: Date
+  color: string
+  allDay: boolean
+}
+const events = ref<CalendarEvent[]>([])
 const colors = ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1']
 const names = ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party']
 
 onMounted(() => {
   const adapter = useDate()
   fetchEvents({
-    start: adapter.startOfDay(adapter.startOfMonth(new Date())),
-    end: adapter.endOfDay(adapter.endOfMonth(new Date())),
+    start: adapter.startOfDay(adapter.startOfMonth(new Date())) as Date,
+    end: adapter.endOfDay(adapter.endOfMonth(new Date())) as Date,
   })
 })
-function fetchEvents({ start, end }) {
+function fetchEvents({ start, end }: { start: Date; end: Date }) {
   const _events = []
   const min = start
   const max = end
@@ -38,7 +45,7 @@ function fetchEvents({ start, end }) {
   }
   events.value = _events
 }
-function rnd(a, b) {
+function rnd(a: number, b: number): number {
   return Math.floor((b - a + 1) * Math.random()) + a
 }
 </script>
