@@ -26,52 +26,52 @@ const router = createRouter({
     {
       path: '/trainer-101',
       name: 'trainer-101',
-      component: () => import('../views/Trainer101View.vue'),
+      component: () => import('../views/ToC/Trainer101View.vue'),
     },
     {
       path: '/regions',
       name: 'regions',
-      component: () => import('../views/RegionsView.vue'),
+      component: () => import('../views/ToC/RegionsView.vue'),
     },
     {
       path: '/law-enforcement',
       name: 'law-enforcement',
-      component: () => import('../views/LawEnforcementView.vue'),
+      component: () => import('../views/ToC/LawEnforcementView.vue'),
     },
     {
       path: '/supervisory-boards',
       name: 'supervisory-boards',
-      component: () => import('../views/SupervisoryBoardsView.vue'),
+      component: () => import('../views/ToC/SupervisoryBoardsView.vue'),
     },
     {
       path: '/pokecorp',
       name: 'pokecorp',
-      component: () => import('../views/PokeCorpView.vue'),
+      component: () => import('../views/ToC/PokeCorpView.vue'),
     },
     {
       path: '/pokeacademia',
       name: 'pokeacademia',
-      component: () => import('../views/PokeAcademiaView.vue'),
+      component: () => import('../views/ToC/PokeAcademiaView.vue'),
     },
     {
       path: '/poketech',
       name: 'poketech',
-      component: () => import('../views/PokeTechView.vue'),
+      component: () => import('../views/ToC/PokeTechView.vue'),
     },
     {
       path: '/events',
       name: 'events',
-      component: () => import('../views/EventsView.vue'),
+      component: () => import('../views/ToC/EventsView.vue'),
     },
     {
       path: '/misc',
       name: 'misc',
-      component: () => import('../views/MiscView.vue'),
+      component: () => import('../views/ToC/MiscView.vue'),
     },
     {
       path: '/characters',
       name: 'characters',
-      component: () => import('../views/CharactersView.vue'),
+      component: () => import('../views/ToC/CharactersView.vue'),
     },
   ],
 })

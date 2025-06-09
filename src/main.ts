@@ -8,6 +8,7 @@ import { createPinia } from 'pinia'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
+import * as labcomponents from 'vuetify/labs/components'
 import * as directives from 'vuetify/directives'
 
 import App from './App.vue'
@@ -18,14 +19,15 @@ const vuetify = createVuetify({
   icons: {
     defaultSet: 'mdi',
   },
-  components,
+  components: {
+    ...components,
+    ...labcomponents,
+  },
   directives,
 })
 
 const app = createApp(App)
 
-app.use(vuetify)
-app.use(createPinia())
-app.use(router)
+app.use(vuetify).use(createPinia()).use(router)
 
 app.mount('#app')

@@ -1,0 +1,38 @@
+/* Reset default browser styles */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Ensure #app takes full size */
+#app {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure Vuetify root layout fills correctly */
+.v-application {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Optional: make v-main stretch fully */
+.v-main {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
