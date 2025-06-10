@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const show = ref(false)
+const router = useRouter()
+
+const goToSandbox = () => {
+  router.push('/sandbox')
+}
+
+const goToSync = () => {
+  router.push('/sync')
+}
 </script>
 <template>
   <!-- <v-btn @click="isActive = !isActive">
@@ -14,6 +24,7 @@ const show = ref(false)
         <template v-slot:title>Welcome to Pokepedia!</template>
         <template v-slot:subtitle> A RPN Associated Pokémon Role Play </template>
       </v-card-item>
+
       <v-img
         height="250px"
         src="https://i.pinimg.com/1200x/28/e8/67/28e867f8687640f8f6df67ffc7881570.jpg"
@@ -22,6 +33,8 @@ const show = ref(false)
       <v-card-text>
         Gonna add an expand below here; it will provide two options that divert you to either the
         Sandbox or the Sync Introduction Pages.
+        <v-spacer />
+        Maybe replace the below with cards w/ images.
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -31,9 +44,23 @@ const show = ref(false)
         <div v-show="show">
           <v-divider />
           <v-card-text style="display: flex; flex-direction: row; justify-content: space-evenly">
-            <v-btn text="Sandbox" variant="outlined" size="x-large" class="w-40" :ripple="true" />
+            <v-btn
+              @click="goToSandbox"
+              text="Sandbox"
+              variant="outlined"
+              size="x-large"
+              class="w-40"
+              :ripple="true"
+            />
             <v-divider vertical :thickness="5" />
-            <v-btn text="Sync" variant="outlined" size="x-large" class="w-40" :ripple="true" />
+            <v-btn
+              @click="goToSync"
+              text="Sync"
+              variant="outlined"
+              size="x-large"
+              class="w-40"
+              :ripple="true"
+            />
           </v-card-text>
         </div>
       </v-expand-transition>

@@ -1,7 +1,14 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import path from 'path'
+import {
+  createRouter,
+  createWebHistory,
+  type RouteLocationNormalized,
+  type RouterScrollBehavior,
+} from 'vue-router'
 // Make sure the file exists at this path, or update the path if needed
 
 const sandboxLinks = [
+  { title: '' },
   { title: 'Trainer 101' },
   { title: 'Regions' },
   { title: 'Law Enforcement' },
@@ -14,7 +21,10 @@ const sandboxLinks = [
   { title: 'Misc' },
 ]
 
+const sandboxContentLinks = [{ title: 'Trainer101.Trainer-IDs' }]
+
 const syncLinks = [
+  { title: '' },
   { title: 'Setting' },
   { title: 'Fortitude' },
   { title: 'Sync Events' },
@@ -24,20 +34,50 @@ const syncLinks = [
   { title: 'PokeAcademy' },
 ]
 
-const sandboxRoutes = sandboxLinks.map((route) => ({
-  path: `${route.title.toLowerCase().replace(' ', '-')}`,
-  name: route.title,
-  component: () => import(`../views/sandbox/ToC/${route.title.replace(' ', '')}View.vue`),
-}))
+const sandboxRoutes = sandboxLinks.map((route) => {
+  if (route.title === '') {
+    return {
+      path: '/sandbox',
+      name: 'sandbox',
+      component: () => import('../views/sandbox/SandboxView.vue'),
+    }
+  } else {
+    return {
+      path: `${route.title.toLowerCase().replace(' ', '-')}`,
+      name: route.title,
+      component: () => import(`../views/sandbox/main/${route.title.replace(' ', '')}View.vue`),
+    }
+  }
+})
 
-const syncRoutes = syncLinks.map((route) => ({
-  path: `${route.title.toLowerCase().replace(' ', '-')}`,
-  name: route.title,
-  component: () => import(`../views/sync/ToC/${route.title.replace(' ', '')}View.vue`),
-}))
+const sandboxContentRoutes = sandboxContentLinks.map((route) => {
+  return {
+    path: `content/${route.title.toLowerCase().replace(' ', '-')}`,
+    name: route.title,
+    component: () => import(`../views/sandbox/content/${route.title.replace(' ', '')}View.vue`),
+  }
+})
 
-// console.log(`Sandbox Routes: ${JSON.stringify(sandboxRoutes)}`)
-// console.log(`Sync Routes: ${JSON.stringify(syncRoutes)}`)
+console.log('Content Routes', JSON.stringify(sandboxContentRoutes))
+
+const syncRoutes = syncLinks.map((route) => {
+  if (route.title === '') {
+    return {
+      path: '/sync',
+      name: 'sync',
+      component: () => import('../views/sync/SyncView.vue'),
+    }
+  } else {
+    return {
+      path: `${route.title.toLowerCase().replace(' ', '-')}`,
+      name: route.title,
+      component: () => import(`../views/sync/${route.title.replace(' ', '')}View.vue`),
+    }
+  }
+})
+
+console.log(`Sandbox Routes: ${JSON.stringify(sandboxRoutes).toString()}`)
+console.log(`Sync Routes: ${JSON.stringify(syncRoutes)}`)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,9 +101,10 @@ const router = createRouter({
       component: () => import('../views/WelcomeView.vue'),
     },
     // Sandbox Routes
+
     {
       path: '/sandbox',
-      children: sandboxRoutes,
+      children: [...sandboxRoutes, ...sandboxContentRoutes],
     },
     // Sync Routes
     {
@@ -71,6 +112,17 @@ const router = createRouter({
       children: syncRoutes,
     },
   ],
+  scrollBehavior(to: RouteLocationNormalized, _from: RouteLocationNormalized) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      }
+    }
+    return undefined
+  },
 })
 
 export default router
