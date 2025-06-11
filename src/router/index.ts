@@ -1,10 +1,4 @@
-import path from 'path'
-import {
-  createRouter,
-  createWebHistory,
-  type RouteLocationNormalized,
-  type RouterScrollBehavior,
-} from 'vue-router'
+import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
 // Make sure the file exists at this path, or update the path if needed
 
 const sandboxLinks = [
@@ -21,7 +15,12 @@ const sandboxLinks = [
   { title: 'Misc' },
 ]
 
-const sandboxContentLinks = [{ title: 'Trainer101.Trainer-IDs' }]
+const sandboxTrainerContentLinks = [
+  { title: 'Trainer101.Trainer-IDs' },
+  { title: 'Trainer101.Permit.Sky' },
+  { title: 'Trainer101.Permit.Land' },
+  { title: 'Trainer101.Permit.Water' },
+]
 
 const syncLinks = [
   { title: '' },
@@ -50,7 +49,7 @@ const sandboxRoutes = sandboxLinks.map((route) => {
   }
 })
 
-const sandboxContentRoutes = sandboxContentLinks.map((route) => {
+const sandboxTrainerContentRoutes = sandboxTrainerContentLinks.map((route) => {
   return {
     path: `content/${route.title.toLowerCase().replace(' ', '-')}`,
     name: route.title,
@@ -58,7 +57,7 @@ const sandboxContentRoutes = sandboxContentLinks.map((route) => {
   }
 })
 
-console.log('Content Routes', JSON.stringify(sandboxContentRoutes))
+console.log('Content Routes', JSON.stringify(sandboxTrainerContentRoutes))
 
 const syncRoutes = syncLinks.map((route) => {
   if (route.title === '') {
@@ -104,7 +103,7 @@ const router = createRouter({
 
     {
       path: '/sandbox',
-      children: [...sandboxRoutes, ...sandboxContentRoutes],
+      children: [...sandboxRoutes, ...sandboxTrainerContentRoutes],
     },
     // Sync Routes
     {

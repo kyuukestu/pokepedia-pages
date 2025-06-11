@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useTheme } from 'vuetify'
 const theme = useTheme()
-
-const terrestrial = ref(false)
-const aquatic = ref(false)
-const aviation = ref(false)
 </script>
 <template>
   <v-container fluid>
@@ -42,7 +37,7 @@ const aviation = ref(false)
 
     <p>Common Types of Trainer ID and their unique features are explored below:</p>
 
-    <v-container fluid class="ID-Btn-Container mx-auto d-flex flex-row flex-wrap pl-5 pr-5">
+    <v-container fluid class="Btn-Container mx-auto d-flex flex-row flex-wrap pl-5 pr-5">
       <v-btn
         prepend-icon="mdi-card-account-details"
         class="ID-Btn"
@@ -137,35 +132,45 @@ const aviation = ref(false)
       their newly evolved, far too eager Arcanine. Permits act as the Role Play equivalent of
       Licenses and certify a trainer as sufficiently trained to ride Pokémon to traverse:
     </p>
-    <v-btn @click="terrestrial = !terrestrial">Terrestrial Permit</v-btn>
-    <v-overlay v-model="terrestrial" class="align-center justify-center w-50 mx-auto">
-      <v-card> Terrestial</v-card></v-overlay
-    >
-    <v-btn @click="aquatic = !aquatic">Aquatic Permit</v-btn>
-
-    <v-overlay v-model="aquatic" class="align-center justify-center w-50 mx-auto">
-      <v-card> Aquatic</v-card></v-overlay
-    >
-
-    <v-btn @click="aviation = !aviation">Aviation Permit</v-btn>
-
-    <v-overlay v-model="aviation" class="align-center justify-center w-50 mx-auto">
-      <v-card> Aviation</v-card></v-overlay
-    >
+    <v-container fluid class="Btn-Container mx-auto d-flex flex-row flex-wrap pl-5 pr-5">
+      <v-btn
+        prepend-icon="mdi-feather"
+        class="Permit-Btn"
+        size="x-large"
+        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
+        stacked
+        to="/sandbox/content/trainer101.permit.sky"
+        >Sky</v-btn
+      >
+      <v-btn
+        prepend-icon="mdi-paw"
+        class="Permit-Btn"
+        size="x-large"
+        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
+        stacked
+        to="/sandbox/content/trainer101.permit.land"
+        >Land</v-btn
+      >
+      <v-btn
+        prepend-icon="mdi-wave"
+        class="Permit-Btn"
+        size="x-large"
+        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
+        stacked
+        to="/sandbox/content/trainer101.permit.water"
+        >Water</v-btn
+      >
+    </v-container>
 
     <blockquote>
       <strong>NOTE</strong><br />
       Largely flavor text and not strictly enforced in RP, trainers who ride their pokémon are
       assumed to do so safely unless stated otherwise.
     </blockquote>
-
-    <h2 id="bags">Bags</h2>
-
-    <h2 id="pokemon-storage-system">Pokemon Storage System</h2>
   </v-container>
 </template>
 <style scoped>
-.ID-Btn-Container {
+.Btn-Container {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

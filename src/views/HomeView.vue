@@ -12,12 +12,46 @@ const goToSandbox = () => {
 const goToSync = () => {
   router.push('/sync')
 }
+
+const roleplays = [
+  {
+    id: 1,
+    title: 'Pokémon',
+    tagline: 'The World of Pokémon',
+    image:
+      'https://images.unsplash.com/photo-1519389950473-47ba561d184e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
+    link: '/sandbox',
+  },
+  {
+    id: 2,
+    title: 'Pokémon',
+    tagline: 'The World of Pokémon',
+    image:
+      'https://images.unsplash.com/photo-1519389950473-47ba561d184e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
+    link: '/sandbox',
+  },
+]
 </script>
 <template>
   <!-- <v-btn @click="isActive = !isActive">
     Welcome <v-icon>{{ 'mdi-human-greeting' }}</v-icon>
     <WelcomeOverlay :isActive="isActive" />
   </v-btn> -->
+  <v-container>
+    <v-row>
+      <v-col cols="12" md="4" v-for="rp in roleplays" :key="rp.id">
+        <v-card>
+          <v-img :src="rp.image" height="200px" />
+          <v-card-title>{{ rp.title }}</v-card-title>
+          <v-card-subtitle>{{ rp.tagline }}</v-card-subtitle>
+          <v-card-actions>
+            <v-btn :href="rp.link" color="primary">Explore World</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+
   <main>
     <v-card class="mx-auto my-12 w-50">
       <v-card-item>
