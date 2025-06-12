@@ -1,187 +1,174 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
+
 const theme = useTheme()
+
+const idButtons = [
+  {
+    label: 'Trainer Card',
+    icon: 'mdi-card-account-details',
+    to: '/sandbox/content/trainer101.trainer-ids#trainer-card',
+  },
+  {
+    label: 'Passport',
+    icon: 'mdi-passport',
+    to: '/sandbox/content/trainer101.trainer-ids#trainer-passport',
+  },
+  {
+    label: 'League Card',
+    icon: 'mdi-cards',
+    to: '/sandbox/content/trainer101.trainer-ids#league-card',
+  },
+  {
+    label: 'App',
+    icon: 'mdi-passport-biometric',
+    to: '/sandbox/content/trainer101.trainer-ids#profile-app',
+  },
+]
+
+const permitButtons = [
+  { label: 'Sky', icon: 'mdi-feather', to: '/sandbox/content/trainer101.permit.sky' },
+  { label: 'Land', icon: 'mdi-paw', to: '/sandbox/content/trainer101.permit.land' },
+  { label: 'Water', icon: 'mdi-wave', to: '/sandbox/content/trainer101.permit.water' },
+]
+
+const leagueServices = [
+  { label: 'PokéMart', icon: 'mdi-store' },
+  { label: 'PokéCenter', icon: 'mdi-hospital' },
+  { label: 'Daycare & Breeding Facilities', icon: 'mdi-egg' },
+  { label: 'Gyms, Battle Frontier, Battle Tower, etc.', icon: 'mdi-dumbbell' },
+  { label: 'League Sponsored Events & Competitions', icon: 'mdi-trophy' },
+  { label: 'More...', icon: 'mdi-dots-vertical' },
+]
+
+const exceptionList = [
+  {
+    text: 'Trainers with young Pokémon who would benefit from proximity',
+    icon: 'mdi-check-underline',
+  },
+  {
+    text: 'Trainers with health needs requiring additional guide Pokémon',
+    icon: 'mdi-check-underline',
+  },
+]
 </script>
+
 <template>
-  <v-container fluid>
-    <h1>Trainer 101</h1>
+  <v-container fluid class="py-10">
+    <v-row justify="center">
+      <v-col cols="12" md="8">
+        <div class="text-h2 mb-6 text-center">Trainer 101</div>
 
-    <h2 id="index">Index</h2>
+        <v-divider class="mb-6" />
 
-    <h2 id="who-is-a-trainer">Who is a Trainer?</h2>
+        <div class="text-h4 mb-4" id="who-is-a-trainer">Who is a Trainer?</div>
+        <div class="mb-4 text-body-1">
+          A Pokémon Trainer is any person who catches, trains, cares for, or battles with Pokémon!
+          Starting from the age of ten (10), anyone can apply for a Trainer's Card...
+        </div>
+        <div class="mb-4 text-body-1">
+          Trainer Cards are essential for gaining access to the full suite of League-affiliated
+          services, including:
+        </div>
 
-    <p>
-      A Pokémon Trainer is any person who catches, trains, cares for, or battles with Pokémon!
-      Starting from the age of ten (10), anyone can apply for a Trainer's Card, which—upon
-      approval—recognizes them as a League-Registered Pokémon Trainer.
-    </p>
+        <v-container fluid class="mx-auto list-container">
+          <v-list v-for="(service, i) in leagueServices" :key="i" class="mb-4" density="compact">
+            <v-list-item :title="service.label" :prepend-icon="service.icon" />
+          </v-list>
+        </v-container>
 
-    <p>
-      Trainer Cards are essential for gaining access to the full suite of League-affiliated
-      services, including:
-    </p>
+        <div class="mb-4 body-text-1">
+          Common types of Trainer ID and their unique features are explored below:
+        </div>
 
-    <ul>
-      <li>PokéMart</li>
-      <li>PokéCenter</li>
-      <li>Daycare &amp; Breeding Facilities</li>
-      <li>Gyms, Battle Frontier, Battle Tower, etc.</li>
-      <li>League Sponsored Events &amp; Competitions</li>
-    </ul>
+        <v-row class="mb-6" justify="center">
+          <v-col cols="12" sm="6" md="3" v-for="btn in idButtons" :key="btn.label">
+            <v-btn
+              :prepend-icon="btn.icon"
+              :to="btn.to"
+              :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
+              size="x-large"
+              class="Btn"
+              stacked
+            >
+              {{ btn.label }}
+            </v-btn>
+          </v-col>
+        </v-row>
 
-    <p>
-      In spite of their common referral as 'Trainer Cards', the more accurate term would be 'Trainer
-      ID' as they encompass all means of identification and can take many forms depending on the
-      region and the personal preference of the trainer.
-    </p>
+        <v-alert type="warning" variant="tonal" class="mb-8">
+          <strong class="text-h6">CAUTION</strong><br />
+          <div class="text-body-1">
+            Trainers who are found to be involved with illegal or criminal activity may have their
+            trainer IDs revoked!
+          </div>
+        </v-alert>
 
-    <p>Common Types of Trainer ID and their unique features are explored below:</p>
+        <div class="text-h4 mb-4" id="the-carry-limit">The Carry Limit</div>
+        <div class="text-body-1 mb-4">
+          Trainers are expected to carry no more than six (6) Pokémon at any time...
+        </div>
 
-    <v-container fluid class="Btn-Container mx-auto d-flex flex-row flex-wrap pl-5 pr-5">
-      <v-btn
-        prepend-icon="mdi-card-account-details"
-        class="ID-Btn"
-        size="x-large"
-        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
-        stacked
-        to="/sandbox/content/trainer101.trainer-ids#trainer-card"
-      >
-        Trainer Card
-      </v-btn>
+        <div class="body-text-1 mb-4">
+          Alternatively, mobile PC units may be purchased to access storage systems remotely.
+        </div>
 
-      <v-btn
-        prepend-icon="mdi-passport"
-        class="ID-Btn"
-        size="x-large"
-        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
-        stacked
-        to="/sandbox/content/trainer101.trainer-ids#trainer-passport"
-        >Passport</v-btn
-      >
+        <v-alert type="success" variant="tonal" class="mb-8">
+          <div class="text-body-2 mb-4">Exceptions can be made for:</div>
+          <v-container class="mx-auto list-container">
+            <v-list v-for="(exception, i) in exceptionList" :key="i" class="mb-4" density="compact">
+              <v-list-item :title="exception.text" :prepend-icon="exception.icon" />
+            </v-list>
+          </v-container>
+        </v-alert>
 
-      <v-btn
-        prepend-icon="mdi-cards"
-        class="ID-Btn"
-        size="x-large"
-        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
-        stacked
-        to="/sandbox/content/trainer101.trainer-ids#league-card"
-      >
-        League Card
-      </v-btn>
+        <div class="body-text-1 mb-6">
+          However, tournaments and public venues are not required to accommodate more than six (6).
+        </div>
 
-      <v-btn
-        prepend-icon="mdi-passport-biometric"
-        class="ID-Btn"
-        size="x-large"
-        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
-        stacked
-        to="/sandbox/content/trainer101.trainer-ids#profile-app"
-        >App</v-btn
-      >
-    </v-container>
+        <div class="text-h4 mb-4" id="pokémon-permits">Pokémon Permits</div>
+        <div class="body-text-1 mb-4">
+          Permits serve as licenses for trainers wishing to ride Pokémon across:
+        </div>
 
-    <blockquote>
-      <strong>CAUTION</strong><br />
-      Trainers who are found to be involved with illegal or criminal activity may find themselves at
-      risk of their trainer ids being revoked!
-    </blockquote>
+        <v-row class="mb-6" justify="center">
+          <v-col cols="12" sm="6" md="3" v-for="btn in permitButtons" :key="btn.label">
+            <v-btn
+              :prepend-icon="btn.icon"
+              :to="btn.to"
+              :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
+              size="x-large"
+              class="Btn"
+              stacked
+            >
+              {{ btn.label }}
+            </v-btn>
+          </v-col>
+        </v-row>
 
-    <h2 id="the-carry-limit">The Carry Limit</h2>
-
-    <p>
-      It is tradition and expected that trainers carry no more than six (6) pokémon on them at any
-      time.
-    </p>
-
-    <p>
-      While this may be an unspoken rule, meaning it is not strictly enforced, the League frowns
-      upon trainers who exceed the traditional six (6) without reason.
-    </p>
-
-    <p>
-      Pokémon are, after all, extremely powerful creatures and those trainers who feel the need to
-      carry around what is effectively a small army will invite scrutiny and suspicion.
-    </p>
-
-    <p>
-      That said, there are many exceptions to this rule where the League will grant temporary
-      permission for a Trainer to exceed the Carry Limit. A permit can be obtained from League
-      Officials (such as the Regional Professor) for trainers who, for example:
-    </p>
-
-    <ul>
-      <li>Are nursing young pokémon who would benefit from the close proximity to their trainer</li>
-      <li>Have health issues that require a guide-pokemon</li>
-    </ul>
-
-    <p>
-      Alternatively, Trainers may purchase a mobile PC unit that allows them to access the Pokémon
-      Storage System from almost anywhere.
-    </p>
-
-    <p>
-      However, Tournaments and public institutions such as hotels or parks are under no obligation
-      to accommodate trainers who exceed the standard six (6).
-    </p>
-
-    <h2 id="pokémon-permits">Pokémon Permits</h2>
-
-    <p>
-      Unfortunately, not every trainer can be trusted not to barrel down the streets at 250 km/h on
-      their newly evolved, far too eager Arcanine. Permits act as the Role Play equivalent of
-      Licenses and certify a trainer as sufficiently trained to ride Pokémon to traverse:
-    </p>
-    <v-container fluid class="Btn-Container mx-auto d-flex flex-row flex-wrap pl-5 pr-5">
-      <v-btn
-        prepend-icon="mdi-feather"
-        class="Permit-Btn"
-        size="x-large"
-        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
-        stacked
-        to="/sandbox/content/trainer101.permit.sky"
-        >Sky</v-btn
-      >
-      <v-btn
-        prepend-icon="mdi-paw"
-        class="Permit-Btn"
-        size="x-large"
-        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
-        stacked
-        to="/sandbox/content/trainer101.permit.land"
-        >Land</v-btn
-      >
-      <v-btn
-        prepend-icon="mdi-wave"
-        class="Permit-Btn"
-        size="x-large"
-        :variant="theme.global.name.value === 'dark' ? 'outlined' : 'elevated'"
-        stacked
-        to="/sandbox/content/trainer101.permit.water"
-        >Water</v-btn
-      >
-    </v-container>
-
-    <blockquote>
-      <strong>NOTE</strong><br />
-      Largely flavor text and not strictly enforced in RP, trainers who ride their pokémon are
-      assumed to do so safely unless stated otherwise.
-    </blockquote>
+        <v-alert type="info" variant="tonal" class="mb-4">
+          <strong class="text-h6">NOTE:</strong><br />
+          <div class="body-text-1 mb-6">
+            Permits are largely flavor text and not strictly enforced in RP.
+          </div>
+        </v-alert>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
+
 <style scoped>
-.Btn-Container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  max-width: 950px;
-  height: 300px;
+/* Minimal override for button height */
+.v-btn {
+  min-height: 100px;
 }
 
-.ID-Btn {
+.Btn {
   width: 150px;
-  height: 100px;
   text-align: center;
+}
+
+.list-container {
+  max-width: 600px;
 }
 </style>

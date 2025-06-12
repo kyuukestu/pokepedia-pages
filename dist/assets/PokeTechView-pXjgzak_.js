@@ -1,0 +1,1 @@
+import{_ as s,m as t,b as o,F as n,o as r}from"./index-DdjzySE2.js";const a={};function m(l,e){return r(),t(n,null,[e[0]||(e[0]=o("h1",null,"poketechs",-1)),e[1]||(e[1]=o("h2",{id:"bags"},"Bags",-1)),e[2]||(e[2]=o("h2",{id:"pokemon-storage-system"},"Pokemon Storage System",-1))],64)}const f=s(a,[["render",m]]);export{f as default};
