@@ -111,16 +111,24 @@ const router = createRouter({
       children: syncRoutes,
     },
   ],
-  scrollBehavior(to: RouteLocationNormalized, _from: RouteLocationNormalized) {
+  scrollBehavior(to: RouteLocationNormalized, _from: RouteLocationNormalized, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+
     if (to.hash) {
       return {
         el: to.hash,
         top: 0,
-        left: 0,
+
         behavior: 'smooth',
       }
     }
-    return undefined
+
+    return {
+      top: 0,
+      behavior: 'smooth',
+    }
   },
 })
 
