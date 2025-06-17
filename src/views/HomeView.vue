@@ -1,16 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-const goToSandbox = () => {
-  router.push('/sandbox')
-}
-
-const goToSync = () => {
-  router.push('/sync')
-}
-
 const roleplays = [
   {
     id: 1,
@@ -23,7 +11,7 @@ const roleplays = [
     aspectratio: '21/8',
     icon: 'mdi-pokeball',
     color: 'red',
-    link: goToSandbox,
+    link: '/sandbox/sandboxview',
   },
   {
     id: 2,
@@ -36,7 +24,7 @@ const roleplays = [
     aspectratio: '20/11',
     icon: 'mdi-pokeball',
     color: 'blue',
-    link: goToSync,
+    link: 'sync/syncview',
   },
 ]
 </script>
@@ -73,7 +61,7 @@ const roleplays = [
     <!-- Cards Section -->
     <v-row class="cards-section" justify="center">
       <v-col cols="12" sm="6" lg="5" xl="4" v-for="rp in roleplays" :key="rp.id" class="mb-6">
-        <v-card class="rp-card elevation-8" :class="`${rp.color}-border`" hover @click="rp.link">
+        <v-card class="rp-card elevation-8" :class="`${rp.color}-border`" hover>
           <!-- Card Image with Overlay -->
           <div class="image-container">
             <v-img
@@ -123,7 +111,7 @@ const roleplays = [
               variant="elevated"
               size="large"
               class="explore-btn"
-              @click.stop="rp.link"
+              :to="rp.link"
             >
               <v-icon left class="mr-2">mdi-compass</v-icon>
               Explore World
