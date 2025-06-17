@@ -9,7 +9,7 @@ const emit = defineEmits(['navigate'])
 const syncLinks = [
   { title: 'Setting', icon: 'mdi-pokeball', color: 'blue' },
   { title: 'Fortitude', icon: 'mdi-arm-flex', color: 'red' },
-  { title: 'Sync Events', icon: 'mdi-calendar', color: 'purple' },
+  { title: 'Sync-Events', icon: 'mdi-calendar', color: 'purple' },
   { title: 'Swarms', icon: 'mdi-routes-clock', color: 'green' },
   { title: 'PokeJobs', icon: 'mdi-briefcase', color: 'indigo' },
   { title: 'Vocations', icon: 'mdi-toolbox', color: 'teal' },
@@ -17,9 +17,9 @@ const syncLinks = [
 ]
 
 const generatedSyncLinks = syncLinks.map((link) => ({
-  title: link.title,
-  value: link.title.toLowerCase().replace(/\s+/g, '-'),
-  to: `/sync/${link.title.toLowerCase().replace(/\s+/g, '-')}`,
+  title: link.title.replace('-', ' '),
+  value: link.title.toLowerCase().replace('-', ''),
+  to: `/sync/main/${link.title.toLowerCase().replace('-', '')}view`,
   icon: link.icon,
   color: link.color,
 }))

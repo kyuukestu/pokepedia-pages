@@ -1,5 +1,38 @@
-import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
+import type { Component } from 'vue'
+import {
+  createRouter,
+  createWebHistory,
+  type RouteLocationNormalized,
+  type RouteRecordRaw,
+} from 'vue-router'
+
 // Make sure the file exists at this path, or update the path if needed
+
+const componentModules = import.meta.glob('../views/**/*.vue')
+
+const dynamicRoutes: RouteRecordRaw[] = []
+
+for (const path in componentModules) {
+  const fileName = path.split('/').pop()?.replace('.vue', '')
+
+  if (!fileName) continue
+
+  const routeName = fileName
+
+  let routePath = path.replace('../views', '').replace('.vue', '').toLowerCase()
+
+  if (!routePath.startsWith('/')) {
+    routePath = '/' + routePath
+  }
+
+  dynamicRoutes.push({
+    path: routePath,
+    name: routeName,
+    component: () => componentModules[path]() as Promise<Component>,
+  })
+}
+
+console.log('Routes: ', dynamicRoutes)
 
 const sandboxLinks = [
   { title: '' },
@@ -57,7 +90,7 @@ const sandboxTrainerContentRoutes = sandboxTrainerContentLinks.map((route) => {
   }
 })
 
-console.log('Content Routes', JSON.stringify(sandboxTrainerContentRoutes))
+// console.log('Content Routes', JSON.stringify(sandboxTrainerContentRoutes))
 
 const syncRoutes = syncLinks.map((route) => {
   if (route.title === '') {
@@ -75,8 +108,8 @@ const syncRoutes = syncLinks.map((route) => {
   }
 })
 
-console.log(`Sandbox Routes: ${JSON.stringify(sandboxRoutes).toString()}`)
-console.log(`Sync Routes: ${JSON.stringify(syncRoutes)}`)
+// console.log(`Sandbox Routes: ${JSON.stringify(sandboxRoutes).toString()}`)
+// console.log(`Sync Routes: ${JSON.stringify(syncRoutes)}`)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -99,17 +132,18 @@ const router = createRouter({
       name: 'welcome',
       component: () => import('../views/WelcomeView.vue'),
     },
+    ...dynamicRoutes,
     // Sandbox Routes
 
-    {
-      path: '/sandbox',
-      children: [...sandboxRoutes, ...sandboxTrainerContentRoutes],
-    },
+    // {
+    //   path: '/sandbox',
+    //   children: [...sandboxRoutes, ...sandboxTrainerContentRoutes],
+    // },
     // Sync Routes
-    {
-      path: '/sync',
-      children: syncRoutes,
-    },
+    // {
+    //   path: '/sync',
+    //   children: syncRoutes,
+    // },
   ],
   scrollBehavior(to: RouteLocationNormalized, _from: RouteLocationNormalized, savedPosition) {
     if (savedPosition) {

@@ -7,22 +7,22 @@ const route = useRoute()
 const emit = defineEmits(['navigate'])
 
 const sandboxLinks = [
-  { title: 'Trainer 101', icon: 'mdi-pokemon-go', color: 'orange' },
+  { title: 'Trainer-101', icon: 'mdi-pokemon-go', color: 'orange' },
   { title: 'Regions', icon: 'mdi-map', color: 'green' },
-  { title: 'Law Enforcement', icon: 'mdi-police-badge', color: 'blue' },
-  { title: 'Supervisory Boards', icon: 'mdi-account-group', color: 'purple' },
+  { title: 'Law-Enforcement', icon: 'mdi-police-badge', color: 'blue' },
+  { title: 'Supervisory-Boards', icon: 'mdi-account-group', color: 'purple' },
   { title: 'PokeCorp', icon: 'mdi-bank', color: 'indigo' },
   { title: 'PokeAcademia', icon: 'mdi-school', color: 'teal' },
   { title: 'PokeTech', icon: 'mdi-laptop', color: 'cyan' },
-  { title: 'Sandbox Events', icon: 'mdi-calendar', color: 'pink' },
+  { title: 'Sandbox-Events', icon: 'mdi-calendar', color: 'pink' },
   { title: 'Characters', icon: 'mdi-account', color: 'amber' },
   { title: 'Misc', icon: 'mdi-help-circle', color: 'grey' },
 ]
 
 const generatedSandboxLinks = sandboxLinks.map((link) => ({
-  title: link.title,
-  value: link.title.toLowerCase().replace(/\s+/g, '-'),
-  to: `/sandbox/${link.title.toLowerCase().replace(/\s+/g, '-')}`,
+  title: link.title.replace('-', ' '),
+  value: link.title.toLowerCase().replace('-', ' '),
+  to: `/sandbox/main/${link.title.toLowerCase().replace('-', '')}view`,
   icon: link.icon,
   color: link.color,
 }))
