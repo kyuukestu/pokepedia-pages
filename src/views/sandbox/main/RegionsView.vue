@@ -1,579 +1,281 @@
 <script setup lang="ts">
-// Define interfaces for better type safety and clarity
-interface Section {
-  title: string
-  content: string
-}
+import { ref } from 'vue'
 
-interface Region {
-  name: string
-  tagline: string
-  image: string
-  sections: Section[]
-}
-
-// Define your reactive data using ref or simply as a constant array
-// Since the 'regions' data doesn't change after initialization,
-// a simple constant array is sufficient and more performant than ref().
-const regions: Region[] = [
+// Sample data - replace with your actual data
+const regions = ref([
   {
     name: 'Kanto',
-    tagline: 'The Birthplace of Pokémon Training',
+    tagline: 'Where the journey began',
     image:
-      'https://archives.bulbagarden.net/media/upload/thumb/7/7d/PE_Kanto_Map.png/800px-PE_Kanto_Map.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Kanto is the original region where Pokémon training began, known for its classic cities and rich history. Explore a world of tradition and rivalry.',
-      },
-      {
-        title: 'Cities',
-        content:
-          'Key cities include Viridian, Pewter, Cerulean, Vermilion, Lavender, Celadon, Fuchsia, Saffron, and Pallet Town.',
-      },
-      {
-        title: 'Gyms',
-        content:
-          'Features 8 gyms led by leaders like Brock (Rock), Misty (Water), and Lt. Surge (Electric).',
-      },
-      {
-        title: 'Champion & Elite Four',
-        content: 'Champion Blue, with Elite Four members Lorelei, Bruno, Agatha, and Lance.',
-      },
-      {
-        title: 'Locations of Interest',
-        content:
-          'Visit the Pokémon Tower, Cerulean Cave, and the Power Plant for unique adventures.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content: 'HM Usage with Hidden Machines required for world navigation.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Join as a new trainer, gym challenger, or InterPol agent investigating Team Rocket.',
-      },
-    ],
+      'https://archives.bulbagarden.net/media/upload/thumb/7/7d/PE_Kanto_Map.png/1280px-PE_Kanto_Map.png',
+    generation: 'Gen I',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: 'Japan' },
+    keyFeatures: [{ name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' }],
+    link: '/sandbox/content/regions.kantoview',
   },
   {
     name: 'Johto',
-    tagline: 'A Land of Tradition and Myth',
-    image:
-      'https://archives.bulbagarden.net/media/upload/thumb/6/64/JohtoMap.png/800px-JohtoMap.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Johto blends ancient culture with modern Pokémon training, home to legendary tales and beautiful landscapes.',
-      },
-      {
-        title: 'Cities',
-        content:
-          'Includes New Bark Town, Cherrygrove, Violet, Azalea, Goldenrod, Ecruteak, Olivine, Cianwood, and Mahogany.',
-      },
-      {
-        title: 'Gyms',
-        content: 'Led by Falkner (Flying), Whitney (Normal), Morty (Ghost), and others.',
-      },
-      {
-        title: 'Champion & Elite Four',
-        content: 'Champion Lance, with Elite Four Will, Koga, Bruno, and Karen.',
-      },
-      {
-        title: 'Locations of Interest',
-        content: 'Explore the Burned Tower, Tin Tower, and the Whirl Islands.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content: 'Safari Zone with special catching mechanics using limited balls.',
-      },
-      {
-        title: 'RP Opportunities',
-        content: 'Roleplay as a shrine guardian, Team Rocket operative, or Pokémon Ranger.',
-      },
-    ],
+    tagline: 'Land of traditions',
+    image: 'https://archives.bulbagarden.net/media/upload/6/64/JohtoMap.png',
+    generation: 'Gen II',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: 'Japan' },
+    keyFeatures: [{ name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' }],
   },
-  // Add more regions (Sinnoh, Hoenn, etc.) as needed
   {
     name: 'Hoenn',
-    tagline: 'Where Land Meets Sea in a Battle of Legends',
+    tagline: 'Land and sea adventures',
     image:
-      'https://archives.bulbagarden.net/media/upload/thumb/8/85/Hoenn_ORAS.png/300px-Hoenn_ORAS.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Hoenn is a vast region characterized by its diverse environments, from lush forests to scorching deserts, and a significant amount of water routes. It is shaped by the legends of Groudon and Kyogre.',
-      },
-      {
-        title: 'Cities',
-        content:
-          'Notable cities include Littleroot Town, Rustboro City, Slateport City, Mauville City, and Sootopolis City.',
-      },
-      {
-        title: 'Gyms',
-        content:
-          'Features 8 gyms including Roxanne (Rock), Brawly (Fighting), Wattson (Electric), and Tate & Liza (Psychic).',
-      },
-      {
-        title: 'Champion & Elite Four',
-        content:
-          'Champion Steven Stone (Ruby/Sapphire) or Wallace (Emerald), with Elite Four members Sidney, Phoebe, Glacia, and Drake.',
-      },
-      {
-        title: 'Locations of Interest',
-        content: 'Visit Mt. Chimney, Meteor Falls, Sky Pillar, and the underwater Seafloor Cavern.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content: 'Introduced Secret Bases, Contests, and Diving. Weather effects are prominent.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Become a contest superstar, a deep-sea explorer, or join Team Magma/Aqua in their legendary ambitions.',
-      },
-    ],
+      'https://archives.bulbagarden.net/media/upload/thumb/8/85/Hoenn_ORAS.png/450px-Hoenn_ORAS.png',
+    generation: 'Gen III',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: 'Japan' },
+    keyFeatures: [{ name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' }],
   },
   {
     name: 'Sinnoh',
-    tagline: 'The Land of Myths and Creation',
+    tagline: 'Myths and legends',
     image:
-      'https://archives.bulbagarden.net/media/upload/thumb/0/08/Sinnoh_BDSP_artwork.png/800px-Sinnoh_BDSP_artwork.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Sinnoh is a large, diverse region with a prominent mountain range (Mt. Coronet) that divides it. It is rich in mythology, centered around the creation trio: Dialga, Palkia, and Giratina.',
-      },
-      {
-        title: 'Cities',
-        content:
-          'Key cities include Twinleaf Town, Jubilife City, Eterna City, Hearthome City, Canalave City, and Snowpoint City.',
-      },
-      {
-        title: 'Gyms',
-        content:
-          'Features 8 gyms including Roark (Rock), Gardenia (Grass), Fantina (Ghost), and Volkner (Electric).',
-      },
-      {
-        title: 'Champion & Elite Four',
-        content: 'Champion Cynthia, with Elite Four members Aaron, Bertha, Flint, and Lucian.',
-      },
-      {
-        title: 'Locations of Interest',
-        content:
-          'Explore Mt. Coronet, the Grand Underground, Spear Pillar, and the Distortion World.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Introduced the Physical/Special split for moves, the Global Trade System (GTS), and Super Contests.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Unravel ancient mysteries, become a top Pokémon Stylist, or compete in the thrilling Underground.',
-      },
+      'https://archives.bulbagarden.net/media/upload/thumb/0/08/Sinnoh_BDSP_artwork.png/450px-Sinnoh_BDSP_artwork.png',
+    generation: 'Gen IV',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: 'Japan' },
+    keyFeatures: [
+      { name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' },
+      { name: 'Contests', icon: 'mdi-seal-variant', color: 'blue' },
     ],
   },
   {
     name: 'Unova',
-    tagline: 'A Land of Heroes, Ideals, and Truth',
+    tagline: 'A world of truths and ideals',
     image:
-      'https://archives.bulbagarden.net/media/upload/thumb/f/fc/Unova_B2W2_alt.png/300px-Unova_B2W2_alt.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Unova is a region far from the others, inspired by New York City. It features a unique blend of urban landscapes, vast deserts, and coastal areas, with a focus on its own distinct Pokémon ecosystem.',
-      },
-      {
-        title: 'Cities',
-        content:
-          'Prominent cities include Nuvema Town, Castelia City, Nimbasa City, Opelucid City, and Icirrus City.',
-      },
-      {
-        title: 'Gyms',
-        content:
-          'Features 8 gyms with diverse leaders like Cilan/Chili/Cress (Grass/Fire/Water), Elesa (Electric), and Drayden/Iris (Dragon).',
-      },
-      {
-        title: 'Champion & Elite Four',
-        content:
-          'Champion Alder (Black/White) or Iris (Black 2/White 2), with Elite Four members Shauntal, Grimsley, Caitlin, and Marshal.',
-      },
-      {
-        title: 'Locations of Interest',
-        content: 'Visit Skyarrow Bridge, Nimbasa Sports Domes, Relic Castle, and the Giant Chasm.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Introduced Triple and Rotation Battles, Pokémon Musicals, and seasons that change the environment.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Join Team Plasma in their quest to "liberate" Pokémon, become a popular musical star, or explore the bustling metropolis.',
-      },
+      'https://archives.bulbagarden.net/media/upload/thumb/f/fc/Unova_B2W2_alt.png/450px-Unova_B2W2_alt.png',
+    generation: 'Gen V',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-us', name: 'United States' },
+    keyFeatures: [
+      { name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' },
+      { name: 'Contests', icon: 'mdi-seal-variant', color: 'blue' },
     ],
   },
   {
     name: 'Kalos',
-    tagline: 'The Region of Beauty and Mega Evolution',
+    tagline: 'A world of truths and ideals',
     image:
-      'https://archives.bulbagarden.net/media/upload/thumb/8/8a/Kalos_alt.png/300px-Kalos_alt.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Kalos is a star-shaped region inspired by France, emphasizing beauty, fashion, and the mysteries of Mega Evolution. It introduced the Fairy type.',
-      },
-      {
-        title: 'Cities',
-        content:
-          'Notable cities include Vaniville Town, Santalune City, Shalour City, and the sprawling Lumiose City (based on Paris).',
-      },
-      {
-        title: 'Gyms',
-        content:
-          'Features 8 gyms including Viola (Bug), Korrina (Fighting - with Mega Evolution focus), and Valerie (Fairy).',
-      },
-      {
-        title: 'Champion & Elite Four',
-        content: 'Champion Diantha, with Elite Four members Malva, Siebold, Wikstrom, and Drasna.',
-      },
-      {
-        title: 'Locations of Interest',
-        content:
-          'Explore Prism Tower, Glittering Cave, Geosenge Town, and the ominous Team Flare Secret HQ.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Introduced Mega Evolution, Sky Battles, Horde Encounters, and Player Search System (PSS) for online play.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Become a fashion icon in Lumiose, uncover the secrets of ancient Kalos, or master Mega Evolution.',
-      },
+      'https://archives.bulbagarden.net/media/upload/thumb/8/8a/Kalos_alt.png/450px-Kalos_alt.png',
+    generation: 'Gen VI',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-fr', name: 'France' },
+    keyFeatures: [
+      { name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' },
+      { name: 'Showcase', icon: 'mdi-key', color: 'blue' },
     ],
   },
   {
     name: 'Alola',
-    tagline: 'A Tropical Paradise for the Island Challenge',
+    tagline: 'A world of truths and ideals',
     image:
-      'https://archives.bulbagarden.net/media/upload/thumb/0/0b/Alola_USUM_artwork.png/800px-Alola_USUM_artwork.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Alola is a tropical archipelago based on Hawaii, composed of four natural islands and an artificial one. It replaces the traditional Gym Challenge with the Island Challenge.',
-      },
-      {
-        title: 'Cities',
-        content: "Main settlements include Iki Town, Hau'oli City, Konikoni City, and Malie City.",
-      },
-      {
-        title: 'Island Challenge',
-        content:
-          "Instead of gyms, trainers complete trials and face Kahunas on each island: Hala (Melemele), Olivia (Akala), Nanu (Ula'ula), and Hapu (Poni).",
-      },
-      {
-        title: 'Champion & Elite Four',
-        content:
-          'The first Champion of Alola is the player character, with Elite Four members Kahili, Olivia, Acerola, and Molayne/Hala (depending on game version).',
-      },
-      {
-        title: 'Locations of Interest',
-        content:
-          'Visit Ten Carat Hill, Wela Volcano Park, Vast Poni Canyon, and the Aether Paradise.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content: 'Introduced Z-Moves, Alolan Forms, Ultra Beasts, and Poké Pelago.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Embark on a coming-of-age journey, discover rare Alolan Forms, or study the mysterious Ultra Beasts.',
-      },
+      'https://archives.bulbagarden.net/media/upload/thumb/0/0b/Alola_USUM_artwork.png/450px-Alola_USUM_artwork.png',
+    generation: 'Gen VII',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-us', name: 'United States' },
+    keyFeatures: [
+      { name: 'Trials', icon: 'mdi-pokemon-go', color: 'amber' },
+      { name: 'Contests', icon: 'mdi-seal-variant', color: 'blue' },
     ],
   },
   {
     name: 'Galar',
-    tagline: 'The Land of Dynamax and Grand Stadium Battles',
+    tagline: 'A world of truths and ideals',
     image:
-      'https://archives.bulbagarden.net/media/upload/thumb/c/ce/Galar_artwork.png/300px-Galar_artwork.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Galar is a vast, expansive region inspired by the United Kingdom, featuring diverse landscapes from pastoral fields to snow-capped mountains and industrial cities. Its Gym Challenge culminates in grand stadium battles with Dynamaxing.',
-      },
-      {
-        title: 'Cities',
-        content: 'Key locations include Postwick, Wedgehurst, Motostoke, Hammerlocke, and Wyndon.',
-      },
-      {
-        title: 'Gyms',
-        content:
-          'Features 8 Gyms, often themed like sports stadiums, with leaders like Milo (Grass), Nessa (Water), Kabu (Fire), and Raihan (Dragon).',
-      },
-      {
-        title: 'Champion & Elite Four',
-        content:
-          'Champion Leon, with the Champion Cup format involving defeating Gym Leaders and then Leon himself.',
-      },
-      {
-        title: 'Locations of Interest',
-        content:
-          'Explore the vast Wild Area (first open-world area), Slumbering Weald, and the Crown Tundra/Isle of Armor (DLC).',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Introduced Dynamax/Gigantamax, Max Raid Battles, Poké Jobs, and regional forms called Galarian Forms.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          "Compete in the Gym Challenge, explore the dynamic Wild Area, or delve into the Galar region's dark past.",
-      },
-    ],
+      'https://archives.bulbagarden.net/media/upload/thumb/c/ce/Galar_artwork.png/450px-Galar_artwork.png',
+    generation: 'Gen VIII',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-gb', name: 'United Kingdom' },
+    keyFeatures: [{ name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' }],
   },
   {
     name: 'Paldea',
-    tagline: 'An Open World of Treasure, Tradition, and Terastallization',
+    tagline: 'A world of truths and ideals',
     image:
-      'https://archives.bulbagarden.net/media/upload/thumb/f/fd/Paldea_artwork.png/300px-Paldea_artwork.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Paldea is an expansive, open-world region inspired by the Iberian Peninsula. It emphasizes exploration with three main storylines and the unique Terastallization phenomenon.',
-      },
-      {
-        title: 'Cities',
-        content:
-          'Major cities include Mesagoza (home to the academies), Cortondo, Levincia, and Cascarrafa.',
-      },
-      {
-        title: 'Paths of Exploration',
-        content:
-          'Instead of a linear path, players choose their own adventure through Victory Road (Gyms), Path of Legends (Titan Pokémon), and Starfall Street (Team Star).',
-      },
-      {
-        title: 'Champion & Elite Four',
-        content:
-          'The Pokémon League is overseen by Top Champion Geeta, with Elite Four members Rika, Poppy, Larry, and Hassel.',
-      },
-      {
-        title: 'Locations of Interest',
-        content:
-          'Explore the Great Crater of Paldea (Area Zero), various provinces with distinct biomes, and Glaseado Mountain.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Introduced Terastallization, open-world exploration with mountable legendary Pokémon, and picnic mechanic.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Embark on a treasure hunt, become a student at the academy, or delve into the mysteries of Area Zero.',
-      },
-    ],
+      'https://archives.bulbagarden.net/media/upload/thumb/f/fd/Paldea_artwork.png/450px-Paldea_artwork.png',
+    generation: 'Gen IX',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-es', name: 'Spain' },
+    keyFeatures: [{ name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' }],
   },
   {
     name: 'Fiore',
-    tagline: 'Where Pokémon Ranger Adventures Begin',
-    image:
-      'https://archives.bulbagarden.net/media/upload/thumb/4/48/Fiore_alt.png/800px-Fiore_alt.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Fiore is a mountainous, island region focused on Pokémon Rangers, who temporarily "capture" Pokémon using a Capture Styler to help people and nature, rather than training them in Poké Balls.',
-      },
-      {
-        title: 'Towns & Cities',
-        content:
-          'Features four main settlements named after seasons: Ringtown, Fall City, Summerland, and Wintown.',
-      },
-      {
-        title: 'Ranger System',
-        content:
-          'Trainers are known as Pokémon Rangers, working to maintain peace and assist people and Pokémon, stopping the Go-Rock Squad.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Introduced the Capture Styler, allowing players to draw circles around Pokémon to gain their assistance for field moves or temporary battles.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Become a rookie Pokémon Ranger, protect the wild, or thwart the plans of villainous organizations.',
-      },
-    ],
+    tagline: 'A world of truths and ideals',
+    image: 'https://archives.bulbagarden.net/media/upload/4/48/Fiore_alt.png',
+    generation: 'Gen III',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: 'Japan' },
+    keyFeatures: [],
   },
   {
     name: 'Almia',
-    tagline: 'Home of the Ranger Union and Partner Pokémon',
-    image: 'https://archives.bulbagarden.net/media/upload/thumb/f/f4/Almia.png/800px-Almia.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Almia is a diverse region, home to the official Pokémon Ranger Union. It features a wider variety of environments than Fiore, including deserts, icy valleys, and volcanic areas.',
-      },
-      {
-        title: 'Towns & Cities',
-        content:
-          'Key locations include Chicole Village, Vientown (where the Ranger School is), Pueltown, and Haruba Village.',
-      },
-      {
-        title: 'Ranger System',
-        content:
-          'Expands on the Ranger concept, introducing Partner Pokémon (permanent companions) and improving the Capture Styler mechanics. Focuses on larger-scale environmental protection.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Introduced Partner Pokémon, charged styler moves, and more complex Ranger missions. Features the nefarious Team Dim Sun.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Attend the Ranger School, climb the ranks of the Ranger Union, or work to take down Team Dim Sun.',
-      },
-    ],
+    tagline: 'A world of truths and ideals',
+    image: 'https://archives.bulbagarden.net/media/upload/thumb/f/f4/Almia.png/300px-Almia.png',
+    generation: 'Gen IV',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: 'Japan' },
+    keyFeatures: [],
   },
   {
     name: 'Oblivia',
-    tagline: 'Ancient Legends and Ranger Signs',
-    image:
-      'https://archives.bulbagarden.net/media/upload/thumb/f/f5/Oblivia_artwork.png/800px-Oblivia_artwork.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Oblivia is an archipelago far south of Fiore and Almia, steeped in ancient legends and mysterious ruins. It features a more direct connection to legendary Pokémon and ancient history.',
-      },
-      {
-        title: 'Islands & Settlements',
-        content:
-          'Composed of several islands with small villages like Cocona Village and Tilt Village. Islands are named after solfège syllables (Dolce, Renbow, Mitonga, etc.).',
-      },
-      {
-        title: 'Ranger System',
-        content:
-          'Introduces the concept of "Ranger Signs" - symbols drawn to summon powerful Pokémon or receive aid. Focuses on a smaller group of Rangers protecting the islands.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Introduced Ranger Signs, new styler upgrades, and a storyline involving time travel and the "Pokémon Pinchers" villain group.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Uncover ancient secrets, master the Ranger Signs, or defend the islands from the Pokémon Pinchers.',
-      },
-    ],
+    tagline: 'A world of truths and ideals',
+    image: 'https://archives.bulbagarden.net/media/upload/f/f5/Oblivia_artwork.png',
+    generation: 'Gen IV',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: 'Japan' },
+    keyFeatures: [],
   },
   {
     name: 'Ransei',
-    tagline: 'Unite the Warlords and Conquer the Land',
+    tagline: 'A world of truths and ideals',
     image: 'https://archives.bulbagarden.net/media/upload/4/4b/Ransei.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Ransei is a region inspired by feudal Japan, where Pokémon battles are fought not by trainers, but by Warlords who share a bond with their Pokémon. The goal is to unite the 17 kingdoms.',
-      },
-      {
-        title: 'Kingdoms',
-        content:
-          'Divided into 17 unique kingdoms, each with a specific type specialty and led by a Warlord based on historical Japanese figures.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Features a turn-based strategy combat system (not typical Pokémon battles). Warlords have "Link" with Pokémon, and armies conquer territories.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Become a Warlord, recruit powerful Pokémon and other Warlords, and embark on a quest to unite Ransei and awaken the legendary Pokémon Arceus.',
-      },
-    ],
+    generation: 'Gen V',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: '~Japan' },
+    keyFeatures: [],
   },
   {
-    name: 'Orre',
-    tagline: 'A Desert Land of Purification',
-    image: 'https://archives.bulbagarden.net/media/upload/4/47/Orre.png',
-    sections: [
-      {
-        title: 'Regional Overview',
-        content:
-          'Orre is a desert region with no wild Pokémon, where Trainers capture and purify "Shadow Pokémon" – Pokémon whose hearts have been corrupted. It is characterized by its arid landscapes and industrial feel.',
-      },
-      {
-        title: 'Cities & Towns',
-        content: 'Key locations include Phenac City, Pyrite Town, and Agate Village.',
-      },
-      {
-        title: 'Unique Mechanics',
-        content:
-          'Focuses entirely on catching "Shadow Pokémon" using a Snag Machine, then purifying them. Features double battles prominently.',
-      },
-      {
-        title: 'RP Opportunities',
-        content:
-          'Become a "Snagger" who rescues Shadow Pokémon, battle the criminal syndicate Cipher, or purify all corrupted Pokémon.',
-      },
-    ],
+    name: 'Orange Islands',
+    tagline: 'Land of traditions',
+    image: 'https://archives.bulbagarden.net/media/upload/thumb/5/5a/Orange.jpg/800px-Orange.jpg',
+    generation: 'Gen II',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: 'Japan' },
+    keyFeatures: [{ name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' }],
   },
-]
+  {
+    name: 'Decolore Islands',
+    tagline: 'Land of traditions',
+    image: 'https://archives.bulbagarden.net/media/upload/0/0d/Decolore.png',
+    generation: 'Gen V',
+    playerCount: '',
+    canonicity: 'Official',
+    country: { flag: 'fi fi-jp', name: 'Japan' },
+    keyFeatures: [{ name: 'Gyms', icon: 'mdi-pokemon-go', color: 'amber' }],
+  },
+])
+
+const canonicityIcon = (canonicity: string) => {
+  switch (canonicity) {
+    case 'Official':
+      return 'mdi-checkbox-marked-circle'
+    case 'Fan-Game':
+      return 'mdi-checkbox-marked-circle-outline'
+    case 'RPer-Made':
+      return 'mdi-checkbox-marked-circle-outline'
+    default:
+      return 'mdi-checkbox-marked-circle'
+  }
+}
 </script>
 
 <template>
-  <v-container fluid>
-    <v-row>
-      <v-col v-for="region in regions" :key="region.name" cols="12" sm="6" md="4" lg="3">
-        <v-card class="mx-auto" max-width="400" elevation="2">
-          <v-img :src="region.image" height="200px" cover></v-img>
-          <v-card-title>{{ region.name }}</v-card-title>
-          <v-card-subtitle>{{ region.tagline }}</v-card-subtitle>
-          <v-card-text>
-            <v-expansion-panels>
-              <v-expansion-panel v-for="(section, index) in region.sections" :key="index">
-                <v-expansion-panel-title>{{ section.title }}</v-expansion-panel-title>
-                <v-expansion-panel-text>
-                  <p v-html="section.content"></p>
-                </v-expansion-panel-text>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-card-text>
-          <v-card-actions>
+  <v-container fluid class="regions-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="display-2 font-weight-bold text-center mb-2">Pokémon Regions</h1>
+      <p class="text-h6 text-center text-medium-emphasis mb-8">
+        Discover the vast worlds of Pokémon
+      </p>
+    </div>
+
+    <!-- Regions Grid -->
+    <v-row class="regions-grid">
+      <v-col
+        v-for="region in regions"
+        :key="region.name"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+        class="region-col"
+      >
+        <v-card class="region-card" elevation="0" :ripple="false" variant="outlined">
+          <!-- Hero Image with Overlay -->
+          <div class="card-hero">
+            <v-img :src="region.image" height="200" cover class="region-image">
+              <div class="image-overlay">
+                <div class="region-badge">
+                  <v-icon class="badge-icon">mdi-map-marker</v-icon>
+                  <span class="badge-text">{{ region.generation || 'Gen I' }}</span>
+                </div>
+              </div>
+            </v-img>
+          </div>
+
+          <!-- Card Content -->
+          <div class="card-content">
+            <!-- Region Name -->
+            <h2 class="region-name">{{ region.name }}</h2>
+
+            <!-- Tagline -->
+            <p class="region-tagline">{{ region.tagline }}</p>
+
+            <!-- Quick Stats -->
+            <div class="stats-row">
+              <div class="stat-item">
+                <v-icon class="stat-icon" color="primary">mdi-pokeball</v-icon>
+                <span class="stat-value">{{ region.playerCount || 'N/A' }}</span>
+                <span class="stat-label">Characters</span>
+              </div>
+              <div class="stat-item">
+                <v-icon class="stat-icon" color="success">
+                  {{ canonicityIcon(region.canonicity) }}</v-icon
+                >
+                <span class="stat-value">{{ region.canonicity || 'N/A' }}</span>
+                <span class="stat-label">Canonicity</span>
+              </div>
+              <div class="stat-item">
+                <span :class="'stat-icon ' + region.country?.flag"></span>
+                <span class="stat-value">{{ region.country?.name || '' }}</span>
+                <span class="stat-label">Country</span>
+              </div>
+            </div>
+
+            <!-- Key Features Icons -->
+            <div class="features-row">
+              <div class="feature-tag" v-for="feature in region.keyFeatures" :key="feature.name">
+                <v-icon :color="feature.color" size="small">{{ feature.icon }}</v-icon>
+                <span>{{ feature.name }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Area -->
+          <div class="card-actions">
             <v-btn
               color="primary"
-              text
-              :to="`/regions/${region.name.toLowerCase().replace(/ /g, '-')}`"
+              variant="flat"
+              block
+              size="large"
+              class="explore-btn"
+              :to="region.link"
             >
-              Explore Region
+              <v-icon start>mdi-compass</v-icon>
+              Explore {{ region.name }}
             </v-btn>
-            <v-spacer />
-            <v-btn color="info" text :to="`/wiki/${region.name.toLowerCase().replace(/ /g, '-')}`">
-              Wiki Page
-            </v-btn>
-          </v-card-actions>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -581,87 +283,324 @@ const regions: Region[] = [
 </template>
 
 <style scoped>
-/* Add your component-specific styles here */
-.pokemon-regions {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: sans-serif;
+.regions-container {
+  min-height: 100vh;
+  padding: 2rem 1rem;
 }
 
-h1 {
+.page-header {
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  font-size: 1.1rem;
+}
+
+.regions-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.region-col {
+  display: flex;
+  align-items: stretch;
 }
 
 .region-card {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 40px;
-  padding: 25px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  position: relative;
+  background: white;
+  border-radius: 24px !important;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  width: 100%;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
 }
 
 .region-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+.region-card:hover .region-image {
+  transform: scale(1.1);
+}
+
+.card-hero {
+  position: relative;
+  overflow: hidden;
+  height: 180px; /* Fixed height for image section */
+  flex-shrink: 0;
 }
 
 .region-image {
+  transition: transform 0.3s ease;
   width: 100%;
-  height: auto;
-  border-radius: 6px;
-  margin-bottom: 20px;
+  height: 100%;
 }
 
-h2 {
-  color: #007bff; /* A nice blue for titles */
-  margin-top: 0;
-  margin-bottom: 10px;
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(0, 0, 0, 0.3) 0%, transparent 50%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.region-badge {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.badge-icon {
+  font-size: 1rem;
+  color: #666;
+}
+
+.badge-text {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.card-content {
+  padding: 1rem 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0; /* Allow flex shrinking */
+}
+
+.region-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
   text-align: center;
+  line-height: 1.2;
+  flex-shrink: 0;
 }
 
-.tagline {
-  font-style: italic;
+.region-tagline {
+  font-size: 0.9rem;
   color: #666;
   text-align: center;
-  margin-bottom: 25px;
+  margin: 0;
+  font-style: italic;
+  line-height: 1.3;
+  height: 2.6em; /* Fixed height for 2 lines */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  flex-shrink: 0;
 }
 
-.region-sections {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 0.75rem 0.25rem;
+  margin: 0.25rem 0;
+  gap: 0.25rem;
 }
 
-.section-item {
-  background-color: #fff;
-  border: 1px solid #eee;
-  border-radius: 5px;
-  padding: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  min-width: 0;
+  padding: 0.25rem;
+  position: relative;
 }
 
-.section-item h3 {
+.stat-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #1a1a1a;
+  text-align: center;
+  line-height: 1.2;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  padding: 0.1rem;
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  color: #666;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.1;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.features-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.feature-tag {
+  background: #f0f0f0;
+  border-radius: 20px;
+  padding: 0.4rem 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 500;
   color: #555;
-  margin-top: 0;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
 }
 
-.section-item p {
-  color: #444;
-  line-height: 1.6;
+.card-actions {
+  padding: 1rem 1.5rem;
+  background: #fafafa;
+  border-top: 1px solid #eee;
 }
 
-.v-card {
-  transition: all 0.4s;
+.explore-btn {
+  border-radius: 16px !important;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.5px;
 }
-.v-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+.hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(102, 126, 234, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.hover-content {
+  text-align: center;
+  color: white;
+}
+
+.hover-text {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .regions-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .stats-row {
+    padding: 0.5rem 0.2rem;
+    min-height: 80px;
+    gap: 0.2rem;
+  }
+
+  .stat-value {
+    font-size: 0.75rem;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+  }
+
+  .stat-icon {
+    font-size: 1.2rem;
+  }
+
+  .region-name {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .stat-value {
+    font-size: 0.7rem;
+  }
+
+  .stat-label {
+    font-size: 0.55rem;
+  }
+
+  .stat-icon {
+    font-size: 1.1rem;
+  }
+
+  .stats-row {
+    min-height: 75px;
+    padding: 0.4rem 0.15rem;
+  }
+}
+
+/* Animation keyframes */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.region-card:nth-child(even) {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.region-card:nth-child(odd) {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 3s;
 }
 </style>

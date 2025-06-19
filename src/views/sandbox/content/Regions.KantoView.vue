@@ -13,6 +13,7 @@ interface Gym {
   type: string
   city: string
   badge: string
+  badgeIcon?: string
   link: string
 }
 
@@ -123,6 +124,8 @@ const region = ref<RegionData>({
       type: 'Rock',
       city: 'Pewter City',
       badge: 'Boulder Badge',
+      badgeIcon:
+        'https://archives.bulbagarden.net/media/upload/thumb/d/dd/Boulder_Badge.png/60px-Boulder_Badge.png',
       link: '/gyms/pewter-gym',
     },
     {
@@ -130,6 +133,8 @@ const region = ref<RegionData>({
       type: 'Water',
       city: 'Cerulean City',
       badge: 'Cascade Badge',
+      badgeIcon:
+        'https://archives.bulbagarden.net/media/upload/thumb/9/9c/Cascade_Badge.png/60px-Cascade_Badge.png',
       link: '/gyms/cerulean-gym',
     },
     {
@@ -137,6 +142,8 @@ const region = ref<RegionData>({
       type: 'Electric',
       city: 'Vermilion City',
       badge: 'Thunder Badge',
+      badgeIcon:
+        'https://archives.bulbagarden.net/media/upload/thumb/a/a6/Thunder_Badge.png/60px-Thunder_Badge.png',
       link: '/gyms/vermilion-gym',
     },
     {
@@ -144,6 +151,8 @@ const region = ref<RegionData>({
       type: 'Grass',
       city: 'Celadon City',
       badge: 'Rainbow Badge',
+      badgeIcon:
+        'https://archives.bulbagarden.net/media/upload/thumb/b/b5/Rainbow_Badge.png/60px-Rainbow_Badge.png',
       link: '/gyms/celadon-gym',
     },
   ],
@@ -239,11 +248,11 @@ const navigationItems = ref<NavigationItem[]>([
     link: '/sandbox/content/regions.kantoview#gyms',
   },
   {
-    key: 'elite4',
-    label: 'Elite Four',
+    key: 'champion-league',
+    label: 'Champion League',
     icon: 'mdi-crown',
     color: 'warning',
-    link: '/sandbox/content/regions.kantoview#elite4',
+    link: '/sandbox/content/regions.kantoview#champion-league',
   },
   {
     key: 'locations',
@@ -307,30 +316,6 @@ const getTypeColor = (type: string): string => {
   }
   return typeColors[type] || 'grey'
 }
-
-const getTypeIcon = (type: string): string => {
-  const typeIcons: Record<string, string> = {
-    Normal: 'mdi-circle',
-    Fire: 'mdi-fire',
-    Water: 'mdi-water',
-    Electric: 'mdi-lightning-bolt',
-    Grass: 'mdi-leaf',
-    Ice: 'mdi-snowflake',
-    Fighting: 'mdi-boxing-glove',
-    Poison: 'mdi-bottle-tonic-skull',
-    Ground: 'mdi-earth',
-    Flying: 'mdi-feather',
-    Psychic: 'mdi-brain',
-    Bug: 'mdi-bug',
-    Rock: 'mdi-mountain',
-    Ghost: 'mdi-ghost',
-    Dragon: 'mdi-dragon',
-    Dark: 'mdi-moon-waning-crescent',
-    Steel: 'mdi-iron',
-    Fairy: 'mdi-sparkles',
-  }
-  return typeIcons[type] || 'mdi-circle'
-}
 </script>
 <template>
   <v-container>
@@ -371,7 +356,7 @@ const getTypeIcon = (type: string): string => {
       <v-card-text>
         <v-row>
           <v-col cols="12" md="8">
-            <h2 class="text-h5 mb-3">
+            <h2 class="text-h5 mb-3" id="overview">
               <v-icon class="mr-2" color="primary">mdi-map</v-icon>
               Regional Overview
             </h2>
@@ -414,7 +399,7 @@ const getTypeIcon = (type: string): string => {
 
       <!-- Cities Section -->
       <v-card-text>
-        <h2 class="text-h5 mb-3">
+        <h2 class="text-h5 mb-3" id="cities">
           <v-icon class="mr-2" color="primary">mdi-city</v-icon>
           Major Cities & Towns
         </h2>
@@ -440,7 +425,7 @@ const getTypeIcon = (type: string): string => {
 
       <!-- Gyms Section -->
       <v-card-text>
-        <h2 class="text-h5 mb-3">
+        <h2 class="text-h5 mb-3" id="gyms">
           <v-icon class="mr-2" color="primary">mdi-trophy</v-icon>
           Gym Leaders & Badges
         </h2>
@@ -448,8 +433,8 @@ const getTypeIcon = (type: string): string => {
           <v-col v-for="gym in region.gyms" :key="gym.leader" cols="12" sm="6" md="3">
             <v-card variant="outlined" class="gym-card">
               <v-card-title class="text-center">
-                <v-avatar :color="getTypeColor(gym.type)" class="mb-2">
-                  <v-icon color="white">{{ getTypeIcon(gym.type) }}</v-icon>
+                <v-avatar :color="getTypeColor(gym.type)" class="mb-2" variant="outlined">
+                  <v-img :src="gym.badgeIcon" contain />
                 </v-avatar>
                 <p class="text-subtitle-2">{{ gym.leader }}</p>
               </v-card-title>
@@ -472,9 +457,9 @@ const getTypeIcon = (type: string): string => {
 
       <!-- Elite Four & Champion Section -->
       <v-card-text>
-        <h2 class="text-h5 mb-3">
+        <h2 class="text-h5 mb-3" id="champion-league">
           <v-icon class="mr-2" color="primary">mdi-crown</v-icon>
-          Elite Four & Champion
+          Champion League
         </h2>
         <v-row>
           <v-col v-for="member in region.eliteFour" :key="member.name" cols="12" sm="6" md="2.4">
@@ -509,7 +494,7 @@ const getTypeIcon = (type: string): string => {
 
       <!-- Locations of Interest -->
       <v-card-text>
-        <h2 class="text-h5 mb-3">
+        <h2 class="text-h5 mb-3" id="locations">
           <v-icon class="mr-2" color="primary">mdi-compass</v-icon>
           Locations of Interest
         </h2>
