@@ -4,7 +4,7 @@ import { ref } from 'vue'
 interface City {
   name: string
   description: string
-  specialty: string
+  specialty: string[]
   link: string
 }
 
@@ -86,35 +86,66 @@ const region = ref<RegionData>({
   name: 'Kanto',
   generation: 'Generation I',
   headerImage:
-    'https://archives.bulbagarden.net/media/upload/thumb/4/43/HGSS_Kanto.png/800px-HGSS_Kanto.png',
+    'https://archives.bulbagarden.net/media/upload/thumb/4/43/HGSS_Kanto.png/492px-HGSS_Kanto.png',
   overview:
     'Kanto is the first region introduced in the Pokémon series, known for its diverse landscapes and the original 151 Pokémon. Home to the legendary Pokémon League and many iconic locations.',
-  keyFeatures: ['Original 151 Pokémon', 'Pokémon League', 'Team Rocket', 'Indigo Plateau'],
-  professor: 'Professor Oak',
+  keyFeatures: ["Oak's Laboratory", 'Red Conference', 'Indigo Plateau'],
+  professor: 'Samuel Oak',
   starters: ['Bulbasaur', 'Charmander', 'Squirtle'],
   cities: [
     {
       name: 'Pallet Town',
-      description: "A quiet town known for Professor Oak's laboratory",
-      specialty: 'Research Hub',
+      description:
+        "A fairly new and quiet town. It's a small and pretty place. It's known for Professor Oak's laboratory",
+      specialty: ['Research Hub'],
       link: '/locations/pallet-town',
     },
     {
       name: 'Viridian City',
-      description: 'The eternally green city with the final gym',
-      specialty: 'Gym City',
+      description: 'A beautiful city that is enveloped in green year-round.',
+      specialty: ['Gym'],
       link: '/locations/viridian-city',
     },
     {
+      name: 'Pewter City',
+      description: 'A quiet city nestled between rugged mountains and rocks',
+      specialty: ['Rock Gym'],
+      link: '/locations/pewter-city',
+    },
+    {
       name: 'Cerulean City',
-      description: 'The blue city near the beautiful Cerulean Cape',
-      specialty: 'Water Gym',
+      description: 'A beautiful city with flowing water and blooming flowers',
+      specialty: ['Water Gym'],
       link: '/locations/cerulean-city',
     },
     {
+      name: 'Vermilion City',
+      description: 'A southern city that is bathed in orange by the setting sun',
+      specialty: ['Electric Gym'],
+      link: '/locations/vermilion-city',
+    },
+    {
+      name: 'Lavender Town',
+      description: 'A small town covered in a beautiful hue of purple.',
+      specialty: ['Lavender Tower'],
+      link: '/locations/lavender-town',
+    },
+    {
+      name: 'Celadon City',
+      description: 'A rich, rainbow colored city where people and Pokémon gather.',
+      specialty: ['Grass Gym'],
+      link: '/locations/celadon-city',
+    },
+    {
+      name: 'Fuchsia City',
+      description: 'A historic village that has become new',
+      specialty: ['Poison Gym'],
+      link: '/locations/fuchsia-city',
+    },
+    {
       name: 'Saffron City',
-      description: 'The golden city and commercial heart of Kanto',
-      specialty: 'Business Center',
+      description: 'The biggest city in Kanto, shining with a golden light',
+      specialty: ['Silph Tower', 'Psychic Gym', 'Dojo'],
       link: '/locations/saffron-city',
     },
   ],
@@ -338,7 +369,7 @@ const getTypeColor = (type: string): string => {
           <v-col v-for="navItem in navigationItems" :key="navItem.key" cols="6" sm="4" md="3">
             <v-btn
               :color="navItem.color"
-              variant="flat"
+              variant="outlined"
               block
               class="rounded-0 py-3"
               :to="navItem.link"
@@ -409,9 +440,17 @@ const getTypeColor = (type: string): string => {
               <v-card-title class="text-subtitle-1">{{ city.name }}</v-card-title>
               <v-card-text class="py-2">
                 <p class="text-caption">{{ city.description }}</p>
-                <v-chip v-if="city.specialty" color="accent" size="x-small" class="mt-1">
-                  {{ city.specialty }}
-                </v-chip>
+                <div v-if="city.specialty">
+                  <v-chip
+                    v-for="specialty in city.specialty"
+                    :key="specialty"
+                    color="accent"
+                    size="x-small"
+                    class="mt-1"
+                  >
+                    {{ specialty }}
+                  </v-chip>
+                </div>
               </v-card-text>
               <v-card-actions>
                 <v-btn size="small" variant="text" :to="city.link"> Learn More </v-btn>

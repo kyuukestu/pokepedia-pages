@@ -46,12 +46,6 @@ const branches = [
       'Protects aquatic ecosystems, such as coral reefs and oceans, and rescues Water-type Pokémon from pollution or illegal fishing.',
   },
   {
-    name: 'Legendary Pokémon Task Force',
-    icon: 'mdi-crown',
-    description:
-      'A covert unit that monitors and protects Legendary and Mythical Pokémon, ensuring they are not exploited or disturbed.',
-  },
-  {
     name: 'Community Outreach Branch',
     icon: 'mdi-account-heart',
     description:
@@ -84,14 +78,7 @@ const ranks = [
     icon: 'mdi-map',
     color: 'orange',
     description:
-      'Regional supervisors responsible for overseeing operations within a specific area, like a forest or mountain range.',
-  },
-  {
-    name: 'Top Ranger',
-    icon: 'mdi-star',
-    color: 'purple',
-    description:
-      'Elite operatives who tackle high-stakes missions, including those involving Legendary Pokémon or major disasters.',
+      'Regional supervisors responsible for overseeing operations within a specific area, like a forest or mountain range. Area Rangers are typically also responsible for leading ranger bases.',
   },
   {
     name: 'Ranger Leader',
@@ -106,6 +93,13 @@ const ranks = [
     color: 'amber darken-2',
     description:
       'The global head of the Pokémon Ranger organization, coordinating international efforts and reporting to the Ranger Union.',
+  },
+  {
+    name: 'Top Ranger',
+    icon: 'mdi-star',
+    color: 'purple',
+    description:
+      'Effectively above the ranking system, these Elite operatives are empowered with the authority to decide the purview of their own missions and freely roam the involving themselves with missions of the high-stakes, often involving Legendary Pokémon or major disasters.',
   },
 ]
 </script>

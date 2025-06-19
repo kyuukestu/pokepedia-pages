@@ -16,7 +16,7 @@ const sandboxLinks = [
   { title: 'PokeTech', icon: 'mdi-laptop', color: 'cyan' },
   { title: 'Sandbox-Events', icon: 'mdi-calendar', color: 'pink' },
   { title: 'Characters', icon: 'mdi-account', color: 'amber' },
-  { title: 'Misc', icon: 'mdi-help-circle', color: 'grey' },
+  { title: 'Development', icon: 'mdi-help-circle', color: 'grey' },
 ]
 
 const generatedSandboxLinks = sandboxLinks.map((link) => ({
