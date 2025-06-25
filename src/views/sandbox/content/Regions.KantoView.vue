@@ -74,13 +74,6 @@ interface NavigationItem {
   link: string
 }
 
-interface RPResource {
-  title: string
-  icon: string
-  color: string
-  link: string
-}
-
 // Sample data for Kanto region - replace with props
 const region = ref<RegionData>({
   name: 'Kanto',
@@ -297,55 +290,63 @@ const navigationItems = ref<NavigationItem[]>([
   { key: 'rp', label: 'RP Guide', icon: 'mdi-account-group', color: 'teal', link: '#rp' },
 ])
 
-const rpResources = ref<RPResource[]>([
-  {
-    title: 'Character Creation',
-    icon: 'mdi-account-plus',
-    color: 'primary',
-    link: '/rp/character-creation',
-  },
-  {
-    title: 'Battle Rules',
-    icon: 'mdi-sword-cross',
-    color: 'error',
-    link: '/rp/battle-rules',
-  },
-  {
-    title: 'Active RPs',
-    icon: 'mdi-forum',
-    color: 'success',
-    link: '/rp/active-threads',
-  },
-  {
-    title: 'Templates',
-    icon: 'mdi-file-document',
-    color: 'info',
-    link: '/rp/templates',
-  },
-])
-
 const getTypeColor = (type: string): string => {
   const typeColors: Record<string, string> = {
-    Normal: 'grey',
-    Fire: 'red',
-    Water: 'blue',
-    Electric: 'yellow',
-    Grass: 'green',
-    Ice: 'cyan',
-    Fighting: 'red-darken-2',
-    Poison: 'purple',
-    Ground: 'brown',
-    Flying: 'indigo',
-    Psychic: 'pink',
-    Bug: 'light-green',
-    Rock: 'brown-darken-2',
-    Ghost: 'deep-purple',
-    Dragon: 'indigo-darken-2',
-    Dark: 'grey-darken-4',
-    Steel: 'blue-grey',
-    Fairy: 'pink-lighten-2',
+    Normal: 'hsl(208.24deg 8.37% 60.2%)',
+    Fire: 'hsl(359.68deg 79.17% 52.94%)',
+    Water: 'hsl(213.64deg 86.09% 54.9%)',
+    Electric: 'hsl(46.08deg 100% 49.02%)',
+    Grass: 'hsl(109deg 59.41% 39.61%)',
+    Ice: 'hsl(192.19deg 100% 62.35%)',
+    Fighting: 'hsl(342.21deg 60.17% 52.75%)',
+    Poison: 'hsl(281.68deg 46.8% 60.2%)',
+    Ground: 'hsl(20.8deg 66.96% 56.08%)',
+    Flying: 'hsl(220deg 54.17% 71.76%)',
+    Psychic: 'hsl(340.69deg 84.47% 59.61%)',
+    Bug: 'hsl(67.06deg 73.12% 36.47%)',
+    Rock: 'hsl(52.17deg 22.33% 59.61%)',
+    Ghost: 'hsl(300deg 26.55% 34.71%)',
+    Dragon: 'hsl(233.38deg 70.73% 59.8%',
+    Dark: 'hsl(233.38deg 70.73% 59.8%',
+    Steel: 'hsl(195.68deg 38.26% 54.9%)',
+    Fairy: 'hsl(300deg 79.87% 68.82%)',
   }
+
   return typeColors[type] || 'grey'
+}
+
+// Import all SVG files from the types directory
+const iconModules = import.meta.glob('@/assets/types/*.svg', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+})
+
+// Alternative approach with explicit mapping if you need custom naming
+const createIconMapping = () => {
+  const iconMap: Record<string, string> = {}
+
+  // Process each imported SVG file
+  Object.entries(iconModules).forEach(([path, url]) => {
+    // Extract filename without extension from the path
+    // e.g., '@/assets/types/fire.svg' -> 'fire'
+    const filename = path.split('/').pop()?.replace('.svg', '') || ''
+
+    // Capitalize first letter to match your type names
+    // e.g., 'fire' -> 'Fire'
+    const typeName = filename.charAt(0).toUpperCase() + filename.slice(1)
+
+    iconMap[typeName] = url as string
+  })
+
+  return iconMap
+}
+
+// Create the icon mapping
+const svgIcons = createIconMapping()
+
+const getTypeIcon = (type: string) => {
+  if (svgIcons[type]) return svgIcons[type]
 }
 </script>
 <template>
@@ -478,9 +479,13 @@ const getTypeColor = (type: string): string => {
                 <p class="text-subtitle-2">{{ gym.leader }}</p>
               </v-card-title>
               <v-card-text class="text-center py-2">
-                <v-chip :color="getTypeColor(gym.type)" size="small" class="mb-2">
-                  {{ gym.type }}
-                </v-chip>
+                <v-container
+                  :style="`background-color: ${getTypeColor(gym.type)}`"
+                  size="small"
+                  class="mb-2 type-icon"
+                >
+                  <v-img :src="getTypeIcon(gym.type)" contain class="type-svg" />
+                </v-container>
                 <p class="text-caption">{{ gym.city }}</p>
                 <p class="text-caption font-weight-bold">{{ gym.badge }}</p>
               </v-card-text>
@@ -500,6 +505,9 @@ const getTypeColor = (type: string): string => {
           <v-icon class="mr-2" color="primary">mdi-crown</v-icon>
           Champion League
         </h2>
+        <v-alert type="info" variant="outlined" class="mb-3">
+          Expand to Trainer Cards, bg-color type color, add type-icon and trainer image?
+        </v-alert>
         <v-row>
           <v-col v-for="member in region.eliteFour" :key="member.name" cols="12" sm="6" md="2.4">
             <v-card variant="outlined" class="elite-card">
@@ -507,7 +515,7 @@ const getTypeColor = (type: string): string => {
                 {{ member.name }}
               </v-card-title>
               <v-card-text class="text-center py-2">
-                <v-chip :color="getTypeColor(member.type)" size="small">
+                <v-chip :style="`background-color: ${getTypeColor(member.type)}`" size="small">
                   {{ member.type }}
                 </v-chip>
               </v-card-text>
@@ -569,7 +577,7 @@ const getTypeColor = (type: string): string => {
       <v-card-text>
         <h2 class="text-h5 mb-3">
           <v-icon class="mr-2" color="primary">mdi-star</v-icon>
-          Legendary Pokémon
+          Known Legendary Homes
         </h2>
         <v-row>
           <v-col
@@ -586,10 +594,10 @@ const getTypeColor = (type: string): string => {
                   <v-chip
                     v-for="type in legendary.types"
                     :key="type"
-                    :color="getTypeColor(type)"
+                    :style="`background-color: ${getTypeColor(type)}`"
                     size="small"
                   >
-                    {{ type }}
+                    <v-img :src="getTypeIcon(type)" contain class="type-svg" />
                   </v-chip>
                 </v-chip-group>
                 <p class="text-caption mt-2">{{ legendary.description }}</p>
@@ -603,50 +611,6 @@ const getTypeColor = (type: string): string => {
       </v-card-text>
 
       <v-divider></v-divider>
-
-      <!-- Regional Variants & Unique Features -->
-      <v-card-text>
-        <h2 class="text-h5 mb-3">
-          <v-icon class="mr-2" color="primary">mdi-palette</v-icon>
-          Regional Variants & Unique Features
-        </h2>
-        <v-row>
-          <v-col cols="12" md="6">
-            <h3 class="text-h6 mb-2">Unique Mechanics</h3>
-            <v-list density="compact">
-              <v-list-item v-for="mechanic in region.uniqueMechanics" :key="mechanic.name">
-                <v-list-item-title>{{ mechanic.name }}</v-list-item-title>
-                <v-list-item-subtitle>{{ mechanic.description }}</v-list-item-subtitle>
-              </v-list-item>
-            </v-list>
-          </v-col>
-        </v-row>
-      </v-card-text>
-
-      <v-divider></v-divider>
-
-      <!-- RP Resources -->
-      <v-card-text>
-        <h2 class="text-h5 mb-3">
-          <v-icon class="mr-2" color="primary">mdi-book-open</v-icon>
-          RP Resources
-        </h2>
-        <v-row>
-          <v-col v-for="resource in rpResources" :key="resource.title" cols="12" sm="6" md="3">
-            <v-btn
-              :color="resource.color"
-              variant="elevated"
-              block
-              class="py-4"
-              :to="resource.link"
-            >
-              <v-icon class="mb-1">{{ resource.icon }}</v-icon>
-              <br />
-              {{ resource.title }}
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card-text>
     </v-card>
   </v-container>
 </template>
@@ -691,5 +655,43 @@ const getTypeColor = (type: string): string => {
 
 .v-expansion-panel-text {
   padding-top: 16px;
+}
+
+.type-svg {
+  width: 24px;
+  height: 24px;
+}
+
+.type-icon {
+  /* Base styles */
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  transform-origin: center;
+
+  /* Optional: Add some base styling */
+  border-radius: 50%;
+  padding: 4px;
+  width: 45px;
+  aspect-ratio: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  --glow-hue: 0;
+  --glow-saturation: 0%;
+  --glow-lightness: 100%;
+}
+
+.type-icon:hover {
+  /* Scale up effect */
+  transform: scale(1.15);
+
+  /* Optional: Slight brightness increase */
+  filter: brightness(1.1)
+    drop-shadow(0 0 8px hsla(var(--glow-hue), var(--glow-saturation), var(--glow-lightness), 0.6))
+    drop-shadow(0 0 16px hsla(var(--glow-hue), var(--glow-saturation), var(--glow-lightness), 0.4))
+    drop-shadow(0 0 24px hsla(var(--glow-hue), var(--glow-saturation), var(--glow-lightness), 0.2));
 }
 </style>
