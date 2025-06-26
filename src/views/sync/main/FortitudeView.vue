@@ -5,11 +5,25 @@ import { ref, computed, onMounted } from 'vue'
 const demoFortitude = ref<number>(75)
 const totalFortitude = ref<number>(150)
 
-const pokemonList = ref<Array<{ name: string; bst: number }>>([
-  { name: 'Pikachu', bst: 320 },
-  { name: 'Charizard', bst: 534 },
-  { name: 'Blastoise', bst: 534 },
-])
+// Updated Pokemon structure with loading and error states
+interface Pokemon {
+  name: string
+  bst: number
+  isLoading: boolean
+  error: string | null
+  sprite?: string
+}
+
+// Initialize 6 empty Pokemon slots
+const pokemonTeam = ref<Pokemon[]>(
+  Array.from({ length: 6 }, () => ({
+    name: '',
+    bst: 0,
+    isLoading: false,
+    error: null,
+    sprite: '',
+  })),
+)
 
 // Trainer ranks data
 const trainerRanks = ref([
@@ -71,23 +85,66 @@ const trainerRanks = ref([
   },
 ])
 
-// Computed properties
-
+// Functions
 const calculateUpkeepCost = (bst: number): number => {
+  if (bst === 0) return 0
   return Math.round(Math.pow(2, bst / 100))
 }
 
-const addPokemon = () => {
-  pokemonList.value.push({ name: `Pokemon ${pokemonList.value.length + 1}`, bst: 400 })
+const fetchPokemonData = async (pokemonName: string, slotIndex: number) => {
+  if (!pokemonName.trim()) {
+    pokemonTeam.value[slotIndex] = {
+      name: '',
+      bst: 0,
+      isLoading: false,
+      error: null,
+      sprite: '',
+    }
+    return
+  }
+
+  const pokemon = pokemonTeam.value[slotIndex]
+  pokemon.isLoading = true
+  pokemon.error = null
+
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`)
+
+    if (!response.ok) {
+      throw new Error('Pokemon not found')
+    }
+
+    const data = await response.json()
+
+    // Calculate BST (Base Stat Total)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const bst = data.stats.reduce((total: number, stat: any) => total + stat.base_stat, 0)
+
+    pokemon.name = data.name.charAt(0).toUpperCase() + data.name.slice(1)
+    pokemon.bst = bst
+    pokemon.sprite = data.sprites.front_default || ''
+    pokemon.isLoading = false
+  } catch (error) {
+    pokemon.error = 'Pokemon not found: ' + (error as Error).message
+    pokemon.bst = 0
+    pokemon.sprite = ''
+    pokemon.isLoading = false
+  }
 }
 
-const removePokemon = (index: number) => {
-  pokemonList.value.splice(index, 1)
+const clearPokemonSlot = (slotIndex: number) => {
+  pokemonTeam.value[slotIndex] = {
+    name: '',
+    bst: 0,
+    isLoading: false,
+    error: null,
+    sprite: '',
+  }
 }
 
 // Computed properties
 const totalUpkeepCost = computed(() => {
-  return pokemonList.value.reduce((total, pokemon) => {
+  return pokemonTeam.value.reduce((total, pokemon) => {
     return total + calculateUpkeepCost(pokemon.bst)
   }, 0)
 })
@@ -226,6 +283,8 @@ onMounted(() => {
             </v-list>
           </v-card>
         </v-col>
+
+        <!-- Updated Fortitude Calculator -->
         <v-col cols="12" md="6">
           <v-card elevation="3" class="pa-6 h-100">
             <h3 class="text-h5 mb-4">
@@ -237,63 +296,65 @@ onMounted(() => {
               label="Your Fortitude"
               type="number"
               variant="outlined"
-              class="mb-3"
+              class="mb-4"
             ></v-text-field>
 
-            <div class="mb-4">
-              <div class="d-flex justify-space-between align-center mb-2">
-                <h4 class="text-h6">Your Pokémon Team</h4>
-                <v-btn color="primary" size="small" @click="addPokemon" prepend-icon="mdi-plus">
-                  Add Pokémon
-                </v-btn>
-              </div>
+            <h4 class="text-h6 mb-3">Your Pokémon Team (6 slots)</h4>
 
-              <v-card
-                v-for="(pokemon, index) in pokemonList"
+            <v-row>
+              <v-col
+                v-for="(pokemon, index) in pokemonTeam"
                 :key="index"
-                class="mb-2 pa-3"
-                variant="outlined"
+                cols="12"
+                sm="6"
+                class="mb-2"
               >
-                <v-row align="center">
-                  <v-col cols="12" sm="4">
-                    <v-text-field
-                      v-model="pokemon.name"
-                      label="Pokémon Name"
-                      variant="underlined"
-                      density="compact"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="3">
-                    <v-text-field
-                      v-model.number="pokemon.bst"
-                      label="BST"
-                      type="number"
-                      variant="underlined"
-                      density="compact"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="3">
-                    <div class="text-center">
-                      <small class="text-medium-emphasis">Upkeep Cost</small>
-                      <div class="text-h6 font-weight-bold">
-                        {{ calculateUpkeepCost(pokemon.bst) }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="2">
-                    <v-btn
-                      color="error"
-                      size="small"
-                      icon="mdi-delete"
-                      variant="text"
-                      @click="removePokemon(index)"
-                    ></v-btn>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </div>
+                <v-card
+                  :class="['pokemon-slot pa-3', { filled: pokemon.name }]"
+                  variant="outlined"
+                  :color="pokemon.name ? 'primary' : 'grey-lighten-3'"
+                >
+                  <div class="text-center mb-2">
+                    <div class="slot-number">Slot {{ index + 1 }}</div>
+                  </div>
 
-            <v-divider class="my-3"></v-divider>
+                  <v-text-field
+                    v-model="pokemon.name"
+                    @keyup.enter="() => fetchPokemonData(pokemon.name, index)"
+                    label="Pokemon Name"
+                    variant="underlined"
+                    density="compact"
+                    :loading="pokemon.isLoading"
+                    :error="!!pokemon.error"
+                    :error-messages="pokemon.error"
+                    clearable
+                    @click:clear="clearPokemonSlot(index)"
+                  ></v-text-field>
+
+                  <div v-if="pokemon.sprite" class="text-center mb-2">
+                    <img :src="pokemon.sprite" :alt="pokemon.name" class="pokemon-sprite" />
+                  </div>
+
+                  <div
+                    v-if="pokemon.name && !pokemon.isLoading && !pokemon.error"
+                    class="pokemon-stats"
+                  >
+                    <div class="d-flex justify-space-between align-center">
+                      <small class="text-medium-emphasis">BST:</small>
+                      <span class="font-weight-bold">{{ pokemon.bst }}</span>
+                    </div>
+                    <div class="d-flex justify-space-between align-center">
+                      <small class="text-medium-emphasis">Upkeep:</small>
+                      <span class="font-weight-bold text-primary">{{
+                        calculateUpkeepCost(pokemon.bst)
+                      }}</span>
+                    </div>
+                  </div>
+                </v-card>
+              </v-col>
+            </v-row>
+
+            <v-divider class="my-4"></v-divider>
             <div class="text-center">
               <p class="text-body-1 mb-2">
                 Total Upkeep Cost: <strong>{{ totalUpkeepCost }}</strong>
@@ -398,5 +459,34 @@ onMounted(() => {
 
 .warning-glow {
   box-shadow: 0 0 20px rgba(255, 152, 0, 0.5);
+}
+
+.pokemon-slot {
+  min-height: 180px;
+  transition: all 0.3s ease;
+}
+
+.pokemon-slot.filled {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.slot-number {
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+}
+
+.pokemon-sprite {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.pokemon-stats {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 8px;
+  margin-top: 8px;
 }
 </style>
