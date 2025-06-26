@@ -4,14 +4,12 @@ import { ref, computed, onMounted } from 'vue'
 // Reactive data
 const demoFortitude = ref<number>(75)
 const totalFortitude = ref<number>(150)
-const BST = ref<number>(100)
-const BP = ref<number>(50)
+
 const pokemonList = ref<Array<{ name: string; bst: number }>>([
   { name: 'Pikachu', bst: 320 },
   { name: 'Charizard', bst: 534 },
   { name: 'Blastoise', bst: 534 },
 ])
-const showDangerWarning = ref<boolean>(false)
 
 // Trainer ranks data
 const trainerRanks = ref([
@@ -96,7 +94,6 @@ const totalUpkeepCost = computed(() => {
 
 const remainingFortitude = computed(() => {
   const remaining = totalFortitude.value - totalUpkeepCost.value
-  showDangerWarning.value = remaining < 20
   return Math.max(0, remaining)
 })
 
