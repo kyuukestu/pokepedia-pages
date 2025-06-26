@@ -1,1 +1,0 @@
-import{_ as t,c as n,g as o,i as s,F as a,o as r}from"./index-ZWO9TQAi.js";const c={};function i(l,e){return r(),n(a,null,[e[0]||(e[0]=o("h1",null,"Settings Page",-1)),e[1]||(e[1]=s(" Take about the setting of PokeSync "))],64)}const g=t(c,[["render",i]]);export{g as default};
