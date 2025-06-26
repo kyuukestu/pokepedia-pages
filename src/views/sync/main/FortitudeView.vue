@@ -248,125 +248,130 @@ onMounted(() => {
       </v-row>
 
       <!-- Mechanics Section -->
-      <v-row class="mb-8">
-        <v-col cols="12" md="6">
-          <v-card elevation="3" class="pa-6 h-100">
-            <h3 class="text-h5 mb-4">
-              <v-icon class="mr-2" color="blue">mdi-cog</v-icon>
-              Fortitude Mechanics
-            </h3>
-            <v-list>
-              <v-list-item>
-                <v-list-item-title class="font-weight-bold">Base Fortitude</v-list-item-title>
-                <v-list-item-subtitle
-                  >Average Bronze trainer start at 50 points</v-list-item-subtitle
-                >
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title class="font-weight-bold">Pokémon Upkeep</v-list-item-title>
-                <v-list-item-subtitle
-                  >Cost calculated as: 2^(BST/100), rounded</v-list-item-subtitle
-                >
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title class="font-weight-bold">Move Costs</v-list-item-title>
-                <v-list-item-subtitle
-                  >Remaining Fortitude fuels attacks and abilities</v-list-item-subtitle
-                >
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title class="font-weight-bold">Rank Progression</v-list-item-title>
-                <v-list-item-subtitle
-                  >Higher ranks unlock greater Fortitude reserves</v-list-item-subtitle
-                >
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-col>
 
-        <!-- Updated Fortitude Calculator -->
-        <v-col cols="12" md="6">
-          <v-card elevation="3" class="pa-6 h-100">
-            <h3 class="text-h5 mb-4">
-              <v-icon class="mr-2" color="green">mdi-calculator</v-icon>
-              Fortitude Calculator
-            </h3>
-            <v-text-field
-              v-model.number="totalFortitude"
-              label="Your Fortitude"
-              type="number"
-              variant="outlined"
-              class="mb-4"
-            ></v-text-field>
-
-            <h4 class="text-h6 mb-3">Your Pokémon Team (6 slots)</h4>
-
-            <v-row>
-              <v-col
-                v-for="(pokemon, index) in pokemonTeam"
-                :key="index"
-                cols="12"
-                sm="6"
-                class="mb-2"
+      <v-container cols="12" md="6">
+        <v-card elevation="3" class="pa-6 h-100">
+          <h3 class="text-h5 mb-4">
+            <v-icon class="mr-2" color="blue">mdi-cog</v-icon>
+            Fortitude Mechanics
+          </h3>
+          <v-list>
+            <v-list-item>
+              <v-list-item-title class="font-weight-bold">Base Fortitude</v-list-item-title>
+              <v-list-item-subtitle>Average Bronze trainer start at 50 points</v-list-item-subtitle>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title class="font-weight-bold">Pokémon Upkeep</v-list-item-title>
+              <v-list-item-subtitle>Cost calculated as: 2^(BST/100), rounded</v-list-item-subtitle>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title class="font-weight-bold">Move Costs</v-list-item-title>
+              <v-list-item-subtitle
+                >Remaining Fortitude fuels attacks and abilities</v-list-item-subtitle
               >
-                <v-card
-                  :class="['pokemon-slot pa-3', { filled: pokemon.name }]"
-                  variant="outlined"
-                  :color="pokemon.name ? 'primary' : 'grey-lighten-3'"
-                >
-                  <div class="text-center mb-2">
-                    <div class="slot-number">Slot {{ index + 1 }}</div>
-                  </div>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title class="font-weight-bold">Rank Progression</v-list-item-title>
+              <v-list-item-subtitle
+                >Higher ranks unlock greater Fortitude reserves</v-list-item-subtitle
+              >
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-container>
+      <!-- Updated Fortitude Calculator -->
+      <v-container cols="12" md="6">
+        <v-card elevation="3" class="pa-6 h-100">
+          <h3 class="text-h5 mb-4">
+            <v-icon class="mr-2" color="green">mdi-calculator</v-icon>
+            Fortitude Calculator
+          </h3>
+          <v-text-field
+            v-model.number="totalFortitude"
+            label="Your Fortitude"
+            type="number"
+            variant="outlined"
+            class="mb-4"
+          ></v-text-field>
 
-                  <v-text-field
-                    v-model="pokemon.name"
-                    @keyup.enter="() => fetchPokemonData(pokemon.name, index)"
-                    label="Pokemon Name"
-                    variant="underlined"
-                    density="compact"
-                    :loading="pokemon.isLoading"
-                    :error="!!pokemon.error"
-                    :error-messages="pokemon.error"
-                    clearable
-                    @click:clear="clearPokemonSlot(index)"
-                  ></v-text-field>
+          <h4 class="text-h6 mb-3">Your Pokémon Team (6 slots)</h4>
 
-                  <div v-if="pokemon.sprite" class="text-center mb-2">
-                    <img :src="pokemon.sprite" :alt="pokemon.name" class="pokemon-sprite" />
-                  </div>
+          <div class="d-flex flex-row flex-wrap gap-4 justify-space-between">
+            <div
+              v-for="(pokemon, index) in pokemonTeam"
+              :key="index"
+              class="pokemon-slot text-center"
+              style="flex: 0 0 33.33%"
+            >
+              <v-card
+                class="circular-card mb-2"
+                variant="outlined"
+                :color="pokemon.name ? 'primary' : 'grey-lighten-3'"
+                style="
+                  width: 150px;
+                  height: 150px;
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin: 0 auto;
+                "
+              >
+                <div class="slot-number" v-if="!pokemon.sprite">Slot {{ index + 1 }}</div>
+                <div v-if="pokemon.sprite" class="text-center">
+                  <img
+                    :src="pokemon.sprite"
+                    :alt="pokemon.name"
+                    class="pokemon-sprite"
+                    style="max-width: 120px; max-height: 120px"
+                  />
+                </div>
+              </v-card>
 
-                  <div
-                    v-if="pokemon.name && !pokemon.isLoading && !pokemon.error"
-                    class="pokemon-stats"
+              <v-text-field
+                v-model="pokemon.name"
+                @keyup.enter="() => fetchPokemonData(pokemon.name, index)"
+                label="Pokemon Name"
+                variant="underlined"
+                density="compact"
+                :loading="pokemon.isLoading"
+                :error="!!pokemon.error"
+                :error-messages="pokemon.error"
+                clearable
+                @click:clear="clearPokemonSlot(index)"
+                style="width: 150px"
+              ></v-text-field>
+
+              <div
+                v-if="pokemon.name && !pokemon.isLoading && !pokemon.error"
+                class="pokemon-stats"
+                style="font-size: 0.9rem"
+              >
+                <div class="d-flex flex-column align-center">
+                  <small class="text-medium-emphasis">BST: {{ pokemon.bst }}</small>
+                  <small class="text-medium-emphasis"
+                    >Upkeep:
+                    <span class="font-weight-bold text-primary">{{
+                      calculateUpkeepCost(pokemon.bst)
+                    }}</span></small
                   >
-                    <div class="d-flex justify-space-between align-center">
-                      <small class="text-medium-emphasis">BST:</small>
-                      <span class="font-weight-bold">{{ pokemon.bst }}</span>
-                    </div>
-                    <div class="d-flex justify-space-between align-center">
-                      <small class="text-medium-emphasis">Upkeep:</small>
-                      <span class="font-weight-bold text-primary">{{
-                        calculateUpkeepCost(pokemon.bst)
-                      }}</span>
-                    </div>
-                  </div>
-                </v-card>
-              </v-col>
-            </v-row>
-
-            <v-divider class="my-4"></v-divider>
-            <div class="text-center">
-              <p class="text-body-1 mb-2">
-                Total Upkeep Cost: <strong>{{ totalUpkeepCost }}</strong>
-              </p>
-              <p class="text-h6">Available for Moves:</p>
-              <p :class="remainingFortitude < 10 ? 'text-error text-h4' : 'text-success text-h4'">
-                {{ remainingFortitude }} Points
-              </p>
+                </div>
+              </div>
             </div>
-          </v-card>
-        </v-col>
-      </v-row>
+          </div>
+
+          <v-divider class="my-4"></v-divider>
+          <div class="text-center">
+            <p class="text-body-1 mb-2">
+              Total Upkeep Cost: <strong>{{ totalUpkeepCost }}</strong>
+            </p>
+            <p class="text-h6">Available for Moves:</p>
+            <p :class="remainingFortitude < 10 ? 'text-error text-h4' : 'text-success text-h4'">
+              {{ remainingFortitude }} Points
+            </p>
+          </div>
+        </v-card>
+      </v-container>
 
       <!-- Dangers Section -->
       <v-row class="mb-8">
@@ -478,8 +483,8 @@ onMounted(() => {
 }
 
 .pokemon-sprite {
-  width: 64px;
-  height: 64px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
 }
 
@@ -488,5 +493,25 @@ onMounted(() => {
   border-radius: 4px;
   padding: 8px;
   margin-top: 8px;
+}
+
+.gap-3 {
+  gap: 1.5rem;
+}
+
+.circular-card {
+  aspect-ratio: 1/1;
+  overflow: hidden;
+}
+
+.pokemon-sprite {
+  object-fit: contain;
+}
+
+.pokemon-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 160px;
 }
 </style>
