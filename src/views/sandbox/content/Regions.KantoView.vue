@@ -195,7 +195,7 @@ const region = ref<RegionData>({
     {
       name: 'Mt. Silver',
       description: 'A mysterious mountain where legendary trainers are said to train',
-      icon: 'mdi-mountain',
+      icon: 'mdi-image-filter-hdr',
       color: 'grey',
       notablePokemon: ['Larvitar', 'Skarmory', 'Donphan'],
       link: '/locations/mt-silver',
@@ -579,6 +579,9 @@ const getTypeIcon = (type: string) => {
           <v-icon class="mr-2" color="primary">mdi-star</v-icon>
           Known Legendary Homes
         </h2>
+        <v-alert type="info" variant="outlined" class="mb-3"
+          >Bulbapedia Location Link maybe
+        </v-alert>
         <v-row>
           <v-col
             v-for="legendary in region.legendaries"
@@ -590,12 +593,12 @@ const getTypeIcon = (type: string) => {
             <v-card variant="outlined" class="legendary-card">
               <v-card-title class="text-subtitle-1">{{ legendary.name }}</v-card-title>
               <v-card-text>
-                <v-chip-group>
+                <v-chip-group variant="outlined">
                   <v-chip
                     v-for="type in legendary.types"
                     :key="type"
                     :style="`background-color: ${getTypeColor(type)}`"
-                    size="small"
+                    size="default"
                   >
                     <v-img :src="getTypeIcon(type)" contain class="type-svg" />
                   </v-chip>
