@@ -21,8 +21,8 @@ const sandboxLinks = [
 
 const generatedSandboxLinks = sandboxLinks.map((link) => ({
   title: link.title.replace('-', ' '),
-  value: link.title.toLowerCase().replace('-', ' '),
-  to: `/sandbox/main/${link.title.toLowerCase().replace('-', '')}view`,
+  value: link.title.replace('-', ' '),
+  to: `/sandbox/main/${link.title.replace('-', '')}View.vue`,
   icon: link.icon,
   color: link.color,
 }))

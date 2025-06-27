@@ -11,7 +11,7 @@ const roleplays = [
     aspectratio: '21/8',
     icon: 'mdi-pokeball',
     color: 'red',
-    link: '/sandbox/sandboxview',
+    link: '/sandbox/SandboxView.vue',
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ const roleplays = [
     aspectratio: '20/11',
     icon: 'mdi-pokeball',
     color: 'blue',
-    link: 'sync/syncview',
+    link: 'sync/SyncView.vue',
   },
 ]
 </script>

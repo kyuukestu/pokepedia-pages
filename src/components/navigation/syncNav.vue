@@ -18,8 +18,8 @@ const syncLinks = [
 
 const generatedSyncLinks = syncLinks.map((link) => ({
   title: link.title.replace('-', ' '),
-  value: link.title.toLowerCase().replace('-', ''),
-  to: `/sync/main/${link.title.toLowerCase().replace('-', '')}view`,
+  value: link.title.replace('-', ''),
+  to: `/sync/main/${link.title.replace('-', '')}View.vue`,
   icon: link.icon,
   color: link.color,
 }))

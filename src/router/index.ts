@@ -13,13 +13,13 @@ const componentModules = import.meta.glob('../views/**/*.vue')
 const dynamicRoutes: RouteRecordRaw[] = []
 
 for (const path in componentModules) {
-  const fileName = path.split('/').pop()?.replace('.vue', '')
+  const fileName = path.split('/').pop()
 
   if (!fileName) continue
 
   const routeName = fileName
 
-  let routePath = path.replace('../views', '').replace('.vue', '').toLowerCase()
+  let routePath = path.replace('../views', '')
 
   if (!routePath.startsWith('/')) {
     routePath = '/' + routePath

@@ -82,8 +82,8 @@
                     <v-img
                       src="https://www.serebii.net/omegarubyalphasapphire/trainercard1.jpg"
                       alt="Trainer Card"
-                      cover
-                      aspect-ratio="1.6"
+                      contain
+                      aspect-ratio="1"
                       class="rounded"
                     />
                   </v-card>
@@ -158,7 +158,7 @@
                     <v-img
                       src="https://www.serebii.net/sunmoon/trainerpassport.jpg"
                       alt="Trainer Passport"
-                      cover
+                      contain
                       aspect-ratio="1.3"
                       class="rounded"
                     />
@@ -243,7 +243,7 @@
                     <v-img
                       src="https://www.serebii.net/swordshield/leaguecard.jpg"
                       alt="League Card"
-                      cover
+                      contain
                       aspect-ratio="1.5"
                       class="rounded"
                     />
@@ -327,7 +327,7 @@
                     <v-img
                       src="https://img.game8.co/3621072/3bc3da68bd9b491bd429562f1b8937e4.png/show"
                       alt="Profile App"
-                      cover
+                      contain
                       aspect-ratio="1.4"
                       class="rounded"
                     />
@@ -427,10 +427,12 @@
   transition: all 0.3s ease;
   border-radius: 12px !important;
   overflow: hidden;
+  height: 200px;
+  aspect-ratio: 2;
 }
 
 .image-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.35);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
 }
 
