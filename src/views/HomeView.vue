@@ -24,7 +24,7 @@ const roleplays = [
     aspectratio: '20/11',
     icon: 'mdi-pokeball',
     color: 'blue',
-    link: 'sync/SyncView.vue',
+    link: '/sync/SyncView.vue',
   },
 ]
 </script>
