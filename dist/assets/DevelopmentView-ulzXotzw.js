@@ -1,1 +1,0 @@
-import{_ as n,c as t,g as l,F as o,o as r}from"./index-2iv5seuM.js";const s={};function a(m,e){return r(),t(o,null,[e[0]||(e[0]=l("h1",null,"Development Page",-1)),e[1]||(e[1]=l("h3",null,"To-Do List:",-1)),e[2]||(e[2]=l("ul",null,[l("li",null,"Implement Character Pages")],-1))],64)}const p=n(s,[["render",a]]);export{p as default};
