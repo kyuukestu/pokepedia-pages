@@ -2,7 +2,6 @@
 import { ref, watch } from 'vue'
 import { useTheme, useDisplay } from 'vuetify'
 import { useRoute } from 'vue-router'
-import { useQuasar } from 'quasar'
 import sandboxNav from './sandboxNav.vue'
 import SyncNav from './syncNav.vue'
 
@@ -10,12 +9,23 @@ const drawer = ref(false)
 const theme = useTheme()
 const route = useRoute()
 const { mobile } = useDisplay()
-const icon = ref('mdi-weather-night')
+const icon = ref('mdi-weather-sunny')
 const navPage = ref(0)
 const length = ref(2)
 
 // Navigation page titles for better UX
 const navTitles = ['Sandbox Navigation', 'Sync Navigation']
+
+watch(
+  () => theme.global.name.value,
+  (newValue) => {
+    icon.value = newValue === 'dark' ? 'mdi-weather-night' : 'mdi-weather-sunny'
+  },
+)
+
+const toggleTheme = () => {
+  theme.global.name.value = theme.global.name.value === 'dark' ? 'light' : 'dark'
+}
 
 function next() {
   navPage.value = navPage.value + 1 >= length.value ? 0 : navPage.value + 1
@@ -30,28 +40,6 @@ const handleNavigation = () => {
   if (mobile.value) {
     drawer.value = false
   }
-}
-
-// Centralized theme state
-const isDark = ref(true)
-
-// Access Quasar and Vuetify instances
-const $q = useQuasar()
-
-// Sync theme on initial load
-$q.dark.set(isDark.value)
-// theme.global.name.value = theme.global.name.value === 'dark' ? 'light' : 'dark'
-
-// Watch for theme changes and update both frameworks
-watch(isDark, (newValue) => {
-  $q.dark.set(newValue) // Update Quasar theme
-  theme.global.name.value = theme.global.name.value === 'dark' ? 'light' : 'dark' // Update Vuetify theme
-  icon.value = newValue === true ? 'mdi-weather-night' : 'mdi-weather-sunny' // Handle Icon change
-})
-
-// Function to toggle theme
-const toggleTheme = () => {
-  isDark.value = !isDark.value
 }
 </script>
 

@@ -14,4 +14,8 @@ import MasterNav from '@/components/navigation/MasterNav.vue'
   </v-app>
 </template>
 
-<style scoped></style>
+<style scoped>
+v-responsive {
+  background-color: aliceblue;
+}
+</style>

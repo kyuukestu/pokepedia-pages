@@ -260,7 +260,7 @@
 
                       <!-- Info Panel -->
                       <v-col cols="12" lg="4">
-                        <v-card variant="outlined" class="info-panel">
+                        <v-card variant="elevated" class="info-panel">
                           <v-card-title
                             class="text-h6 pa-4"
                             :style="{ backgroundColor: org.color, color: 'white' }"
@@ -321,6 +321,71 @@
           </v-row>
         </section>
 
+        <!-- Coordination Section -->
+        <section class="mb-12">
+          <v-card class="coordination-section" elevation="8">
+            <v-parallax
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0h100v100H0z' fill='%23f5f5f5'/%3E%3Cpath d='M0 0l100 100M100 0L0 100' stroke='%23e0e0e0' stroke-width='0.5'/%3E%3C/svg%3E"
+              height="300"
+              class="d-flex align-center justify-center"
+            >
+              <v-container>
+                <v-row align="center" justify="center">
+                  <v-col cols="12" md="8" class="text-center">
+                    <h2 class="text-h3 font-weight-bold mb-6">Inter-Board Coordination</h2>
+                    <p class="text-h6 mb-6 text-medium-emphasis">
+                      Unity in diversity, strength in collaboration
+                    </p>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-parallax>
+
+            <v-card-text class="pa-8">
+              <v-row>
+                <v-col cols="12" md="6">
+                  <v-card variant="tonal" color="primary" class="pa-6">
+                    <h3 class="text-h5 font-weight-bold mb-4">
+                      <v-icon class="mr-2">mdi-handshake</v-icon>
+                      Coordination Council
+                    </h3>
+                    <p class="text-body-1 mb-4">
+                      The Inter-Board Coordination Council (IBCC) meets quarterly to ensure seamless
+                      collaboration between all supervisory boards. This council prevents
+                      jurisdictional conflicts and promotes unified standards across all Pokémon
+                      activities.
+                    </p>
+                    <v-btn color="primary" variant="outlined">
+                      Learn More
+                      <v-icon end>mdi-arrow-right</v-icon>
+                    </v-btn>
+                  </v-card>
+                </v-col>
+                <v-col cols="12" md="6">
+                  <v-card variant="tonal" color="secondary" class="pa-6">
+                    <h3 class="text-h5 font-weight-bold mb-4">
+                      <v-icon class="mr-2">mdi-lightbulb</v-icon>
+                      Joint Initiatives
+                    </h3>
+                    <v-list density="compact">
+                      <v-list-item
+                        v-for="initiative in jointInitiatives"
+                        :key="initiative"
+                        :title="initiative"
+                        class="pa-0 mb-2"
+                      >
+                        <template v-slot:prepend>
+                          <v-icon color="secondary" size="small">mdi-check-circle</v-icon>
+                        </template>
+                      </v-list-item>
+                    </v-list>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </section>
+
         <!-- Navigation Tabs -->
         <v-card class="navigation-card mb-8" elevation="4">
           <v-tabs
@@ -339,6 +404,42 @@
               {{ org.name }}
             </v-tab>
           </v-tabs>
+        </v-card>
+
+        <!-- Footer Section -->
+        <v-card class="footer-section" color="grey-darken-3" theme="dark">
+          <v-card-text class="pa-8">
+            <v-row>
+              <v-col cols="12" md="6">
+                <h3 class="text-h5 font-weight-bold mb-4">Related Topics</h3>
+                <v-chip-group column>
+                  <v-chip
+                    v-for="topic in relatedTopics"
+                    :key="topic"
+                    variant="outlined"
+                    color="white"
+                    size="small"
+                  >
+                    {{ topic }}
+                  </v-chip>
+                </v-chip-group>
+              </v-col>
+              <v-col cols="12" md="6">
+                <h3 class="text-h5 font-weight-bold mb-4">Categories</h3>
+                <v-chip-group column>
+                  <v-chip
+                    v-for="category in categories"
+                    :key="category"
+                    variant="outlined"
+                    color="white"
+                    size="small"
+                  >
+                    {{ category }}
+                  </v-chip>
+                </v-chip-group>
+              </v-col>
+            </v-row>
+          </v-card-text>
         </v-card>
       </v-container>
 
@@ -554,6 +655,34 @@ const organizations = ref<Organization[]>([
   },
 ])
 
+const jointInitiatives = ref([
+  'Unified Safety Protocols',
+  'Cross-Disciplinary Training',
+  'Shared Resource Management',
+  'Joint Investigation Teams',
+  'Collaborative Research Programs',
+])
+
+const relatedTopics = ref([
+  'Pokémon League',
+  'Elite Four',
+  'Gym Leaders',
+  'Pokémon Contest',
+  'World Coronation Series',
+  'Pokéathlon',
+  'Sky Battles',
+  'PokéRinger',
+])
+
+const categories = ref([
+  'Pokémon Organizations',
+  'Competitive Pokémon',
+  'Pokémon Contests',
+  'Pokémon Sports',
+  'Regulatory Bodies',
+  'Pokémon League System',
+])
+
 const toggleOrgExpansion = (orgId: string) => {
   const index = expandedOrgs.value.indexOf(orgId)
   if (index > -1) {
@@ -753,6 +882,11 @@ html {
 .v-list-item {
   border-radius: 8px !important;
   transition: all 0.2s ease;
+}
+
+.v-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  transform: translateX(2px);
 }
 
 /* Tab customization */
