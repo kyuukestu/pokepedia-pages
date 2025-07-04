@@ -30,58 +30,50 @@ const trainerRanks = ref([
   {
     name: 'Bronze',
     fortitude: '50 ~ 130',
-    color: 'grey-lighten-2',
-    icon: 'mdi-sprout',
+    icon: 'eco',
     description: 'Beginning trainers with basic Fortitude reserves',
   },
   {
     name: 'Silver',
     fortitude: '150 ~ 125',
-    color: 'green-lighten-3',
-    icon: 'mdi-leaf',
+    icon: 'local_florist',
     description: 'Developing trainers with growing energy pools',
   },
   {
     name: 'Gold',
     fortitude: '150 ~ 500',
-    color: 'blue-lighten-3',
-    icon: 'mdi-star',
+    icon: 'star',
     description: 'Skilled trainers with substantial reserves',
   },
   {
     name: 'Platinum',
     fortitude: '1,000+',
-    color: 'purple-lighten-3',
-    icon: 'mdi-crown',
+    icon: 'military_tech',
     description: 'Expert trainers with impressive Fortitude capacity',
   },
   {
     name: 'Master',
     fortitude: '2,500+',
-    color: 'orange-lighten-3',
-    icon: 'mdi-fire',
+    icon: 'whatshot',
     description: 'Master trainers with exceptional energy control',
   },
   {
     name: 'High Master',
     fortitude: '5,000+',
-    color: 'red-lighten-3',
-    icon: 'mdi-trophy',
-    description: 'Legendary trainers with unmatched Fortitude mastery',
+    icon: 'emoji_events',
+    description: 'Elite trainers with unmatched Fortitude mastery',
   },
   {
     name: 'Grand Master',
     fortitude: '10,000+',
-    color: 'red-lighten-3',
-    icon: 'mdi-trophy',
-    description: 'Legendary trainers with unmatched Fortitude mastery',
+    icon: 'workspace_premium',
+    description: 'Legendary trainers with supreme Fortitude control',
   },
   {
     name: 'Legendary',
     fortitude: '???',
-    color: 'red-lighten-3',
-    icon: 'mdi-trophy',
-    description: 'Legendary trainers with unmatched Fortitude mastery',
+    icon: 'auto_awesome',
+    description: 'Mythical trainers with limitless Fortitude mastery',
   },
 ])
 
@@ -163,355 +155,386 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-app>
-    <!-- Hero Section -->
-    <v-container fluid class="hero-section pa-8">
-      <v-row justify="center" align="center" class="text-center">
-        <v-col cols="12" md="8">
-          <h1 class="display-2 font-weight-bold mb-4">
-            <v-icon size="48" class="mr-3">mdi-lightning-bolt</v-icon>
-            Fortitude Power System
-          </h1>
-          <p class="text-h6 mb-6">
-            The life force that binds trainers and Pokémon in eternal partnership
-          </p>
-          <div class="fortitude-meter mx-auto" style="max-width: 400px">
-            <div class="meter-fill" :style="{ width: demoFortitude + '%' }"></div>
+  <q-layout>
+    <q-page-container>
+      <q-page class="q-pa-md">
+        <!-- Hero Section -->
+        <div class="hero-section q-pa-xl text-center">
+          <div class="row justify-center">
+            <div class="col-12 col-md-8">
+              <div class="text-h2 text-weight-bold q-mb-md">
+                <q-icon name="flash_on" size="3rem" color="amber" class="q-mr-md" />
+                Fortitude Power System
+              </div>
+              <div class="text-h5 q-mb-xl text-weight-light">
+                The life force that binds trainers and Pokémon in eternal partnership
+              </div>
+              <div class="fortitude-meter q-mx-auto q-mb-md" style="max-width: 400px">
+                <q-linear-progress
+                  :value="demoFortitude / 100"
+                  size="20px"
+                  color="amber"
+                  track-color="grey-4"
+                  rounded
+                  class="fortitude-progress"
+                />
+              </div>
+              <div class="text-body1">{{ Math.round(demoFortitude) }}/100 Fortitude</div>
+            </div>
           </div>
-          <p class="mt-2">{{ Math.round(demoFortitude) }}/100 Fortitude</p>
-        </v-col>
-      </v-row>
-    </v-container>
+        </div>
 
-    <!-- Main Content -->
-    <v-container class="my-8">
-      <!-- Overview Section -->
-      <v-row class="mb-8">
-        <v-col cols="12">
-          <v-card elevation="3" class="pa-6">
-            <h2 class="text-h4 mb-4 text-center">What is Fortitude?</h2>
-            <v-row>
-              <v-col cols="12" md="6">
-                <p class="text-body-1 mb-4">
-                  Fortitude is the fundamental energy reservoir that flows between trainers and
-                  their Pokémon. This mystical force serves as the bridge connecting human will to
-                  Pokémon power, enabling the Synchronization Bond and fueling a Pokémon's abilities
-                  to an extend hitherto unseen.
-                </p>
-                <p class="text-body-1">
-                  The average trainer begins their journey at Bronze I with approx.
-                  <strong>50 points of Fortitude</strong>, a modest wellspring that grows stronger
-                  with experience, dedication, and the bonds forged with their partners.
-                </p>
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-card color="blue-grey-lighten-5" class="pa-4">
-                  <v-icon size="32" color="primary" class="mb-2">mdi-heart-pulse</v-icon>
-                  <h3 class="text-h6 mb-2">Core Functions</h3>
-                  <v-chip class="ma-1" color="primary" variant="outlined"
-                    >Pokémon Sustenance</v-chip
-                  >
-                  <v-chip class="ma-1" color="secondary" variant="outlined">Move Usage</v-chip>
-                  <v-chip class="ma-1" color="success" variant="outlined"
-                    >Ability Activation</v-chip
-                  >
-                  <v-chip class="ma-1" color="warning" variant="outlined"
-                    >Physical Enhancement</v-chip
-                  >
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-      </v-row>
-
-      <!-- Trainer Ranks Section -->
-      <v-row class="mb-8">
-        <v-col cols="12">
-          <h2 class="text-h4 mb-6 text-center">Trainer Ranks & Fortitude Progression</h2>
-          <v-row>
-            <v-col v-for="rank in trainerRanks" :key="rank.name" cols="12" sm="6" md="4">
-              <v-card
-                :color="rank.color"
-                class="rank-card pa-4 text-center"
-                height="200"
-                elevation="2"
-              >
-                <v-icon :icon="rank.icon" size="48" class="mb-3"></v-icon>
-                <h3 class="text-h5 font-weight-bold">{{ rank.name }}</h3>
-                <p class="text-h6 mt-2">{{ rank.fortitude }} Fortitude</p>
-                <p class="text-body-2 mt-2">{{ rank.description }}</p>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-
-      <!-- Mechanics Section -->
-
-      <v-container cols="12" md="6">
-        <v-card elevation="3" class="pa-6 h-100">
-          <h3 class="text-h5 mb-4">
-            <v-icon class="mr-2" color="blue">mdi-cog</v-icon>
-            Fortitude Mechanics
-          </h3>
-          <v-list>
-            <v-list-item>
-              <v-list-item-title class="font-weight-bold">Base Fortitude</v-list-item-title>
-              <v-list-item-subtitle>Average Bronze trainer start at 50 points</v-list-item-subtitle>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title class="font-weight-bold">Pokémon Upkeep</v-list-item-title>
-              <v-list-item-subtitle>Cost calculated as: 2^(BST/100), rounded</v-list-item-subtitle>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title class="font-weight-bold">Move Costs</v-list-item-title>
-              <v-list-item-subtitle
-                >Remaining Fortitude fuels attacks and abilities</v-list-item-subtitle
-              >
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title class="font-weight-bold">Rank Progression</v-list-item-title>
-              <v-list-item-subtitle
-                >Higher ranks unlock greater Fortitude reserves</v-list-item-subtitle
-              >
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-container>
-      <!-- Updated Fortitude Calculator -->
-      <v-container cols="12" md="6">
-        <v-card elevation="3" class="pa-6 h-100">
-          <h3 class="text-h5 mb-4">
-            <v-icon class="mr-2" color="green">mdi-calculator</v-icon>
-            Fortitude Calculator
-          </h3>
-          <v-text-field
-            v-model.number="totalFortitude"
-            label="Your Fortitude"
-            type="number"
-            variant="outlined"
-            class="mb-4"
-          ></v-text-field>
-
-          <h4 class="text-h6 mb-3">Your Pokémon Team (6 slots)</h4>
-
-          <div class="d-flex flex-row flex-wrap gap-4 justify-space-between">
-            <div
-              v-for="(pokemon, index) in pokemonTeam"
-              :key="index"
-              class="pokemon-slot text-center"
-              style="flex: 0 0 33.33%"
-            >
-              <v-card
-                class="circular-card mb-2"
-                variant="outlined"
-                :color="pokemon.name ? 'primary' : 'grey-lighten-3'"
-                style="
-                  width: 150px;
-                  height: 150px;
-                  border-radius: 50%;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  margin: 0 auto;
-                "
-              >
-                <div class="slot-number" v-if="!pokemon.sprite">Slot {{ index + 1 }}</div>
-                <div v-if="pokemon.sprite" class="text-center">
-                  <img
-                    :src="pokemon.sprite"
-                    :alt="pokemon.name"
-                    class="pokemon-sprite"
-                    style="max-width: 120px; max-height: 120px"
-                  />
+        <!-- Main Content -->
+        <div class="q-mt-xl">
+          <!-- Overview Section -->
+          <q-card flat bordered class="q-mb-xl">
+            <q-card-section class="q-pa-xl">
+              <div class="text-h3 text-center q-mb-xl text-weight-bold">
+                <q-icon name="help_outline" color="primary" class="q-mr-md" />
+                What is Fortitude?
+              </div>
+              <div class="row q-col-gutter-xl">
+                <div class="col-12 col-md-6">
+                  <div class="text-body1 q-mb-md">
+                    Fortitude is the fundamental energy reservoir that flows between trainers and
+                    their Pokémon. This mystical force serves as the bridge connecting human will to
+                    Pokémon power, enabling the Synchronization Bond and fueling a Pokémon's
+                    abilities to an extend hitherto unseen.
+                  </div>
+                  <div class="text-body1">
+                    The average trainer begins their journey at Bronze I with approx.
+                    <strong>50 points of Fortitude</strong>, a modest wellspring that grows stronger
+                    with experience, dedication, and the bonds forged with their partners.
+                  </div>
                 </div>
-              </v-card>
+                <div class="col-12 col-md-6">
+                  <q-card flat bordered class="q-pa-lg">
+                    <q-icon name="favorite" size="2rem" color="red" class="q-mb-md" />
+                    <div class="text-h6 q-mb-md text-weight-bold">Core Functions</div>
+                    <div class="q-gutter-sm">
+                      <q-chip outline color="primary" text-color="primary"
+                        >Pokémon Sustenance</q-chip
+                      >
+                      <q-chip outline color="secondary" text-color="secondary">Move Usage</q-chip>
+                      <q-chip outline color="positive" text-color="positive"
+                        >Ability Activation</q-chip
+                      >
+                      <q-chip outline color="warning" text-color="warning"
+                        >Physical Enhancement</q-chip
+                      >
+                    </div>
+                  </q-card>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
 
-              <v-text-field
-                v-model="pokemon.name"
-                @keyup.enter="() => fetchPokemonData(pokemon.name, index)"
-                label="Pokemon Name"
-                variant="underlined"
-                density="compact"
-                :loading="pokemon.isLoading"
-                :error="!!pokemon.error"
-                :error-messages="pokemon.error"
-                clearable
-                @click:clear="clearPokemonSlot(index)"
-                style="width: 150px"
-              ></v-text-field>
-
+          <!-- Trainer Ranks Section -->
+          <div class="q-mb-xl">
+            <div class="text-h3 text-center q-mb-xl text-weight-bold">
+              <q-icon name="trending_up" color="primary" class="q-mr-md" />
+              Trainer Ranks & Fortitude Progression
+            </div>
+            <div class="row q-col-gutter-md">
               <div
-                v-if="pokemon.name && !pokemon.isLoading && !pokemon.error"
-                class="pokemon-stats"
-                style="font-size: 0.9rem"
+                v-for="rank in trainerRanks"
+                :key="rank.name"
+                class="col-12 col-sm-6 col-md-4 col-lg-3"
               >
-                <div class="d-flex flex-column align-center">
-                  <small class="text-medium-emphasis">BST: {{ pokemon.bst }}</small>
-                  <small class="text-medium-emphasis"
-                    >Upkeep:
-                    <span class="font-weight-bold text-primary">{{
-                      calculateUpkeepCost(pokemon.bst)
-                    }}</span></small
-                  >
-                </div>
+                <q-card flat bordered class="rank-card text-center q-pa-lg" style="height: 200px">
+                  <q-icon :name="rank.icon" size="3rem" color="primary" class="q-mb-md" />
+                  <div class="text-h5 text-weight-bold">{{ rank.name }}</div>
+                  <div class="text-h6 q-mt-sm text-weight-medium">
+                    {{ rank.fortitude }} Fortitude
+                  </div>
+                  <div class="text-body2 q-mt-sm">{{ rank.description }}</div>
+                </q-card>
               </div>
             </div>
           </div>
 
-          <v-divider class="my-4"></v-divider>
-          <div class="text-center">
-            <p class="text-body-1 mb-2">
-              Total Upkeep Cost: <strong>{{ totalUpkeepCost }}</strong>
-            </p>
-            <p class="text-h6">Available for Moves:</p>
-            <p :class="remainingFortitude < 10 ? 'text-error text-h4' : 'text-success text-h4'">
-              {{ remainingFortitude }} Points
-            </p>
-          </div>
-        </v-card>
-      </v-container>
+          <!-- Mechanics and Calculator Section -->
+          <div class="row q-col-gutter-xl q-mb-xl">
+            <!-- Mechanics Section -->
+            <div class="col-12 col-md-6">
+              <q-card flat bordered class="full-height">
+                <q-card-section class="q-pa-lg">
+                  <div class="text-h5 q-mb-lg text-weight-bold">
+                    <q-icon name="settings" color="primary" class="q-mr-sm" />
+                    Fortitude Mechanics
+                  </div>
+                  <q-list>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label class="text-weight-bold">Base Fortitude</q-item-label>
+                        <q-item-label caption
+                          >Average Bronze trainer start at 50 points</q-item-label
+                        >
+                      </q-item-section>
+                    </q-item>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label class="text-weight-bold">Pokémon Upkeep</q-item-label>
+                        <q-item-label caption
+                          >Cost calculated as: 2^(BST/100), rounded</q-item-label
+                        >
+                      </q-item-section>
+                    </q-item>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label class="text-weight-bold">Move Costs</q-item-label>
+                        <q-item-label caption
+                          >Remaining Fortitude fuels attacks and abilities</q-item-label
+                        >
+                      </q-item-section>
+                    </q-item>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label class="text-weight-bold">Rank Progression</q-item-label>
+                        <q-item-label caption
+                          >Higher ranks unlock greater Fortitude reserves</q-item-label
+                        >
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-card-section>
+              </q-card>
+            </div>
 
-      <!-- Dangers Section -->
-      <v-row class="mb-8">
-        <v-col cols="12">
-          <v-card elevation="3" class="pa-6">
-            <h3 class="text-h5 mb-4 text-center">
-              <v-icon class="mr-2" color="red">mdi-alert-octagon</v-icon>
-              Fortitude Deprivation
-            </h3>
-            <v-row>
-              <v-col cols="12" md="4">
-                <v-card color="orange-lighten-4" class="pa-4 warning-glow">
-                  <h4 class="text-h6 mb-2">
-                    <v-icon color="orange">mdi-alert</v-icon>
-                    Early Warning (10-20%)
-                  </h4>
-                  <p class="text-body-2">
-                    Fatigue, reduced move effectiveness, Pokémon become sluggish
-                  </p>
-                </v-card>
-              </v-col>
-              <v-col cols="12" md="4">
-                <v-card color="deep-orange-lighten-4" class="pa-4">
-                  <h4 class="text-h6 mb-2">
-                    <v-icon color="deep-orange">mdi-alert-circle</v-icon>
-                    Critical (5-10%)
-                  </h4>
-                  <p class="text-body-2">
-                    Severe exhaustion, Pokémon may faint, trainer physical strain
-                  </p>
-                </v-card>
-              </v-col>
-              <v-col cols="12" md="4">
-                <v-card color="red-lighten-4" class="pa-4 danger-glow">
-                  <h4 class="text-h6 mb-2">
-                    <v-icon color="red">mdi-skull</v-icon>
-                    Life-Threatening (0-5%)
-                  </h4>
-                  <p class="text-body-2">Organ failure, coma, potential death.</p>
-                </v-card>
-              </v-col>
-            </v-row>
-            <v-alert type="error" class="mt-4" variant="tonal">
-              <strong>Remember:</strong> Fortitude is not just energy—it's life force itself.
-              Reckless trainers who push beyond their limits risk not only their own lives, but the
-              lives of their beloved Pokémon partners.
-            </v-alert>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-app>
+            <!-- Calculator Section -->
+            <div class="col-12 col-md-6">
+              <q-card flat bordered class="full-height">
+                <q-card-section class="q-pa-lg">
+                  <div class="text-h5 q-mb-lg text-weight-bold">
+                    <q-icon name="calculate" color="positive" class="q-mr-sm" />
+                    Fortitude Calculator
+                  </div>
+                  <q-input
+                    v-model.number="totalFortitude"
+                    label="Your Fortitude"
+                    type="number"
+                    outlined
+                    class="q-mb-lg"
+                  />
+
+                  <div class="text-h6 q-mb-md text-weight-bold">Your Pokémon Team (6 slots)</div>
+
+                  <div class="row q-col-gutter-md">
+                    <div
+                      v-for="(pokemon, index) in pokemonTeam"
+                      :key="index"
+                      class="col-4 text-center"
+                    >
+                      <q-card
+                        flat
+                        bordered
+                        class="pokemon-slot q-pa-md"
+                        :class="{ 'pokemon-filled': pokemon.name }"
+                      >
+                        <div class="pokemon-circle q-mx-auto q-mb-md">
+                          <div v-if="!pokemon.sprite" class="slot-number">Slot {{ index + 1 }}</div>
+                          <img
+                            v-if="pokemon.sprite"
+                            :src="pokemon.sprite"
+                            :alt="pokemon.name"
+                            class="pokemon-sprite"
+                          />
+                        </div>
+
+                        <q-input
+                          v-model="pokemon.name"
+                          @keyup.enter="() => fetchPokemonData(pokemon.name, index)"
+                          label="Pokemon Name"
+                          dense
+                          outlined
+                          :loading="pokemon.isLoading"
+                          :error="!!pokemon.error"
+                          :error-message="pokemon.error ?? undefined"
+                          clearable
+                          @clear="clearPokemonSlot(index)"
+                        />
+
+                        <div
+                          v-if="pokemon.name && !pokemon.isLoading && !pokemon.error"
+                          class="pokemon-stats q-mt-sm"
+                        >
+                          <div class="text-caption">BST: {{ pokemon.bst }}</div>
+                          <div class="text-caption">
+                            Upkeep:
+                            <span class="text-weight-bold text-primary">{{
+                              calculateUpkeepCost(pokemon.bst)
+                            }}</span>
+                          </div>
+                        </div>
+                      </q-card>
+                    </div>
+                  </div>
+
+                  <q-separator class="q-my-lg" />
+                  <div class="text-center">
+                    <div class="text-body1 q-mb-sm">
+                      Total Upkeep Cost: <strong>{{ totalUpkeepCost }}</strong>
+                    </div>
+                    <div class="text-h6 q-mb-sm">Available for Moves:</div>
+                    <div
+                      :class="
+                        remainingFortitude < 10 ? 'text-negative text-h4' : 'text-positive text-h4'
+                      "
+                    >
+                      {{ remainingFortitude }} Points
+                    </div>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+          </div>
+
+          <!-- Dangers Section -->
+          <q-card flat bordered class="q-mb-xl">
+            <q-card-section class="q-pa-xl">
+              <div class="text-h4 text-center q-mb-xl text-weight-bold">
+                <q-icon name="warning" color="negative" class="q-mr-md" />
+                Fortitude Deprivation
+              </div>
+              <div class="row q-col-gutter-lg">
+                <div class="col-12 col-md-4">
+                  <q-card flat bordered class="q-pa-lg danger-card warning-level">
+                    <div class="text-h6 q-mb-md text-weight-bold">
+                      <q-icon name="warning" color="warning" class="q-mr-sm" />
+                      Early Warning (10-20%)
+                    </div>
+                    <div class="text-body2">
+                      Fatigue, reduced move effectiveness, Pokémon become sluggish
+                    </div>
+                  </q-card>
+                </div>
+                <div class="col-12 col-md-4">
+                  <q-card flat bordered class="q-pa-lg danger-card critical-level">
+                    <div class="text-h6 q-mb-md text-weight-bold">
+                      <q-icon name="error" color="deep-orange" class="q-mr-sm" />
+                      Critical (5-10%)
+                    </div>
+                    <div class="text-body2">
+                      Severe exhaustion, Pokémon may faint, trainer physical strain
+                    </div>
+                  </q-card>
+                </div>
+                <div class="col-12 col-md-4">
+                  <q-card flat bordered class="q-pa-lg danger-card lethal-level">
+                    <div class="text-h6 q-mb-md text-weight-bold">
+                      <q-icon name="dangerous" color="negative" class="q-mr-sm" />
+                      Life-Threatening (0-5%)
+                    </div>
+                    <div class="text-body2">Organ failure, coma, potential death.</div>
+                  </q-card>
+                </div>
+              </div>
+              <q-banner class="q-mt-lg" inline-actions>
+                <template v-slot:avatar>
+                  <q-icon name="info" color="negative" />
+                </template>
+                <strong>Remember:</strong> Fortitude is not just energy—it's life force itself.
+                Reckless trainers who push beyond their limits risk not only their own lives, but
+                the lives of their beloved Pokémon partners.
+              </q-banner>
+            </q-card-section>
+          </q-card>
+        </div>
+      </q-page></q-page-container
+    >
+  </q-layout>
 </template>
 
 <style scoped>
 .hero-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  border-radius: 12px;
+  margin-bottom: 2rem;
 }
 
-.fortitude-meter {
-  background: linear-gradient(90deg, #ff6b6b 0%, #ffd93d 50%, #6bcf7f 100%);
+.fortitude-progress {
   border-radius: 10px;
-  height: 20px;
+  overflow: hidden;
+}
+
+.rank-card {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.rank-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.pokemon-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
 }
 
-.meter-fill {
-  background: rgba(255, 255, 255, 0.3);
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.3s ease;
-}
-
-.rank-card {
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.rank-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.danger-glow {
-  box-shadow: 0 0 20px rgba(244, 67, 54, 0.5);
-}
-
-.warning-glow {
-  box-shadow: 0 0 20px rgba(255, 152, 0, 0.5);
-}
-
-.pokemon-slot {
-  min-height: 180px;
-  transition: all 0.3s ease;
-}
-
-.pokemon-slot.filled {
-  transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.pokemon-filled .pokemon-circle {
+  border-color: #1976d2;
+  border-style: solid;
 }
 
 .slot-number {
   font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.6);
+  color: #666;
   font-weight: 500;
+  text-align: center;
 }
 
 .pokemon-sprite {
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
 }
 
 .pokemon-stats {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
   padding: 8px;
-  margin-top: 8px;
-}
-
-.gap-3 {
-  gap: 1.5rem;
-}
-
-.circular-card {
-  aspect-ratio: 1/1;
-  overflow: hidden;
-}
-
-.pokemon-sprite {
-  object-fit: contain;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .pokemon-slot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 160px;
+  transition: all 0.3s ease;
+  min-height: 200px;
+}
+
+.pokemon-slot:hover {
+  transform: translateY(-2px);
+}
+
+.danger-card {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.danger-card:hover {
+  transform: translateY(-2px);
+}
+
+.warning-level {
+  border-left: 4px solid #ff9800;
+}
+
+.critical-level {
+  border-left: 4px solid #ff5722;
+}
+
+.lethal-level {
+  border-left: 4px solid #f44336;
+}
+
+.full-height {
+  height: 100%;
 }
 </style>
