@@ -16,22 +16,22 @@ try {
   fs.copyFileSync('dist/index.html', 'dist/404.html')
 
   // Create a temporary directory with a shorter path
-  tempDir = 'C:\\temp\\pokepedia-deploy'
-  
+  tempDir = '/tmp/pokepedia-deploy'
+
   // Clean up any existing temp directory
   if (fs.existsSync(tempDir)) {
     try {
       fs.rmSync(tempDir, { recursive: true, force: true })
     } catch (cleanupError) {
-      console.log('⚠️  Could not clean up existing temp directory, continuing...')
+      console.log('⚠️ Could not clean up existing temp directory, continuing...')
     }
   }
-  
+
   fs.mkdirSync(tempDir, { recursive: true })
 
   // Copy dist contents to temp directory
   console.log('📋 Copying files to temporary location...')
-  execSync(`xcopy "dist\\*" "${tempDir}\\" /E /I /Y`, { stdio: 'inherit' })
+  execSync(`cp -r dist/* "${tempDir}/"`, { stdio: 'inherit' })
 
   // Change to temp directory
   process.chdir(tempDir)
@@ -60,10 +60,12 @@ try {
   // Clean up temp directory with better error handling
   if (tempDir && fs.existsSync(tempDir)) {
     try {
-      // Use a more robust cleanup approach
-      execSync(`rmdir /s /q "${tempDir}"`, { stdio: 'ignore' })
+      // Use Linux/Unix command for recursive directory removal
+      execSync(`rm -rf "${tempDir}"`, { stdio: 'ignore' })
     } catch (cleanupError) {
-      console.log('⚠️  Could not clean up temporary directory. You may need to manually delete C:\\temp\\pokepedia-deploy')
+      console.log(
+        `⚠️ Could not clean up temporary directory. You may need to manually delete ${tempDir}`,
+      )
     }
   }
 }
