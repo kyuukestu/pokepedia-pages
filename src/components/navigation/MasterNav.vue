@@ -105,10 +105,10 @@ const handleNavigation = () => {
       />
       <v-list-item
         prepend-icon="mdi-chat-question"
-        title="About"
-        value="about"
-        to="/about"
-        :active="route.path === '/about'"
+        title="Levels"
+        value="level"
+        to="/level"
+        :active="route.path === '/level'"
         class="nav-item main-nav-item"
         @click="handleNavigation"
       />

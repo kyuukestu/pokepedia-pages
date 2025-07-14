@@ -114,15 +114,16 @@ const getRowClass = (item: any, index: number) => {
                   class="text-body-2"
                 >
                   <template v-slot:prepend>
-                    <v-icon :icon="item.icon" color="green-5" class="q-mr-sm" size="large" />
+                    <v-icon :icon="item.icon" color="green" class="q-mr-sm" size="large" />
                   </template>
                   <v-list-item-title class="text-weight-regular">
-                    <q-rating
+                    <v-rating
                       :model-value="index"
-                      :max="5"
+                      :length="5"
                       size="1.2em"
-                      color="green-5"
-                      icon="star"
+                      color="green"
+                      full-icon="mdi-star"
+                      empty-icon="mdi-star-outline"
                       readonly
                       class="q-mr-sm"
                     />
@@ -150,13 +151,15 @@ const getRowClass = (item: any, index: number) => {
                           {{ column.title }}
                         </span>
 
-                        <q-rating
+                        <v-rating
                           v-else
                           :model-value="parseInt(column.title ?? '0')"
-                          :max="5"
+                          :length="5"
                           size="xs"
-                          color="green-5"
-                          icon="star"
+                          color="green"
+                          full-icon="mdi-star"
+                          empty-icon="mdi-star-outline"
+                          density="compact"
                           readonly
                           class="q-ma-sm"
                         />
