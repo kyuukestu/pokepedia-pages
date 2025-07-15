@@ -3,7 +3,9 @@ import { ref, computed, onMounted } from 'vue'
 
 // Reactive data
 const demoFortitude = ref<number>(75)
-const totalFortitude = ref<number>(150)
+const totalFortitude = ref<number>(130)
+const BronzeFortitude = ref<number[]>([50, 70, 90, 110, 130])
+const BronzeBuffer = ref<number[]>([50, 90, 110, 130, 0])
 
 // Move calculator data
 const moveSecondaryEffects = ref<number>(0)
@@ -778,49 +780,96 @@ onMounted(() => {
             </div>
             <div class="stat-display">
               <div class="d-flex justify-space-between align-center mb-2">
-                <span class="text-body-1">Bronze I</span>
-                <span class="text-h6 accent-text"
-                  >Starting point, average Pokémon level ~5–10, fortitude 50.</span
-                >
+                <span class="text-h6 accent-text">Bronze I</span>
+                <span class="text-body-1">Pokémon level ~5–10.</span>
               </div>
-              <div class="fortitude-bar"></div>
+              <v-progress-linear
+                :model-value="(BronzeFortitude[0] / 130) * 100"
+                :buffer-value="(BronzeBuffer[0] / 130) * 100"
+                height="18"
+                rounded
+                color="#CE8946"
+                class="fortitude-progress mb-3"
+              >
+                <div class="d-flex justify-space-between text-body-2">
+                  <span>50 /130</span>
+                  <span>Fortitude Points</span>
+                </div>
+              </v-progress-linear>
             </div>
             <div class="stat-display">
               <div class="d-flex justify-space-between align-center mb-2">
-                <span class="text-body-1">Bronze II</span>
-                <span class="text-h6 accent-text">highest level 12, fortitude 70.</span>
+                <span class="text-h6 accent-text">Bronze II</span>
+                <span class="text-body-1">Highest level 12.</span>
               </div>
-              <div class="fortitude-bar"></div>
+              <v-progress-linear
+                :model-value="(BronzeFortitude[1] / 130) * 100"
+                :buffer-value="(BronzeBuffer[1] / 130) * 100"
+                height="18"
+                rounded
+                color="#CE8946"
+                class="fortitude-progress mb-3"
+              >
+                <div class="d-flex justify-space-between text-body-2">
+                  <span>70 /130</span>
+                  <span>Fortitude Points</span>
+                </div>
+              </v-progress-linear>
             </div>
             <div class="stat-display">
               <div class="d-flex justify-space-between align-center mb-2">
-                <span class="text-body-1">Bronze III</span>
-                <span class="text-h6 accent-text">highest level 16 & 3 Badges, fortitude 90.</span>
+                <span class="text-h6 accent-text">Bronze III</span>
+                <span class="text-body-1">highest level 16 & 3 Badges.</span>
               </div>
-              <div class="fortitude-bar"></div>
+              <v-progress-linear
+                :model-value="(BronzeFortitude[2] / 130) * 100"
+                :buffer-value="(BronzeBuffer[2] / 130) * 100"
+                height="18"
+                rounded
+                color="#CE8946"
+                class="fortitude-progress mb-3"
+              >
+                <div class="d-flex justify-space-between text-body-2">
+                  <span>90 /130</span>
+                  <span>Fortitude Points</span>
+                </div>
+              </v-progress-linear>
             </div>
             <div class="stat-display">
               <div class="d-flex justify-space-between align-center mb-2">
-                <span class="text-body-1">Bronze IV</span>
-                <span class="text-h6 accent-text">highest level 20 & 5 Badges, fortitude 110.</span>
+                <span class="text-h6 accent-text">Bronze IV</span>
+                <span class="text-body-1">highest level 20 & 5 Badges.</span>
               </div>
-              <div class="fortitude-bar"></div>
+              <v-progress-linear
+                :model-value="(BronzeFortitude[3] / 130) * 100"
+                :buffer-value="(BronzeBuffer[3] / 130) * 100"
+                height="18"
+                rounded
+                color="#CE8946"
+                class="fortitude-progress mb-3"
+              >
+                <div class="d-flex justify-space-between text-body-2">
+                  <span>110 /130</span>
+                  <span>Fortitude Points</span>
+                </div>
+              </v-progress-linear>
             </div>
             <div class="stat-display">
               <div class="d-flex justify-space-between align-center mb-2">
                 <span class="text-h6 accent-text">Bronze V</span>
                 <br />
-                <span class="text-body-1">highest level 25 & 7 Badges, fortitude 130.</span>
+                <span class="text-body-1">highest level 25 & 7 Badges.</span>
               </div>
               <v-progress-linear
-                model-value="100"
+                :model-value="(BronzeFortitude[4] / 130) * 100"
+                :buffer-value="(BronzeBuffer[4] / 130) * 100"
                 height="18"
                 rounded
-                color="black"
+                color="#CE8946"
                 class="fortitude-progress mb-3"
               >
                 <div class="d-flex justify-space-between text-body-2">
-                  <span>150 /150</span>
+                  <span>{{ BronzeFortitude[4] }} /130</span>
                   <span>Fortitude Points</span>
                 </div>
               </v-progress-linear>

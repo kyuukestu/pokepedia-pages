@@ -14,6 +14,16 @@ const syncLinks = [
   { title: 'PokeJobs', icon: 'mdi-briefcase', color: 'indigo' },
   { title: 'Vocations', icon: 'mdi-toolbox', color: 'teal' },
   { title: 'PokeAcademy', icon: 'mdi-certificate', color: 'amber' },
+  {
+    title: 'PokeMart',
+    icon: 'mdi-store',
+    color: 'orange',
+  },
+  {
+    title: 'Gym',
+    icon: 'mdi-dumbbell',
+    color: 'grey',
+  },
 ]
 
 const generatedSyncLinks = syncLinks.map((link) => ({
