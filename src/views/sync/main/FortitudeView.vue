@@ -178,8 +178,12 @@ const calculateMoveCost = (
   secondaryEffects: number,
   fieldEffects: number,
 ) => {
+  if (typeof basePower !== 'number') {
+    basePower = 0
+  }
+
   let cost = Math.round(basePower / 20)
-  console.log('base power', basePower)
+  console.log('base power is:', basePower)
   console.log('cost', cost)
   cost += statChanges * 3
   console.log('stat changes', statChanges)

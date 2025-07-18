@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 
 const showPokemonOverlay = ref<number | null>(null)
+const BadgeLv = ref<number>(1)
+const selectedPokemon = ref<number[]>([])
+const aceLv = ref<number | null>(null)
 
 const gyms = ref([
   {
@@ -75,7 +78,7 @@ const gyms = ref([
         },
       },
       {
-        TR: ['Rock Tomb', 'Stealth Rock', 'Sandstorm'],
+        TR: ['Rock Tomb', 'Stealth Rock', 'Sandstorm', 'Rock Polish', 'Smack Down'],
       },
       {
         cash: {
@@ -227,7 +230,7 @@ const gyms = ref([
         },
       },
       {
-        TR: ['Spite', 'Curse', 'Confuse Ray', 'Night Shade'],
+        TR: ['Spite', 'Curse', 'Confuse Ray', 'Night Shade', 'Hex'],
       },
       {
         cash: {
@@ -311,7 +314,7 @@ const gyms = ref([
         },
       },
       {
-        TR: ['Mega Drain', 'Bullet Seed', 'Grass Knot', 'Magical Leaf', 'Trailblaze'],
+        TR: ['Bulk Up', 'Power-Up Punch', 'Low Kick', 'Low Sweep', 'Revenge'],
       },
       {
         cash: {
@@ -331,52 +334,52 @@ const gyms = ref([
     },
     pokemon: [
       {
-        name: 'Budew',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=V',
+        name: 'Buizel',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0418.png',
       },
       {
-        name: 'Cherubi',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=R',
-      },
-      {
-        name: 'Turtwig',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
-      },
-      {
-        name: 'Hoppip',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
-      },
-      {
-        name: 'Oddish',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
-      },
-      {
-        name: 'Shroomish',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
-      },
-      {
-        name: 'Tangela',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
-      },
-      {
-        name: 'Sunkern',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
-      },
-      {
-        name: 'Lileep',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
-      },
-      {
-        name: 'Bulbasaur',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
-      },
-      {
-        name: 'Tropius',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Wooper',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0194.png',
       },
       {
         name: 'Lotad',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0270.png',
+      },
+      {
+        name: 'Piplup',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0393.png',
+      },
+      {
+        name: 'Shellos',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0422.png',
+      },
+      {
+        name: 'Finneon',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0456.png',
+      },
+      {
+        name: 'Poliwag',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0060.png',
+      },
+      {
+        name: 'Clamperl',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0366.png',
+      },
+      {
+        name: 'Horsea',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0116.png',
+      },
+      {
+        name: 'Mudkip',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0258.png',
+      },
+      {
+        name: 'Chinchou',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0170.png',
+      },
+      {
+        name: 'Wingull',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0278.png',
       },
     ],
     rewards: [
@@ -387,7 +390,7 @@ const gyms = ref([
         },
       },
       {
-        TR: ['Mega Drain', 'Bullet Seed', 'Grass Knot', 'Magical Leaf', 'Trailblaze'],
+        TR: ['Whirlpool', 'Chilling Water', 'Water Pulse', 'Rain Dance', 'Water Gun'],
       },
       {
         cash: {
@@ -402,57 +405,57 @@ const gyms = ref([
     type: 'Steel',
     leader: {
       name: 'Byron',
-      title: 'Master of Vivid Plant Pokémon!',
+      title: 'The Man with the Steel Body!',
       avatar: 'https://i.imgur.com/hlKts1Q.png',
     },
     pokemon: [
       {
-        name: 'Budew',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=V',
+        name: 'Shieldon',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0410.png',
       },
       {
-        name: 'Cherubi',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=R',
+        name: 'Magnemite',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0081.png',
       },
       {
-        name: 'Turtwig',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Aron',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0304.png',
       },
       {
-        name: 'Hoppip',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Bronzor',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0436.png',
       },
       {
-        name: 'Oddish',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Skarmory',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0227.png',
       },
       {
-        name: 'Shroomish',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Beldum',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0374.png',
       },
       {
-        name: 'Tangela',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Scizor',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0212.png',
       },
       {
-        name: 'Sunkern',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Honedge',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0679.png',
       },
       {
-        name: 'Lileep',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Diglett-Alola',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0050_01.png',
       },
       {
-        name: 'Bulbasaur',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Ferroseed',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0597.png',
       },
       {
-        name: 'Tropius',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Pawniard',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0624.png',
       },
       {
-        name: 'Lotad',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Tinkatink',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0957.png',
       },
     ],
     rewards: [
@@ -463,7 +466,7 @@ const gyms = ref([
         },
       },
       {
-        TR: ['Mega Drain', 'Bullet Seed', 'Grass Knot', 'Magical Leaf', 'Trailblaze'],
+        TR: ['Iron Defense', 'Heavy Slam', 'Metal Sound', 'Gyro Ball', 'Smart Strike'],
       },
       {
         cash: {
@@ -539,7 +542,7 @@ const gyms = ref([
         },
       },
       {
-        TR: ['Icy Wind', 'Haze', 'Ice Fang', 'Hail', 'Snowscape'],
+        TR: ['Icy Wind', 'Haze', 'Ice Fang', 'Frost Breath', 'Hail/Snowscape', 'Avalanche'],
       },
       {
         cash: {
@@ -554,57 +557,57 @@ const gyms = ref([
     type: 'Electric',
     leader: {
       name: 'Volkner',
-      title: 'Master of Vivid Plant Pokémon!',
+      title: ' The Shining, Shocking Star',
       avatar: 'https://i.imgur.com/AcKZY6B.png',
     },
     pokemon: [
       {
-        name: 'Budew',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=V',
+        name: 'Pichu',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0172.png',
       },
       {
-        name: 'Cherubi',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=R',
+        name: 'Shinx',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0403.png',
       },
       {
-        name: 'Turtwig',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Elekid',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0239.png',
       },
       {
-        name: 'Hoppip',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Chinchou',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0170.png',
       },
       {
-        name: 'Oddish',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Voltorb',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0100.png',
       },
       {
-        name: 'Shroomish',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Tynamo',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0602.png',
       },
       {
-        name: 'Tangela',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Blitzle',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0522.png',
       },
       {
-        name: 'Sunkern',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Joltik',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0595.png',
       },
       {
-        name: 'Lileep',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Magnemite',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0081.png',
       },
       {
-        name: 'Bulbasaur',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Emolga',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0587.png',
       },
       {
-        name: 'Tropius',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Wattrel',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0940.png',
       },
       {
-        name: 'Lotad',
-        sprite: 'https://via.placeholder.com/30x30/4CAF50/FFFFFF?text=L',
+        name: 'Electrike',
+        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0309.png',
       },
     ],
     rewards: [
@@ -615,7 +618,7 @@ const gyms = ref([
         },
       },
       {
-        TR: ['Mega Drain', 'Bullet Seed', 'Grass Knot', 'Magical Leaf', 'Trailblaze'],
+        TR: ['Thunder Wave', 'Charge Beam', 'Electroweb', 'Thunder Fang', 'Shockwave'],
       },
       {
         cash: {
@@ -649,6 +652,71 @@ const getTypeColor = (type: string): string => {
   }
 
   return typeColors[type] || 'grey'
+}
+
+const rollTeam = (upperBound: number) => {
+  console.log(`Values: Upper Bound - ${upperBound}| Badge Lv: ${BadgeLv.value}`)
+  selectedPokemon.value = []
+  console.log(`Selected Pokemon (Cleared): ${selectedPokemon.value}`)
+
+  let teamSize = 2
+  let level = 12
+  console.log(
+    `BadgeLv.value: "${BadgeLv.value}", type: ${typeof BadgeLv.value}, parsed: ${Number(BadgeLv.value)}`,
+  )
+
+  const badgeLevel = Number(BadgeLv.value)
+
+  switch (badgeLevel) {
+    case 1:
+      teamSize = 2
+      level = 12
+      break
+    case 2:
+      teamSize = 2
+      level = 15
+      break
+    case 3:
+      teamSize = 3
+      level = 18
+      break
+    case 4:
+      teamSize = 3
+      level = 20
+      break
+    case 5:
+      teamSize = 2
+      level = 23
+      break
+    case 6:
+      teamSize = 3
+      level = 25
+      break
+    case 7:
+      teamSize = 4
+      level = 27
+      break
+    case 8:
+      teamSize = 4
+      level = 29
+      break
+    default:
+      return
+  }
+
+  console.log(`Team Size: ${teamSize} | Level: ${level}`)
+
+  const availableIndices = Array.from({ length: upperBound }, (_, i) => i)
+
+  for (let i = 0; i < teamSize; i++) {
+    if (availableIndices.length === 0) break
+    const randomIndex = Math.floor(Math.random() * availableIndices.length)
+    const selectedIndex = availableIndices[randomIndex]
+    selectedPokemon.value.push(selectedIndex)
+    availableIndices.splice(randomIndex, 1)
+  }
+
+  aceLv.value = level
 }
 </script>
 
@@ -706,7 +774,12 @@ const getTypeColor = (type: string): string => {
             <!-- Pokemon Overlay -->
             <v-overlay
               :model-value="showPokemonOverlay === gym.id"
-              @click:outside="showPokemonOverlay = null"
+              @click:outside="
+                () => {
+                  showPokemonOverlay = null
+                  selectedPokemon = []
+                }
+              "
               class="d-flex align-center justify-center"
             >
               <v-card
@@ -732,15 +805,19 @@ const getTypeColor = (type: string): string => {
                 <v-card-text class="pt-4">
                   <v-row>
                     <v-col
-                      v-for="pokemon in gym.pokemon"
-                      :key="pokemon.name"
+                      v-for="(pokemon, index) in gym.pokemon"
+                      :key="index"
                       cols="6"
                       sm="4"
                       md="3"
                       class="text-center"
                     >
                       <v-card
-                        class="pokemon-card pa-3 elevation-8"
+                        :class="[
+                          'pokemon-card pa-3',
+                          'elevation-8 ',
+                          { selected: selectedPokemon?.includes(index) },
+                        ]"
                         color="rgba(255,255,255,0.15)"
                         variant="elevated"
                         style="aspect-ratio: 1; width: 115px"
@@ -752,6 +829,42 @@ const getTypeColor = (type: string): string => {
                       </v-card>
                     </v-col>
                   </v-row>
+                  <v-row
+                    class="flex-row"
+                    justify="center"
+                    align="start"
+                    style="height: 80px; margin-top: 20px"
+                  >
+                    <v-text-field
+                      label="Badge Level"
+                      variant="outlined"
+                      v-model="BadgeLv"
+                      type="number"
+                      min="1"
+                      max="8"
+                      density="default"
+                      width="120"
+                      max-width="150"
+                      style="background-color: rgba(255, 255, 255, 0.1); max-height: 55px"
+                    ></v-text-field>
+                    <v-btn
+                      variant="outlined"
+                      type="submit"
+                      @click="rollTeam(gym.pokemon.length)"
+                      style="margin-top: 10px; margin-left: 10px"
+                      >Roll Team</v-btn
+                    >
+                  </v-row>
+                  <div v-if="aceLv !== null" class="ace-badge-container">
+                    <v-badge :content="aceLv" color="info" class="ace-badge">
+                      <v-card class="ace-badge-card" variant="outlined">
+                        <v-card-title class="ace-badge-title">
+                          <v-icon class="ace-badge-icon">mdi-medal</v-icon>
+                          Ace Level
+                        </v-card-title>
+                      </v-card>
+                    </v-badge>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-overlay>
@@ -892,5 +1005,68 @@ const getTypeColor = (type: string): string => {
 
 .gap-1 {
   gap: 0.25rem;
+}
+
+.pokemon-card.selected {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.ace-badge-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.ace-badge-card {
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.ace-badge-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+}
+
+.ace-badge-title {
+  color: white !important;
+  font-size: 1.3rem !important;
+  font-weight: bold !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 25px !important;
+  justify-content: center;
+}
+
+.ace-badge-icon {
+  font-size: 1.6rem !important;
+  color: #ffd700;
+}
+
+.ace-badge :deep(.v-badge__badge) {
+  font-size: 1.1rem !important;
+  font-weight: bold !important;
+  min-width: 40px !important;
+  height: 40px !important;
+  border-radius: 20px !important;
 }
 </style>
