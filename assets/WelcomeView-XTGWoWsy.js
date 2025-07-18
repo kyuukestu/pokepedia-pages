@@ -1,0 +1,1 @@
+import{d as e,_ as o}from"./index-nZgkoJ16.js";const t=e({__name:"WelcomeView",props:{isActive:{type:Boolean,default:!0}},setup(a){return(c,_)=>" Welcome Page maaybe "}}),p=o(t,[["__scopeId","data-v-54adc13f"]]);export{p as default};
