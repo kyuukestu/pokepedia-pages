@@ -10,8 +10,12 @@ declare module 'vue' {
   export interface GlobalComponents {
     BtnCont: typeof import('./src/components/container/BtnCont.vue')['default']
     CardCont: typeof import('./src/components/container/CardCont.vue')['default']
+    CatchRateCalc: typeof import('./src/components/calculators/CatchRateCalc.vue')['default']
+    FMoveCalc: typeof import('./src/components/calculators/FMoveCalc.vue')['default']
+    FPokeCalc: typeof import('./src/components/calculators/FPokeCalc.vue')['default']
     ListComponent: typeof import('./src/components/ListComponent.vue')['default']
     MasterNav: typeof import('./src/components/navigation/MasterNav.vue')['default']
+    MoveCostCalc: typeof import('./src/components/calculators/MoveCostCalc.vue')['default']
     PermitClassCard: typeof import('./src/components/cards/PermitClassCard.vue')['default']
     ProcessSteps: typeof import('./src/components/ProcessSteps.vue')['default']
     ProfCard: typeof import('./src/components/cards/ProfCard.vue')['default']

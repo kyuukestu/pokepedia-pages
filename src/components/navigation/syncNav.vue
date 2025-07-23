@@ -24,6 +24,11 @@ const syncLinks = [
     icon: 'mdi-dumbbell',
     color: 'grey',
   },
+  {
+    title: 'Calculator',
+    icon: 'mdi-calculator',
+    color: 'blue-grey',
+  },
 ]
 
 const generatedSyncLinks = syncLinks.map((link) => ({
