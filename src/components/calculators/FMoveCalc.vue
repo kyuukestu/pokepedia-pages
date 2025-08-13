@@ -44,8 +44,8 @@ const calculateMoveCost = (
     basePower = 0
   }
 
-  let cost = Math.round(basePower / 20)
   console.log('base power is:', basePower)
+  let cost = Math.round(basePower / 20)
   console.log('cost', cost)
   cost += statChanges * 3
   console.log('stat changes', statChanges)
@@ -100,7 +100,7 @@ const fetchMoveData = async (moveName: string) => {
       .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ')
 
-    move.bp = data.power !== null && data.power !== undefined ? data.power.toString() : 'N/A'
+    move.bp = data.power !== null && data.power !== undefined ? data.power : 'N/A'
     move.priority = data.priority.toString()
     move.type.name = data.type.name
     move.accuracy = data.accuracy
@@ -109,6 +109,8 @@ const fetchMoveData = async (moveName: string) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data.flavor_text_entries.filter((ft: any) => ft.language.name === 'en').pop()?.flavor_text ||
       'No English description available'
+
+    console.log(`Move Data: ${move}`)
 
     QueryMove.value = {
       name: move.name,
@@ -120,6 +122,8 @@ const fetchMoveData = async (moveName: string) => {
       isLoading: false,
       error: null,
     }
+
+    console.log(`Query Move Data: ${QueryMove.value}`)
   } catch (error) {
     console.error('Error fetching move data:', error)
     move.error = 'Move not found'
@@ -484,7 +488,7 @@ const priorityColor = computed(() => {
                       <div class="d-flex align-center mb-3">
                         <v-icon color="purple" class="mr-2">mdi-star</v-icon>
                         <span class="text-subtitle-2 font-weight-bold text-white"
-                          >Secondary Effects</span
+                          >Sec. Effects</span
                         >
                       </div>
                       <v-text-field

@@ -29,6 +29,11 @@ const syncLinks = [
     icon: 'mdi-calculator',
     color: 'blue-grey',
   },
+  {
+    title: 'Character',
+    icon: 'mdi-account',
+    color: 'light-blue',
+  },
 ]
 
 const generatedSyncLinks = syncLinks.map((link) => ({

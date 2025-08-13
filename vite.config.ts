@@ -21,6 +21,20 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@images': fileURLToPath(new URL('./src/assets/images', import.meta.url)),
+      fs: 'src/utils/empty-module.js',
     },
+  },
+  assetsInclude: ['**/*.wasm'],
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+    },
+    fs: {
+      strict: false,
+    },
+  },
+  optimizeDeps: {
+    exclude: ['sql.js', 'fs', 'sqlite3'], // Exclude sql.js and Node.js modules
   },
 })
