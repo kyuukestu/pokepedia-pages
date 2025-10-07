@@ -1,1 +1,0 @@
-import{_ as n,k as o,f as r,F as s,o as t}from"./index-DxXzA6CM.js";const a={};function l(c,e){return t(),o(s,null,[e[0]||(e[0]=r("h1",null,"Characters Page",-1)),e[1]||(e[1]=r("p",null,"Coming soon...",-1))],64)}const m=n(a,[["render",l]]);export{m as default};

@@ -1,10 +1,44 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const showPokemonOverlay = ref<number | null>(null)
 const BadgeLv = ref<number>(1)
 const selectedPokemon = ref<number[]>([])
-const aceLv = ref<number | null>(null)
+const aceLv = ref<number>(12)
+
+const avgLv = computed(() => {
+  return aceLv.value !== null ? aceLv.value - 3 : 0
+})
+
+const visiblePokemonByGym = computed(() =>
+  gyms.value.map((gym) => {
+    const visible = gym.pokemon
+      .map((p) => {
+        // Filter evolutions under the current aceLv
+        const availableForms = p.evolutions.filter((evo) => evo.minLv <= aceLv?.value)
+        if (!availableForms.length) return null // skip this line if nothing available
+
+        // Group by minLv
+        const formsByLv: Record<number, typeof availableForms> = {}
+        availableForms.forEach((evo) => {
+          if (!formsByLv[evo.minLv]) formsByLv[evo.minLv] = []
+          formsByLv[evo.minLv].push(evo)
+        })
+
+        // Find the highest minLv available
+        const highestLv = Math.max(...Object.keys(formsByLv).map(Number))
+        const candidates = formsByLv[highestLv]
+
+        // Randomly pick one if multiple candidates exist
+        const chosenForm = candidates[Math.floor(Math.random() * candidates.length)]
+
+        return { ...chosenForm, line: p.line }
+      })
+      .filter(Boolean) // remove nulls
+
+    return { ...gym, visiblePokemon: visible }
+  }),
+)
 
 const gyms = ref([
   {
@@ -18,56 +52,314 @@ const gyms = ref([
     },
     pokemon: [
       {
-        name: 'Onix',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0095.png',
+        line: 'Onix',
+        evolutions: [
+          {
+            name: 'Onix',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/095.png',
+          },
+          {
+            name: 'Steelix',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/208.png',
+          },
+        ],
       },
       {
-        name: 'Geodude',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0074.png',
+        line: 'Geodude',
+        evolutions: [
+          {
+            name: 'Geodude',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/074.png',
+          },
+          {
+            name: 'Graveler',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/075.png',
+          },
+          {
+            name: 'Golem',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/076.png',
+          },
+        ],
       },
       {
-        name: 'Craniados',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0408.png',
+        line: 'Cranidos',
+        evolutions: [
+          {
+            name: 'Cranidos',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/408.png',
+          },
+          {
+            name: 'Rampardos',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/409.png',
+          },
+        ],
       },
       {
-        name: 'Nosepass',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0299.png',
+        line: 'Nosepass',
+        evolutions: [
+          {
+            name: 'Nosepass',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/299.png',
+          },
+          {
+            name: 'Probopass',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/476.png',
+          },
+        ],
       },
       {
-        name: 'Larvitar',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0246.png',
+        line: 'Larvitar',
+        evolutions: [
+          {
+            name: 'Larvitar',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/246.png',
+          },
+          {
+            name: 'Pupitar',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/247.png',
+          },
+          {
+            name: 'Tyranitar',
+            minLv: 55,
+            sprite: '/pokepedia-pages/sprites/248.png',
+          },
+        ],
       },
       {
-        name: 'Relicanth',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0369.png',
+        line: 'Relicanth',
+        evolutions: [
+          {
+            name: 'Relicanth',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/369.png',
+          },
+        ],
       },
       {
-        name: 'Archen',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0566.png',
+        line: 'Archen',
+        evolutions: [
+          {
+            name: 'Archen',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/566.png',
+          },
+          {
+            name: 'Archeops',
+            minLv: 37,
+            sprite: '/pokepedia-pages/sprites/567.png',
+          },
+        ],
       },
       {
-        name: 'Dwebble',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0557.png',
+        line: 'Dwebble',
+        evolutions: [
+          {
+            name: 'Dwebble',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/557.png',
+          },
+          {
+            name: 'Crustle',
+            minLv: 34,
+            sprite: '/pokepedia-pages/sprites/558.png',
+          },
+        ],
       },
       {
-        name: 'Anorinth',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0347.png',
+        line: 'Anorith',
+        evolutions: [
+          {
+            name: 'Anorith',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/347.png',
+          },
+          {
+            name: 'Armaldo',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/348.png',
+          },
+        ],
       },
       {
-        name: 'Aerodactyl',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0142.png',
+        line: 'Aerodactyl',
+        evolutions: [
+          {
+            name: 'Aerodactyl',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/142.png',
+          },
+        ],
       },
       {
-        name: 'Sudowoodo',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0185.png',
+        line: 'Sudowoodo',
+        evolutions: [
+          {
+            name: 'Bonsly',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/438.png',
+          },
+          {
+            name: 'Sudowoodo',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/185.png',
+          },
+        ],
       },
       {
-        name: 'Lunatone',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0337.png',
+        line: 'Lunatone',
+        evolutions: [
+          {
+            name: 'Lunatone',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/337.png',
+          },
+        ],
       },
       {
-        name: 'Kleavor',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0900.png',
+        line: 'Kleavor',
+        evolutions: [
+          {
+            name: 'Kleavor',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/900.png',
+          },
+        ],
+      },
+      {
+        line: 'Rolycoly',
+        evolutions: [
+          {
+            name: 'Rolycoly',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/837.png',
+          },
+          {
+            name: 'Carkol',
+            minLv: 18,
+            sprite: '/pokepedia-pages/sprites/838.png',
+          },
+          {
+            name: 'Coalossal',
+            minLv: 34,
+            sprite: '/pokepedia-pages/sprites/839.png',
+          },
+        ],
+      },
+      {
+        line: 'Rockruff',
+        evolutions: [
+          {
+            name: 'Rockruff',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/744.png',
+          },
+          {
+            name: 'Lycanroc (Midday Form)',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/745.png',
+          },
+          {
+            name: 'Lycanroc (Midnight Form)',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/745-Midnight.png',
+          },
+          {
+            name: 'Lycanroc (Dusk Form)',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/745-Dusk.png',
+          },
+        ],
+      },
+      {
+        line: 'Nacli',
+        evolutions: [
+          {
+            name: 'Nacli',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/932.png',
+          },
+          {
+            name: 'Naclstack',
+            minLv: 24,
+            sprite: '/pokepedia-pages/sprites/933.png',
+          },
+          {
+            name: 'Garganacl',
+            minLv: 38,
+            sprite: '/pokepedia-pages/sprites/934.png',
+          },
+        ],
+      },
+      {
+        line: 'Lileep',
+        evolutions: [
+          {
+            name: 'Lileep',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/345.png',
+          },
+          {
+            name: 'Cradily',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/346.png',
+          },
+        ],
+      },
+      {
+        line: 'Tyrunt',
+        evolutions: [
+          {
+            name: 'Tyrunt',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/696.png',
+          },
+          {
+            name: 'Tyrantrum',
+            minLv: 39,
+            sprite: '/pokepedia-pages/sprites/697.png',
+          },
+        ],
+      },
+      {
+        line: 'Amaura',
+        evolutions: [
+          {
+            name: 'Amaura',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/698.png',
+          },
+          {
+            name: 'Aurorus',
+            minLv: 39,
+            sprite: '/pokepedia-pages/sprites/699.png',
+          },
+        ],
+      },
+      {
+        line: 'Glimmet',
+        evolutions: [
+          {
+            name: 'Glimmet',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/969.png',
+          },
+          {
+            name: 'Glimmora',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/970.png',
+          },
+        ],
       },
     ],
     rewards: [
@@ -98,52 +390,349 @@ const gyms = ref([
     },
     pokemon: [
       {
-        name: 'Budew',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0406.png',
+        line: 'Budew',
+        evolutions: [
+          {
+            name: 'Budew',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/406.png',
+          },
+          {
+            name: 'Roselia',
+            minLv: 16,
+            sprite: '/pokepedia-pages/sprites/315.png',
+          },
+          {
+            name: 'Roserade',
+            minLv: 32,
+            sprite: '/pokepedia-pages/sprites/407.png',
+          },
+        ],
       },
       {
-        name: 'Cherubi',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0420.png',
+        line: 'Cherubi',
+        evolutions: [
+          {
+            name: 'Cherubi',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/420.png',
+          },
+          {
+            name: 'Cherrim',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/421.png',
+          },
+        ],
       },
       {
-        name: 'Turtwig',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0387.png',
+        line: 'Turtwig',
+        evolutions: [
+          {
+            name: 'Turtwig',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/387.png',
+          },
+          {
+            name: 'Grotle',
+            minLv: 18,
+            sprite: '/pokepedia-pages/sprites/388.png',
+          },
+          {
+            name: 'Torterra',
+            minLv: 32,
+            sprite: '/pokepedia-pages/sprites/389.png',
+          },
+        ],
       },
       {
-        name: 'Hoppip',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0187.png',
+        line: 'Hoppip',
+        evolutions: [
+          {
+            name: 'Hoppip',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/187.png',
+          },
+          {
+            name: 'Skiploom',
+            minLv: 18,
+            sprite: '/pokepedia-pages/sprites/188.png',
+          },
+          {
+            name: 'Jumpluff',
+            minLv: 27,
+            sprite: '/pokepedia-pages/sprites/189.png',
+          },
+        ],
       },
       {
-        name: 'Oddish',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0043.png',
+        line: 'Oddish',
+        evolutions: [
+          {
+            name: 'Oddish',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/043.png',
+          },
+          {
+            name: 'Gloom',
+            minLv: 21,
+            sprite: '/pokepedia-pages/sprites/044.png',
+          },
+          {
+            name: 'Vileplume',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/045.png',
+          },
+          {
+            name: 'Bellossom',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/182.png',
+          },
+        ],
       },
       {
-        name: 'Shroomish',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0285.png',
+        line: 'Breloom',
+        evolutions: [
+          {
+            name: 'Breloom',
+            minLv: 23,
+            sprite: '/pokepedia-pages/sprites/286.png',
+          },
+        ],
       },
       {
-        name: 'Tangela',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0114.png',
+        line: 'Tangela',
+        evolutions: [
+          {
+            name: 'Tangela',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/114.png',
+          },
+          {
+            name: 'Tangrowth',
+            minLv: 33,
+            sprite: '/pokepedia-pages/sprites/465.png',
+          },
+        ],
       },
       {
-        name: 'Sunkern',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0191.png',
+        line: 'Sunkern',
+        evolutions: [
+          {
+            name: 'Sunkern',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/191.png',
+          },
+          {
+            name: 'Sunflora',
+            minLv: 22,
+            sprite: '/pokepedia-pages/sprites/192.png',
+          },
+        ],
       },
       {
-        name: 'Lileep',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0345.png',
+        line: 'Lileep',
+        evolutions: [
+          {
+            name: 'Lileep',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/345.png',
+          },
+          {
+            name: 'Cradily',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/346.png',
+          },
+        ],
       },
       {
-        name: 'Bulbasaur',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0001.png',
+        line: 'Bulbasaur',
+        evolutions: [
+          {
+            name: 'Bulbasaur',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/001.png',
+          },
+          {
+            name: 'Ivysaur',
+            minLv: 16,
+            sprite: '/pokepedia-pages/sprites/002.png',
+          },
+          {
+            name: 'Venusaur',
+            minLv: 32,
+            sprite: '/pokepedia-pages/sprites/003.png',
+          },
+        ],
       },
       {
-        name: 'Tropius',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0357.png',
+        line: 'Lotad',
+        evolutions: [
+          {
+            name: 'Lotad',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/270.png',
+          },
+          {
+            name: 'Lombre',
+            minLv: 14,
+            sprite: '/pokepedia-pages/sprites/271.png',
+          },
+          {
+            name: 'Ludicolo',
+            minLv: 28,
+            sprite: '/pokepedia-pages/sprites/272.png',
+          },
+        ],
       },
       {
-        name: 'Lotad',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0270.png',
+        line: 'Cacnea',
+        evolutions: [
+          {
+            name: 'Cacnea',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/331.png',
+          },
+          {
+            name: 'Cacturne',
+            minLv: 32,
+            sprite: '/pokepedia-pages/sprites/332.png',
+          },
+        ],
+      },
+      {
+        line: 'Grookey',
+        evolutions: [
+          {
+            name: 'Grookey',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/810.png',
+          },
+          {
+            name: 'Thwackey',
+            minLv: 16,
+            sprite: '/pokepedia-pages/sprites/811.png',
+          },
+          {
+            name: 'Rillaboom',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/812.png',
+          },
+        ],
+      },
+      {
+        line: 'Rowlet',
+        evolutions: [
+          {
+            name: 'Rowlet',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/722.png',
+          },
+          {
+            name: 'Dartrix',
+            minLv: 17,
+            sprite: '/pokepedia-pages/sprites/723.png',
+          },
+          {
+            name: 'Decidueye',
+            minLv: 34,
+            sprite: '/pokepedia-pages/sprites/724.png',
+          },
+        ],
+      },
+      {
+        line: 'Ferroseed',
+        evolutions: [
+          {
+            name: 'Ferroseed',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/597.png',
+          },
+          {
+            name: 'Ferrothorn',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/598.png',
+          },
+        ],
+      },
+      {
+        line: 'Voltorb (Hisui)',
+        evolutions: [
+          {
+            name: 'Voltorb (Hisui)',
+            minLv: 1,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0100_01.png',
+          },
+          {
+            name: 'Electrode (Hisui)',
+            minLv: 25,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0101_01.png',
+          },
+        ],
+      },
+      {
+        line: 'Foongus',
+        evolutions: [
+          {
+            name: 'Foongus',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/590.png',
+          },
+          {
+            name: 'Amoonguss',
+            minLv: 39,
+            sprite: '/pokepedia-pages/sprites/591.png',
+          },
+        ],
+      },
+      {
+        line: 'Snivy',
+        evolutions: [
+          {
+            name: 'Snivy',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/495.png',
+          },
+          {
+            name: 'Servine',
+            minLv: 17,
+            sprite: '/pokepedia-pages/sprites/496.png',
+          },
+          {
+            name: 'Serperior',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/497.png',
+          },
+        ],
+      },
+      {
+        line: 'Tropius',
+        evolutions: [
+          {
+            name: 'Tropius',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/357.png',
+          },
+        ],
+      },
+      {
+        line: 'Sprigatito',
+        evolutions: [
+          {
+            name: 'Sprigatito',
+            minLv: 1,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0906.png',
+          },
+          {
+            name: 'Floragato',
+            minLv: 16,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0907.png',
+          },
+          {
+            name: 'Meowscarada',
+            minLv: 36,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0908.png',
+          },
+        ],
       },
     ],
     rewards: [
@@ -174,136 +763,643 @@ const gyms = ref([
     },
     pokemon: [
       {
-        name: 'Drifloon',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0425.png',
+        line: 'Drifloon',
+        evolutions: [
+          {
+            name: 'Drifloon',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/425.png',
+          },
+          {
+            name: 'Drifblim',
+            minLv: 28,
+            sprite: '/pokepedia-pages/sprites/426.png',
+          },
+        ],
       },
       {
-        name: 'Gastly',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0082.png',
+        line: 'Gastly',
+        evolutions: [
+          {
+            name: 'Gastly',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/092.png',
+          }, // fixed sprite
+          {
+            name: 'Haunter',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/093.png',
+          },
+          {
+            name: 'Gengar',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/094.png',
+          },
+        ],
       },
       {
-        name: 'Misdreavus',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0200.png',
+        line: 'Misdreavus',
+        evolutions: [
+          {
+            name: 'Misdreavus',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/200.png',
+          },
+          {
+            name: 'Mismagius',
+            minLv: 33,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/200-m.png',
+          },
+        ],
       },
       {
-        name: 'Duskull',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0355.png',
+        line: 'Duskull',
+        evolutions: [
+          {
+            name: 'Duskull',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/355.png',
+          },
+          {
+            name: 'Dusclops',
+            minLv: 37,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/356.png',
+          },
+          {
+            name: 'Dusknoir',
+            minLv: 41,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/477.png',
+          },
+        ],
       },
       {
-        name: 'Shuppet',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0353.png',
+        line: 'Shuppet',
+        evolutions: [
+          {
+            name: 'Shuppet',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/353.png',
+          },
+          {
+            name: 'Banette',
+            minLv: 37,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/354.png',
+          },
+        ],
       },
       {
-        name: 'Frillish',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0592.png',
+        line: 'Frillish',
+        evolutions: [
+          {
+            name: 'Frillish',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/592.png',
+          },
+          {
+            name: 'Jellicent',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/593.png',
+          },
+        ],
       },
       {
-        name: 'Sinistea',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0854.png',
+        line: 'Litwick',
+        evolutions: [
+          {
+            name: 'Litwick',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/607.png',
+          },
+          {
+            name: 'Lampent',
+            minLv: 41,
+            sprite: '/pokepedia-pages/sprites/608.png',
+          },
+          {
+            name: 'Chandelure',
+            minLv: 45,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/609.png',
+          },
+        ],
       },
       {
-        name: 'Poltchageist',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/1012.png',
+        line: 'Sandygast',
+        evolutions: [
+          {
+            name: 'Sandygast',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/769.png',
+          },
+          {
+            name: 'Palossand',
+            minLv: 38,
+            sprite: '/pokepedia-pages/sprites/770.png',
+          },
+        ],
       },
       {
-        name: 'Litwick',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0607.png',
+        line: 'Brambleghast',
+        evolutions: [
+          {
+            name: 'Brambleghast',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/947.png',
+          },
+        ],
       },
       {
-        name: 'Sandygast',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0769.png',
+        line: 'Spiritomb',
+        evolutions: [
+          {
+            name: 'Spiritomb',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/442.png',
+          },
+        ],
       },
       {
-        name: 'Brambleghast',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0947.png',
+        line: 'Yamask',
+        evolutions: [
+          {
+            name: 'Yamask',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/562.png',
+          },
+          {
+            name: 'Cofagrigus',
+            minLv: 34,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/563.png',
+          },
+        ],
       },
       {
-        name: 'Spiritomb',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0442.png',
+        line: 'Phantump',
+        evolutions: [
+          {
+            name: 'Phantump',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/708.png',
+          },
+          {
+            name: 'Trevenant',
+            minLv: 36,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/709.png',
+          },
+        ],
+      },
+      {
+        line: 'Sinistea',
+        evolutions: [
+          {
+            name: 'Sinistea',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/854.png',
+          },
+          {
+            name: 'Polteageist',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/855.png',
+          },
+        ],
+      },
+      {
+        line: 'Poltchageist',
+        evolutions: [
+          {
+            name: 'Poltchageist',
+            minLv: 1,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/1012.png',
+          },
+          {
+            name: 'Sinistcha',
+            minLv: 30,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/1013.png',
+          },
+        ],
+      },
+      {
+        line: 'Zorua (Hisui)',
+        evolutions: [
+          {
+            name: 'Zorua (Hisui)',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/570.png',
+          },
+          {
+            name: 'Zoroark (Hisui)',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/571.png',
+          },
+        ],
+      },
+      {
+        line: 'Honedge',
+        evolutions: [
+          {
+            name: 'Honedge',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/769.png',
+          },
+          {
+            name: 'Doublade',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/770.png',
+          },
+          {
+            name: 'Aegislash',
+            minLv: 45,
+            sprite: '/pokepedia-pages/sprites/771.png',
+          },
+        ],
+      },
+      {
+        line: 'Gimmighoul',
+        evolutions: [
+          {
+            name: 'Gimmighoul',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/999.png',
+          },
+          {
+            name: 'Gholdengo',
+            minLv: 40,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/1000.png',
+          },
+        ],
+      },
+      {
+        line: 'Pumpkaboo',
+        evolutions: [
+          {
+            name: 'Pumpkaboo',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/710.png',
+          },
+          {
+            name: 'Gourgeist',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/711.png',
+          },
+        ],
+      },
+      {
+        line: 'Golett',
+        evolutions: [
+          {
+            name: 'Golett',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/622.png',
+          },
+          {
+            name: 'Golurk',
+            minLv: 43,
+            sprite: '/pokepedia-pages/sprites/623.png',
+          },
+        ],
+      },
+      {
+        line: 'Sableye',
+        evolutions: [
+          {
+            name: 'Sableye',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/302.png',
+          },
+        ],
       },
     ],
     rewards: [
       {
-        badge: {
-          name: 'Relic Badge',
-          image: 'https://i.imgur.com/kkCUwmn.png',
-        },
+        badge: { name: 'Relic Badge', image: 'https://i.imgur.com/kkCUwmn.png' },
       },
       {
         TR: ['Spite', 'Curse', 'Confuse Ray', 'Night Shade', 'Hex'],
       },
       {
-        cash: {
-          amount: 1000,
-        },
+        cash: { amount: 1000 },
       },
     ],
   },
+
   {
     id: 4,
     name: 'Veilstone Gym',
     type: 'Fighting',
     leader: {
       name: 'Maylene',
-      title: ' The Barefoot, Fighting Genius!',
+      title: 'The Barefoot, Fighting Genius!',
       avatar: 'https://i.imgur.com/xLe69tx.png',
     },
     pokemon: [
       {
-        name: 'Riolu',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0447.png',
+        line: 'Riolu',
+        evolutions: [
+          {
+            name: 'Riolu',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/447.png',
+          },
+          {
+            name: 'Lucario',
+            minLv: 22,
+            sprite: '/pokepedia-pages/sprites/448.png',
+          },
+        ],
       },
       {
-        name: 'Machop',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0066.png',
+        line: 'Machop',
+        evolutions: [
+          {
+            name: 'Machop',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/066.png',
+          },
+          {
+            name: 'Machoke',
+            minLv: 28,
+            sprite: '/pokepedia-pages/sprites/067.png',
+          },
+          {
+            name: 'Machamp',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/068.png',
+          },
+        ],
       },
       {
-        name: 'Meditite',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0307.png',
+        line: 'Meditite',
+        evolutions: [
+          {
+            name: 'Meditite',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/307.png',
+          },
+          {
+            name: 'Medicham',
+            minLv: 37,
+            sprite: '/pokepedia-pages/sprites/308.png',
+          },
+        ],
       },
       {
-        name: 'Tyrogue',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0236.png',
+        line: 'Tyrogue',
+        evolutions: [
+          {
+            name: 'Tyrogue',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/236.png',
+          },
+          {
+            name: 'Hitmonlee',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/106.png',
+          },
+          {
+            name: 'Hitmonchan',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/107.png',
+          },
+          {
+            name: 'Hitmontop',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/237.png',
+          },
+        ],
       },
       {
-        name: 'Breloom',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0286.png',
+        line: 'Breloom',
+        evolutions: [
+          {
+            name: 'Breloom',
+            minLv: 23,
+            sprite: '/pokepedia-pages/sprites/286.png',
+          },
+        ],
       },
       {
-        name: 'Monferno',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0391.png',
+        line: 'Chimchar',
+        evolutions: [
+          {
+            name: 'Chimchar',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/390.png',
+          },
+          {
+            name: 'Monferno',
+            minLv: 14,
+            sprite: '/pokepedia-pages/sprites/391.png',
+          },
+          {
+            name: 'Infernape',
+            minLv: 36,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/392.png',
+          },
+        ],
       },
       {
-        name: 'Croagunk',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0453.png',
+        line: 'Croagunk',
+        evolutions: [
+          {
+            name: 'Croagunk',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/453.png',
+          },
+          {
+            name: 'Toxicroak',
+            minLv: 37,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/454.png',
+          },
+        ],
       },
       {
-        name: 'Gallade',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0475.png',
+        line: 'Gallade',
+        evolutions: [
+          {
+            name: 'Gallade',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/475.png',
+          },
+        ],
       },
       {
-        name: 'Heracross',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0214.png',
+        line: 'Heracross',
+        evolutions: [
+          {
+            name: 'Heracross',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/214.png',
+          },
+        ],
       },
       {
-        name: 'Mankey',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0056.png',
+        line: 'Mankey',
+        evolutions: [
+          {
+            name: 'Mankey',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/056.png',
+          },
+          {
+            name: 'Primeape',
+            minLv: 28,
+            sprite: '/pokepedia-pages/sprites/057.png',
+          },
+        ],
       },
       {
-        name: 'Combusken',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0256.png',
+        line: 'Combusken',
+        evolutions: [
+          {
+            name: 'Combusken',
+            minLv: 16,
+            sprite: '/pokepedia-pages/sprites/256.png',
+          },
+          {
+            name: 'Blaziken',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/257.png',
+          },
+        ],
       },
       {
-        name: 'Scraggy',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0559.png',
+        line: 'Scraggy',
+        evolutions: [
+          {
+            name: 'Scraggy',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/559.png',
+          },
+          {
+            name: 'Scrafty',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/560.png',
+          },
+        ],
       },
       {
-        name: 'Mienfoo',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0619.png',
+        line: 'Mienfoo',
+        evolutions: [
+          {
+            name: 'Mienfoo',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/619.png',
+          },
+          {
+            name: 'Mienshao',
+            minLv: 50,
+            sprite: '/pokepedia-pages/sprites/620.png',
+          },
+        ],
       },
       {
-        name: 'Pignite',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0499.png',
+        line: 'Pignite',
+        evolutions: [
+          {
+            name: 'Tepig',
+            minLv: 31,
+            sprite: '/pokepedia-pages/sprites/498.png',
+          },
+          {
+            name: 'Pignite',
+            minLv: 16,
+            sprite: '/pokepedia-pages/sprites/499.png',
+          },
+          {
+            name: 'Emboar',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/500.png',
+          },
+        ],
+      },
+      {
+        line: 'Makuhita',
+        evolutions: [
+          {
+            name: 'Makuhita',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/307.png',
+          },
+          {
+            name: 'Hariyama',
+            minLv: 24,
+            sprite: '/pokepedia-pages/sprites/308.png',
+          },
+        ],
+      },
+      {
+        line: 'Timburr',
+        evolutions: [
+          {
+            name: 'Timburr',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/532.png',
+          },
+          {
+            name: 'Gurdurr',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/533.png',
+          },
+          {
+            name: 'Conkeldurr',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/534.png',
+          },
+        ],
+      },
+      {
+        line: 'Sneasel (Hisui)',
+        evolutions: [
+          {
+            name: 'Sneasel (Hisui)',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/215-Hisui.png',
+          },
+          {
+            name: 'Sneasler',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/903.png',
+          },
+        ],
+      },
+      {
+        line: 'Stufful',
+        evolutions: [
+          {
+            name: 'Stufful',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/759.png',
+          },
+          {
+            name: 'Bewear',
+            minLv: 34,
+            sprite: '/pokepedia-pages/sprites/760.png',
+          },
+        ],
+      },
+      {
+        line: "Farfetch'd (Galar)",
+        evolutions: [
+          {
+            name: "Farfetch'd (Galar)",
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/083-Galar.png',
+          },
+          {
+            name: "Sirfetch'd",
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/865.png',
+          },
+        ],
+      },
+      {
+        line: 'Taurus (Paldea)',
+        evolutions: [
+          {
+            name: 'Taurus (Paldea)',
+            minLv: 1,
+            sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0128_01.png',
+          },
+        ],
       },
     ],
     rewards: [
@@ -323,63 +1419,356 @@ const gyms = ref([
       },
     ],
   },
+
   {
     id: 5,
     name: 'Pastoria Gym',
     type: 'Water',
     leader: {
       name: 'Crasher Wake',
-      title: ' The Torrential Masked Master!',
+      title: 'The Torrential Masked Master!',
       avatar: 'https://i.imgur.com/i7Rge9C.png',
     },
     pokemon: [
       {
-        name: 'Buizel',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0418.png',
+        line: 'Squirtle',
+        evolutions: [
+          {
+            name: 'Squirtle',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/007.png',
+          },
+          {
+            name: 'Wartortle',
+            minLv: 16,
+            sprite: '/pokepedia-pages/sprites/008.png',
+          },
+          {
+            name: 'Blastoise',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/009.png',
+          },
+        ],
       },
       {
-        name: 'Wooper',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0194.png',
+        line: 'Tentacool',
+        evolutions: [
+          {
+            name: 'Tentacool',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/072.png',
+          },
+          {
+            name: 'Tentacruel',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/073.png',
+          },
+        ],
       },
       {
-        name: 'Lotad',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0270.png',
+        line: 'Slowpoke',
+        evolutions: [
+          {
+            name: 'Slowpoke',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/079.png',
+          },
+          {
+            name: 'Slowbro',
+            minLv: 37,
+            sprite: '/pokepedia-pages/sprites/080.png',
+          },
+          {
+            name: 'Slowking',
+            minLv: 37,
+            sprite: '/pokepedia-pages/sprites/199.png',
+          },
+        ],
       },
       {
-        name: 'Piplup',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0393.png',
+        line: 'Shellder',
+        evolutions: [
+          {
+            name: 'Shellder',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/090.png',
+          },
+          {
+            name: 'Cloyster',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/091.png',
+          },
+        ],
       },
       {
-        name: 'Shellos',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0422.png',
+        line: 'Magikarp',
+        evolutions: [
+          {
+            name: 'Magikarp',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/129.png',
+          },
+          {
+            name: 'Gyarados',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/130.png',
+          },
+        ],
       },
       {
-        name: 'Finneon',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0456.png',
+        line: 'Carvanha',
+        evolutions: [
+          {
+            name: 'Carvanha',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/318.png',
+          },
+          {
+            name: 'Sharpedo',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/319.png',
+          },
+        ],
       },
       {
-        name: 'Poliwag',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0060.png',
+        line: 'Barboach',
+        evolutions: [
+          {
+            name: 'Barboach',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/339.png',
+          },
+          {
+            name: 'Whiscash',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/340.png',
+          },
+        ],
       },
       {
-        name: 'Clamperl',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0366.png',
+        line: 'Dewpider',
+        evolutions: [
+          {
+            name: 'Dewpider',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/751.png',
+          },
+          {
+            name: 'Araquanid',
+            minLv: 22,
+            sprite: '/pokepedia-pages/sprites/752.png',
+          },
+        ],
       },
       {
-        name: 'Horsea',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0116.png',
+        line: 'Buizel',
+        evolutions: [
+          {
+            name: 'Buizel',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/418.png',
+          },
+          {
+            name: 'Floatzel',
+            minLv: 26,
+            sprite: '/pokepedia-pages/sprites/419.png',
+          },
+        ],
       },
       {
-        name: 'Mudkip',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0258.png',
+        line: 'Wooper',
+        evolutions: [
+          {
+            name: 'Wooper',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/194.png',
+          },
+          {
+            name: 'Quagsire',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/195.png',
+          },
+        ],
       },
       {
-        name: 'Chinchou',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0170.png',
+        line: 'Lotad',
+        evolutions: [
+          {
+            name: 'Lotad',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/270.png',
+          },
+          {
+            name: 'Lombre',
+            minLv: 14,
+            sprite: '/pokepedia-pages/sprites/271.png',
+          },
+          {
+            name: 'Ludicolo',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/272.png',
+          },
+        ],
       },
       {
-        name: 'Wingull',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0278.png',
+        line: 'Piplup',
+        evolutions: [
+          {
+            name: 'Piplup',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/393.png',
+          },
+          {
+            name: 'Prinplup',
+            minLv: 16,
+            sprite: '/pokepedia-pages/sprites/394.png',
+          },
+          {
+            name: 'Empoleon',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/395.png',
+          },
+        ],
+      },
+      {
+        line: 'Shellos',
+        evolutions: [
+          {
+            name: 'Shellos',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/422.png',
+          },
+          {
+            name: 'Gastrodon',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/423.png',
+          },
+        ],
+      },
+      {
+        line: 'Finneon',
+        evolutions: [
+          {
+            name: 'Finneon',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/456.png',
+          },
+          {
+            name: 'Lumineon',
+            minLv: 31,
+            sprite: '/pokepedia-pages/sprites/457.png',
+          },
+        ],
+      },
+      {
+        line: 'Poliwag',
+        evolutions: [
+          {
+            name: 'Poliwag',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/060.png',
+          },
+          {
+            name: 'Poliwhirl',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/061.png',
+          },
+          {
+            name: 'Poliwrath',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/062.png',
+          },
+        ],
+      },
+      {
+        line: 'Clamperl',
+        evolutions: [
+          {
+            name: 'Clamperl',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/366.png',
+          },
+          {
+            name: 'Huntail',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/367.png',
+          },
+          {
+            name: 'Gorebyss',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/368.png',
+          },
+        ],
+      },
+      {
+        line: 'Horsea',
+        evolutions: [
+          {
+            name: 'Horsea',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/116.png',
+          },
+          {
+            name: 'Seadra',
+            minLv: 32,
+            sprite: '/pokepedia-pages/sprites/117.png',
+          },
+          {
+            name: 'Kingdra',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/230.png',
+          },
+        ],
+      },
+      {
+        line: 'Mudkip',
+        evolutions: [
+          {
+            name: 'Mudkip',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/258.png',
+          },
+          {
+            name: 'Marshtomp',
+            minLv: 16,
+            sprite: '/pokepedia-pages/sprites/259.png',
+          },
+          {
+            name: 'Swampert',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/260.png',
+          },
+        ],
+      },
+      {
+        line: 'Chinchou',
+        evolutions: [
+          {
+            name: 'Chinchou',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/170.png',
+          },
+          {
+            name: 'Lanturn',
+            minLv: 27,
+            sprite: '/pokepedia-pages/sprites/171.png',
+          },
+        ],
+      },
+      {
+        line: 'Wingull',
+        evolutions: [
+          {
+            name: 'Wingull',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/278.png',
+          },
+          {
+            name: 'Pelipper',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/279.png',
+          },
+        ],
       },
     ],
     rewards: [
@@ -399,6 +1788,7 @@ const gyms = ref([
       },
     ],
   },
+
   {
     id: 6,
     name: 'Canalave Gym',
@@ -410,52 +1800,299 @@ const gyms = ref([
     },
     pokemon: [
       {
-        name: 'Shieldon',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0410.png',
+        line: 'Shieldon',
+        evolutions: [
+          {
+            name: 'Shieldon',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/410.png',
+          },
+          {
+            name: 'Bastiodon',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/411.png',
+          },
+        ],
       },
       {
-        name: 'Magnemite',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0081.png',
+        line: 'Magnemite',
+        evolutions: [
+          {
+            name: 'Magnemite',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/081.png',
+          },
+          {
+            name: 'Magneton',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/082.png',
+          },
+          {
+            name: 'Magnezone',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/462.png',
+          },
+        ],
       },
       {
-        name: 'Aron',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0304.png',
+        line: 'Aron',
+        evolutions: [
+          {
+            name: 'Aron',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/304.png',
+          },
+          {
+            name: 'Lairon',
+            minLv: 32,
+            sprite: '/pokepedia-pages/sprites/305.png',
+          },
+          {
+            name: 'Aggron',
+            minLv: 42,
+            sprite: '/pokepedia-pages/sprites/306.png',
+          },
+        ],
       },
       {
-        name: 'Bronzor',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0436.png',
+        line: 'Bronzor',
+        evolutions: [
+          {
+            name: 'Bronzor',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/436.png',
+          },
+          {
+            name: 'Bronzong',
+            minLv: 33,
+            sprite: '/pokepedia-pages/sprites/437.png',
+          },
+        ],
       },
       {
-        name: 'Skarmory',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0227.png',
+        line: 'Beldum',
+        evolutions: [
+          {
+            name: 'Beldum',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/374.png',
+          },
+          {
+            name: 'Metang',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/375.png',
+          },
+          {
+            name: 'Metagross',
+            minLv: 45,
+            sprite: '/pokepedia-pages/sprites/376.png',
+          },
+        ],
       },
       {
-        name: 'Beldum',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0374.png',
+        line: 'Honedge',
+        evolutions: [
+          {
+            name: 'Honedge',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/679.png',
+          },
+          {
+            name: 'Doublade',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/680.png',
+          },
+          {
+            name: 'Aegislash',
+            minLv: 50,
+            sprite: '/pokepedia-pages/sprites/681.png',
+          },
+        ],
       },
       {
-        name: 'Scizor',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0212.png',
+        line: 'Klink',
+        evolutions: [
+          {
+            name: 'Klink',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/599.png',
+          },
+          {
+            name: 'Klang',
+            minLv: 38,
+            sprite: '/pokepedia-pages/sprites/600.png',
+          },
+          {
+            name: 'Klinklang',
+            minLv: 49,
+            sprite: '/pokepedia-pages/sprites/601.png',
+          },
+        ],
       },
       {
-        name: 'Honedge',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0679.png',
+        line: 'Ferroseed',
+        evolutions: [
+          {
+            name: 'Ferroseed',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/597.png',
+          },
+          {
+            name: 'Ferrothorn',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/598.png',
+          },
+        ],
       },
       {
-        name: 'Diglett-Alola',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0050_01.png',
+        line: 'Pawniard',
+        evolutions: [
+          {
+            name: 'Pawniard',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/624.png',
+          },
+          {
+            name: 'Bisharp',
+            minLv: 52,
+            sprite: '/pokepedia-pages/sprites/625.png',
+          },
+          {
+            name: 'Kingambit',
+            minLv: 60,
+            sprite: '/pokepedia-pages/sprites/983.png',
+          },
+        ],
       },
       {
-        name: 'Ferroseed',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0597.png',
+        line: 'Tinkatink',
+        evolutions: [
+          {
+            name: 'Tinkatink',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/957.png',
+          },
+          {
+            name: 'Tinkatuff',
+            minLv: 24,
+            sprite: '/pokepedia-pages/sprites/958.png',
+          },
+          {
+            name: 'Tinkaton',
+            minLv: 38,
+            sprite: '/pokepedia-pages/sprites/959.png',
+          },
+        ],
       },
       {
-        name: 'Pawniard',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0624.png',
+        line: 'Meowth (Galar)',
+        evolutions: [
+          {
+            name: 'Meowth (Galar)',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/052_02.png',
+          },
+          {
+            name: 'Perrserker',
+            minLv: 28,
+            sprite: '/pokepedia-pages/sprites/863.png',
+          },
+        ],
       },
       {
-        name: 'Tinkatink',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0957.png',
+        line: 'Diglett (Alola)',
+        evolutions: [
+          {
+            name: 'Diglett (Alola)',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/050-Alola.png',
+          },
+          {
+            name: 'Dugtrio (Alola)',
+            minLv: 26,
+            sprite: '/pokepedia-pages/sprites/051-Alola.png',
+          },
+        ],
+      },
+      {
+        line: 'Mawile',
+        evolutions: [
+          {
+            name: 'Mawile',
+            minLv: 18,
+            sprite: '/pokepedia-pages/sprites/303.png',
+          },
+        ],
+      },
+      {
+        line: 'Skarmory',
+        evolutions: [
+          {
+            name: 'Skarmory',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/227.png',
+          },
+        ],
+      },
+      {
+        line: 'Orthworm',
+        evolutions: [
+          {
+            name: 'Orthworm',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/967.png',
+          },
+        ],
+      },
+      {
+        line: 'Wormadam (Trash Cloak)',
+        evolutions: [
+          {
+            name: 'Wormadam (Trash Cloak)',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/413_02.png',
+          },
+        ],
+      },
+      {
+        line: 'Klefki',
+        evolutions: [
+          {
+            name: 'Klefki',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/707.png',
+          },
+        ],
+      },
+      {
+        line: 'Togedemaru',
+        evolutions: [
+          {
+            name: 'Togedemaru',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/777.png',
+          },
+        ],
+      },
+      {
+        line: 'Scizor',
+        evolutions: [
+          {
+            name: 'Scizor',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/212.png',
+          },
+        ],
+      },
+      {
+        line: 'Escavalier',
+        evolutions: [
+          {
+            name: 'Escavalier',
+            minLv: 26,
+            sprite: '/pokepedia-pages/sprites/589.png',
+          },
+        ],
       },
     ],
     rewards: [
@@ -475,6 +2112,7 @@ const gyms = ref([
       },
     ],
   },
+
   {
     id: 7,
     name: 'Snowpoint Gym',
@@ -486,52 +2124,314 @@ const gyms = ref([
     },
     pokemon: [
       {
-        name: 'Snover',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0459.png',
+        line: 'Snover',
+        evolutions: [
+          {
+            name: 'Snover',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/459.png',
+          },
+          {
+            name: 'Abomasnow',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/460.png',
+          },
+        ],
       },
       {
-        name: 'Swinub',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0220.png',
+        line: 'Swinub',
+        evolutions: [
+          {
+            name: 'Swinub',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/220.png',
+          },
+          {
+            name: 'Piloswine',
+            minLv: 33,
+            sprite: '/pokepedia-pages/sprites/221.png',
+          },
+          {
+            name: 'Mamoswine',
+            minLv: 45,
+            sprite: '/pokepedia-pages/sprites/473.png',
+          },
+        ],
       },
       {
-        name: 'Sneasel',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0215.png',
+        line: 'Sneasel',
+        evolutions: [
+          {
+            name: 'Sneasel',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/215.png',
+          },
+          {
+            name: 'Weavile',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/461.png',
+          },
+        ],
       },
       {
-        name: 'Snorunt',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0361.png',
+        line: 'Snorunt',
+        evolutions: [
+          {
+            name: 'Snorunt',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/361.png',
+          },
+          {
+            name: 'Glalie',
+            minLv: 42,
+            sprite: '/pokepedia-pages/sprites/362.png',
+          },
+          {
+            name: 'Froslass',
+            minLv: 42,
+            sprite: '/pokepedia-pages/sprites/478.png',
+          },
+        ],
       },
       {
-        name: 'Smoochum',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0238.png',
+        line: 'Smoochum',
+        evolutions: [
+          {
+            name: 'Smoochum',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/238.png',
+          },
+          {
+            name: 'Jynx',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/124.png',
+          },
+        ],
       },
       {
-        name: 'Lapras',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0131.png',
+        line: 'Lapras',
+        evolutions: [
+          {
+            name: 'Lapras',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/131.png',
+          },
+        ],
       },
       {
-        name: 'Cubchoo',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0613.png',
+        line: 'Cubchoo',
+        evolutions: [
+          {
+            name: 'Cubchoo',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/613.png',
+          },
+          {
+            name: 'Beartic',
+            minLv: 37,
+            sprite: '/pokepedia-pages/sprites/614.png',
+          },
+        ],
       },
       {
-        name: 'Cetoddle',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0974.png',
+        line: 'Cetoddle',
+        evolutions: [
+          {
+            name: 'Cetoddle',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/974.png',
+          },
+          {
+            name: 'Cetitan',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/975.png',
+          },
+        ],
       },
       {
-        name: 'Vulpix-Alola',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0037_01.png',
+        line: 'Vulpix (Alola)',
+        evolutions: [
+          {
+            name: 'Vulpix (Alola)',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/037-Alola.png',
+          },
+          {
+            name: 'Ninetales (Alola)',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/038-Alola.png',
+          },
+        ],
       },
       {
-        name: 'Spheal',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0363.png',
+        line: 'Spheal',
+        evolutions: [
+          {
+            name: 'Spheal',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/363.png',
+          },
+          {
+            name: 'Sealeo',
+            minLv: 32,
+            sprite: '/pokepedia-pages/sprites/364.png',
+          },
+          {
+            name: 'Walrein',
+            minLv: 44,
+            sprite: '/pokepedia-pages/sprites/365.png',
+          },
+        ],
       },
       {
-        name: 'Bergmite',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0712.png',
+        line: 'Bergmite',
+        evolutions: [
+          {
+            name: 'Bergmite',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/712.png',
+          },
+          {
+            name: 'Avalugg',
+            minLv: 37,
+            sprite: '/pokepedia-pages/sprites/713.png',
+          },
+        ],
       },
       {
-        name: 'Sandshrew-Alola',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0027_01.png',
+        line: 'Sandshrew (Alola)',
+        evolutions: [
+          {
+            name: 'Sandshrew (Alola)',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/028-Alola.png',
+          },
+          {
+            name: 'Sandslash (Alola)',
+            minLv: 22,
+            sprite: '/pokepedia-pages/sprites/028-Alola.png',
+          },
+        ],
+      },
+      {
+        line: 'Vanillite',
+        evolutions: [
+          {
+            name: 'Vanillite',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/582.png',
+          },
+          {
+            name: 'Vanillish',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/583.png',
+          },
+          {
+            name: 'Vanilluxe',
+            minLv: 47,
+            sprite: '/pokepedia-pages/sprites/584.png',
+          },
+        ],
+      },
+      {
+        line: 'Darumaka (Galar)',
+        evolutions: [
+          {
+            name: 'Darumaka (Galar)',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/554_01.png',
+          },
+          {
+            name: 'Darmanitan (Galar)',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/555_01.png',
+          },
+        ],
+      },
+      {
+        line: 'Snom',
+        evolutions: [
+          {
+            name: 'Snom',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/872.png',
+          },
+          {
+            name: 'Frosmoth',
+            minLv: 40,
+            sprite: '/pokepedia-pages/sprites/873.png',
+          },
+        ],
+      },
+      {
+        line: 'Mr. Mime (Galar)',
+        evolutions: [
+          {
+            name: 'Mr. Mime (Galar)',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/122_01.png',
+          },
+          {
+            name: 'Mr. Rime',
+            minLv: 42,
+            sprite: '/pokepedia-pages/sprites/866.png',
+          },
+        ],
+      },
+      {
+        line: 'Amaura',
+        evolutions: [
+          {
+            name: 'Amaura',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/698.png',
+          },
+          {
+            name: 'Aurorus',
+            minLv: 39,
+            sprite: '/pokepedia-pages/sprites/699.png',
+          },
+        ],
+      },
+      {
+        line: 'Frigibax',
+        evolutions: [
+          {
+            name: 'Frigibax',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/996.png',
+          },
+          {
+            name: 'Arctibax',
+            minLv: 45,
+            sprite: '/pokepedia-pages/sprites/997.png',
+          },
+          {
+            name: 'Baxcalibur',
+            minLv: 54,
+            sprite: '/pokepedia-pages/sprites/998.png',
+          },
+        ],
+      },
+      {
+        line: 'Delibird',
+        evolutions: [
+          {
+            name: 'Delibird',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/225.png',
+          },
+        ],
+      },
+      {
+        line: 'Eiscue',
+        evolutions: [
+          {
+            name: 'Eiscue',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/875.png',
+          },
+        ],
       },
     ],
     rewards: [
@@ -551,63 +2451,346 @@ const gyms = ref([
       },
     ],
   },
+
   {
     id: 8,
     name: 'Sunyshore Gym',
     type: 'Electric',
     leader: {
       name: 'Volkner',
-      title: ' The Shining, Shocking Star',
+      title: 'The Shining, Shocking Star',
       avatar: 'https://i.imgur.com/AcKZY6B.png',
     },
     pokemon: [
       {
-        name: 'Pichu',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0172.png',
+        line: 'Pichu',
+        evolutions: [
+          {
+            name: 'Pichu',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/172.png',
+          },
+          {
+            name: 'Pikachu',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/025.png',
+          },
+          {
+            name: 'Raichu',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/026.png',
+          },
+        ],
       },
       {
-        name: 'Shinx',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0403.png',
+        line: 'Shinx',
+        evolutions: [
+          {
+            name: 'Shinx',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/403.png',
+          },
+          {
+            name: 'Luxio',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/404.png',
+          },
+          {
+            name: 'Luxray',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/405.png',
+          },
+        ],
       },
       {
-        name: 'Elekid',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0239.png',
+        line: 'Elekid',
+        evolutions: [
+          {
+            name: 'Elekid',
+            minLv: 1,
+            sprite: '/pokepedia-pages/sprites/239.png',
+          },
+          {
+            name: 'Electabuzz',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/125.png',
+          },
+          {
+            name: 'Electivire',
+            minLv: 45,
+            sprite: '/pokepedia-pages/sprites/466.png',
+          },
+        ],
       },
       {
-        name: 'Chinchou',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0170.png',
+        line: 'Chinchou',
+        evolutions: [
+          {
+            name: 'Chinchou',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/170.png',
+          },
+          {
+            name: 'Lanturn',
+            minLv: 27,
+            sprite: '/pokepedia-pages/sprites/171.png',
+          },
+        ],
       },
       {
-        name: 'Voltorb',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0100.png',
+        line: 'Voltorb',
+        evolutions: [
+          {
+            name: 'Voltorb',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/100.png',
+          },
+          {
+            name: 'Electrode',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/101.png',
+          },
+        ],
       },
       {
-        name: 'Tynamo',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0602.png',
+        line: 'Tynamo',
+        evolutions: [
+          {
+            name: 'Tynamo',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/602.png',
+          },
+          {
+            name: 'Eelektrik',
+            minLv: 39,
+            sprite: '/pokepedia-pages/sprites/603.png',
+          },
+          {
+            name: 'Eelektross',
+            minLv: 50,
+            sprite: '/pokepedia-pages/sprites/604.png',
+          },
+        ],
       },
       {
-        name: 'Blitzle',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0522.png',
+        line: 'Blitzle',
+        evolutions: [
+          {
+            name: 'Blitzle',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/522.png',
+          },
+          {
+            name: 'Zebstrika',
+            minLv: 27,
+            sprite: '/pokepedia-pages/sprites/523.png',
+          },
+        ],
       },
       {
-        name: 'Joltik',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0595.png',
+        line: 'Joltik',
+        evolutions: [
+          {
+            name: 'Joltik',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/595.png',
+          },
+          {
+            name: 'Galvantula',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/596.png',
+          },
+        ],
       },
       {
-        name: 'Magnemite',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0081.png',
+        line: 'Magnemite',
+        evolutions: [
+          {
+            name: 'Magnemite',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/081.png',
+          },
+          {
+            name: 'Magneton',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/082.png',
+          },
+          {
+            name: 'Magnezone',
+            minLv: 45,
+            sprite: '/pokepedia-pages/sprites/462.png',
+          },
+        ],
       },
       {
-        name: 'Emolga',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0587.png',
+        line: 'Electrike',
+        evolutions: [
+          {
+            name: 'Electrike',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/309.png',
+          },
+          {
+            name: 'Manectric',
+            minLv: 26,
+            sprite: '/pokepedia-pages/sprites/310.png',
+          },
+        ],
       },
       {
-        name: 'Wattrel',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0940.png',
+        line: 'Geodude (Alola)',
+        evolutions: [
+          {
+            name: 'Geodude (Alola)',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/074-Alola.png',
+          },
+          {
+            name: 'Graveler (Alola)',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/075-Alola.png',
+          },
+          {
+            name: 'Golem (Alola)',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/076-Alola.png',
+          },
+        ],
       },
       {
-        name: 'Electrike',
-        sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0309.png',
+        line: 'Grubbin',
+        evolutions: [
+          {
+            name: 'Grubbin',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/736.png',
+          },
+          {
+            name: 'Charjabug',
+            minLv: 20,
+            sprite: '/pokepedia-pages/sprites/737.png',
+          },
+          {
+            name: 'Vikavolt',
+            minLv: 35,
+            sprite: '/pokepedia-pages/sprites/738.png',
+          },
+        ],
+      },
+      {
+        line: 'Pawmi',
+        evolutions: [
+          {
+            name: 'Pawmi',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/921.png',
+          },
+          {
+            name: 'Pawmo',
+            minLv: 18,
+            sprite: '/pokepedia-pages/sprites/922.png',
+          },
+          {
+            name: 'Pawmot',
+            minLv: 36,
+            sprite: '/pokepedia-pages/sprites/923.png',
+          },
+        ],
+      },
+      {
+        line: 'Yamper',
+        evolutions: [
+          {
+            name: 'Yamper',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/835.png',
+          },
+          {
+            name: 'Boltund',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/836.png',
+          },
+        ],
+      },
+      {
+        line: 'Mareep',
+        evolutions: [
+          {
+            name: 'Mareep',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/179.png',
+          },
+          {
+            name: 'Flaaffy',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/180.png',
+          },
+          {
+            name: 'Ampharos',
+            minLv: 30,
+            sprite: '/pokepedia-pages/sprites/181.png',
+          },
+        ],
+      },
+      {
+        line: 'Pincurchin',
+        evolutions: [
+          {
+            name: 'Pincurchin',
+            minLv: 150,
+            sprite: '/pokepedia-pages/sprites/871.png',
+          },
+        ],
+      },
+      {
+        line: 'Wattrel',
+        evolutions: [
+          {
+            name: 'Wattrel',
+            minLv: 12,
+            sprite: '/pokepedia-pages/sprites/940.png',
+          },
+          {
+            name: 'Kilowattrel',
+            minLv: 25,
+            sprite: '/pokepedia-pages/sprites/941.png',
+          },
+        ],
+      },
+      {
+        line: 'Emolga',
+        evolutions: [
+          {
+            name: 'Emolga',
+            minLv: 15,
+            sprite: '/pokepedia-pages/sprites/587.png',
+          },
+        ],
+      },
+      {
+        line: 'Plusle/Minun',
+        evolutions: [
+          {
+            name: 'Plusle',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/311.png',
+          },
+          {
+            name: 'Minun',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/312.png',
+          },
+        ],
+      },
+      {
+        line: 'Pachirisu',
+        evolutions: [
+          {
+            name: 'Pachirisu',
+            minLv: 10,
+            sprite: '/pokepedia-pages/sprites/417.png',
+          },
+        ],
       },
     ],
     rewards: [
@@ -654,9 +2837,13 @@ const getTypeColor = (type: string): string => {
   return typeColors[type] || 'grey'
 }
 
-const rollTeam = (upperBound: number) => {
+const rollTeam = (upperBound: number, gymId: number) => {
   console.log(`Values: Upper Bound - ${upperBound}| Badge Lv: ${BadgeLv.value}`)
+  const gym = visiblePokemonByGym.value.find((g) => g.id === gymId)
+  if (!gym) return
+
   selectedPokemon.value = []
+
   console.log(`Selected Pokemon (Cleared): ${selectedPokemon.value}`)
 
   let teamSize = 2
@@ -694,11 +2881,11 @@ const rollTeam = (upperBound: number) => {
       break
     case 7:
       teamSize = 4
-      level = 27
+      level = 28
       break
     case 8:
       teamSize = 4
-      level = 29
+      level = 30
       break
     default:
       return
@@ -707,6 +2894,7 @@ const rollTeam = (upperBound: number) => {
   console.log(`Team Size: ${teamSize} | Level: ${level}`)
 
   const availableIndices = Array.from({ length: upperBound }, (_, i) => i)
+  console.log('Available Indices:', availableIndices)
 
   for (let i = 0; i < teamSize; i++) {
     if (availableIndices.length === 0) break
@@ -723,7 +2911,7 @@ const rollTeam = (upperBound: number) => {
 <template>
   <v-container fluid class="py-6">
     <v-row align="center" justify="center" class="g-4">
-      <v-col cols="12" md="4" lg="3" v-for="gym in gyms" :key="gym.id">
+      <v-col cols="12" md="4" lg="3" v-for="gym in visiblePokemonByGym" :key="gym.id">
         <v-card
           class="gym-card elevation-8 h-100"
           :color="getTypeColor(gym.type)"
@@ -803,32 +2991,34 @@ const rollTeam = (upperBound: number) => {
                 </v-card-title>
 
                 <v-card-text class="pt-4">
-                  <v-row>
-                    <v-col
-                      v-for="(pokemon, index) in gym.pokemon"
-                      :key="index"
-                      cols="6"
-                      sm="4"
-                      md="3"
-                      class="text-center"
-                    >
-                      <v-card
-                        :class="[
-                          'pokemon-card pa-3',
-                          'elevation-8 ',
-                          { selected: selectedPokemon?.includes(index) },
-                        ]"
-                        color="rgba(255,255,255,0.15)"
-                        variant="elevated"
-                        style="aspect-ratio: 1; width: 115px"
+                  <TransitionGroup name="pokemon" tag="div" class="pokemon-grid">
+                    <v-row>
+                      <v-col
+                        v-for="(pokemon, index) in gym.visiblePokemon"
+                        :key="index"
+                        cols="6"
+                        sm="4"
+                        md="3"
+                        class="text-center"
                       >
-                        <v-img :src="pokemon.sprite" height="50" contain class="mb-2"></v-img>
-                        <div class="text-body-2 text-white font-weight-medium">
-                          {{ pokemon.name }}
-                        </div>
-                      </v-card>
-                    </v-col>
-                  </v-row>
+                        <v-card
+                          :class="[
+                            'pokemon-card pa-3',
+                            'elevation-8 ',
+                            { selected: selectedPokemon?.includes(index) },
+                          ]"
+                          color="rgba(255,255,255,0.15)"
+                          variant="elevated"
+                          style="aspect-ratio: 1; width: 115px"
+                        >
+                          <v-img :src="pokemon?.sprite" height="50" contain class="mb-2"></v-img>
+                          <div class="text-body-2 text-white font-weight-medium">
+                            {{ pokemon?.name }}
+                          </div>
+                        </v-card>
+                      </v-col>
+                    </v-row>
+                  </TransitionGroup>
                   <v-row
                     class="flex-row"
                     justify="center"
@@ -850,17 +3040,28 @@ const rollTeam = (upperBound: number) => {
                     <v-btn
                       variant="outlined"
                       type="submit"
-                      @click="rollTeam(gym.pokemon.length)"
+                      @click="rollTeam(gym.visiblePokemon.length, gym.id)"
                       style="margin-top: 10px; margin-left: 10px"
                       >Roll Team</v-btn
                     >
                   </v-row>
+
                   <div v-if="aceLv !== null" class="ace-badge-container">
                     <v-badge :content="aceLv" color="info" class="ace-badge">
                       <v-card class="ace-badge-card" variant="outlined">
                         <v-card-title class="ace-badge-title">
                           <v-icon class="ace-badge-icon">mdi-medal</v-icon>
                           Ace Level
+                        </v-card-title>
+                      </v-card>
+                    </v-badge>
+                  </div>
+                  <div v-if="avgLv !== null" class="avg-badge-container">
+                    <v-badge :content="avgLv" color="info" class="avg-badge">
+                      <v-card class="avg-badge-card" variant="outlined">
+                        <v-card-title class="avg-badge-title">
+                          <v-icon class="avg-badge-icon">mdi-medal</v-icon>
+                          Avg Level
                         </v-card-title>
                       </v-card>
                     </v-badge>
@@ -1009,6 +3210,7 @@ const rollTeam = (upperBound: number) => {
 
 .pokemon-card.selected {
   animation: pulse 2s infinite;
+  backdrop-filter: brightness(0.5);
 }
 
 @keyframes pulse {
@@ -1068,5 +3270,66 @@ const rollTeam = (upperBound: number) => {
   min-width: 40px !important;
   height: 40px !important;
   border-radius: 20px !important;
+}
+
+.avg-badge-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.avg-badge-card {
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.avg-badge-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+}
+
+.avg-badge-title {
+  color: white !important;
+  font-size: 1rem !important;
+  font-weight: bold !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 15px !important;
+  justify-content: center;
+}
+
+.avg-badge-icon {
+  font-size: 1.6rem !important;
+  color: #ffd700;
+}
+
+.avg-badge :deep(.v-badge__badge) {
+  font-size: 1.1rem !important;
+  font-weight: bold !important;
+  min-width: 30px !important;
+  height: 30px !important;
+  border-radius: 20px !important;
+}
+
+.pokemon-enter-active,
+.pokemon-leave-active {
+  transition: all 0.4s ease;
+}
+
+.pokemon-enter-from {
+  opacity: 0;
+  transform: scale(0.9) translateY(10px);
+}
+
+.pokemon-leave-to {
+  opacity: 0;
+  transform: scale(0.9) translateY(-10px);
+}
+
+.pokemon-move {
+  transition: transform 0.4s ease;
 }
 </style>
