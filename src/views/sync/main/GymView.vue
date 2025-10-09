@@ -2861,31 +2861,31 @@ const rollTeam = (upperBound: number, gymId: number) => {
       break
     case 2:
       teamSize = 2
-      level = 15
+      level = 14
       break
     case 3:
-      teamSize = 3
-      level = 18
+      teamSize = 2
+      level = 16
       break
     case 4:
-      teamSize = 3
-      level = 20
+      teamSize = 2
+      level = 18
       break
     case 5:
       teamSize = 2
-      level = 23
+      level = 20
       break
     case 6:
       teamSize = 3
-      level = 25
+      level = 22
       break
     case 7:
-      teamSize = 4
-      level = 28
+      teamSize = 3
+      level = 25
       break
     case 8:
-      teamSize = 4
-      level = 30
+      teamSize = 3
+      level = 28
       break
     default:
       return
