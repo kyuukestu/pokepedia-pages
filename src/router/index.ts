@@ -6,163 +6,80 @@ import {
   type RouteRecordRaw,
 } from 'vue-router'
 
-// Make sure the file exists at this path, or update the path if needed
+// ---------------------------------------------------------------------------
+// Dynamic route generation
+// ---------------------------------------------------------------------------
+// Convention: every routable page is an index.vue inside a named folder.
+// The glob only matches index.vue files, so co-located helpers, components,
+// and type files are never accidentally picked up as routes.
+//
+// File path → Route path mapping:
+//   views/index.vue                          → /
+//   views/sandbox/index.vue                  → /sandbox
+//   views/sandbox/trainer-101/index.vue      → /sandbox/trainer-101
+//   views/sandbox/trainer-101/ids/index.vue  → /sandbox/trainer-101/ids
+// ---------------------------------------------------------------------------
 
-const componentModules = import.meta.glob('../views/**/*.vue')
+const componentModules = import.meta.glob('../views/**/index.vue')
 
 const dynamicRoutes: RouteRecordRaw[] = []
 
 for (const path in componentModules) {
-  const fileName = path.split('/').pop()
+  // Strip the prefix and the trailing /index.vue to isolate the route segment
+  let routePath = path.replace('../views', '').replace('/index.vue', '')
 
-  if (!fileName) continue
+  // The root views/index.vue maps to '/'
+  if (routePath === '') routePath = '/'
 
-  const routeName = fileName
-
-  let routePath = path.replace('../views', '')
-
-  if (!routePath.startsWith('/')) {
-    routePath = '/' + routePath
-  }
+  // Derive a stable, human-readable route name from the path segments
+  // e.g. '/sandbox/trainer-101/ids' → 'sandbox-trainer-101-ids'
+  const name = routePath === '/' ? 'home' : routePath.replace(/^\//, '').replace(/\//g, '-')
 
   dynamicRoutes.push({
     path: routePath,
-    name: routeName,
+    name,
     component: () => componentModules[path]() as Promise<Component>,
   })
 }
 
-console.log('Routes: ', dynamicRoutes)
+if (import.meta.env.DEV) {
+  console.log(
+    '[router] Registered dynamic routes:\n',
+    dynamicRoutes.map((r) => `  ${String(r.name).padEnd(36)} → ${r.path}`).join('\n'),
+  )
+}
 
-const sandboxLinks = [
-  { title: '' },
-  { title: 'Trainer 101' },
-  { title: 'Regions' },
-  { title: 'Law Enforcement' },
-  { title: 'Supervisory Boards' },
-  { title: 'PokeCorp' },
-  { title: 'PokeAcademia' },
-  { title: 'PokeTech' },
-  { title: 'Sandbox Events' },
-  { title: 'Characters' },
-  { title: 'Misc' },
-]
-
-const sandboxTrainerContentLinks = [
-  { title: 'Trainer101.Trainer-IDs' },
-  { title: 'Trainer101.Permit.Sky' },
-  { title: 'Trainer101.Permit.Land' },
-  { title: 'Trainer101.Permit.Water' },
-]
-
-const syncLinks = [
-  { title: '' },
-  { title: 'Setting' },
-  { title: 'Fortitude' },
-  { title: 'Sync Events' },
-  { title: 'Swarms' },
-  { title: 'PokeJobs' },
-  { title: 'Vocations' },
-  { title: 'PokeAcademy' },
-]
-
-const sandboxRoutes = sandboxLinks.map((route) => {
-  if (route.title === '') {
-    return {
-      path: '/sandbox',
-      name: 'sandbox',
-      component: () => import('../views/sandbox/SandboxView.vue'),
-    }
-  } else {
-    return {
-      path: `${route.title.toLowerCase().replace(' ', '-')}`,
-      name: route.title,
-      component: () => import(`../views/sandbox/main/${route.title.replace(' ', '')}View.vue`),
-    }
-  }
-})
-
-const sandboxTrainerContentRoutes = sandboxTrainerContentLinks.map((route) => {
-  return {
-    path: `content/${route.title.toLowerCase().replace(' ', '-')}`,
-    name: route.title,
-    component: () => import(`../views/sandbox/content/${route.title.replace(' ', '')}View.vue`),
-  }
-})
-
-// console.log('Content Routes', JSON.stringify(sandboxTrainerContentRoutes))
-
-const syncRoutes = syncLinks.map((route) => {
-  if (route.title === '') {
-    return {
-      path: '/sync',
-      name: 'sync',
-      component: () => import('../views/sync/SyncView.vue'),
-    }
-  } else {
-    return {
-      path: `${route.title.toLowerCase().replace(' ', '-')}`,
-      name: route.title,
-      component: () => import(`../views/sync/${route.title.replace(' ', '')}View.vue`),
-    }
-  }
-})
-
-// console.log(`Sandbox Routes: ${JSON.stringify(sandboxRoutes).toString()}`)
-// console.log(`Sync Routes: ${JSON.stringify(syncRoutes)}`)
+// ---------------------------------------------------------------------------
+// Router
+// ---------------------------------------------------------------------------
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: () => import('../views/HomeView.vue'),
-    },
-    {
-      path: '/level',
-      name: 'level',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/LevelView.vue'),
-    },
-    {
-      path: '/welcome',
-      name: 'welcome',
-      component: () => import('../views/WelcomeView.vue'),
-    },
+    // All routes are fully dynamic — no hardcoded entries needed.
+    // Add entries here only for redirects or special layout wrappers.
+    //
+    // Example redirect:
+    // { path: '/old-path', redirect: '/new-path' },
+    //
+    // Example named layout wrapper (does not render a page itself):
+    // { path: '/sandbox', component: SandboxLayout, children: [...] },
+
     ...dynamicRoutes,
-    // Sandbox Routes
 
-    // {
-    //   path: '/sandbox',
-    //   children: [...sandboxRoutes, ...sandboxTrainerContentRoutes],
-    // },
-    // Sync Routes
-    // {
-    //   path: '/sync',
-    //   children: syncRoutes,
-    // },
+    // 404 catch-all — must be last
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/_special/not-found/index.vue'),
+    },
   ],
+
   scrollBehavior(to: RouteLocationNormalized, _from: RouteLocationNormalized, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    }
-
-    if (to.hash) {
-      return {
-        el: to.hash,
-        top: 0,
-
-        behavior: 'smooth',
-      }
-    }
-
-    return {
-      top: 0,
-      behavior: 'smooth',
-    }
+    if (savedPosition) return savedPosition
+    if (to.hash) return { el: to.hash, top: 0, behavior: 'smooth' }
+    return { top: 0, behavior: 'smooth' }
   },
 })
 

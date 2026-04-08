@@ -11,6 +11,8 @@ import * as components from 'vuetify/components'
 import * as labcomponents from 'vuetify/labs/components'
 import * as directives from 'vuetify/directives'
 
+import PrimeVue from 'primevue/config'
+
 import App from './App.vue'
 import router from './router'
 
@@ -28,6 +30,6 @@ const vuetify = createVuetify({
 
 const app = createApp(App)
 
-app.use(vuetify).use(createPinia()).use(router)
+app.use(vuetify).use(PrimeVue).use(createPinia()).use(router)
 
 app.mount('#app')
