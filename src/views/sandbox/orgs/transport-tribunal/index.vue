@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
-const globalStatutes = [
+const globalStatutes: FeatureItem[] = [
   {
     title: 'Universal Trail Systems',
     icon: 'mdi-map-marker-distance',
@@ -35,7 +35,7 @@ const globalStatutes = [
   },
 ]
 
-const safetyProtocols = [
+const safetyProtocols: FeatureItem[] = [
   {
     title: 'Gait Control (Low-Impact)',
     icon: 'mdi-shoe-print',

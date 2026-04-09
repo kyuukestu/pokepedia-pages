@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
-import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
-const remnantThreats = [
+const remnantThreats: FeatureItem[] = [
   {
     title: 'Technological Guerrillas',
     icon: 'mdi-router-wireless-settings',

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
-const interpolRoles = [
+const interpolRoles: FeatureItem[] = [
   {
     title: 'Organized Crime',
     icon: 'mdi-shield-search',
@@ -192,7 +192,8 @@ const interpolRanks = [
         <v-row align="center">
           <v-col cols="12" md="8">
             <p class="text-body-1 lh-lg">
-              InterPol offers generous rewards to those who can provide verifiable evidence in the capture of wanted criminals on their bounty list.
+              InterPol offers generous rewards to those who can provide verifiable evidence in the
+              capture of wanted criminals on their bounty list.
             </p>
           </v-col>
           <v-col cols="12" md="4" class="text-center">

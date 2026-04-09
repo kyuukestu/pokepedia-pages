@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
-const permitCategories = [
+const permitCategories: FeatureItem[] = [
   {
     title: 'Aviation Permit (AP)',
     description:
       'Governed by the AAA. Required for aerial transit, spanning from personal flight to public Corviknight-Taxis.',
     image: 'https://www.serebii.net/swordshield/pokemon/823.png', // Corviknight
-    link: '/sandbox/trainer-101/permits/aviation',
+    to: '/sandbox/trainer-101/permits/aviation',
     color: 'blue',
   },
   {
@@ -19,7 +19,7 @@ const permitCategories = [
     description:
       'Governed by the MMM. Covers surface surfing and deep-sea diving across international waters.',
     image: 'https://www.serebii.net/swordshield/pokemon/131.png', // Lapras
-    link: '/sandbox/trainer-101/permits/maritime',
+    to: '/sandbox/trainer-101/permits/maritime',
     color: 'cyan',
   },
   {
@@ -27,12 +27,12 @@ const permitCategories = [
     description:
       'Governed by the TTT. Regulations for high-speed land mounts and heavy-load mountain traversal.',
     image: 'https://www.serebii.net/swordshield/pokemon/750.png', // Mudsdale
-    link: '/sandbox/trainer-101/permits/terrestrial',
+    to: '/sandbox/trainer-101/permits/terrestrial',
     color: 'amber',
   },
 ]
 
-const globalTenets = [
+const globalTenets: FeatureItem[] = [
   {
     title: 'Trainer ID Linkage',
     icon: 'mdi-card-account-details',
@@ -161,7 +161,7 @@ const globalTenets = [
   transition: all 0.2s ease-in-out;
 }
 
-:deep(.feature-card--link:hover) {
+:deep(.feature-card--to:hover) {
   background-color: rgba(var(--v-theme-indigo-darken-2), 0.03) !important;
   border-color: rgba(var(--v-theme-indigo-darken-2), 0.4) !important;
 }

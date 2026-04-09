@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
-const maritimeStatutes = [
+const maritimeStatutes: FeatureItem[] = [
   {
     title: 'Surfing Corridors',
     icon: 'mdi-waves',
@@ -35,7 +35,7 @@ const maritimeStatutes = [
   },
 ]
 
-const oceanicHazards = [
+const oceanicHazards: FeatureItem[] = [
   {
     title: 'Apex Predator Alerts',
     icon: 'mdi-fish-off',
@@ -103,15 +103,16 @@ const oceanicHazards = [
               >
             </p>
             <div class="d-flex justify-center">
-            <v-btn
-              prepend-icon="mdi-fountain-pen-tip"
-              color="blue-darken-4"
-              variant="elevated"
-              size="large"
-              to="/sandbox/trainer-101/permits/maritime"
-            >
-              Review Seafaring License Requirements
-            </v-btn></div>
+              <v-btn
+                prepend-icon="mdi-fountain-pen-tip"
+                color="blue-darken-4"
+                variant="elevated"
+                size="large"
+                to="/sandbox/trainer-101/permits/maritime"
+              >
+                Review Seafaring License Requirements
+              </v-btn>
+            </div>
           </v-col>
           <v-col cols="12" md="4" class="text-center">
             <v-icon size="160" color="blue-darken-4">mdi-badge-account-outline</v-icon>

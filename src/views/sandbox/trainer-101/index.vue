@@ -2,11 +2,11 @@
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import RuleList from '@/components/wiki/RuleList.vue'
 
 // Section 4d: FeatureGrid items
-const leagueServices = [
+const leagueServices: FeatureItem[] = [
   { title: 'PokéMart', icon: 'mdi-store', description: 'Purchase items, gear, and Pokéballs.' },
   {
     title: 'PokéCenter',
@@ -27,63 +27,63 @@ const leagueServices = [
   },
 ]
 
-const idTypes = [
+const idTypes: FeatureItem[] = [
   {
     title: 'Trainer Card',
     icon: 'mdi-card-account-details',
     description: 'The standard electronic card used for most League services.',
     color: 'blue',
-    link: '/sandbox/trainer-101/ids#trainer-card',
+    to: '/sandbox/trainer-101/ids#trainer-card',
   },
   {
     title: 'Passport',
     icon: 'mdi-passport',
     description: 'Necessary for international travel between distant regions.',
     color: 'blue',
-    link: '/sandbox/trainer-101/ids#trainer-passport',
+    to: '/sandbox/trainer-101/ids#trainer-passport',
   },
   {
     title: 'League Card',
     icon: 'mdi-cards',
     description: 'A stylized, collectible card reflecting your personality.',
     color: 'blue',
-    link: '/sandbox/trainer-101/ids#league-card',
+    to: '/sandbox/trainer-101/ids#league-card',
   },
   {
     title: 'Mobile Profile',
     icon: 'mdi-passport-biometric',
     description: 'Digital integration for Pokedex and Rotom-Phone apps.',
     color: 'blue',
-    link: '/sandbox/trainer-101/ids#profile-app',
+    to: '/sandbox/trainer-101/ids#profile-app',
   },
 ]
 
-const permits = [
+const permits: FeatureItem[] = [
   {
     title: 'Aviation Permit',
     icon: 'mdi-feather',
     description: 'For high-altitude flight and transportation.',
     color: 'blue',
-    link: '/sandbox/trainer-101/permits/aviation',
+    to: '/sandbox/trainer-101/permits/aviation',
   },
   {
     title: 'Terrestrial Permit',
     icon: 'mdi-paw',
     description: 'For pokemon-mounted land travel.',
     color: 'blue',
-    link: '/sandbox/trainer-101/permits/terrestrial',
+    to: '/sandbox/trainer-101/permits/terrestrial',
   },
   {
     title: 'Maritime Permit',
     icon: 'mdi-waves',
     description: 'For deep-sea delving and water-traversal.',
     color: 'blue',
-    link: '/sandbox/trainer-101/permits/maritime',
+    to: '/sandbox/trainer-101/permits/maritime',
   },
 ]
 
 // Section 4e: RuleList items
-const carryExceptions = [
+const carryExceptions: FeatureItem[] = [
   {
     icon: 'mdi-baby-face-outline',
     color: 'blue',

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
 const publicSector = [
@@ -11,7 +11,7 @@ const publicSector = [
     color: 'green',
     description:
       'The primary governing body responsible for League legislation, regional borders, and the global trainer registry.',
-    link: '/sandbox/orgs/poke-association',
+    to: '/sandbox/orgs/poke-association',
   },
   {
     title: 'Activities Committee',
@@ -19,7 +19,7 @@ const publicSector = [
     color: 'green',
     description:
       'Focuses on non-combat sanctioned events, including Contests, Pokéathlon management, and regional festivals.',
-    link: '/sandbox/orgs/activities-committee',
+    to: '/sandbox/orgs/activities-committee',
   },
   {
     title: 'Athletics Board',
@@ -27,7 +27,7 @@ const publicSector = [
     color: 'green',
     description:
       'A regulatory group dedicated to the physical safety of Pokémon athletes and the standardizing of stadium equipment.',
-    link: '/sandbox/orgs/athletics-board',
+    to: '/sandbox/orgs/athletics-board',
   },
   {
     title: 'Aviation Administration Agency',
@@ -35,7 +35,7 @@ const publicSector = [
     color: 'green',
     description:
       'The AAA oversees all airborne travel, from commercial regional flights to the regulation of private Fly-certified Pokémon.',
-    link: '/sandbox/orgs/aviation-agency',
+    to: '/sandbox/orgs/aviation-agency',
   },
   {
     title: 'Terrestrial Transportation Tribunal',
@@ -43,7 +43,7 @@ const publicSector = [
     color: 'green',
     description:
       'Manages land-based infrastructure (TTT), including Magnet Train scheduling, Cycling Road tolls, and tunnel safety.',
-    link: '/sandbox/orgs/transport-tribunal',
+    to: '/sandbox/orgs/transport-tribunal',
   },
   {
     title: 'Maritime Movemen Ministry',
@@ -51,7 +51,7 @@ const publicSector = [
     color: 'green',
     description:
       'The Ministry of Maritime Movement (MMM) controls all sea lanes, lighthouse maintenance, and S.S. fleet operations.',
-    link: 'orgs/maritime-ministry',
+    to: 'orgs/maritime-ministry',
   },
   {
     title: 'Pokemon Inspection Agency',
@@ -59,7 +59,7 @@ const publicSector = [
     color: 'green',
     description:
       'The PIA conducts unannounced audits of Gym Leaders to ensure they maintain the competitive integrity required by the League.',
-    link: '/sandbox/orgs/inspection-agency',
+    to: '/sandbox/orgs/inspection-agency',
   },
   {
     title: 'InterPol',
@@ -67,7 +67,7 @@ const publicSector = [
     color: 'green',
     description:
       'The premier global agency for combating organized crime, tracking high-profile fugitives, and investigating interdimensional threats across regional borders.',
-    link: '/sandbox/orgs/inter-pol',
+    to: '/sandbox/orgs/inter-pol',
   },
   {
     title: 'Ranger Union',
@@ -75,7 +75,7 @@ const publicSector = [
     color: 'green',
     description:
       'A non-profit organization dedicated to ecosystem conservation and disaster relief, utilizing specialized Capture Stylers to foster temporary bonds with wild Pokémon.',
-    link: '/sandbox/orgs/ranger-union',
+    to: '/sandbox/orgs/ranger-union',
   },
 ]
 
@@ -86,7 +86,7 @@ const privateSector = [
     color: 'green',
     description:
       'The industry leader in Poké Ball manufacturing and digital scopes, headquartered in the heart of Saffron City.',
-    link: '/sandbox/orgs/silph-co',
+    to: '/sandbox/orgs/silph-co',
   },
   {
     title: 'Devon Corporation',
@@ -94,7 +94,7 @@ const privateSector = [
     color: 'green',
     description:
       'Specialists in fossil restoration and the PokéNav system; they are the primary technological driver of the Hoenn region.',
-    link: '/sandbox/orgs/devon-corp',
+    to: '/sandbox/orgs/devon-corp',
   },
   {
     title: 'Altru Inc.',
@@ -102,7 +102,7 @@ const privateSector = [
     color: 'green',
     description:
       'Once a shadow of its former self in Almia, it has pivoted toward legitimate environmental energy research and conservation.',
-    link: '/sandbox/orgs/altru-inc',
+    to: '/sandbox/orgs/altru-inc',
   },
   {
     title: 'Aether Foundation',
@@ -110,7 +110,7 @@ const privateSector = [
     color: 'green',
     description:
       'An Alola-based organization focused on Pokémon rehabilitation and the study of extra-dimensional Ultra Wormholes.',
-    link: '/sandbox/orgs/aether-foundation',
+    to: '/sandbox/orgs/aether-foundation',
   },
   {
     title: 'Macro Cosmos',
@@ -118,7 +118,7 @@ const privateSector = [
     color: 'green',
     description:
       'The massive Galar conglomerate that manages the region’s energy crisis solutions and the televised League circuit.',
-    link: '/sandbox/orgs/macro-cosmos',
+    to: '/sandbox/orgs/macro-cosmos',
   },
   {
     title: 'Lysandre Labs',
@@ -126,7 +126,7 @@ const privateSector = [
     color: 'green',
     description:
       'A Kalos tech giant focusing on Mega Evolution energy, urban lighting, and high-end Holo Caster development.',
-    link: '/sandbox/orgs/lysandre-labs',
+    to: '/sandbox/orgs/lysandre-labs',
   },
   {
     title: 'Team Plasma',
@@ -134,7 +134,7 @@ const privateSector = [
     color: 'green',
     description:
       'The reformed sect of Plasma members dedicated to the peaceful atonement and rescue of mistreated Pokémon.',
-    link: '/sandbox/orgs/plasma',
+    to: '/sandbox/orgs/plasma',
   },
 ]
 
@@ -145,7 +145,7 @@ const underground = [
     color: 'green',
     description:
       'Scattered cells of the original syndicate still involved in illegal poaching and the underground sale of rare species.',
-    link: '/sandbox/orgs/rocket',
+    to: '/sandbox/orgs/rocket',
   },
   {
     title: 'Magma Remnants',
@@ -153,7 +153,7 @@ const underground = [
     color: 'green',
     description:
       'Underground geologists and extremists still obsessed with expanding regional landmasses through illicit means.',
-    link: '/sandbox/orgs/magma',
+    to: '/sandbox/orgs/magma',
   },
   {
     title: 'Aqua Remnants',
@@ -161,7 +161,7 @@ const underground = [
     color: 'green',
     description:
       'Radical environmentalists operating from hidden sea bases, continuing their mission to raise the global water level.',
-    link: '/sandbox/orgs/aqua',
+    to: '/sandbox/orgs/aqua',
   },
   {
     title: 'Galactic Remnants',
@@ -169,7 +169,7 @@ const underground = [
     color: 'green',
     description:
       'A shadowy group of scientists in Sinnoh aiming to harvest energy from space-time distortions.',
-    link: '/sandbox/orgs/galactic',
+    to: '/sandbox/orgs/galactic',
   },
   {
     title: 'Neo Team Plasma',
@@ -177,7 +177,7 @@ const underground = [
     color: 'green',
     description:
       'The violent splinter group of the original Plasma, utilizing the Frigate to enforce Pokémon liberation by force.',
-    link: '/sandbox/orgs/neo-plasma',
+    to: '/sandbox/orgs/neo-plasma',
   },
   {
     title: 'Flare Remnants',
@@ -185,7 +185,7 @@ const underground = [
     color: 'green',
     description:
       'Elite, wealthy extremists from Kalos who still believe in creating a "beautiful world" through mass elimination.',
-    link: '/sandbox/orgs/flare',
+    to: '/sandbox/orgs/flare',
   },
   {
     title: 'Team Dim Sun',
@@ -193,7 +193,7 @@ const underground = [
     color: 'green',
     description:
       'A criminal organization in Almia using Minimo and Gigamo units to control Pokémon for industrial gain.',
-    link: '/sandbox/orgs/dim-sun',
+    to: '/sandbox/orgs/dim-sun',
   },
   {
     title: 'Pinchers & Societea',
@@ -201,7 +201,7 @@ const underground = [
     color: 'green',
     description:
       'Oblivia-based groups using specialized "Control Gauntlets" to force Pokémon into mechanical subservience.',
-    link: '/sandbox/orgs/pinchers',
+    to: '/sandbox/orgs/pinchers',
   },
   {
     title: 'Cipher & Snagem',
@@ -209,7 +209,7 @@ const underground = [
     color: 'green',
     description:
       'The masterminds behind the Shadow Pokémon process in Orre, specializing in the closing of Pokémon hearts.',
-    link: '/sandbox/orgs/cipher',
+    to: '/sandbox/orgs/cipher',
   },
 ]
 </script>

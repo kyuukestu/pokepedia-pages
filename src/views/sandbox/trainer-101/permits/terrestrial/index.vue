@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
-const permitClasses = [
+const permitClasses: FeatureItem[] = [
   {
     title: 'Class A (Heavy/Rough)',
     image: 'https://www.serebii.net/swordshield/pokemon/750.png', // Mudsdale
@@ -32,7 +32,7 @@ const steps = [
   {
     title: 'Application',
     icon: 'mdi-form-select',
-    text: 'Submit TP application via TLA portal or at any major Land-Route Rest Stop.',
+    text: 'Submit TP application via TTT portal or at any major Land-Route Rest Stop.',
   },
   {
     title: 'Terrain School',
@@ -51,7 +51,7 @@ const steps = [
   },
 ]
 
-const operationalGuidelines = [
+const operationalGuidelines: FeatureItem[] = [
   {
     title: 'Trail Compliance',
     description:
@@ -102,7 +102,7 @@ const operationalGuidelines = [
     <v-container max-width="1200">
       <WikiCard title="Terrestrial Classifications" icon="mdi-slope-uphill" class="amber-darken-4">
         <p class="text-body-1 lh-lg mb-6">
-          The <strong>Terrestrial Licensing Authority (TLA)</strong> manages all non-aquatic,
+          The <strong>Terrestrial Transport Tribunal (TTT)</strong> manages all non-aquatic,
           non-aerial movement. Unlike other permits, TP focuses heavily on
           <strong>Gait Control</strong> and <strong>Environmental Impact</strong> to ensure that
           heavy mounts do not damage infrastructure or fragile ecosystems.
@@ -138,7 +138,7 @@ const operationalGuidelines = [
               </v-list-item>
               <v-list-item prepend-icon="mdi-heart-flash">
                 <v-list-item-title>Stamina Stress Test</v-list-item-title>
-                <v-list-item-subtitle>Conducted at any TLA-authorized stable</v-list-item-subtitle>
+                <v-list-item-subtitle>Conducted at any TTT-authorized stable</v-list-item-subtitle>
               </v-list-item>
             </v-list>
           </WikiCard>

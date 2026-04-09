@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
+import type { RouteLocationRaw } from 'vue-router'
 
 const theme = useTheme()
 
-interface FeatureItem {
-  icon?: string // Made optional since we might use an image
-  image?: string // New optional field
+export interface FeatureItem {
+  icon?: string
+  image?: string
   title: string
   description: string
   color?: string
-  link?: string
+  to?: RouteLocationRaw | string // optional internal route — makes the card a RouterLink
 }
 
-defineProps({
+const props = defineProps({
   items: {
     type: Array as () => FeatureItem[],
     required: true,
@@ -22,13 +23,22 @@ defineProps({
     default: 3,
   },
   defaultColor: {
-    type: String as () => 'blue' | 'green' | 'red' | 'amber' | 'pink',
+    type: String as () => 'blue' | 'green' | 'red' | 'amber',
     default: 'blue',
+  },
+  // compact: horizontal icon + text layout — better for 5+ item grids
+  compact: {
+    type: Boolean,
+    default: false,
   },
 })
 
+function resolvedColor(item: FeatureItem): string {
+  return item.color ?? props.defaultColor
+}
+
 function iconColor(item: FeatureItem, dark: boolean): string {
-  const c = item.color ?? 'blue'
+  const c = resolvedColor(item)
   const map: Record<string, { light: string; dark: string }> = {
     blue: { light: 'blue-darken-2', dark: 'cyan-accent-2' },
     green: { light: 'green-darken-2', dark: 'green-accent-2' },
@@ -41,34 +51,73 @@ function iconColor(item: FeatureItem, dark: boolean): string {
 </script>
 
 <template>
-  <v-row>
-    <v-col v-for="(item, i) in items" :key="i" cols="12" :md="12 / cols">
+  <v-row :dense="compact">
+    <v-col
+      v-for="(item, i) in items"
+      :key="i"
+      cols="12"
+      :sm="compact ? Math.floor(12 / Math.min(cols, 3)) : undefined"
+      :md="Math.floor(12 / cols)"
+    >
+      <!-- ── Standard card (centered icon above text) ── -->
       <v-card
+        v-if="!compact"
+        :to="item.to ?? undefined"
         variant="outlined"
         class="feature-card h-100 text-center pa-2"
         rounded="lg"
-        :to="item.link"
-        :ripple="!!item.link"
-        :class="{ 'feature-card--link': !!item.link }"
+        :ripple="!!item.to"
       >
         <v-card-text>
+          <v-icon size="48" :color="iconColor(item, theme.current.value.dark)" class="mb-3">
+            {{ item.icon }}
+          </v-icon>
+          <h3 class="text-h6 font-weight-bold mb-2">{{ item.title }}</h3>
+          <p class="text-body-2 mb-0" style="line-height: 1.6">{{ item.description }}</p>
+        </v-card-text>
+        <div v-if="item.to" class="feature-card__cue pb-3">
+          <span class="text-caption text-medium-emphasis">Explore</span>
+          <v-icon size="12" class="text-medium-emphasis ml-1">mdi-arrow-right</v-icon>
+        </div>
+      </v-card>
+
+      <!-- ── Compact card (icon left, title + description right) ── -->
+      <v-card
+        v-else
+        :to="item.to ?? undefined"
+        variant="outlined"
+        class="feature-card feature-card--compact h-100"
+        rounded="lg"
+        :ripple="!!item.to"
+      >
+        <v-card-text class="d-flex align-center gap-3 pa-3">
           <template v-if="item.image">
-            <v-avatar size="128" class="mb-3 elevation-2 border">
+            <v-avatar size="64" class="mb-3 elevation-2 border">
               <v-img :src="item.image" cover alt="feature image"></v-img>
             </v-avatar>
           </template>
-
-          <v-icon
+          
+          <v-icon 
             v-else-if="item.icon"
-            size="48"
-            :color="iconColor(item, theme.current.value.dark)"
+            size="48" 
+            :color="iconColor(item, theme.current.value.dark)" 
             class="mb-3"
           >
             {{ item.icon }}
           </v-icon>
-
-          <h3 class="text-h6 font-weight-bold mb-2">{{ item.title }}</h3>
-          <p class="text-body-2 mb-0" style="line-height: 1.6">{{ item.description }}</p>
+          <div class="min-width-0">
+            <div class="text-subtitle-2 font-weight-bold leading-tight">{{ item.title }}</div>
+            <div class="text-caption text-medium-emphasis" style="line-height: 1.4">
+              {{ item.description }}
+            </div>
+          </div>
+          <v-icon
+            v-if="item.to"
+            size="14"
+            class="text-medium-emphasis flex-shrink-0 ml-auto compact-arrow"
+          >
+            mdi-arrow-right
+          </v-icon>
         </v-card-text>
       </v-card>
     </v-col>
@@ -79,8 +128,7 @@ function iconColor(item: FeatureItem, dark: boolean): string {
 .feature-card {
   transition:
     transform 0.15s ease,
-    box-shadow 0.15s ease,
-    border-color 0.15s ease;
+    box-shadow 0.15s ease;
 }
 
 .feature-card:hover {
@@ -88,19 +136,42 @@ function iconColor(item: FeatureItem, dark: boolean): string {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
 }
 
-.feature-card--link:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
-  cursor: pointer;
-  border-color: currentColor;
+/* Standard card explore cue */
+.feature-card__cue {
+  opacity: 0;
+  transition: opacity 0.15s ease;
 }
 
-.v-theme--dark .feature-card--link:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+.feature-card:hover .feature-card__cue {
+  opacity: 1;
 }
 
-/* Optional: Add a subtle border to avatars to make them pop against the card background */
-.v-avatar.border {
-  border: 2px solid rgba(var(--v-border-color), var(--v-border-opacity));
+/* Compact card — no lift, just a subtle bg shift on hover */
+.feature-card--compact:hover {
+  transform: none;
+  box-shadow: none !important;
+  background: rgba(var(--v-theme-surface-variant), 0.5) !important;
+}
+
+.compact-arrow {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.feature-card--compact:hover .compact-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.min-width-0 {
+  min-width: 0;
+}
+
+.leading-tight {
+  line-height: 1.25;
+  margin-bottom: 2px;
 }
 </style>

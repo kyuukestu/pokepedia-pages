@@ -1,52 +1,52 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
 // Data for the summary section
-const idOptions = [
+const idOptions: FeatureItem[] = [
   {
     title: 'Trainer Card',
     icon: 'mdi-card-account-details',
     description: 'Traditional microchip card.',
-    link: '#trainer-card',
+    to: '#trainer-card',
   },
   {
     title: 'Passport',
     icon: 'mdi-passport',
     description: 'High-tech travel booklet.',
-    link: '#trainer-passport',
+    to: '#trainer-passport',
   },
   {
     title: 'League Card',
     icon: 'mdi-cards',
     description: 'Personalized trading cards.',
-    link: '#league-card',
+    to: '#league-card',
   },
   {
     title: 'Profile App',
     icon: 'mdi-passport-biometric',
     description: 'Digital multi-device sync.',
-    link: '#profile-app',
+    to: '#profile-app',
   },
 ]
 
 // Features for the Trainer Card
-const cardFeatures = [
+const cardFeatures: FeatureItem[] = [
   { title: 'Microchip', icon: 'mdi-credit-card-chip', description: 'Embedded data storage' },
   { title: 'Badge Tracker', icon: 'mdi-medal', description: 'Archive Acheivements' },
   { title: 'E-Commerce', icon: 'mdi-credit-card', description: 'Transaction Capabilities' },
 ]
 
 // Features for the Passport
-const passportFeatures = [
+const passportFeatures: FeatureItem[] = [
   { title: 'Stamps', icon: 'mdi-postage-stamp', description: 'Trial Stamps' },
   { title: 'Journal', icon: 'mdi-pen', description: 'Adventure logging' },
   { title: 'Extra Pages', icon: 'mdi-book-open-page-variant', description: 'Modular page support' },
 ]
 
 // Features for the League Card
-const leagueCFeatures = [
+const leagueCFeatures: FeatureItem[] = [
   {
     title: 'Tradable',
     icon: 'mdi-swap-horizontal-variant',
@@ -57,7 +57,7 @@ const leagueCFeatures = [
 ]
 
 // Features for the Profile App
-const appFeatures = [
+const appFeatures: FeatureItem[] = [
   { title: 'Multi-Device', icon: 'mdi-devices', description: 'Cross-Platform Compatibility' },
   {
     title: 'League Integration',

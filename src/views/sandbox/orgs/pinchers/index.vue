@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
-const leadershipStatus = [
+const leadershipStatus: FeatureItem[] = [
   {
     title: 'Edward',
     icon: 'mdi-tea-outline',
@@ -27,7 +27,7 @@ const leadershipStatus = [
   },
 ]
 
-const technologicalRemnants = [
+const technologicalRemnants: FeatureItem[] = [
   {
     title: 'Control Gauntlets',
     icon: 'mdi-arm-flex-outline',

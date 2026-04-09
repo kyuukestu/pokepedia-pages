@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
-const globalStatutes = [
+const globalStatutes: FeatureItem[] = [
   {
     title: 'Universal Flight Zones',
     icon: 'mdi-map-marker-path',
@@ -35,7 +35,7 @@ const globalStatutes = [
   },
 ]
 
-const safetyProtocols = [
+const safetyProtocols: FeatureItem[] = [
   {
     title: 'Collision Avoidance (TCAS)',
     icon: 'mdi-shield-airplane',
@@ -108,18 +108,18 @@ const safetyProtocols = [
               Licenses issued in one region are valid in all AAA-member regions under the
               Reciprocity Act.
             </WikiCallout>
-             <div class="d-flex justify-center">
-            <v-btn
-              prepend-icon="mdi-file-certificate"
-              color="indigo-darken-2"
-              variant="elevated"
-              size="large"
-              to="/sandbox/trainer-101/permits/aviation"
-              class="d-flex flex-wrap mx-auto justify-center mt-6"
-            >
-              Learn More about Flying Licenses
-            </v-btn>
-          </div>
+            <div class="d-flex justify-center">
+              <v-btn
+                prepend-icon="mdi-file-certificate"
+                color="indigo-darken-2"
+                variant="elevated"
+                size="large"
+                to="/sandbox/trainer-101/permits/aviation"
+                class="d-flex flex-wrap mx-auto justify-center mt-6"
+              >
+                Learn More about Flying Licenses
+              </v-btn>
+            </div>
           </v-col>
           <v-col cols="12" md="4" class="text-center">
             <v-icon size="160" color="indigo-darken-2">mdi-badge-account-horizontal</v-icon>

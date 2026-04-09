@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
-import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
-const extremistTenets = [
+const extremistTenets: FeatureItem[] = [
   {
     title: 'Total Human Erasure',
     icon: 'mdi-skull-outline',
@@ -29,7 +28,7 @@ const extremistTenets = [
   },
 ]
 
-const commandStructure = [
+const commandStructure: FeatureItem[] = [
   {
     title: 'Archie (The Radical)',
     icon: 'mdi-account-alert',

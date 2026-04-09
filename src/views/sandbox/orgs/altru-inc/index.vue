@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
-const currentOperations = [
+const currentOperations: FeatureItem[] = [
   {
     title: 'Tower Decommissioning',
     icon: 'mdi-crane',
@@ -36,7 +36,7 @@ const currentOperations = [
   },
 ]
 
-const notableSites = [
+const notableSites: FeatureItem[] = [
   {
     title: 'Altru Tower (Neutralized)',
     icon: 'mdi-tower-beach',

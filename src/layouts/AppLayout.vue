@@ -2,6 +2,8 @@
 import { ref, watch, computed } from 'vue'
 import { useTheme, useDisplay } from 'vuetify'
 import { useRoute, useRouter } from 'vue-router'
+import { routes } from 'vue-router/auto-routes'
+import Fuse from 'fuse.js'
 import SandboxNav from '@/components/nav/SandboxNav.vue'
 import SyncNav from '@/components/nav/SyncNav.vue'
 
@@ -10,6 +12,94 @@ const theme = useTheme()
 const route = useRoute()
 const router = useRouter()
 const { mobile } = useDisplay()
+
+// ── Search Logic ────────────────────────────────────────────────────────────
+const searchInput = ref('')
+const isSearchOpen = ref(false) // Added this missing ref
+
+const searchIndex = computed(() => {
+  const allFlattened = flattenRoutes(routes)
+
+  return allFlattened
+    .filter((r) => {
+      const p = r.fullPath.toLowerCase()
+      // Skip home, empty paths, and common "junk" files
+      return (
+        p !== '/' &&
+        p !== '' &&
+        !p.includes('[...') && // Skip 404/catch-all routes
+        !p.endsWith('/index') // Avoid 'Permits' and 'Permits/Index' duplication
+      )
+    })
+    .map((r) => {
+      const path = r.fullPath
+      const pathParts = path.split('/').filter(Boolean)
+
+      // Create cleaner breadcrumbs
+      const breadcrumb = pathParts
+        .map((p) => p.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()))
+        .join(' > ')
+
+      const title = breadcrumb.split(' > ').pop() || 'Page'
+
+      return {
+        title,
+        breadcrumb,
+        path,
+        category: pathParts[0]?.toUpperCase() || 'SYSTEM',
+      }
+    })
+})
+
+// ── 2. Enhanced Fuse.js Configuration ──────────────────────────────
+const fuse = new Fuse(searchIndex.value, {
+  keys: [
+    { name: 'title', weight: 2 },
+    { name: 'breadcrumb', weight: 1 },
+  ],
+  threshold: 0.2, // Lowered from 0.3/0.4 to reduce irrelevant results
+  ignoreLocation: true, // Finds the string anywhere in the path
+})
+
+const searchResults = computed(() => {
+  if (!searchInput.value) return []
+  return fuse.search(searchInput.value).map((res) => res.item)
+})
+
+function onSearchSelect(item: any) {
+  if (item?.path) {
+    console.log('Navigating to:', item.path) // Verify this starts with / in the console
+    router.push(item.path)
+    searchInput.value = ''
+    isSearchOpen.value = false
+  }
+}
+
+// Helper to turn nested route tree into a flat array with full paths
+function flattenRoutes(allRoutes: any[], parentPath = '', flat: any[] = []) {
+  const seenPaths = new Set<string>()
+
+  function recurse(routes: any[], currentParent: string) {
+    routes.forEach((route) => {
+      // Reconstruct full path
+      const fullPath = `${currentParent}/${route.path}`.replace(/\/+/g, '/')
+
+      // 1. Only include if we haven't seen this path yet
+      // 2. Only include if it's a "leaf" or has a component (avoids ghost parents)
+      if (!seenPaths.has(fullPath) && (route.component || !route.children)) {
+        seenPaths.add(fullPath)
+        flat.push({ ...route, fullPath })
+      }
+
+      if (route.children && route.children.length > 0) {
+        recurse(route.children, fullPath)
+      }
+    })
+  }
+
+  recurse(allRoutes, parentPath)
+  return flat
+}
 
 // ── Theme toggle ────────────────────────────────────────────────────────────
 const isDark = ref(theme.global.name.value === 'dark')
@@ -51,7 +141,6 @@ const worlds = [
 
 const topLinks = [
   { title: 'Home', icon: 'mdi-home-outline', to: '/' },
-  { title: 'Welcome', icon: 'mdi-hand-wave-outline', to: '/welcome' },
   { title: 'Levels', icon: 'mdi-trending-up', to: '/level' },
 ]
 
@@ -85,6 +174,40 @@ function handleNavigation() {
     </v-breadcrumbs>
 
     <v-spacer />
+
+    <div :class="['search-container', { 'search-container--open': isSearchOpen || !mobile }]">
+      <v-autocomplete
+        v-model:search="searchInput"
+        :items="searchResults"
+        item-title="title"
+        placeholder="Search Wiki..."
+        prepend-inner-icon="mdi-magnify"
+        variant="solo-filled"
+        density="compact"
+        hide-details
+        flat
+        no-filter
+        return-object
+        class="search-bar"
+        @update:model-value="onSearchSelect"
+        @focus="isSearchOpen = true"
+        @blur="isSearchOpen = false"
+      >
+        <template #item="{ props, item }">
+          <v-list-item v-bind="props" :title="item.raw.title" :subtitle="item.raw.breadcrumb">
+            <template #prepend>
+              <v-icon icon="mdi-subdirectory-arrow-right" size="small" class="mr-2" />
+            </template>
+
+            <template #append>
+              <v-chip size="x-small" label variant="tonal" color="primary">
+                {{ item.raw.category }}
+              </v-chip>
+            </template>
+          </v-list-item>
+        </template>
+      </v-autocomplete>
+    </div>
 
     <template #append>
       <v-btn
@@ -241,5 +364,22 @@ function handleNavigation() {
 .v-navigation-drawer ::-webkit-scrollbar-thumb {
   background: rgba(128, 128, 128, 0.25);
   border-radius: 2px;
+}
+
+.search-container {
+  width: 40px;
+  transition: all 0.3s ease;
+  margin-left: 8px;
+}
+.search-container--open {
+  width: 280px;
+}
+@media (max-width: 600px) {
+  .search-container--open {
+    width: 160px;
+  }
+}
+:deep(.search-bar .v-field__outline) {
+  display: none;
 }
 </style>

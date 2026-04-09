@@ -7,6 +7,7 @@ import WikiAlert from '@/components/wiki/WikiAlert.vue'
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import type { RouteLocationRaw } from 'vue-router'
 
 // ── RP Timeline ──────────────────────────────────────────────────────────────
 /**
@@ -14,8 +15,25 @@ import timeGridPlugin from '@fullcalendar/timegrid'
  */
 const currentRPDate = '2022-08-19'
 
+interface CalendarEvent {
+  title: string
+  start: string
+  end?: string
+  allDay?: boolean
+  extendedProps: EventExtendedProps
+}
+
+interface EventExtendedProps {
+  description: string
+  region: string
+  location: string
+  image: string
+  internalPath: RouteLocationRaw // This triggers the autocomplete
+  bulba?: string
+}
+
 // ── Event Data ───────────────────────────────────────────────────────────────
-const events = [
+const events: CalendarEvent[] = [
   {
     title: 'Balloon Race',
     start: '2022-08-01',

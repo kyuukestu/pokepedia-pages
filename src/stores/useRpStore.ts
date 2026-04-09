@@ -14,7 +14,7 @@ export const useRpStore = defineStore('rp', {
         aspectratio: '21/8',
         icon: 'mdi-pokeball',
         color: '#ff3131',
-        link: '/sandbox',
+        to: '/sandbox',
       },
       {
         id: 2,
@@ -27,7 +27,7 @@ export const useRpStore = defineStore('rp', {
         aspectratio: '20/11',
         icon: 'mdi-pokeball',
         color: '#152EFF',
-        link: '/sync',
+        to: '/sync',
       },
     ],
   }),

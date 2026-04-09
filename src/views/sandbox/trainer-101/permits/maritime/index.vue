@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
-const permitClasses = [
+const permitClasses: FeatureItem[] = [
   {
     title: 'Class A (Heavy)',
     image: 'https://www.serebii.net/scarletviolet/pokemon/new/977.png',
@@ -57,7 +57,7 @@ const steps = [
   },
 ]
 
-const statutes = [
+const statutes: FeatureItem[] = [
   {
     title: 'Validity',
     icon: 'mdi-calendar-check',
@@ -84,7 +84,7 @@ const statutes = [
   },
 ]
 
-const operationalGuidelines = [
+const operationalGuidelines: FeatureItem[] = [
   {
     title: 'Designated Corridors',
     description:

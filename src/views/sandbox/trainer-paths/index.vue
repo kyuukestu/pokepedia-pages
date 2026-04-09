@@ -4,20 +4,17 @@
 // Full content lives in child routes — this page is a curated overview.
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import WikiCallout from '@/components/wiki/WikiCallout.vue'
-import WikiAlert from '@/components/wiki/WikiAlert.vue'
-import RuleList from '@/components/wiki/RuleList.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
 // Quick-link cards for the main Sandbox sections
-const trainers = [
+const trainers: FeatureItem[] = [
   {
     icon: 'mdi-sword-cross',
     title: 'Battler',
     description:
       'Focused on competitive strength—Gym challenges, tournaments, and refining battle strategy through constant combat.',
     color: 'red-darken-2',
-    link: '/sandbox/trainer-101',
+    to: '/sandbox/trainer-101',
   },
   {
     icon: 'mdi-star-shooting',
@@ -25,7 +22,7 @@ const trainers = [
     description:
       'Masters of performance and style—blending creativity and precision to captivate audiences in contests and showcases.',
     color: 'pink-darken-1',
-    link: '/sandbox/trainer-101',
+    to: '/sandbox/trainer-101',
   },
   {
     icon: 'mdi-shield-search',
@@ -33,7 +30,7 @@ const trainers = [
     description:
       'Protectors of nature—working alongside Pokémon to safeguard ecosystems and respond to environmental threats.',
     color: 'green-darken-2',
-    link: '/sandbox/trainer-101',
+    to: '/sandbox/trainer-101',
   },
   {
     icon: 'mdi-flask-outline',
@@ -41,7 +38,7 @@ const trainers = [
     description:
       'Dedicated to discovery—studying Pokémon behavior, habitats, and biology to expand scientific understanding.',
     color: 'indigo-darken-2',
-    link: '/sandbox/trainer-101',
+    to: '/sandbox/trainer-101',
   },
   {
     icon: 'mdi-run-fast',
@@ -49,10 +46,9 @@ const trainers = [
     description:
       'Specialists in physical competition—training alongside Pokémon for races, obstacle events, and endurance trials.',
     color: 'orange-darken-2',
-    link: '/sandbox/trainer-101',
+    to: '/sandbox/trainer-101',
   },
 ]
-
 </script>
 
 <template>
@@ -73,14 +69,12 @@ const trainers = [
     </WikiHero>
 
     <v-container max-width="1200">
-
       <WikiCard title="Trainers" icon="mdi-compass-outline" color="green">
         <p class="text-body-1 lh-lg mb-6">
           Need some inspiration? Not sure what your character should do in this wide-open world?
         </p>
         <FeatureGrid :items="trainers" />
       </WikiCard>
-
     </v-container>
   </v-container>
 </template>

@@ -7,7 +7,7 @@ import WikiCard from '@/components/wiki/WikiCard.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
 import RuleList from '@/components/wiki/RuleList.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
 // Quick-link cards for the main Sandbox sections
 const sections = [
@@ -17,21 +17,21 @@ const sections = [
     description:
       'New here? Start with the essentials—Trainer IDs, permits, and the core systems that define a Trainer’s journey.',
     color: 'blue-darken-2',
-    link: '/sandbox/trainer-101',
+    to: '/sandbox/trainer-101',
   },
   {
     icon: 'mdi-earth',
     title: 'Setting',
     description: 'Explore the world, its regions, and the timeline shaping everything within it.',
     color: 'green-darken-2',
-    link: '/sandbox/setting',
+    to: '/sandbox/setting',
   },
   {
     icon: 'mdi-calendar-star',
     title: 'Events',
     description: 'Browse upcoming and ongoing events across the world in a calendar view.',
     color: 'amber-darken-2',
-    link: '/sandbox/events',
+    to: '/sandbox/events',
   },
   {
     icon: 'mdi-trophy',
@@ -39,7 +39,7 @@ const sections = [
     description:
       'Take on the Battle Challenge with detailed gym info, including standard and special formats.',
     color: 'red-darken-2',
-    link: '/sandbox/gym-battles',
+    to: '/sandbox/gym-battles',
   },
   {
     icon: 'mdi-star-circle',
@@ -47,7 +47,7 @@ const sections = [
     description:
       'Compete in performance-based events where battles demand style and creativity in equal measure.',
     color: 'amber-darken-2',
-    link: '/sandbox/contests',
+    to: '/sandbox/contests',
   },
   {
     icon: 'mdi-domain',
@@ -55,7 +55,7 @@ const sections = [
     description:
       'Explore the groups that shape the world—from corporate giants and research institutions to ranger unions and criminal syndicates.',
     color: 'green-darken-2',
-    link: '/sandbox/orgs',
+    to: '/sandbox/orgs',
   },
 ]
 

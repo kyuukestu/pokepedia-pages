@@ -53,7 +53,7 @@ const parsedTags = computed(() =>
         variant="elevated"
         size="large"
         class="font-weight-black"
-        :to="rp.link"
+        :to="rp.to"
       >
         <v-icon left class="mr-2">mdi-portal</v-icon>
         Enter Dimension

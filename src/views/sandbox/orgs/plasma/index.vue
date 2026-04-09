@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
-const sanctuaryOperations = [
+const sanctuaryOperations: FeatureItem[] = [
   {
     title: 'Displaced Pokémon Sheltering',
     icon: 'mdi-home-heart',
@@ -36,13 +36,13 @@ const sanctuaryOperations = [
   },
 ]
 
-const leadership = [
+const leadership: FeatureItem[] = [
   {
     title: 'Natural Harmonia Gropius (N)',
     icon: 'mdi-sparkles',
     color: 'teal-darken-3',
     description:
-      'Status: Sovereign. Half of Unova\'s illusive twin dragons. He often travels the world to seek further truth, N remains the spiritual heart of the group, guiding their path toward true harmony.',
+      "Status: Sovereign. Half of Unova's illusive twin dragons. He often travels the world to seek further truth, N remains the spiritual heart of the group, guiding their path toward true harmony.",
   },
   {
     title: 'Anthea & Concordia',

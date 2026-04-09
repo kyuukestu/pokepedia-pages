@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
 const rangerRoles = [
@@ -182,12 +182,13 @@ const ranks = [
           specific biomes.
         </WikiCallout>
       </WikiCard>
-      
+
       <WikiCard title="Career Rangers" icon="mdi-account-plus-outline" color="green">
         <v-row align="center">
           <v-col cols="12" md="8">
             <p class="text-body-1 lh-lg">
-              Want to defend nature and the harmony between people and pokemon? Almia's Ranger School always has room for one more student.
+              Want to defend nature and the harmony between people and pokemon? Almia's Ranger
+              School always has room for one more student.
             </p>
           </v-col>
           <v-col cols="12" md="4" class="text-center">

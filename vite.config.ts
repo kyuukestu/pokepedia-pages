@@ -6,11 +6,17 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import vuetify from 'vite-plugin-vuetify'
 import Components from 'unplugin-vue-components/vite'
+import VueRouter from 'unplugin-vue-router/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
   base: '/pokepedia-pages/',
   plugins: [
+    VueRouter({
+      dts: './typed-router.d.ts',
+      routesFolder: 'src/views',
+      extensions: ['vue'],
+    }),
     vue(),
     vueJsx(),
     vueDevTools(),
@@ -35,6 +41,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['sql.js', 'fs', 'sqlite3'], // Exclude sql.js and Node.js modules
+    exclude: ['sql.js', 'fs', 'sqlite3', 'vue-router/auto-routes', 'unplugin-vue-router'], // Exclude sql.js and Node.js modules
   },
 })

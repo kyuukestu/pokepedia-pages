@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
-import WikiCallout from '@/components/wiki/WikiCallout.vue'
-import WikiAlert from '@/components/wiki/WikiAlert.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
-const coreDisciplines = [
+const coreDisciplines: FeatureItem[] = [
   {
     title: 'The Pokéathlon',
     icon: 'mdi-trophy-variant',
@@ -36,7 +34,7 @@ const coreDisciplines = [
   },
 ]
 
-const safetyStats = [
+const safetyStats: FeatureItem[] = [
   {
     title: 'Mandatory Rest',
     icon: 'mdi-timer-sand',

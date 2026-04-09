@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
-const techFocus = [
+const techFocus: FeatureItem[] = [
   {
     title: 'Gigaremo Units',
     icon: 'mdi-radio-tower',
@@ -36,7 +36,7 @@ const techFocus = [
   },
 ]
 
-const leadership = [
+const leadership: FeatureItem[] = [
   {
     title: 'Blake Hall (The President)',
     icon: 'mdi-account-tie',

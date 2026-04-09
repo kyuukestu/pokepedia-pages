@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
-const coreMissions = [
+const coreMissions: FeatureItem[] = [
   {
     title: 'Pokémon Rehabilitation',
     icon: 'mdi-hospital-marker',
@@ -35,7 +35,7 @@ const coreMissions = [
   },
 ]
 
-const conservationProjects = [
+const conservationProjects: FeatureItem[] = [
   {
     title: 'Invasive Mitigation',
     icon: 'mdi-shield-remove',

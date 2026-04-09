@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
-import WikiCallout from '@/components/wiki/WikiCallout.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
-const organizationalTenets = [
+const organizationalTenets: FeatureItem[] = [
   {
     title: 'The Aesthetic Purge',
     icon: 'mdi-eye-outline',
@@ -36,7 +35,7 @@ const organizationalTenets = [
   },
 ]
 
-const nouveauProjects = [
+const nouveauProjects: FeatureItem[] = [
   {
     title: 'Nouveau Café',
     icon: 'mdi-coffee',
@@ -60,7 +59,7 @@ const nouveauProjects = [
   },
 ]
 
-const notableFigures = [
+const notableFigures: FeatureItem[] = [
   {
     title: 'Lysandre (The Visionary)',
     icon: 'mdi-crown',

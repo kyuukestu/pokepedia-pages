@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import FeatureGrid from '@/components/wiki/FeatureGrid.vue'
-import WikiCallout from '@/components/wiki/WikiCallout.vue'
-import WikiAlert from '@/components/wiki/WikiAlert.vue'
+import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
-const rocketScars = [
+const rocketScars: FeatureItem[] = [
   {
     title: 'Black Market Syndicates',
     icon: 'mdi-currency-usd-off',
@@ -36,7 +34,7 @@ const rocketScars = [
   },
 ]
 
-const missingPersonnel = [
+const missingPersonnel: FeatureItem[] = [
   {
     title: 'Giovanni (Priority: Zero)',
     icon: 'mdi-account-question',
