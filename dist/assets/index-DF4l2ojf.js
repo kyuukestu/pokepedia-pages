@@ -1,1 +1,0 @@
-import{_ as e}from"./index-DtOClig7.js";const t={};function _(r,n){return"Settlement"}const o=e(t,[["render",_]]),f=Object.freeze(Object.defineProperty({__proto__:null,default:o},Symbol.toStringTag,{value:"Module"}));export{f as _};

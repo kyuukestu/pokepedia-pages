@@ -1,1 +1,0 @@
-import{a,U as r,A as t,b as o,w as s,y as n,o as c,e as i,W as l}from"./index-DtOClig7.js";const d=a({__name:"index",setup(u){const e=t();return r(()=>{e.replace({path:"/sandbox/characters",query:{cat:"OC"}})}),(p,f)=>(c(),o(n,{class:"fill-height d-flex align-center justify-center"},{default:s(()=>[i(l,{indeterminate:"",color:"primary"})]),_:1}))}});export{d as default};
