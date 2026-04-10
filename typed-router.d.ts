@@ -74,6 +74,9 @@ declare module 'vue-router/auto-routes' {
       | '/sandbox/characters/npc/_npc_template/'
       | '/sandbox/characters/npc/_npc_template/pokemon/'
       | '/sandbox/characters/npc/_npc_template/rp-changes/'
+      | '/sandbox/characters/npc/bruno/'
+      | '/sandbox/characters/npc/bruno/pokemon/'
+      | '/sandbox/characters/npc/bruno/rp-changes/'
       | '/sandbox/characters/npc/karen/'
       | '/sandbox/characters/npc/karen/pokemon/'
       | '/sandbox/characters/npc/karen/rp-changes/'
@@ -111,6 +114,27 @@ declare module 'vue-router/auto-routes' {
     '/sandbox/characters/npc/_npc_template/rp-changes/': RouteRecordInfo<
       '/sandbox/characters/npc/_npc_template/rp-changes/',
       '/sandbox/characters/npc/_npc_template/rp-changes',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/bruno/': RouteRecordInfo<
+      '/sandbox/characters/npc/bruno/',
+      '/sandbox/characters/npc/bruno',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/bruno/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/npc/bruno/pokemon/',
+      '/sandbox/characters/npc/bruno/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/bruno/rp-changes/': RouteRecordInfo<
+      '/sandbox/characters/npc/bruno/rp-changes/',
+      '/sandbox/characters/npc/bruno/rp-changes',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -931,6 +955,9 @@ declare module 'vue-router/auto-routes' {
         | '/sandbox/characters/npc/_npc_template/'
         | '/sandbox/characters/npc/_npc_template/pokemon/'
         | '/sandbox/characters/npc/_npc_template/rp-changes/'
+        | '/sandbox/characters/npc/bruno/'
+        | '/sandbox/characters/npc/bruno/pokemon/'
+        | '/sandbox/characters/npc/bruno/rp-changes/'
         | '/sandbox/characters/npc/karen/'
         | '/sandbox/characters/npc/karen/pokemon/'
         | '/sandbox/characters/npc/karen/rp-changes/'
@@ -967,6 +994,24 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/characters/npc/_npc_template/rp-changes/index.vue': {
       routes:
         | '/sandbox/characters/npc/_npc_template/rp-changes/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/bruno/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/bruno/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/bruno/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/bruno/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/bruno/rp-changes/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/bruno/rp-changes/'
       views:
         | never
     }

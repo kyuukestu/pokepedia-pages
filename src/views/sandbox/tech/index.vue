@@ -4,7 +4,7 @@ import WikiCard from '@/components/wiki/WikiCard.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
-const generalTech = [
+const generalTech: FeatureItem[] = [
   {
     title: 'Smart Phone',
     icon: 'mdi-cellphone',
@@ -34,7 +34,7 @@ const generalTech = [
   },
 ]
 
-const storageTech = [
+const storageTech: FeatureItem[] = [
   {
     title: 'PC Storage',
     icon: 'mdi-cloud-upload',

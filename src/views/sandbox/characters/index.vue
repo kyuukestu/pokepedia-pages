@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, type RouteRecordRaw } from 'vue-router'
 import { routes } from 'vue-router/auto-routes'
 import WikiHero from '@/components/sections/WikiHero.vue'
 
@@ -27,7 +27,7 @@ const characters = computed(() => {
    * @param contextCategory Track if we are inside an NPC or OC branch
    */
 
-  function walk(node: any, parentPath = '', contextCategory = '') {
+  function walk(node: RouteRecordRaw, parentPath = '', contextCategory = '') {
     // 1. Resolve current path
     const nodePath = node.path || ''
     const currentPath = nodePath.startsWith('/')
@@ -75,7 +75,7 @@ const characters = computed(() => {
 
     // 5. Recursive Step
     if (node.children && node.children.length > 0) {
-      node.children.forEach((child: any) => walk(child, currentPath, nextCategory))
+      node.children.forEach((child: RouteRecordRaw) => walk(child, currentPath, nextCategory))
     }
   }
 

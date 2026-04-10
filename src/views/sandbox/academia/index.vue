@@ -463,13 +463,6 @@ const academics = [
     status: 'Active',
   },
 ]
-
-const universities = [
-  {
-    title: 'Example University',
-    region: 'Example Region',
-  },
-]
 </script>
 
 <template>

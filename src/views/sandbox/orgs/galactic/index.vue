@@ -3,7 +3,7 @@ import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
-const galacticObjectives = [
+const galacticObjectives: FeatureItem[] = [
   {
     title: 'Universal Reset',
     icon: 'mdi-auto-fix',
@@ -34,7 +34,7 @@ const galacticObjectives = [
   },
 ]
 
-const commandRemnants = [
+const commandRemnants: FeatureItem[] = [
   {
     title: 'Mars, Jupiter, & Saturn',
     icon: 'mdi-account-group',

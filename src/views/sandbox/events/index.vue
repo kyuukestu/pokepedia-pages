@@ -15,7 +15,6 @@ const eventStore = useEventStore()
 const currentRPDate = computed(() => eventStore.currentRPDate)
 const events = computed(() => eventStore.events)
 // ── Computed event lists ─────────────────────────────────────────────────────
-const rpNow = new Date(currentRPDate.value).getTime()
 
 type EventStatus = 'ongoing' | 'upcoming' | 'past'
 
@@ -45,7 +44,7 @@ const pastEvents = computed(() =>
 
 // ── Dialog state ─────────────────────────────────────────────────────────────
 const dialogOpen = ref(false)
-const selectedEvent = ref<(typeof events)[0] | null>(null)
+const selectedEvent = ref<(typeof events.value)[0] | null>(null)
 
 function handleEventClick(clickInfo: any) {
   selectedEvent.value = clickInfo.event

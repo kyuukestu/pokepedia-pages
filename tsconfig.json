@@ -27,7 +27,7 @@
     },
 
     /* UNPLUGIN ROUTER TYPES */
-    "types": ["unplugin-vue-router/client", "vite/client", "bun-types"]
+    "types": ["unplugin-vue-router/client", "vite/client"]
   },
   "include": [
     "src/**/*.ts",

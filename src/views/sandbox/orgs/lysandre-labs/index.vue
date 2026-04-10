@@ -3,7 +3,7 @@ import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
-const labInitiatives = [
+const labInitiatives: FeatureItem[] = [
   {
     title: 'Holocaster Network',
     icon: 'mdi-video-wireless',
@@ -34,7 +34,7 @@ const labInitiatives = [
   },
 ]
 
-const historicalNotes = [
+const historicalNotes: FeatureItem[] = [
   {
     title: 'The Underground Labs',
     icon: 'mdi-layers-triple-outline',

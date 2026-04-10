@@ -4,7 +4,7 @@ import WikiCard from '@/components/wiki/WikiCard.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
-const publicSector = [
+const publicSector: FeatureItem[] = [
   {
     title: 'Pokémon Association',
     icon: 'mdi-pokeball',
@@ -79,7 +79,7 @@ const publicSector = [
   },
 ]
 
-const privateSector = [
+const privateSector: FeatureItem[] = [
   {
     title: 'Silph Co.',
     icon: 'mdi-memory',
@@ -138,7 +138,7 @@ const privateSector = [
   },
 ]
 
-const underground = [
+const underground: FeatureItem[] = [
   {
     title: 'Rocket Remnants',
     icon: 'mdi-incognito',

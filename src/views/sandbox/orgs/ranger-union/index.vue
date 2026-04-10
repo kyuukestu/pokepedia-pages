@@ -4,7 +4,7 @@ import WikiCard from '@/components/wiki/WikiCard.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 
-const rangerRoles = [
+const rangerRoles: FeatureItem[] = [
   {
     title: 'Disaster Relief',
     icon: 'mdi-fire-truck',
@@ -35,7 +35,7 @@ const rangerRoles = [
   },
 ]
 
-const branches = [
+const branches: FeatureItem[] = [
   {
     title: 'Wildlife Protection',
     icon: 'mdi-paw',
@@ -73,7 +73,7 @@ const branches = [
   },
 ]
 
-const ranks = [
+const ranks: FeatureItem[] = [
   {
     title: 'Trainee',
     icon: 'mdi-school',

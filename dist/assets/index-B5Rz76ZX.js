@@ -1,1 +1,0 @@
-import{_ as o,n as r,b as n,F as s,o as t}from"./index-9pibCu2p.js";const a={};function l(c,e){return t(),r(s,null,[e[0]||(e[0]=n("h1",null,"Characters Page",-1)),e[1]||(e[1]=n("p",null,"Coming soon...",-1))],64)}const m=o(a,[["render",l]]);export{m as default};

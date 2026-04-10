@@ -88,8 +88,7 @@ const formatCurrency = (value: string) => {
   return range.join(' - ')
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getRowClass = (item: any, index: number) => {
+const getRowClass = (index: number) => {
   return index % 2 === 0 ? 'row-even' : 'row-odd'
 }
 </script>

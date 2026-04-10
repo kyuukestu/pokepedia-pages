@@ -50,7 +50,7 @@ const navigationLinks = computed<NavItem[]>(() => {
         icon: config.icon,
         color: config.color,
         to: `/sandbox/regions/indigo/johto/${folderName}`,
-      }
+      } as NavItem
     })
     .filter((link): link is NavItem => link !== null)
 })

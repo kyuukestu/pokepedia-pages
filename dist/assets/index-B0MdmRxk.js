@@ -1,0 +1,1 @@
+import{_ as e}from"./index-DtOClig7.js";const t={};function _(r,n){return"settlements"}const o=e(t,[["render",_]]),s=Object.freeze(Object.defineProperty({__proto__:null,default:o},Symbol.toStringTag,{value:"Module"}));export{s as _};

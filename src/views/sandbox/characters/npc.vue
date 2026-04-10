@@ -55,7 +55,7 @@ const profileLinks = computed(() => {
     return null
   }
 
-  const charNode = findCharacterNode(routes)
+  const charNode = findCharacterNode([...routes])
 
   if (charNode && charNode.children) {
     charNode.children.forEach((child: any) => {

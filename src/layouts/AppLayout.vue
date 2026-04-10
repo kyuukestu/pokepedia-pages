@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useTheme, useDisplay } from 'vuetify'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, type RouteRecordRaw } from 'vue-router'
 import { routes } from 'vue-router/auto-routes'
 import Fuse from 'fuse.js'
 
@@ -25,19 +25,30 @@ const searchInput = ref('')
 const isSearchOpen = ref(false)
 
 /**
+ * Extended route type that includes fullPath for search indexing
+ */
+type FlattenedRoute = RouteRecordRaw & {
+  fullPath: string
+}
+
+/**
  * Helper to turn nested route tree into a flat array with full paths.
  * Uses a Set to prevent duplication of parent/child routes.
  */
-function flattenRoutes(allRoutes: any[], parentPath = '', flat: any[] = []) {
+function flattenRoutes(
+  allRoutes: RouteRecordRaw[],
+  parentPath = '',
+  flat: FlattenedRoute[] = [],
+): FlattenedRoute[] {
   const seenPaths = new Set<string>()
 
-  function recurse(routes: any[], currentParent: string) {
+  function recurse(routes: RouteRecordRaw[], currentParent: string) {
     routes.forEach((route) => {
       const fullPath = `${currentParent}/${route.path}`.replace(/\/+/g, '/')
 
       if (!seenPaths.has(fullPath) && (route.component || !route.children)) {
         seenPaths.add(fullPath)
-        flat.push({ ...route, fullPath })
+        flat.push({ ...route, fullPath } as FlattenedRoute)
       }
 
       if (route.children && route.children.length > 0) {
@@ -56,8 +67,8 @@ function flattenRoutes(allRoutes: any[], parentPath = '', flat: any[] = []) {
  */
 const searchIndex = computed(() => {
   // Accessing currentRPDate ensures the "Live" status updates site-wide
-  const _trigger = eventStore.currentRPDate
-  const allFlattened = flattenRoutes(routes)
+  void eventStore.currentRPDate
+  const allFlattened = flattenRoutes([...routes])
 
   return allFlattened
     .filter((r) => {

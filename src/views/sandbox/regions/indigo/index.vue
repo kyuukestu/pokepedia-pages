@@ -45,7 +45,7 @@ const navigationLinks = computed<NavItem[]>(() => {
         color: config.color,
         // Build the route relative to the current location
         to: `/sandbox/regions/indigo/${folderName}`,
-      }
+      } as NavItem
     })
     .filter((link): link is NavItem => link !== null)
 })

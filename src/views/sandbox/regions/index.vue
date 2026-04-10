@@ -252,7 +252,7 @@ const travelMethods = [
                   class="indigo-member"
                   :class="{ 'indigo-member--bordered': i < indigoMembers.length - 1 }"
                 >
-                  <RouterLink :to="region.to" class="indigo-member__link">
+                  <RouterLink :to="region.to!" class="indigo-member__link">
                     <div class="indigo-member__inner pa-5">
                       <div class="d-flex align-center gap-2 mb-2">
                         <v-icon

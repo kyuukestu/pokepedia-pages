@@ -83,7 +83,7 @@ const permits: FeatureItem[] = [
 ]
 
 // Section 4e: RuleList items
-const carryExceptions: FeatureItem[] = [
+const carryExceptions = [
   {
     icon: 'mdi-baby-face-outline',
     color: 'blue',

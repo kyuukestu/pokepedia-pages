@@ -9,6 +9,7 @@ const championLeague: NavItem = {
   title: 'Indigo Champion League',
   subtitle: 'The Plateau Summit',
   to: '/sandbox/regions/indigo/league/champion-league', // Primary entry point
+  icon: 'mdi-shield-crown',
 }
 
 const regionalLeagues: NavItem[] = [
