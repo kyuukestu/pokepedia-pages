@@ -69,7 +69,17 @@ function iconColor(item: FeatureItem, dark: boolean): string {
         :ripple="!!item.to"
       >
         <v-card-text>
-          <v-icon size="48" :color="iconColor(item, theme.current.value.dark)" class="mb-3">
+          <template v-if="item.image">
+            <v-avatar size="128" class="mb-3 elevation-2 border">
+              <v-img :src="item.image" cover alt="feature image"></v-img>
+            </v-avatar>
+          </template>
+          <v-icon
+            v-else-if="item.icon"
+            size="48"
+            :color="iconColor(item, theme.current.value.dark)"
+            class="mb-3"
+          >
             {{ item.icon }}
           </v-icon>
           <h3 class="text-h6 font-weight-bold mb-2">{{ item.title }}</h3>
@@ -96,12 +106,12 @@ function iconColor(item: FeatureItem, dark: boolean): string {
               <v-img :src="item.image" cover alt="feature image"></v-img>
             </v-avatar>
           </template>
-          
-          <v-icon 
+
+          <v-icon
             v-else-if="item.icon"
-            size="48" 
-            :color="iconColor(item, theme.current.value.dark)" 
-            class="mb-3"
+            size="48"
+            :color="iconColor(item, theme.current.value.dark)"
+            class="mx-3"
           >
             {{ item.icon }}
           </v-icon>
@@ -114,7 +124,7 @@ function iconColor(item: FeatureItem, dark: boolean): string {
           <v-icon
             v-if="item.to"
             size="14"
-            class="text-medium-emphasis flex-shrink-0 ml-auto compact-arrow"
+            class="text-medium-emphasis shrink-0 ml-auto compact-arrow"
           >
             mdi-arrow-right
           </v-icon>

@@ -39,6 +39,7 @@ const groups = [
     items: [
       { title: 'Organizations', icon: 'mdi-trophy', to: '/sandbox/orgs' },
       { title: 'Technology', icon: 'mdi-star-circle', to: '/sandbox/tech' },
+      { title: 'Characters', icon: 'mdi-account', to: '/sandbox/characters' },
     ],
   },
 ]

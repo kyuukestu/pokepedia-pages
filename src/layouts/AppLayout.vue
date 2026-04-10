@@ -4,88 +4,37 @@ import { useTheme, useDisplay } from 'vuetify'
 import { useRoute, useRouter } from 'vue-router'
 import { routes } from 'vue-router/auto-routes'
 import Fuse from 'fuse.js'
+
+// Components
 import SandboxNav from '@/components/nav/SandboxNav.vue'
 import SyncNav from '@/components/nav/SyncNav.vue'
 
+// Store
+import { useEventStore } from '@/stores/eventStore'
+
+// ── Initialization ──────────────────────────────────────────────────────────
 const drawer = ref(true)
 const theme = useTheme()
 const route = useRoute()
 const router = useRouter()
 const { mobile } = useDisplay()
+const eventStore = useEventStore()
 
 // ── Search Logic ────────────────────────────────────────────────────────────
 const searchInput = ref('')
-const isSearchOpen = ref(false) // Added this missing ref
+const isSearchOpen = ref(false)
 
-const searchIndex = computed(() => {
-  const allFlattened = flattenRoutes(routes)
-
-  return allFlattened
-    .filter((r) => {
-      const p = r.fullPath.toLowerCase()
-      // Skip home, empty paths, and common "junk" files
-      return (
-        p !== '/' &&
-        p !== '' &&
-        !p.includes('[...') && // Skip 404/catch-all routes
-        !p.endsWith('/index') // Avoid 'Permits' and 'Permits/Index' duplication
-      )
-    })
-    .map((r) => {
-      const path = r.fullPath
-      const pathParts = path.split('/').filter(Boolean)
-
-      // Create cleaner breadcrumbs
-      const breadcrumb = pathParts
-        .map((p) => p.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()))
-        .join(' > ')
-
-      const title = breadcrumb.split(' > ').pop() || 'Page'
-
-      return {
-        title,
-        breadcrumb,
-        path,
-        category: pathParts[0]?.toUpperCase() || 'SYSTEM',
-      }
-    })
-})
-
-// ── 2. Enhanced Fuse.js Configuration ──────────────────────────────
-const fuse = new Fuse(searchIndex.value, {
-  keys: [
-    { name: 'title', weight: 2 },
-    { name: 'breadcrumb', weight: 1 },
-  ],
-  threshold: 0.2, // Lowered from 0.3/0.4 to reduce irrelevant results
-  ignoreLocation: true, // Finds the string anywhere in the path
-})
-
-const searchResults = computed(() => {
-  if (!searchInput.value) return []
-  return fuse.search(searchInput.value).map((res) => res.item)
-})
-
-function onSearchSelect(item: any) {
-  if (item?.path) {
-    console.log('Navigating to:', item.path) // Verify this starts with / in the console
-    router.push(item.path)
-    searchInput.value = ''
-    isSearchOpen.value = false
-  }
-}
-
-// Helper to turn nested route tree into a flat array with full paths
+/**
+ * Helper to turn nested route tree into a flat array with full paths.
+ * Uses a Set to prevent duplication of parent/child routes.
+ */
 function flattenRoutes(allRoutes: any[], parentPath = '', flat: any[] = []) {
   const seenPaths = new Set<string>()
 
   function recurse(routes: any[], currentParent: string) {
     routes.forEach((route) => {
-      // Reconstruct full path
       const fullPath = `${currentParent}/${route.path}`.replace(/\/+/g, '/')
 
-      // 1. Only include if we haven't seen this path yet
-      // 2. Only include if it's a "leaf" or has a component (avoids ghost parents)
       if (!seenPaths.has(fullPath) && (route.component || !route.children)) {
         seenPaths.add(fullPath)
         flat.push({ ...route, fullPath })
@@ -101,6 +50,94 @@ function flattenRoutes(allRoutes: any[], parentPath = '', flat: any[] = []) {
   return flat
 }
 
+/**
+ * The searchable index.
+ * Re-computes if routes change or if the RP Date advances.
+ */
+const searchIndex = computed(() => {
+  // Accessing currentRPDate ensures the "Live" status updates site-wide
+  const _trigger = eventStore.currentRPDate
+  const allFlattened = flattenRoutes(routes)
+
+  return allFlattened
+    .filter((r) => {
+      const p = r.fullPath.toLowerCase()
+      return p !== '/' && p !== '' && !p.includes('[...') && !p.endsWith('/index')
+    })
+    .map((r) => {
+      const path = r.fullPath
+      const pathParts = path.split('/').filter(Boolean)
+
+      const breadcrumb = pathParts
+        .map((p) => p.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()))
+        .join(' > ')
+
+      const title = breadcrumb.split(' > ').pop() || 'Page'
+
+      // Match route to an event in the store
+      // Match route to an event in the store
+      const activeEvent = eventStore.events.find((e) => {
+        // Helper to remove trailing slashes and ensure lowercase for comparison
+        const normalize = (p: string) => p.replace(/\/+$/, '').toLowerCase()
+
+        const eventPath = normalize((e.extendedProps.internalPath as any) || '')
+        const routePath = normalize(path)
+
+        // Debug log to confirm normalization is working
+        console.log(`Comparing Normalized: [${routePath}] to [${eventPath}]`)
+
+        return eventPath === routePath
+      })
+
+      const isLive = activeEvent ? eventStore.isEventActive(activeEvent) : false
+
+      return {
+        title,
+        breadcrumb,
+        path,
+        category: pathParts[0]?.toUpperCase() || 'SYSTEM',
+        isLive,
+      }
+    })
+})
+
+/**
+ * Fuse.js configuration wrapped in computed for reactivity
+ */
+const fuse = computed(
+  () =>
+    new Fuse(searchIndex.value, {
+      keys: [
+        { name: 'title', weight: 2 },
+        { name: 'breadcrumb', weight: 1 },
+      ],
+      threshold: 0.2,
+      ignoreLocation: true,
+    }),
+)
+
+const searchResults = computed(() => {
+  if (!searchInput.value) return []
+  return fuse.value.search(searchInput.value).map((res) => res.item)
+})
+
+interface SearchResultItem {
+  title: string
+  breadcrumb: string
+  path: string // Explicitly a string
+  category: string
+  isLive: boolean
+}
+
+// Then update your select function
+function onSearchSelect(item: SearchResultItem | null) {
+  if (item?.path) {
+    router.push(item.path as any) // TS should now accept this as a string
+    searchInput.value = ''
+    isSearchOpen.value = false
+  }
+}
+
 // ── Theme toggle ────────────────────────────────────────────────────────────
 const isDark = ref(theme.global.name.value === 'dark')
 watch(isDark, (val) => {
@@ -110,18 +147,11 @@ watch(isDark, (val) => {
 // ── Breadcrumbs Logic ───────────────────────────────────────────────────────
 const breadcrumbs = computed(() => {
   const pathArray = route.path.split('/').filter((p) => p)
-  const items = [
-    {
-      title: 'Home',
-      disabled: false,
-      to: '/',
-    },
-  ]
+  const items = [{ title: 'Home', disabled: false, to: '/' }]
 
   let currentPath = ''
   pathArray.forEach((path) => {
     currentPath += `/${path}`
-    // Format the title: capitalize and remove dashes
     const title = path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' ')
     items.push({
       title,
@@ -133,6 +163,7 @@ const breadcrumbs = computed(() => {
   return items
 })
 
+// ── Navigation State ────────────────────────────────────────────────────────
 const activeWorld = ref<'sandbox' | 'sync'>('sandbox')
 const worlds = [
   { key: 'sandbox', label: 'Sandbox', icon: 'mdi-pokeball' },
@@ -142,6 +173,7 @@ const worlds = [
 const topLinks = [
   { title: 'Home', icon: 'mdi-home-outline', to: '/' },
   { title: 'Levels', icon: 'mdi-trending-up', to: '/level' },
+  { title: 'Events', icon: 'mdi-calendar-star', to: '/sandbox/events' },
 ]
 
 function handleNavigation() {
@@ -153,7 +185,6 @@ function handleNavigation() {
   <v-app-bar elevation="1" density="compact">
     <template #prepend>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-
       <v-btn
         v-if="route.path !== '/'"
         icon="mdi-chevron-left"
@@ -196,13 +227,30 @@ function handleNavigation() {
         <template #item="{ props, item }">
           <v-list-item v-bind="props" :title="item.raw.title" :subtitle="item.raw.breadcrumb">
             <template #prepend>
-              <v-icon icon="mdi-subdirectory-arrow-right" size="small" class="mr-2" />
+              <v-icon
+                :icon="item.raw.isLive ? 'mdi-broadcast' : 'mdi-subdirectory-arrow-right'"
+                :color="item.raw.isLive ? 'error' : ''"
+                size="small"
+                class="mr-2"
+              />
             </template>
 
             <template #append>
-              <v-chip size="x-small" label variant="tonal" color="primary">
-                {{ item.raw.category }}
-              </v-chip>
+              <div class="d-flex align-center ga-2">
+                <v-chip
+                  v-if="item.raw.isLive"
+                  size="x-small"
+                  color="error"
+                  variant="flat"
+                  class="font-weight-bold pulse-animation"
+                >
+                  LIVE
+                </v-chip>
+
+                <v-chip size="x-small" label variant="tonal" color="primary">
+                  {{ item.raw.category }}
+                </v-chip>
+              </div>
             </template>
           </v-list-item>
         </template>
@@ -299,7 +347,7 @@ function handleNavigation() {
   font-weight: 700;
 }
 
-/* Original Drawer Styling continues below... */
+/* ── Drawer Styling ────────────────────────────────────────────────────── */
 .drawer-banner {
   display: flex;
   flex-direction: column;
@@ -355,6 +403,49 @@ function handleNavigation() {
   padding: 8px 16px;
 }
 
+/* ── Search Container ──────────────────────────────────────────────────── */
+.search-container {
+  width: 40px;
+  transition: all 0.3s ease;
+  margin-left: 8px;
+}
+
+.search-container--open {
+  width: 280px;
+}
+
+@media (max-width: 600px) {
+  .search-container--open {
+    width: 160px;
+  }
+}
+
+:deep(.search-bar .v-field__outline) {
+  display: none;
+}
+
+/* ── Animations ───────────────────────────────────────────────────────── */
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.ga-2 {
+  gap: 8px;
+}
+
+/* Scrollbar styling */
 .v-navigation-drawer ::-webkit-scrollbar {
   width: 4px;
 }
@@ -364,22 +455,5 @@ function handleNavigation() {
 .v-navigation-drawer ::-webkit-scrollbar-thumb {
   background: rgba(128, 128, 128, 0.25);
   border-radius: 2px;
-}
-
-.search-container {
-  width: 40px;
-  transition: all 0.3s ease;
-  margin-left: 8px;
-}
-.search-container--open {
-  width: 280px;
-}
-@media (max-width: 600px) {
-  .search-container--open {
-    width: 160px;
-  }
-}
-:deep(.search-bar .v-field__outline) {
-  display: none;
 }
 </style>

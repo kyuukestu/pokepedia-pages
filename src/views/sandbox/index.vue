@@ -10,7 +10,7 @@ import RuleList from '@/components/wiki/RuleList.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
 // Quick-link cards for the main Sandbox sections
-const sections = [
+const sections: FeatureItem[] = [
   {
     icon: 'mdi-book-open-variant',
     title: 'Trainer 101',

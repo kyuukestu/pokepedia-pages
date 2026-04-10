@@ -23,7 +23,7 @@ const allRegions: RegionItem[] = [
     description:
       'The industrial starting point. Known for rural charm and major urban hubs like Saffron City.',
     icon: 'mdi-map-marker-radius',
-    to: '/sandbox/regions/kanto',
+    to: '/sandbox/regions/indigo/kanto',
     indigoMember: true,
   },
   {
@@ -31,7 +31,7 @@ const allRegions: RegionItem[] = [
     description:
       'A land of tradition and ancient architecture, physically connected via the Mt. Silver range.',
     icon: 'mdi-temple-buddhist',
-    to: '/sandbox/regions/johto',
+    to: '/sandbox/regions/indigo/johto',
     indigoMember: true,
   },
   // Main League regions

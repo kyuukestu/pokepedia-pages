@@ -65,6 +65,298 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/sandbox/characters/npc': RouteRecordInfo<
+      '/sandbox/characters/npc',
+      '/sandbox/characters/npc',
+      Record<never, never>,
+      Record<never, never>,
+      | '/sandbox/characters/npc/'
+      | '/sandbox/characters/npc/_npc_template/'
+      | '/sandbox/characters/npc/_npc_template/pokemon/'
+      | '/sandbox/characters/npc/_npc_template/rp-changes/'
+      | '/sandbox/characters/npc/karen/'
+      | '/sandbox/characters/npc/karen/pokemon/'
+      | '/sandbox/characters/npc/karen/rp-changes/'
+      | '/sandbox/characters/npc/koga/'
+      | '/sandbox/characters/npc/koga/pokemon/'
+      | '/sandbox/characters/npc/koga/rp-changes/'
+      | '/sandbox/characters/npc/lorelei/'
+      | '/sandbox/characters/npc/lorelei/pokemon/'
+      | '/sandbox/characters/npc/lorelei/rp-changes/'
+      | '/sandbox/characters/npc/will/'
+      | '/sandbox/characters/npc/will/pokemon/'
+      | '/sandbox/characters/npc/will/rp-changes/'
+    >,
+    '/sandbox/characters/npc/': RouteRecordInfo<
+      '/sandbox/characters/npc/',
+      '/sandbox/characters/npc',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/_npc_template/': RouteRecordInfo<
+      '/sandbox/characters/npc/_npc_template/',
+      '/sandbox/characters/npc/_npc_template',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/_npc_template/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/npc/_npc_template/pokemon/',
+      '/sandbox/characters/npc/_npc_template/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/_npc_template/rp-changes/': RouteRecordInfo<
+      '/sandbox/characters/npc/_npc_template/rp-changes/',
+      '/sandbox/characters/npc/_npc_template/rp-changes',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/karen/': RouteRecordInfo<
+      '/sandbox/characters/npc/karen/',
+      '/sandbox/characters/npc/karen',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/karen/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/npc/karen/pokemon/',
+      '/sandbox/characters/npc/karen/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/karen/rp-changes/': RouteRecordInfo<
+      '/sandbox/characters/npc/karen/rp-changes/',
+      '/sandbox/characters/npc/karen/rp-changes',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/koga/': RouteRecordInfo<
+      '/sandbox/characters/npc/koga/',
+      '/sandbox/characters/npc/koga',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/koga/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/npc/koga/pokemon/',
+      '/sandbox/characters/npc/koga/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/koga/rp-changes/': RouteRecordInfo<
+      '/sandbox/characters/npc/koga/rp-changes/',
+      '/sandbox/characters/npc/koga/rp-changes',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/lorelei/': RouteRecordInfo<
+      '/sandbox/characters/npc/lorelei/',
+      '/sandbox/characters/npc/lorelei',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/lorelei/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/npc/lorelei/pokemon/',
+      '/sandbox/characters/npc/lorelei/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/lorelei/rp-changes/': RouteRecordInfo<
+      '/sandbox/characters/npc/lorelei/rp-changes/',
+      '/sandbox/characters/npc/lorelei/rp-changes',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/will/': RouteRecordInfo<
+      '/sandbox/characters/npc/will/',
+      '/sandbox/characters/npc/will',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/will/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/npc/will/pokemon/',
+      '/sandbox/characters/npc/will/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/npc/will/rp-changes/': RouteRecordInfo<
+      '/sandbox/characters/npc/will/rp-changes/',
+      '/sandbox/characters/npc/will/rp-changes',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc': RouteRecordInfo<
+      '/sandbox/characters/oc',
+      '/sandbox/characters/oc',
+      Record<never, never>,
+      Record<never, never>,
+      | '/sandbox/characters/oc/'
+      | '/sandbox/characters/oc/altair/'
+      | '/sandbox/characters/oc/altair/pokemon/'
+      | '/sandbox/characters/oc/azumi/'
+      | '/sandbox/characters/oc/azumi/pokemon/'
+      | '/sandbox/characters/oc/dustin/'
+      | '/sandbox/characters/oc/dustin/pokemon/'
+      | '/sandbox/characters/oc/esther/'
+      | '/sandbox/characters/oc/esther/pokemon/'
+      | '/sandbox/characters/oc/maker/'
+      | '/sandbox/characters/oc/maker/pokemon/'
+      | '/sandbox/characters/oc/montagne/'
+      | '/sandbox/characters/oc/montagne/pokemon/'
+      | '/sandbox/characters/oc/naka/'
+      | '/sandbox/characters/oc/naka/pokemon/'
+      | '/sandbox/characters/oc/nyra/'
+      | '/sandbox/characters/oc/nyra/pokemon/'
+      | '/sandbox/characters/oc/reggie/'
+      | '/sandbox/characters/oc/reggie/pokemon/'
+    >,
+    '/sandbox/characters/oc/': RouteRecordInfo<
+      '/sandbox/characters/oc/',
+      '/sandbox/characters/oc',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/altair/': RouteRecordInfo<
+      '/sandbox/characters/oc/altair/',
+      '/sandbox/characters/oc/altair',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/altair/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/oc/altair/pokemon/',
+      '/sandbox/characters/oc/altair/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/azumi/': RouteRecordInfo<
+      '/sandbox/characters/oc/azumi/',
+      '/sandbox/characters/oc/azumi',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/azumi/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/oc/azumi/pokemon/',
+      '/sandbox/characters/oc/azumi/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/dustin/': RouteRecordInfo<
+      '/sandbox/characters/oc/dustin/',
+      '/sandbox/characters/oc/dustin',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/dustin/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/oc/dustin/pokemon/',
+      '/sandbox/characters/oc/dustin/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/esther/': RouteRecordInfo<
+      '/sandbox/characters/oc/esther/',
+      '/sandbox/characters/oc/esther',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/esther/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/oc/esther/pokemon/',
+      '/sandbox/characters/oc/esther/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/maker/': RouteRecordInfo<
+      '/sandbox/characters/oc/maker/',
+      '/sandbox/characters/oc/maker',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/maker/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/oc/maker/pokemon/',
+      '/sandbox/characters/oc/maker/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/montagne/': RouteRecordInfo<
+      '/sandbox/characters/oc/montagne/',
+      '/sandbox/characters/oc/montagne',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/montagne/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/oc/montagne/pokemon/',
+      '/sandbox/characters/oc/montagne/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/naka/': RouteRecordInfo<
+      '/sandbox/characters/oc/naka/',
+      '/sandbox/characters/oc/naka',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/naka/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/oc/naka/pokemon/',
+      '/sandbox/characters/oc/naka/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/nyra/': RouteRecordInfo<
+      '/sandbox/characters/oc/nyra/',
+      '/sandbox/characters/oc/nyra',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/nyra/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/oc/nyra/pokemon/',
+      '/sandbox/characters/oc/nyra/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/reggie/': RouteRecordInfo<
+      '/sandbox/characters/oc/reggie/',
+      '/sandbox/characters/oc/reggie',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/characters/oc/reggie/pokemon/': RouteRecordInfo<
+      '/sandbox/characters/oc/reggie/pokemon/',
+      '/sandbox/characters/oc/reggie/pokemon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/sandbox/events/': RouteRecordInfo<
       '/sandbox/events/',
       '/sandbox/events',
@@ -103,6 +395,13 @@ declare module 'vue-router/auto-routes' {
     '/sandbox/events/festival/rivers-crown/2022-08-04/': RouteRecordInfo<
       '/sandbox/events/festival/rivers-crown/2022-08-04/',
       '/sandbox/events/festival/rivers-crown/2022-08-04',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/events/tournament/indigo-conference/2022-12-05/': RouteRecordInfo<
+      '/sandbox/events/tournament/indigo-conference/2022-12-05/',
+      '/sandbox/events/tournament/indigo-conference/2022-12-05',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -324,6 +623,97 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/sandbox/regions/indigo/': RouteRecordInfo<
+      '/sandbox/regions/indigo/',
+      '/sandbox/regions/indigo',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/johto/': RouteRecordInfo<
+      '/sandbox/regions/indigo/johto/',
+      '/sandbox/regions/indigo/johto',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/johto/events/': RouteRecordInfo<
+      '/sandbox/regions/indigo/johto/events/',
+      '/sandbox/regions/indigo/johto/events',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/johto/league/': RouteRecordInfo<
+      '/sandbox/regions/indigo/johto/league/',
+      '/sandbox/regions/indigo/johto/league',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/johto/league/gyms/': RouteRecordInfo<
+      '/sandbox/regions/indigo/johto/league/gyms/',
+      '/sandbox/regions/indigo/johto/league/gyms',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/johto/settlements/': RouteRecordInfo<
+      '/sandbox/regions/indigo/johto/settlements/',
+      '/sandbox/regions/indigo/johto/settlements',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/kanto/': RouteRecordInfo<
+      '/sandbox/regions/indigo/kanto/',
+      '/sandbox/regions/indigo/kanto',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/kanto/events/': RouteRecordInfo<
+      '/sandbox/regions/indigo/kanto/events/',
+      '/sandbox/regions/indigo/kanto/events',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/kanto/league/': RouteRecordInfo<
+      '/sandbox/regions/indigo/kanto/league/',
+      '/sandbox/regions/indigo/kanto/league',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/kanto/league/gyms/': RouteRecordInfo<
+      '/sandbox/regions/indigo/kanto/league/gyms/',
+      '/sandbox/regions/indigo/kanto/league/gyms',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/kanto/settlements/': RouteRecordInfo<
+      '/sandbox/regions/indigo/kanto/settlements/',
+      '/sandbox/regions/indigo/kanto/settlements',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/league/': RouteRecordInfo<
+      '/sandbox/regions/indigo/league/',
+      '/sandbox/regions/indigo/league',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/regions/indigo/league/champion-league/': RouteRecordInfo<
+      '/sandbox/regions/indigo/league/champion-league/',
+      '/sandbox/regions/indigo/league/champion-league',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/sandbox/rules/': RouteRecordInfo<
       '/sandbox/rules/',
       '/sandbox/rules',
@@ -534,6 +924,263 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/views/sandbox/characters/npc.vue': {
+      routes:
+        | '/sandbox/characters/npc'
+        | '/sandbox/characters/npc/'
+        | '/sandbox/characters/npc/_npc_template/'
+        | '/sandbox/characters/npc/_npc_template/pokemon/'
+        | '/sandbox/characters/npc/_npc_template/rp-changes/'
+        | '/sandbox/characters/npc/karen/'
+        | '/sandbox/characters/npc/karen/pokemon/'
+        | '/sandbox/characters/npc/karen/rp-changes/'
+        | '/sandbox/characters/npc/koga/'
+        | '/sandbox/characters/npc/koga/pokemon/'
+        | '/sandbox/characters/npc/koga/rp-changes/'
+        | '/sandbox/characters/npc/lorelei/'
+        | '/sandbox/characters/npc/lorelei/pokemon/'
+        | '/sandbox/characters/npc/lorelei/rp-changes/'
+        | '/sandbox/characters/npc/will/'
+        | '/sandbox/characters/npc/will/pokemon/'
+        | '/sandbox/characters/npc/will/rp-changes/'
+      views:
+        | 'default'
+    }
+    'src/views/sandbox/characters/npc/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/_npc_template/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/_npc_template/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/_npc_template/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/_npc_template/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/_npc_template/rp-changes/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/_npc_template/rp-changes/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/karen/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/karen/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/karen/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/karen/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/karen/rp-changes/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/karen/rp-changes/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/koga/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/koga/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/koga/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/koga/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/koga/rp-changes/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/koga/rp-changes/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/lorelei/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/lorelei/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/lorelei/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/lorelei/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/lorelei/rp-changes/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/lorelei/rp-changes/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/will/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/will/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/will/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/will/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/npc/will/rp-changes/index.vue': {
+      routes:
+        | '/sandbox/characters/npc/will/rp-changes/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc.vue': {
+      routes:
+        | '/sandbox/characters/oc'
+        | '/sandbox/characters/oc/'
+        | '/sandbox/characters/oc/altair/'
+        | '/sandbox/characters/oc/altair/pokemon/'
+        | '/sandbox/characters/oc/azumi/'
+        | '/sandbox/characters/oc/azumi/pokemon/'
+        | '/sandbox/characters/oc/dustin/'
+        | '/sandbox/characters/oc/dustin/pokemon/'
+        | '/sandbox/characters/oc/esther/'
+        | '/sandbox/characters/oc/esther/pokemon/'
+        | '/sandbox/characters/oc/maker/'
+        | '/sandbox/characters/oc/maker/pokemon/'
+        | '/sandbox/characters/oc/montagne/'
+        | '/sandbox/characters/oc/montagne/pokemon/'
+        | '/sandbox/characters/oc/naka/'
+        | '/sandbox/characters/oc/naka/pokemon/'
+        | '/sandbox/characters/oc/nyra/'
+        | '/sandbox/characters/oc/nyra/pokemon/'
+        | '/sandbox/characters/oc/reggie/'
+        | '/sandbox/characters/oc/reggie/pokemon/'
+      views:
+        | 'default'
+    }
+    'src/views/sandbox/characters/oc/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/altair/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/altair/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/altair/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/altair/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/azumi/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/azumi/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/azumi/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/azumi/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/dustin/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/dustin/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/dustin/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/dustin/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/esther/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/esther/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/esther/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/esther/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/maker/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/maker/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/maker/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/maker/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/montagne/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/montagne/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/montagne/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/montagne/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/naka/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/naka/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/naka/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/naka/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/nyra/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/nyra/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/nyra/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/nyra/pokemon/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/reggie/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/reggie/'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/oc/reggie/pokemon/index.vue': {
+      routes:
+        | '/sandbox/characters/oc/reggie/pokemon/'
+      views:
+        | never
+    }
     'src/views/sandbox/events/index.vue': {
       routes:
         | '/sandbox/events/'
@@ -567,6 +1214,12 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/events/festival/rivers-crown/2022-08-04/index.vue': {
       routes:
         | '/sandbox/events/festival/rivers-crown/2022-08-04/'
+      views:
+        | never
+    }
+    'src/views/sandbox/events/tournament/indigo-conference/2022-12-05/index.vue': {
+      routes:
+        | '/sandbox/events/tournament/indigo-conference/2022-12-05/'
       views:
         | never
     }
@@ -753,6 +1406,84 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/regions/index.vue': {
       routes:
         | '/sandbox/regions/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/johto/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/johto/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/johto/events/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/johto/events/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/johto/league/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/johto/league/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/johto/league/gyms/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/johto/league/gyms/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/johto/settlements/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/johto/settlements/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/kanto/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/kanto/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/kanto/events/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/kanto/events/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/kanto/league/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/kanto/league/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/kanto/league/gyms/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/kanto/league/gyms/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/kanto/settlements/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/kanto/settlements/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/league/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/league/'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/indigo/league/champion-league/index.vue': {
+      routes:
+        | '/sandbox/regions/indigo/league/champion-league/'
       views:
         | never
     }

@@ -7,108 +7,40 @@ import WikiAlert from '@/components/wiki/WikiAlert.vue'
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import type { RouteLocationRaw } from 'vue-router'
-
-// ── RP Timeline ──────────────────────────────────────────────────────────────
-/**
- * SOURCE OF TRUTH — change this date to advance the RP timeline site-wide.
- */
-const currentRPDate = '2022-08-19'
-
-interface CalendarEvent {
-  title: string
-  start: string
-  end?: string
-  allDay?: boolean
-  extendedProps: EventExtendedProps
-}
-
-interface EventExtendedProps {
-  description: string
-  region: string
-  location: string
-  image: string
-  internalPath: RouteLocationRaw // This triggers the autocomplete
-  bulba?: string
-}
+import { useEventStore } from '@/stores/eventStore'
 
 // ── Event Data ───────────────────────────────────────────────────────────────
-const events: CalendarEvent[] = [
-  {
-    title: 'Balloon Race',
-    start: '2022-08-01',
-    allDay: true,
-    extendedProps: {
-      description: 'Postponed by Sanguine Swarm interference.',
-      region: 'Johto',
-      location: 'Route 39 — North of Olivine City',
-      image: 'https://archives.bulbagarden.net/media/upload/4/44/Pokemon_Balloon_Race.png',
-      internalPath: '/sandbox/events/balloon-race/2022-08-01',
-      bulba: 'https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Balloon_Race',
-    },
-  },
-  {
-    title: "River's Crown Medieval Festival",
-    start: '2022-08-04',
-    end: '2022-08-14', // FullCalendar end dates are exclusive; display as Aug 23
-    extendedProps: {
-      description: 'A celebration of the medieval era and ancient Unovan/Kalosian lore.',
-      region: 'Kalos',
-      location: 'Loire de Fleuve Isle, Off the Coast of Cyllage',
-      image: 'https://i.pinimg.com/736x/85/96/48/85964812fb919478cb3fa1d1ac41ee86.jpg',
-      internalPath: '/sandbox/events/festival/rivers-crown/2022-08-04',
-    },
-  },
-  {
-    title: 'Exeggutor Island Contest',
-    start: '2022-08-11',
-    allDay: true,
-    extendedProps: {
-      description: 'Special Alolan regional Pokémon Contest.',
-      region: 'Alola',
-      location: 'Exeggutor Island',
-      image: 'https://pbs.twimg.com/media/FqNSDUoXgAA3XE4?format=jpg&name=large',
-      internalPath: '/sandbox/events/contest/exeggutor-isle/2022-08-11',
-    },
-  },
-  {
-    title: "Hau'oli City Contest",
-    start: '2022-08-23',
-    allDay: true,
-    extendedProps: {
-      description: 'Special Alolan regional Pokémon Contest.',
-      region: 'Alola',
-      location: "Hau'oli City",
-      image: 'https://i1.sndcdn.com/artworks-000195315504-h536ad-t1080x1080.jpg',
-      internalPath: '/sandbox/events/contest/hauoli/2022-08-23',
-    },
-  },
-]
+const eventStore = useEventStore()
 
+const currentRPDate = computed(() => eventStore.currentRPDate)
+const events = computed(() => eventStore.events)
 // ── Computed event lists ─────────────────────────────────────────────────────
-const rpNow = new Date(currentRPDate).getTime()
+const rpNow = new Date(currentRPDate.value).getTime()
 
 type EventStatus = 'ongoing' | 'upcoming' | 'past'
 
-function getStatus(event: (typeof events)[0]): EventStatus {
-  const start = new Date(event.start).getTime()
-  // FullCalendar multi-day end is exclusive — subtract one day for display logic
-  const end = event.end ? new Date(event.end).getTime() - 86_400_000 : start
-  if (end < rpNow) return 'past'
-  if (start <= rpNow) return 'ongoing'
+function getStatus(event: any): EventStatus {
+  // Use the store's currentRPDate
+  const todayStr = currentRPDate.value
+  const start = event.start
+  const end = event.end || event.start
+
+  if (todayStr > end) return 'past'
+  if (todayStr >= start && todayStr <= end) return 'ongoing'
   return 'upcoming'
 }
 
-const activeEvents = computed(() =>
-  events
-    .filter((e) => getStatus(e) !== 'past')
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()),
+const activeEvents = computed(
+  () =>
+    events.value
+      .filter((e) => getStatus(e) !== 'past')
+      .sort((a, b) => a.start.localeCompare(b.start)), // Cleaner string sorting
 )
 
 const pastEvents = computed(() =>
-  events
+  events.value
     .filter((e) => getStatus(e) === 'past')
-    .sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime()),
+    .sort((a, b) => b.start.localeCompare(a.start)),
 )
 
 // ── Dialog state ─────────────────────────────────────────────────────────────
@@ -121,7 +53,7 @@ function handleEventClick(clickInfo: any) {
 }
 
 // ── Calendar config ──────────────────────────────────────────────────────────
-const calendarOptions = ref({
+const calendarOptions = computed(() => ({
   plugins: [dayGridPlugin, timeGridPlugin],
   headerToolbar: {
     left: 'prev,next today',
@@ -129,13 +61,18 @@ const calendarOptions = ref({
     right: 'dayGridMonth,timeGridWeek',
   },
   initialView: 'dayGridMonth',
-  initialDate: currentRPDate,
-  now: currentRPDate,
-  events,
+  // Use the store values here
+  initialDate: currentRPDate.value,
+  now: currentRPDate.value,
+  events: events.value,
   eventClick: handleEventClick,
   height: 'auto',
-  dayCellClassNames: (arg: any) => (arg.isToday ? ['rp-today'] : []),
-})
+  dayCellClassNames: (arg: any) => {
+    // Standardize date to YYYY-MM-DD for comparison
+    const cellDate = arg.date.toISOString().split('T')[0]
+    return cellDate === currentRPDate.value ? ['rp-today'] : []
+  },
+}))
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 function formatDate(dateString: string) {
@@ -169,7 +106,9 @@ const statusConfig: Record<EventStatus, { label: string; color: string; icon: st
             size="small"
             prepend-icon="mdi-clock-outline"
           >
-            RP Date: {{ formatDate(currentRPDate) }}
+            RP Date:
+            {{ formatDate(currentRPDate) }}
+            {{ console.log('RP Date:', currentRPDate) }}
           </v-chip>
           <v-chip color="success" variant="tonal" size="small" prepend-icon="mdi-circle-slice-8">
             {{ activeEvents.filter((e) => getStatus(e) === 'ongoing').length }} ongoing
