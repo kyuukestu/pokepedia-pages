@@ -1,1 +1,0 @@
-<template>Pokemon</template>

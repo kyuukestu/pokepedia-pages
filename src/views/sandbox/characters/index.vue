@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRoute, type RouteRecordRaw } from 'vue-router'
-import { routes } from 'vue-router/auto-routes'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { autoRegistry } from '@/data/characters/registry'
+// Use the official labels for "npc" -> "NPC" or "Non-Player Character"
+import { CharacterTypeLabels } from '@/types/character'
 import WikiHero from '@/components/sections/WikiHero.vue'
 
-// ── State ──────────────────────────────────────────────────────────────────
 const route = useRoute()
 const search = ref('')
 const selectedCategory = ref('All')
@@ -15,85 +16,35 @@ onMounted(() => {
   }
 })
 
-// ── Character Discovery ─────────────────────────────────────────────────────
+watch(
+  () => route.query.cat,
+  (newCat) => {
+    if (newCat) {
+      selectedCategory.value = newCat as string
+    }
+  },
+  { immediate: true },
+)
+
 const characters = computed(() => {
-  const rootPath = '/sandbox/characters/'
-  const seenFolders = new Set<string>()
-  const discovered: any[] = []
-
-  /**
-   * @param node The current route node
-   * @param parentPath Accumulated string path
-   * @param contextCategory Track if we are inside an NPC or OC branch
-   */
-
-  function walk(node: RouteRecordRaw, parentPath = '', contextCategory = '') {
-    // 1. Resolve current path
-    const nodePath = node.path || ''
-    const currentPath = nodePath.startsWith('/')
-      ? nodePath
-      : `${parentPath}/${nodePath}`.replace(/\/+/g, '/')
-
-    // 2. Resolve relative segments
-    const relativePath = currentPath.replace(rootPath, '')
-    const segments = relativePath.split('/').filter(Boolean)
-
-    // 3. Update Category Context
-    let nextCategory = contextCategory
-    if (segments.length === 1) {
-      const possibleCat = segments[0].toLowerCase()
-      if (possibleCat === 'npc') nextCategory = 'NPC'
-      if (possibleCat === 'oc') nextCategory = 'OC'
-    }
-
-    // 4. Capture ONLY Characters (Depth 2)
-    if (nextCategory && segments.length === 2) {
-      const charId = segments[1]
-
-      // Filter out system files, layouts, and the redirecting index files
-      const isSystem =
-        charId.startsWith('_') || charId === 'index' || charId.includes(':') || charId.includes('[')
-
-      if (!isSystem) {
-        const uniqueKey = `${nextCategory}-${charId}`.toLowerCase()
-
-        if (!seenFolders.has(uniqueKey)) {
-          seenFolders.add(uniqueKey)
-
-          const cleanCharId = charId.toLowerCase()
-          const cleanCat = nextCategory.toLowerCase()
-
-          discovered.push({
-            id: uniqueKey, // Use uniqueKey for stable list IDs
-            category: nextCategory,
-            path: `${rootPath}${cleanCat}/${cleanCharId}`,
-            name: charId.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
-          })
-        }
-      }
-    }
-
-    // 5. Recursive Step
-    if (node.children && node.children.length > 0) {
-      node.children.forEach((child: RouteRecordRaw) => walk(child, currentPath, nextCategory))
-    }
-  }
-
-  // Start the walk
-  routes.forEach((node) => walk(node, '', ''))
-  return discovered
+  return autoRegistry.map((char) => ({
+    ...char,
+    path: `/sandbox/characters/${char.category}/${char.id}`,
+    // Map the raw key 'npc' to the label 'NPC' via your Record
+    displayLabel: CharacterTypeLabels[char.category],
+  }))
 })
 
-// ── Filtering ───────────────────────────────────────────────────────────────
+// Categories based on Labels
 const categories = computed(() => {
-  const cats = new Set(characters.value.map((c) => c.category))
+  const cats = new Set(characters.value.map((c) => c.displayLabel))
   return ['All', ...Array.from(cats).sort()]
 })
 
 const filteredCharacters = computed(() => {
   return characters.value.filter((c) => {
-    const matchesSearch = c.name.toLowerCase().includes(search.value.toLowerCase())
-    const matchesCat = selectedCategory.value === 'All' || c.category === selectedCategory.value
+    const matchesSearch = c.name.full.toLowerCase().includes(search.value.toLowerCase())
+    const matchesCat = selectedCategory.value === 'All' || c.displayLabel === selectedCategory.value
     return matchesSearch && matchesCat
   })
 })
@@ -151,16 +102,30 @@ const filteredCharacters = computed(() => {
                 <v-icon size="48">mdi-account</v-icon>
               </v-avatar>
 
-              <div class="text-h6 font-weight-bold line-clamp-1">{{ char.name }}</div>
+              <div class="text-h6 font-weight-bold line-clamp-1">
+                {{ char.name.full }}
+              </div>
 
-              <v-chip
-                :color="char.category === 'NPC' ? 'amber-darken-3' : 'blue'"
-                size="x-small"
-                variant="tonal"
-                class="mt-1 font-weight-bold"
-              >
-                {{ char.category }}
-              </v-chip>
+              <div class="d-flex justify-center ga-1 mt-1">
+                <v-chip
+                  :color="char.category === 'npc' ? 'amber-darken-3' : 'blue'"
+                  size="x-small"
+                  variant="tonal"
+                  class="font-weight-bold"
+                >
+                  {{ char.displayLabel }}
+                </v-chip>
+
+                <v-chip
+                  v-if="'type' in char"
+                  color="grey"
+                  size="x-small"
+                  variant="outlined"
+                  class="text-uppercase"
+                >
+                  {{ char.type }}
+                </v-chip>
+              </div>
             </div>
 
             <v-divider />

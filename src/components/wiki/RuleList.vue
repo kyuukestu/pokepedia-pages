@@ -9,6 +9,7 @@ interface Rule {
   color: string
   title: string
   description?: string
+  to?: string
 }
 
 defineProps({
@@ -51,6 +52,13 @@ function iconColor(color: string): string {
             {{ rule.icon }}
           </v-icon>
           <span class="rule-item__title text-body-1 font-weight-medium">{{ rule.title }}</span>
+          <v-btn
+  v-if="rule.to"
+  :href="rule.to"
+  icon="mdi-link-box-variant"
+  size="18"
+  variant="text"
+/>
           <v-icon
             v-if="rule.description"
             size="18"

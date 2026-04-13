@@ -13,6 +13,7 @@ const rules = [
     title: 'Follow RP Nation Rules',
     description:
       'All global RP Nation rules apply. This includes guidelines on content ratings, harassment, and community conduct. Familiarize yourself with them before participating.',
+    to: 'https://www.rpnation.com/rules/',
   },
   {
     icon: 'mdi-pencil-ruler',

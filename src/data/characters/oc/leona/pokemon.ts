@@ -1,0 +1,103 @@
+import type { PokemonMember } from '@/types/pokemon'
+
+const pokemon: PokemonMember[] = [
+  {
+    speciesId: 'pyroar',
+    gender: 'male',
+    level: 0, // you didn’t provide this
+    ability: 'moxie',
+    moves: [
+      'flame charge',
+      'flamethrower',
+      'facade',
+      'crunch',
+      'solar beam',
+      'sunny day',
+      'psychic fangs',
+      'noble roar',
+    ],
+  },
+  {
+    speciesId: 'excadrill',
+    gender: 'female',
+    level: 0,
+    ability: 'mold breaker',
+    moves: [
+      'drill run',
+      'horn drill',
+      'stealth rock',
+      'swords dance',
+      'iron head',
+      'poison jab',
+      'earthquake',
+      'brutal swing',
+    ],
+  },
+  {
+    speciesId: 'azumarill',
+    gender: 'male',
+    level: 0,
+    ability: 'sap sipper',
+    shiny: true,
+    moves: [
+      'ice punch',
+      'belly drum',
+      'play rough',
+      'superpower',
+      'aqua ring',
+      'liquidation',
+      'misty terrain',
+      'trailblaze',
+    ],
+  },
+  {
+    speciesId: 'decidueye-hisuian',
+    gender: 'female',
+    level: 0,
+    ability: 'scrappy',
+    moves: [
+      'triple arrows',
+      'sucker punch',
+      'leaf blade',
+      'roost',
+      'rock tomb',
+      'grassy terrain',
+      'shadow claw',
+      'u-turn',
+    ],
+  },
+  {
+    speciesId: 'liepard',
+    gender: 'female',
+    level: 0,
+    ability: 'limber',
+    moves: [
+      'sucker punch',
+      'night slash',
+      'aerial ace',
+      'assist',
+      'quick attack',
+      'iron tail',
+      'thunder wave',
+      'screech',
+    ],
+  },
+  {
+    speciesId: 'grafaiai',
+    gender: 'male',
+    level: 0,
+    ability: 'prankster',
+    moves: [
+      'u-turn',
+      'encore',
+      'nasty plot',
+      'doodle',
+      'poison jab',
+      'substitute',
+      'baton pass',
+      'swords dance',
+    ],
+  },
+]
+
+export default pokemon
