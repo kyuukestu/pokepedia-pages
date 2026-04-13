@@ -120,14 +120,11 @@ function sectionIcon(key: string): string {
 }
 
 function getImageUrl(path: string, charId: string): string {
-  if (!path) return ''
+  if (!path || path.startsWith('http')) return path
 
-  // 1. If it's an external URL, return as is
-  if (path.startsWith('http')) return path
-
-  // 2. Otherwise, assume it's a filename intended for your character folder
-  // This helps if your database just stores "falkner.png"
-  return `/pokepedia-pages/assets/characters/${charId}/${path}`
+  // This will now correctly resolve to /assets/characters/...
+  const base = import.meta.env.BASE_URL
+  return `${base}assets/characters/${charId}/${path}`.replace(/\/+/g, '/')
 }
 </script>
 
