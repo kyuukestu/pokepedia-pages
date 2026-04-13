@@ -283,6 +283,7 @@ function getImageUrl(path: string, charId: string): string {
                   section.key === 'index' ? currentPathBase : `${currentPathBase}/${section.key}`
                 "
                 class="sidebar__nav-item"
+                :class="{ 'sidebar__nav-item--active': activeSection === section.key }"
               >
                 <v-icon size="16" class="sidebar__nav-icon">{{ section.icon }}</v-icon>
                 <span>{{ section.label }}</span>
