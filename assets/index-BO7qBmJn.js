@@ -1,0 +1,1 @@
+import{_ as l,q as t,e as n,F as o,o as r}from"./app-CpK5fiM-.js";const s={};function a(u,e){return r(),t(o,null,[e[0]||(e[0]=n("h1",null,"Development Page",-1)),e[1]||(e[1]=n("h3",null,"To-Do List:",-1)),e[2]||(e[2]=n("ul",null,[n("li",null,"Implement Character Pages")],-1))],64)}const f=l(s,[["render",a]]);export{f as default};

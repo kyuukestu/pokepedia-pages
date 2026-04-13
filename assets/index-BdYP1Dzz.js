@@ -1,0 +1,1 @@
+import{_ as e}from"./app-CpK5fiM-.js";const t={};function _(r,n){return"settlements"}const o=e(t,[["render",_]]),s=Object.freeze(Object.defineProperty({__proto__:null,default:o},Symbol.toStringTag,{value:"Module"}));export{s as _};

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kyuukestu.github.io/pokepedia-pages/sitemap.xml

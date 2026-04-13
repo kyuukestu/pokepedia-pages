@@ -1,0 +1,1 @@
+const e={id:"leona",name:{full:"Leona",short:["Leo","Lea"]},region:"unova",trainerClass:["battler"],color:"#8f0b0b",image:"leona.png",category:"oc",affiliation:[{orgId:"Team Rocket",roles:[{title:"Admin",status:"active"}],primary:!0}],gender:"female",age:0},o=Object.freeze(Object.defineProperty({__proto__:null,default:e},Symbol.toStringTag,{value:"Module"}));export{o as _};
