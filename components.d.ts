@@ -8,10 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Affiliation: typeof import('./src/components/wiki/Affiliation.vue')['default']
     AffiliationBanner: typeof import('./src/components/wiki/AffiliationBanner.vue')['default']
-    BtnCont: typeof import('./src/components/container/BtnCont.vue')['default']
-    CardCont: typeof import('./src/components/container/CardCont.vue')['default']
     CatchRateCalc: typeof import('./src/components/calculators/CatchRateCalc.vue')['default']
     ChampionLeague: typeof import('./src/components/wiki/ChampionLeague.vue')['default']
     CharacterSpeedDial: typeof import('./src/components/nav/CharacterSpeedDial.vue')['default']
@@ -25,10 +22,8 @@ declare module 'vue' {
     ListComponent: typeof import('./src/components/ListComponent.vue')['default']
     MasterNav: typeof import('./src/components/nav/MasterNav.vue')['default']
     MoveCostCalc: typeof import('./src/components/calculators/MoveCostCalc.vue')['default']
-    PermitClassCard: typeof import('./src/components/cards/PermitClassCard.vue')['default']
     PokemonTeam: typeof import('./src/components/character/tabs/PokemonTeam.vue')['default']
     ProcessSteps: typeof import('./src/components/ProcessSteps.vue')['default']
-    ProfCard: typeof import('./src/components/cards/ProfCard.vue')['default']
     RolePlayCard: typeof import('./src/components/cards/RolePlayCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
