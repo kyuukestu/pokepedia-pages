@@ -10,7 +10,7 @@ import VueRouter from 'unplugin-vue-router/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/pokepedia-pages/',
+  base: '/',
   plugins: [
     VueRouter({
       dts: './typed-router.d.ts',
