@@ -128,6 +128,104 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/sandbox/old-regions/': RouteRecordInfo<
+      '/sandbox/old-regions/',
+      '/sandbox/old-regions',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/',
+      '/sandbox/old-regions/indigo',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/johto/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/johto/',
+      '/sandbox/old-regions/indigo/johto',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/johto/events/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/johto/events/',
+      '/sandbox/old-regions/indigo/johto/events',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/johto/league/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/johto/league/',
+      '/sandbox/old-regions/indigo/johto/league',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/johto/league/gyms/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/johto/league/gyms/',
+      '/sandbox/old-regions/indigo/johto/league/gyms',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/johto/settlements/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/johto/settlements/',
+      '/sandbox/old-regions/indigo/johto/settlements',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/kanto/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/kanto/',
+      '/sandbox/old-regions/indigo/kanto',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/kanto/events/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/kanto/events/',
+      '/sandbox/old-regions/indigo/kanto/events',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/kanto/league/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/kanto/league/',
+      '/sandbox/old-regions/indigo/kanto/league',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/kanto/league/gyms/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/kanto/league/gyms/',
+      '/sandbox/old-regions/indigo/kanto/league/gyms',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/kanto/settlements/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/kanto/settlements/',
+      '/sandbox/old-regions/indigo/kanto/settlements',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/league/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/league/',
+      '/sandbox/old-regions/indigo/league',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/old-regions/indigo/league/champion-league/': RouteRecordInfo<
+      '/sandbox/old-regions/indigo/league/champion-league/',
+      '/sandbox/old-regions/indigo/league/champion-league',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/sandbox/orgs/': RouteRecordInfo<
       '/sandbox/orgs/',
       '/sandbox/orgs',
@@ -345,95 +443,53 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sandbox/regions/indigo/': RouteRecordInfo<
-      '/sandbox/regions/indigo/',
-      '/sandbox/regions/indigo',
-      Record<never, never>,
-      Record<never, never>,
+    '/sandbox/regions/[regionId]/': RouteRecordInfo<
+      '/sandbox/regions/[regionId]/',
+      '/sandbox/regions/:regionId',
+      { regionId: ParamValue<true> },
+      { regionId: ParamValue<false> },
       | never
     >,
-    '/sandbox/regions/indigo/johto/': RouteRecordInfo<
-      '/sandbox/regions/indigo/johto/',
-      '/sandbox/regions/indigo/johto',
-      Record<never, never>,
-      Record<never, never>,
+    '/sandbox/regions/[regionId]/events/event-list': RouteRecordInfo<
+      '/sandbox/regions/[regionId]/events/event-list',
+      '/sandbox/regions/:regionId/events/event-list',
+      { regionId: ParamValue<true> },
+      { regionId: ParamValue<false> },
       | never
     >,
-    '/sandbox/regions/indigo/johto/events/': RouteRecordInfo<
-      '/sandbox/regions/indigo/johto/events/',
-      '/sandbox/regions/indigo/johto/events',
-      Record<never, never>,
-      Record<never, never>,
+    '/sandbox/regions/[regionId]/geography/': RouteRecordInfo<
+      '/sandbox/regions/[regionId]/geography/',
+      '/sandbox/regions/:regionId/geography',
+      { regionId: ParamValue<true> },
+      { regionId: ParamValue<false> },
       | never
     >,
-    '/sandbox/regions/indigo/johto/league/': RouteRecordInfo<
-      '/sandbox/regions/indigo/johto/league/',
-      '/sandbox/regions/indigo/johto/league',
-      Record<never, never>,
-      Record<never, never>,
+    '/sandbox/regions/[regionId]/geography/routes/[routeId]': RouteRecordInfo<
+      '/sandbox/regions/[regionId]/geography/routes/[routeId]',
+      '/sandbox/regions/:regionId/geography/routes/:routeId',
+      { regionId: ParamValue<true>, routeId: ParamValue<true> },
+      { regionId: ParamValue<false>, routeId: ParamValue<false> },
       | never
     >,
-    '/sandbox/regions/indigo/johto/league/gyms/': RouteRecordInfo<
-      '/sandbox/regions/indigo/johto/league/gyms/',
-      '/sandbox/regions/indigo/johto/league/gyms',
-      Record<never, never>,
-      Record<never, never>,
+    '/sandbox/regions/[regionId]/geography/settlements/[settlementId]': RouteRecordInfo<
+      '/sandbox/regions/[regionId]/geography/settlements/[settlementId]',
+      '/sandbox/regions/:regionId/geography/settlements/:settlementId',
+      { regionId: ParamValue<true>, settlementId: ParamValue<true> },
+      { regionId: ParamValue<false>, settlementId: ParamValue<false> },
       | never
     >,
-    '/sandbox/regions/indigo/johto/settlements/': RouteRecordInfo<
-      '/sandbox/regions/indigo/johto/settlements/',
-      '/sandbox/regions/indigo/johto/settlements',
-      Record<never, never>,
-      Record<never, never>,
+    '/sandbox/regions/[regionId]/league/': RouteRecordInfo<
+      '/sandbox/regions/[regionId]/league/',
+      '/sandbox/regions/:regionId/league',
+      { regionId: ParamValue<true> },
+      { regionId: ParamValue<false> },
       | never
     >,
-    '/sandbox/regions/indigo/kanto/': RouteRecordInfo<
-      '/sandbox/regions/indigo/kanto/',
-      '/sandbox/regions/indigo/kanto',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/regions/indigo/kanto/events/': RouteRecordInfo<
-      '/sandbox/regions/indigo/kanto/events/',
-      '/sandbox/regions/indigo/kanto/events',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/regions/indigo/kanto/league/': RouteRecordInfo<
-      '/sandbox/regions/indigo/kanto/league/',
-      '/sandbox/regions/indigo/kanto/league',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/regions/indigo/kanto/league/gyms/': RouteRecordInfo<
-      '/sandbox/regions/indigo/kanto/league/gyms/',
-      '/sandbox/regions/indigo/kanto/league/gyms',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/regions/indigo/kanto/settlements/': RouteRecordInfo<
-      '/sandbox/regions/indigo/kanto/settlements/',
-      '/sandbox/regions/indigo/kanto/settlements',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/regions/indigo/league/': RouteRecordInfo<
-      '/sandbox/regions/indigo/league/',
-      '/sandbox/regions/indigo/league',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/regions/indigo/league/champion-league/': RouteRecordInfo<
-      '/sandbox/regions/indigo/league/champion-league/',
-      '/sandbox/regions/indigo/league/champion-league',
-      Record<never, never>,
-      Record<never, never>,
+    '/sandbox/regions/[regionId]/league/gyms/': RouteRecordInfo<
+      '/sandbox/regions/[regionId]/league/gyms/',
+      '/sandbox/regions/:regionId/league/gyms',
+      { regionId: ParamValue<true> },
+      { regionId: ParamValue<false> },
       | never
     >,
     '/sandbox/rules/': RouteRecordInfo<
@@ -700,6 +756,90 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/views/sandbox/old-regions/index.vue': {
+      routes:
+        | '/sandbox/old-regions/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/johto/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/johto/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/johto/events/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/johto/events/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/johto/league/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/johto/league/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/johto/league/gyms/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/johto/league/gyms/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/johto/settlements/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/johto/settlements/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/kanto/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/kanto/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/kanto/events/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/kanto/events/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/kanto/league/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/kanto/league/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/kanto/league/gyms/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/kanto/league/gyms/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/kanto/settlements/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/kanto/settlements/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/league/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/league/'
+      views:
+        | never
+    }
+    'src/views/sandbox/old-regions/indigo/league/champion-league/index.vue': {
+      routes:
+        | '/sandbox/old-regions/indigo/league/champion-league/'
+      views:
+        | never
+    }
     'src/views/sandbox/orgs/index.vue': {
       routes:
         | '/sandbox/orgs/'
@@ -886,81 +1026,45 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/regions/indigo/index.vue': {
+    'src/views/sandbox/regions/[regionId]/index.vue': {
       routes:
-        | '/sandbox/regions/indigo/'
+        | '/sandbox/regions/[regionId]/'
       views:
         | never
     }
-    'src/views/sandbox/regions/indigo/johto/index.vue': {
+    'src/views/sandbox/regions/[regionId]/events/event-list.vue': {
       routes:
-        | '/sandbox/regions/indigo/johto/'
+        | '/sandbox/regions/[regionId]/events/event-list'
       views:
         | never
     }
-    'src/views/sandbox/regions/indigo/johto/events/index.vue': {
+    'src/views/sandbox/regions/[regionId]/geography/index.vue': {
       routes:
-        | '/sandbox/regions/indigo/johto/events/'
+        | '/sandbox/regions/[regionId]/geography/'
       views:
         | never
     }
-    'src/views/sandbox/regions/indigo/johto/league/index.vue': {
+    'src/views/sandbox/regions/[regionId]/geography/routes/[routeId].vue': {
       routes:
-        | '/sandbox/regions/indigo/johto/league/'
+        | '/sandbox/regions/[regionId]/geography/routes/[routeId]'
       views:
         | never
     }
-    'src/views/sandbox/regions/indigo/johto/league/gyms/index.vue': {
+    'src/views/sandbox/regions/[regionId]/geography/settlements/[settlementId].vue': {
       routes:
-        | '/sandbox/regions/indigo/johto/league/gyms/'
+        | '/sandbox/regions/[regionId]/geography/settlements/[settlementId]'
       views:
         | never
     }
-    'src/views/sandbox/regions/indigo/johto/settlements/index.vue': {
+    'src/views/sandbox/regions/[regionId]/league/index.vue': {
       routes:
-        | '/sandbox/regions/indigo/johto/settlements/'
+        | '/sandbox/regions/[regionId]/league/'
       views:
         | never
     }
-    'src/views/sandbox/regions/indigo/kanto/index.vue': {
+    'src/views/sandbox/regions/[regionId]/league/gyms/index.vue': {
       routes:
-        | '/sandbox/regions/indigo/kanto/'
-      views:
-        | never
-    }
-    'src/views/sandbox/regions/indigo/kanto/events/index.vue': {
-      routes:
-        | '/sandbox/regions/indigo/kanto/events/'
-      views:
-        | never
-    }
-    'src/views/sandbox/regions/indigo/kanto/league/index.vue': {
-      routes:
-        | '/sandbox/regions/indigo/kanto/league/'
-      views:
-        | never
-    }
-    'src/views/sandbox/regions/indigo/kanto/league/gyms/index.vue': {
-      routes:
-        | '/sandbox/regions/indigo/kanto/league/gyms/'
-      views:
-        | never
-    }
-    'src/views/sandbox/regions/indigo/kanto/settlements/index.vue': {
-      routes:
-        | '/sandbox/regions/indigo/kanto/settlements/'
-      views:
-        | never
-    }
-    'src/views/sandbox/regions/indigo/league/index.vue': {
-      routes:
-        | '/sandbox/regions/indigo/league/'
-      views:
-        | never
-    }
-    'src/views/sandbox/regions/indigo/league/champion-league/index.vue': {
-      routes:
-        | '/sandbox/regions/indigo/league/champion-league/'
+        | '/sandbox/regions/[regionId]/league/gyms/'
       views:
         | never
     }

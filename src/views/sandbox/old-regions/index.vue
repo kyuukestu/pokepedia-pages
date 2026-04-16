@@ -1,26 +1,29 @@
 <script setup lang="ts">
+// views/sandbox/setting/index.vue → /sandbox/setting
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import { useTheme } from 'vuetify'
 
-const theme = useTheme()
+const theme = useTheme() // still used by the Indigo composite block
+
+// ── Region data ──────────────────────────────────────────────────────────────
+// indigoMember: true  → rendered inside the Indigo composite block, not the grid
+// All items carry a `to` so FeatureGrid renders them as RouterLink cards.
 
 interface RegionItem extends FeatureItem {
   indigoMember?: boolean
 }
 
-// ── Region data ──────────────────────────────────────────────────────────────
-// Updated "to" paths to match the /regions/[regionId] dynamic pattern
 const allRegions: RegionItem[] = [
-  
+  // Indigo members — handled separately
   {
     title: 'Kanto',
     description:
       'The industrial starting point. Known for rural charm and major urban hubs like Saffron City.',
     icon: 'mdi-map-marker-radius',
-    to: '/sandbox/regions/kanto', // Dynamic route
+    to: '/sandbox/regions/indigo/kanto',
     indigoMember: true,
   },
   {
@@ -28,9 +31,10 @@ const allRegions: RegionItem[] = [
     description:
       'A land of tradition and ancient architecture, physically connected via the Mt. Silver range.',
     icon: 'mdi-temple-buddhist',
-    to: '/sandbox/regions/johto', // Dynamic route
+    to: '/sandbox/regions/indigo/johto',
     indigoMember: true,
   },
+  // Main League regions
   {
     title: 'Hoenn',
     description: 'A tropical archipelago defined by the perpetual balance of land and sea.',
@@ -133,6 +137,8 @@ const secondaryRegions = [
   },
 ].map((r) => ({ ...r, color: 'green' as const }))
 
+// Travel methods — shaped for FeatureGrid.
+// Add a `to` field once dedicated travel method pages exist.
 const travelMethods = [
   {
     icon: 'mdi-ferry',
@@ -157,14 +163,14 @@ const travelMethods = [
     title: 'Flying Mount',
     description: 'Requires a valid Aviation Permit.',
     color: 'green' as const,
-    to: '/trainer-101/permits',
+    to: '/sandbox/trainer-101/permits',
   },
   {
     icon: 'mdi-horse-variant',
     title: 'Ground Mount',
     description: 'Requires a valid Ground Mount Permit.',
     color: 'green' as const,
-    to: '/trainer-101/permits',
+    to: '/sandbox/trainer-101/permits',
   },
   {
     icon: 'mdi-submarine',
@@ -193,30 +199,36 @@ const travelMethods = [
     </WikiHero>
 
     <v-container max-width="1200">
+      <!-- Major Leagues ───────────────────────────────────────────────────── -->
       <WikiCard title="The Major Leagues" icon="mdi-map-check" color="green">
+        <!-- ── Indigo composite block ──────────────────────────────────── -->
         <div class="mb-8">
           <div class="text-overline text-medium-emphasis mb-3 d-flex align-center gap-2">
             <v-icon size="14" color="green-darken-2">mdi-link-variant</v-icon>
             Shared League Jurisdiction
           </div>
 
+          <!-- Outer Indigo card -->
           <v-card
             variant="flat"
             rounded="lg"
             class="indigo-card overflow-hidden"
             :class="theme.current.value.dark ? 'indigo-card--dark' : 'indigo-card--light'"
           >
+            <!-- Indigo header band -->
             <div class="indigo-header pa-5">
               <div class="d-flex align-center gap-3 mb-2">
                 <v-icon size="28" color="white">mdi-shield-crown</v-icon>
-                <h3 class="text-h5 font-weight-bold text-white">Indigo Federation</h3>
-                <v-chip color="white" variant="tonal" size="x-small" class="ml-auto"
-                  >Dual-Region Zone</v-chip
-                >
+                <h3 class="text-h5 font-weight-bold text-white">Indigo Region</h3>
+                <v-chip color="white" variant="tonal" size="x-small" class="ml-auto">
+                  Dual-Region Zone
+                </v-chip>
               </div>
               <p class="text-body-2 indigo-header__desc mb-3">
-                Kanto and Johto share the <strong>Indigo Plateau League</strong> authority — forming
-                a single administrative zone unique in the Pokémon world.
+                While geographically distinct, Kanto and Johto share the
+                <strong class="text-white">Indigo Plateau League</strong> and the
+                <strong class="text-white">Indigo Conference</strong> authority — forming a single
+                administrative zone unique in the Pokémon world.
               </p>
               <v-btn
                 to="/sandbox/regions/indigo"
@@ -229,6 +241,7 @@ const travelMethods = [
               </v-btn>
             </div>
 
+            <!-- Member regions -->
             <div class="indigo-members">
               <v-row no-gutters>
                 <v-col
@@ -249,11 +262,11 @@ const travelMethods = [
                           {{ region.icon }}
                         </v-icon>
                         <span class="text-subtitle-2 font-weight-bold">{{ region.title }}</span>
-                        <v-icon size="14" class="ml-auto text-medium-emphasis indigo-member__arrow"
-                          >mdi-arrow-right</v-icon
-                        >
+                        <v-icon size="14" class="ml-auto text-medium-emphasis indigo-member__arrow">
+                          mdi-arrow-right
+                        </v-icon>
                       </div>
-                      <p class="text-caption text-medium-emphasis mb-0">
+                      <p class="text-caption text-medium-emphasis mb-0" style="line-height: 1.6">
                         {{ region.description }}
                       </p>
                     </div>
@@ -264,29 +277,43 @@ const travelMethods = [
           </v-card>
         </div>
 
+        <!-- Remaining main-league regions grid -->
         <FeatureGrid :items="mainLeagueGrid" :cols="3" default-color="green" />
       </WikiCard>
 
-      <WikiCard title="External Territories" icon="mdi-map-marker-plus" color="green" class="mt-8">
+      <!-- External Territories ────────────────────────────────────────────── -->
+      <WikiCard title="External Territories" icon="mdi-map-marker-plus" color="green">
+        <p class="text-body-1 lh-lg mb-6">
+          Beyond the main League circuits, several unique territories offer different cultural
+          approaches to Pokémon partnership — most notably the regions served by the Ranger Union.
+        </p>
+
         <FeatureGrid :items="secondaryRegions" :cols="4" default-color="green" />
       </WikiCard>
 
-      <WikiCard
-        title="Inter-Regional Travel"
-        icon="mdi-airplane-takeoff"
-        color="green"
-        class="mt-8"
-      >
+      <!-- Inter-Regional Travel ───────────────────────────────────────────── -->
+      <WikiCard title="Inter-Regional Travel" icon="mdi-airplane-takeoff" color="green">
+        <p class="text-body-1 lh-lg mb-6">
+          Travel between regions is available through a variety of means. Most trainers rely on
+          their Pokémon once they've obtained the relevant permit — but commercial options are
+          available to everyone.
+        </p>
+
         <FeatureGrid :items="travelMethods" :cols="3" default-color="green" compact class="mb-6" />
+
         <WikiCallout label="Permit Requirements" icon="mdi-credit-card-fast-outline" color="green">
-          Flying and ground mount travel requires a valid permit.
+          Flying and ground mount travel requires a valid permit issued by the
+          <strong>Pokémon League Aviation Authority (PLAA)</strong> or
+          <strong>Pokémon League Ground Authority (PLGA)</strong> respectively. Commercial transport
+          has no permit requirements for passengers.
           <div class="mt-3">
             <v-btn
-              to="/trainer-101/permits"
+              to="/sandbox/trainer-101/permits"
               color="green-darken-2"
               variant="tonal"
               size="small"
               rounded="lg"
+              prepend-icon="mdi-file-document-outline"
             >
               View Permit Requirements
             </v-btn>
@@ -298,52 +325,74 @@ const travelMethods = [
 </template>
 
 <style scoped>
-/* Keeping your existing Indigo Card styles */
+.lh-lg {
+  line-height: 1.8;
+}
+
+/* ── Indigo composite card ──────────────────────────────────────────────── */
 .indigo-card {
   border: 1px solid rgba(var(--v-theme-on-surface), 0.1);
 }
+
 .indigo-card--light {
   background: #f8faf8;
 }
+
 .indigo-card--dark {
   background: rgba(255, 255, 255, 0.03);
 }
+
+/* Header band — always the deep green regardless of theme */
 .indigo-header {
-  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  background: linear-gradient(135deg, rgb(var(--v-theme-success), 0.9), #1b5e20);
+  background-color: #2e7d32;
 }
+
 .indigo-header__desc {
   color: rgba(255, 255, 255, 0.8);
+  max-width: 640px;
 }
+
+/* Member region rows */
 .indigo-members {
   border-top: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
+
 .indigo-member {
   transition: background 0.15s ease;
 }
+
 .indigo-member--bordered {
   border-right: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
-.indigo-member:hover {
-  background: rgba(var(--v-theme-success), 0.06);
-}
-.indigo-member__link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-.indigo-member__arrow {
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: all 0.15s ease;
-}
-.indigo-member:hover .indigo-member__arrow {
-  opacity: 1;
-  transform: translateX(0);
-}
+
 @media (max-width: 600px) {
   .indigo-member--bordered {
     border-right: none;
     border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
   }
+}
+
+.indigo-member:hover {
+  background: rgba(var(--v-theme-success), 0.06);
+}
+
+.indigo-member__link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.indigo-member__arrow {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.indigo-member:hover .indigo-member__arrow {
+  opacity: 1;
+  transform: translateX(0);
 }
 </style>
