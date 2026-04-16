@@ -1,1 +1,1 @@
-<termplate>Geography</termplate>
+<template>Geography</template>
