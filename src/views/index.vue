@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRpStore } from '@/stores/useRpStore'
+import { useRpStore } from '@/stores/RpStore'
 import RPCard from '@/components/cards/RolePlayCard.vue'
 import legends from '@/assets/USUM_Ultra_Necrozma_and_Legendary_Pokemon.jpg'
 import HomeHeader from '@/components/sections/HomeHeader.vue'

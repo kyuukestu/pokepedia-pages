@@ -29,19 +29,19 @@ export const johto: RegionManifest = {
     {
       title: 'events',
       icon: 'mdi-bridge',
-      to: '/regions/johto/events',
+      to: '/sandbox/regions/johto/events',
       color: 'deep-purple-lighten-1',
     },
     {
       title: 'geography',
       icon: 'mdi-temple-buddhist',
-      to: '/regions/johto/geography',
+      to: '/sandbox/regions/johto/geography',
       color: 'brown-darken-1',
     },
     {
       title: 'league',
       icon: 'mdi-pokemon-go',
-      to: '/regions/johto/league',
+      to: '/sandbox/regions/johto/league',
       color: 'blue-darken-2',
     },
   ],

@@ -26,10 +26,20 @@ export const indigo: RegionManifest = {
     'Born from the ashes of the Kan-Joh War, the Indigo Federation has withstood much since its inception. Most notable is the persistent plague of Team Rocket...',
 
   subdirectories: [
-    { title: 'Kanto', icon: 'mdi-map-legend', color: 'red-darken-2', to: '/' },
-    { title: 'Johto', icon: 'mdi-map-marker-distance', color: 'blue-darken-2', to: '/' },
     {
-      title: 'Indigo League',
+      title: 'Kanto',
+      icon: 'mdi-map-legend',
+      color: 'red-darken-2',
+      to: '/',
+    },
+    {
+      title: 'Johto',
+      icon: 'mdi-map-marker-distance',
+      color: 'blue-darken-2',
+      to: '/',
+    },
+    {
+      title: 'Indigo-League', // Capitalized for UI, logic will .toLowerCase()
       icon: 'mdi-shield-crown-outline',
       color: 'amber-darken-3',
       to: '/',

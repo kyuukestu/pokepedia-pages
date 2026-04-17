@@ -2,6 +2,7 @@
 import { computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRegionStore } from '@/stores/regionStore'
+import type { NavItem } from '@/types/wiki'
 
 // Layout Components
 import WikiHero from '@/components/sections/WikiHero.vue'
@@ -25,12 +26,51 @@ watch(() => route.params.regionId, updateActiveRegion)
 
 const region = computed(() => store.currentRegion)
 
-const navLinks = computed(() => {
+watch(
+  () => route.params.regionId,
+  (newId) => {
+    if (newId) store.setActiveRegion(newId as string)
+  },
+  { immediate: true },
+)
+
+const FEDERATION_MAP: Record<string, { leagueId: string; parentRegion: string }> = {
+  kanto: { leagueId: 'indigo-league', parentRegion: 'indigo' },
+  johto: { leagueId: 'indigo-league', parentRegion: 'indigo' },
+  indigo: { leagueId: 'indigo-league', parentRegion: 'indigo' },
+}
+
+const navLinks = computed((): NavItem[] => {
   if (!region.value?.subdirectories) return []
-  return region.value.subdirectories.map((dir) => ({
-    ...dir,
-    to: `/regions/${route.params.regionId}/${dir.title}`,
-  }))
+
+  const currentRegionId = route.params.regionId as string
+  const federation = FEDERATION_MAP[currentRegionId]
+
+  return region.value.subdirectories.map((dir) => {
+    const slug = dir.title.toLowerCase()
+    let targetPath = ''
+
+    if (slug === 'league') {
+      if (federation) {
+        const isPlateau = currentRegionId === federation.parentRegion
+        targetPath = isPlateau
+          ? `/sandbox/regions/${currentRegionId}/${federation.leagueId}`
+          : `/sandbox/regions/${currentRegionId}/${federation.leagueId}/${currentRegionId}`
+      } else {
+        targetPath = `/sandbox/regions/${currentRegionId}/${currentRegionId}-league`
+      }
+    } else if (slug === 'kanto' || slug === 'johto') {
+      targetPath = `/sandbox/regions/${slug}`
+    } else {
+      targetPath = `/sandbox/regions/${currentRegionId}/${slug}`
+    }
+
+    // This spread syntax ensures the placeholder 'to' is replaced by our targetPath
+    return {
+      ...dir,
+      to: targetPath,
+    }
+  })
 })
 </script>
 
@@ -52,6 +92,16 @@ const navLinks = computed(() => {
             variant="flat"
           >
             {{ tag.label }}
+          </v-chip>
+          <v-chip
+            v-if="FEDERATION_MAP[route.params.regionId]"
+            size="x-small"
+            variant="outlined"
+            color="green"
+            class="mb-2"
+            :to="`/sandbox/regions/indigo` /* Links to the Federation Hub */"
+          >
+            PART OF THE INDIGO FEDERATION
           </v-chip>
         </div>
       </template>

@@ -81,4 +81,17 @@ export const eventList: CalendarEvent[] = [
       internalPath: '/sandbox/events/tournament/indigo-conference/2022-12-05',
     },
   },
+  {
+    title: 'Silver Conference',
+    start: '2022-10-10T00:00:00',
+    end: '2022-10-14T00:00:00',
+    allDay: true,
+    extendedProps: {
+      description: 'Indigo Conference.',
+      region: 'Kanto',
+      location: 'Indigo Plateau',
+      image: 'https://archives.bulbagarden.net/media/upload/6/60/Indigo_Stadium.png',
+      internalPath: '/sandbox/events/tournament/indigo-conference/2022-12-05',
+    },
+  },
 ]

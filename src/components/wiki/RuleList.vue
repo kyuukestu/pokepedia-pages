@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 const theme = useTheme()
 
-interface Rule {
+export interface Rule {
   icon: string
   color: string
   title: string
@@ -53,12 +53,12 @@ function iconColor(color: string): string {
           </v-icon>
           <span class="rule-item__title text-body-1 font-weight-medium">{{ rule.title }}</span>
           <v-btn
-  v-if="rule.to"
-  :href="rule.to"
-  icon="mdi-link-box-variant"
-  size="18"
-  variant="text"
-/>
+            v-if="rule.to"
+            :href="rule.to"
+            icon="mdi-link-box-variant"
+            size="18"
+            variant="text"
+          />
           <v-icon
             v-if="rule.description"
             size="18"

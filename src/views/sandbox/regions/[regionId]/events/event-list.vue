@@ -1,1 +1,0 @@
-<template>Event List</template>

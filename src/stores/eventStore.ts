@@ -5,7 +5,7 @@ import type { CalendarEvent } from '@/data/event-list'
 export const useEventStore = defineStore('events', {
   state: () => ({
     events: eventList as CalendarEvent[], // Type assertion for better IDE support
-    currentRPDate: '2022-08-11T00:00:00',
+    currentRPDate: '2022-08-19T00:00:00',
   }),
 
   getters: {

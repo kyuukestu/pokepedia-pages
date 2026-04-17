@@ -59,6 +59,7 @@ export type TrainerClass =
   | 'ranger'
   | 'performer'
   | 'battler'
+  | 'other'
 
 export const TrainerClassLabels: Record<TrainerClass, string> = {
   coordinator: 'Coordinator',
@@ -67,6 +68,7 @@ export const TrainerClassLabels: Record<TrainerClass, string> = {
   ranger: 'Ranger',
   performer: 'Performer',
   battler: 'Battler',
+  other: 'Other',
 }
 
 export type LeagueTitle = 'aceTrainer' | 'gymLeader' | 'eliteFour' | 'champion'

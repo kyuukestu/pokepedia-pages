@@ -450,9 +450,16 @@ declare module 'vue-router/auto-routes' {
       { regionId: ParamValue<false> },
       | never
     >,
-    '/sandbox/regions/[regionId]/events/event-list': RouteRecordInfo<
-      '/sandbox/regions/[regionId]/events/event-list',
-      '/sandbox/regions/:regionId/events/event-list',
+    '/sandbox/regions/[regionId]/[leagueId]/[[circuitId]]': RouteRecordInfo<
+      '/sandbox/regions/[regionId]/[leagueId]/[[circuitId]]',
+      '/sandbox/regions/:regionId/:leagueId/:circuitId?',
+      { regionId: ParamValue<true>, leagueId: ParamValue<true>, circuitId?: ParamValueZeroOrOne<true> },
+      { regionId: ParamValue<false>, leagueId: ParamValue<false>, circuitId?: ParamValueZeroOrOne<false> },
+      | never
+    >,
+    '/sandbox/regions/[regionId]/events/': RouteRecordInfo<
+      '/sandbox/regions/[regionId]/events/',
+      '/sandbox/regions/:regionId/events',
       { regionId: ParamValue<true> },
       { regionId: ParamValue<false> },
       | never
@@ -476,20 +483,6 @@ declare module 'vue-router/auto-routes' {
       '/sandbox/regions/:regionId/geography/settlements/:settlementId',
       { regionId: ParamValue<true>, settlementId: ParamValue<true> },
       { regionId: ParamValue<false>, settlementId: ParamValue<false> },
-      | never
-    >,
-    '/sandbox/regions/[regionId]/league/': RouteRecordInfo<
-      '/sandbox/regions/[regionId]/league/',
-      '/sandbox/regions/:regionId/league',
-      { regionId: ParamValue<true> },
-      { regionId: ParamValue<false> },
-      | never
-    >,
-    '/sandbox/regions/[regionId]/league/gyms/': RouteRecordInfo<
-      '/sandbox/regions/[regionId]/league/gyms/',
-      '/sandbox/regions/:regionId/league/gyms',
-      { regionId: ParamValue<true> },
-      { regionId: ParamValue<false> },
       | never
     >,
     '/sandbox/rules/': RouteRecordInfo<
@@ -1032,9 +1025,15 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/regions/[regionId]/events/event-list.vue': {
+    'src/views/sandbox/regions/[regionId]/[leagueId]/[[circuitId]].vue': {
       routes:
-        | '/sandbox/regions/[regionId]/events/event-list'
+        | '/sandbox/regions/[regionId]/[leagueId]/[[circuitId]]'
+      views:
+        | never
+    }
+    'src/views/sandbox/regions/[regionId]/events/index.vue': {
+      routes:
+        | '/sandbox/regions/[regionId]/events/'
       views:
         | never
     }
@@ -1053,18 +1052,6 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/regions/[regionId]/geography/settlements/[settlementId].vue': {
       routes:
         | '/sandbox/regions/[regionId]/geography/settlements/[settlementId]'
-      views:
-        | never
-    }
-    'src/views/sandbox/regions/[regionId]/league/index.vue': {
-      routes:
-        | '/sandbox/regions/[regionId]/league/'
-      views:
-        | never
-    }
-    'src/views/sandbox/regions/[regionId]/league/gyms/index.vue': {
-      routes:
-        | '/sandbox/regions/[regionId]/league/gyms/'
       views:
         | never
     }

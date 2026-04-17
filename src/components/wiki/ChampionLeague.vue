@@ -7,7 +7,7 @@ const theme = useTheme()
 
 withDefaults(
   defineProps<{
-    chambers: Chamber[]
+    chambers?: Chamber[]
     champion: Chamber
     hubIcon?: string
     hubLabel?: string
