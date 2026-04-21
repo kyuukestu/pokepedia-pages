@@ -1,1 +1,0 @@
-import{_ as e}from"./index-CyNcPGjY.js";const r={};function c(n,t){return"hauoli"}const o=e(r,[["render",c]]);export{o as default};

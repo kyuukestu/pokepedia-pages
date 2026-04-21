@@ -1,0 +1,1 @@
+const e=[{name:{full:"Torch"},speciesId:"combusken",level:24,ability:"Speed Boost",gender:"male",shiny:!1,alpha:!1,heldItem:"none",moves:["Double Kick","Low Kick","Ember","Flamethrower","Quick Attack","Flame Charge","Detect","Sand Attack","Aerial Ace","Feint"]}];export{e as default};

@@ -1,52 +1,60 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { allGymRegistry } from '@/data/gym-registry'
 import type { LeagueRole } from '@/types/league'
 import { LeagueTitleLabels } from '@/types/league'
 
-type LeagueRoleWithType = LeagueRole & { type?: string; status?: 'active' | 'former' }
+// Extend the role to include the gymId link
+type LeagueRoleWithType = LeagueRole & {
+  gymId?: string
+  status?: 'active' | 'former'
+}
 
 const props = defineProps<{
   role: LeagueRoleWithType
-  badgeImg?: string
 }>()
 
-// Use the public folder path for cleaner resolution
-function resolveBadgeImage(): string | null {
-  if (props.badgeImg) return props.badgeImg
-  if ('badge' in props.role && props.role.badge) {
-    const slug = props.role.badge.toLowerCase().replace(/\s+/g, '-')
-    return `/badges/${slug}.png`
-  }
-  return null
-}
+// ── Registry Lookup ──────────────────────────────────────────────────────────
+const gymData = computed(() => {
+  if (!props.role.gymId) return null
+  return allGymRegistry.find((g) => g.id === props.role.gymId)
+})
 
-const badgeSrc = resolveBadgeImage()
+// ── Data Derived from Registry ───────────────────────────────────────────────
+const badgeImg = computed(() => gymData.value?.badgeImg || null)
 
-function roleDetail(): string {
+const detail = computed(() => {
   const parts: string[] = []
-  if ('city' in props.role && props.role.city) parts.push(props.role.city)
-  if ('badge' in props.role && props.role.badge) parts.push(`${props.role.badge} Badge`)
-  if (props.role.type) {
-    parts.push(`${props.role.type.charAt(0).toUpperCase() + props.role.type.slice(1)}-type`)
+
+  // 1. Badge Name (from registry)
+  if (gymData.value?.badgeName) {
+    parts.push(`${gymData.value.badgeName} Badge`)
   }
-  return parts.join(' • ') // Using a cleaner bullet separator
-}
 
-const isFormer = props.role.status === 'former'
-const detail = roleDetail()
-const label = LeagueTitleLabels[props.role.title] ?? props.role.title
+  // 2. Specialty Type (from the active leader in registry)
+  const activeLeader = gymData.value?.leaders.find((l) => l.isActive) || gymData.value?.leaders[0]
+  if (activeLeader?.specialty) {
+    const type = activeLeader.specialty
+    parts.push(`${type.charAt(0).toUpperCase() + type.slice(1)}-type`)
+  }
+
+  // 3. City (optional addition for flavor)
+  if (gymData.value?.city) {
+    parts.push(gymData.value.city)
+  }
+
+  return parts.join(' • ')
+})
+
+const isFormer = computed(() => props.role.status === 'former')
+const label = computed(() => LeagueTitleLabels[props.role.title] ?? props.role.title)
 </script>
-
 <template>
   <div class="lr-banner" :class="{ 'lr-banner--former': isFormer }">
     <div class="lr-banner__inner">
       <div class="lr-banner__badge-wrap">
         <div class="lr-banner__badge-container">
-          <img
-            v-if="badgeSrc"
-            :src="badgeSrc"
-            class="lr-badge-img"
-            @error="(e: any) => (e.target.style.display = 'none')"
-          />
+          <v-img v-if="badgeImg" :src="badgeImg" class="lr-badge-img" contain />
           <v-icon v-else size="22" color="primary">mdi-shield-seal</v-icon>
         </div>
       </div>
@@ -63,7 +71,9 @@ const label = LeagueTitleLabels[props.role.title] ?? props.role.title
         </div>
       </div>
 
-      <v-icon class="lr-banner__watermark">mdi-pokemon-go</v-icon>
+      <v-icon class="lr-banner__watermark">
+        {{ gymData ? 'mdi-medal' : 'mdi-pokemon-go' }}
+      </v-icon>
     </div>
   </div>
 </template>

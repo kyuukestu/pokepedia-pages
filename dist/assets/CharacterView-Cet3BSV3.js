@@ -1,0 +1,1 @@
+import{_ as r,q as t,e as a,o as n}from"./index-w0lugT26.js";const o={};function c(s,e){return n(),t("div",null,e[0]||(e[0]=[a("h1",null,"Character View",-1)]))}const _=r(o,[["render",c]]);export{_ as default};

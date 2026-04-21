@@ -173,7 +173,7 @@ const totalGlobalRibbons = computed(() => {
             </h1>
             <div class="d-flex flex-wrap gap-1 mt-1">
               <v-chip
-                v-for="(cls, index) in store.meta.trainerClass"
+                v-for="(cls, index) in store.meta.trainerClass.other"
                 :key="index"
                 size="x-small"
                 variant="tonal"

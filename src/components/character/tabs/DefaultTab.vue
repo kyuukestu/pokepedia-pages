@@ -1,26 +1,13 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
 import type { CharacterMeta } from '@/types/character'
 import { LeagueTitleLabels } from '@/types/league'
 
 defineProps<{ data: CharacterMeta }>()
 
-const route = useRoute()
-
-// Path logic for sub-tabs
-function pathBase(): string {
-  return route.path.replace(/\/[^/]+$/, '').replace(/\/index$/, '')
-}
-
-function sectionPath(tab: string): string {
-  return `${pathBase()}/${tab}`
-}
-
 // Logic for detail lines in league roles
 function roleDetail(role: NonNullable<CharacterMeta['leagueRoles']>[number]): string {
   const parts: string[] = []
   if (role.type) parts.push(`${role.type.charAt(0).toUpperCase() + role.type.slice(1)} type`)
-  if ('city' in role && role.city) parts.push(role.city)
   if ('badge' in role && role.badge) parts.push(`${role.badge} Badge`)
   return parts.join(' · ')
 }

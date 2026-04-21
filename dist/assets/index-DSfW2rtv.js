@@ -1,0 +1,1 @@
+const e={id:"koga",name:{full:"Koga"},region:"kanto",trainerClass:{primary:"battler"},color:"purple",image:"koga.png",category:"npc",leagueRoles:[{title:"eliteFour",type:"poison"}]},o=Object.freeze(Object.defineProperty({__proto__:null,default:e},Symbol.toStringTag,{value:"Module"}));export{o as _};

@@ -1,0 +1,1 @@
+const e={id:"dustin",category:"oc",name:{full:"Dustin",short:[]},badges:{},ribbons:{},color:"#00A885",region:"hoenn",gender:"male",trainerClass:{primary:"other"},occupationRoles:{primary:"Content Creator"}},o=Object.freeze(Object.defineProperty({__proto__:null,default:e},Symbol.toStringTag,{value:"Module"}));export{o as _};

@@ -4,7 +4,7 @@ const meta: CharacterMeta = {
   id: 'will',
   name: { full: 'Will' },
   region: 'kanto',
-  trainerClass: ['battler'],
+  trainerClass: { primary: 'battler' },
   color: 'pink',
   image: 'will.png',
   category: 'npc',

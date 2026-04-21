@@ -1,0 +1,1 @@
+const e={id:"zelda",category:"oc",name:{full:"Zelda",short:["Zel"]},badges:{},ribbons:{},color:"#AB6DE8",region:"unova",gender:"female",trainerClass:{primary:"battler"},occupationRoles:{primary:"Musician"}},o=Object.freeze(Object.defineProperty({__proto__:null,default:e},Symbol.toStringTag,{value:"Module"}));export{o as _};
