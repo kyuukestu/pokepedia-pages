@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
-import {
-  type CharacterMeta,
-  RegionLabels, // Matching your exported name from types
-  TrainerClassLabels,
-} from '@/types/character'
+import { type CharacterMeta, TrainerClassLabels } from '@/types/character'
+import { RegionLabels } from '@/types/region'
 
 export const useCharacterStore = defineStore('character', {
   state: () => ({
@@ -59,6 +56,6 @@ export const useCharacterStore = defineStore('character', {
     regionLabel: (state) => (state.meta ? RegionLabels[state.meta.region] : ''),
 
     classLabels: (state) =>
-      state.meta ? state.meta.trainerClass.map((key) => TrainerClassLabels[key]) : [],
+      state.meta ? state.meta.trainerClass.other?.map((key) => TrainerClassLabels[key]) : [],
   },
 })

@@ -7,7 +7,7 @@ const meta: CharacterMeta = {
     short: ['Leo', 'Lea'],
   },
   region: 'unova',
-  trainerClass: ['battler'],
+  trainerClass: { primary: 'battler' },
   color: '#8f0b0b',
   image: 'leona.png',
   category: 'oc',

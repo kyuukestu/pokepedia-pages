@@ -156,7 +156,6 @@ function formatOrgName(orgId: string): string {
 
 .role-chip--former {
   background: rgba(var(--v-theme-on-surface), 0.05);
-  color: rgb(var(--v-theme-on-surface-variant));
   border: 1px solid rgba(var(--v-border-color), 0.12);
 }
 

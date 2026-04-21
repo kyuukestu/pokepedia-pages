@@ -58,14 +58,3 @@ export interface LeagueConference {
   conferenceMonth: string // e.g., "December"
   rules: string[]
 }
-
-export interface GymLeader {
-  name: string
-  city: string
-  specialty: string
-  typeIcon: string
-  to: RouteLocationRaw
-  color: string
-  badge: string
-  badgeIcon?: string
-}

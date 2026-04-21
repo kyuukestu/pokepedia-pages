@@ -11,9 +11,3 @@ import AppLayout from './layouts/AppLayout.vue'
     </v-main>
   </v-app>
 </template>
-
-<style scoped>
-v-responsive {
-  background-color: aliceblue;
-}
-</style>

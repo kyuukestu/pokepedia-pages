@@ -8,7 +8,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AchievementBanner: typeof import('./src/components/wiki/AchievementBanner.vue')['default']
+    AchievementTab: typeof import('./src/components/character/tabs/AchievementTab.vue')['default']
     AffiliationBanner: typeof import('./src/components/wiki/AffiliationBanner.vue')['default']
+    BioDataCard: typeof import('./src/components/character/BioDataCard.vue')['default']
     CatchRateCalc: typeof import('./src/components/calculators/CatchRateCalc.vue')['default']
     ChampionLeague: typeof import('./src/components/wiki/ChampionLeague.vue')['default']
     CharacterSpeedDial: typeof import('./src/components/nav/CharacterSpeedDial.vue')['default']

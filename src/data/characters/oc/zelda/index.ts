@@ -1,18 +1,21 @@
 import { CharacterMeta } from '@/types/character'
 
 const meta: CharacterMeta = {
-  id: 'wren',
+  id: 'zelda',
   category: 'oc',
   name: {
-    full: 'Wren Blackwell',
-    short: [],
+    full: 'Zelda',
+    short: ['Zel'],
   },
   badges: {},
   ribbons: {},
-  color: '',
-  region: 'sinnoh',
+  color: '#AB6DE8',
+  region: 'unova',
   gender: 'female',
   trainerClass: { primary: 'battler' },
+  occupationRoles: {
+    primary: 'Musician',
+  },
 }
 
 export default meta

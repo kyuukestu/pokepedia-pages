@@ -1,17 +1,4 @@
 /**
- * Represents a Gym Leader within a circuit.
- */
-export interface GymLeader {
-  name: string
-  city: string
-  specialty: string
-  typeIcon: string // e.g., 'water.svg'
-  color: string // Vuetify color class or Hex
-  badge: string
-  to: string // Path to NPC/OC page
-}
-
-/**
  * Represents a specific Regional Circuit (e.g., Kanto, Johto).
  */
 export interface RegionalCircuit {
@@ -19,12 +6,7 @@ export interface RegionalCircuit {
   name: string
   heroSubtitle: string
   heroColor: string
-  requirements: {
-    title: string
-    text: string
-  }[]
-  mainLeaders: GymLeader[]
-  secondaryLeaders: GymLeader[]
+  gymIds: string[]
 }
 
 /**
@@ -70,6 +52,7 @@ export interface LeagueMeta {
   summit: SummitMember[]
   circuits: RegionalCircuit[]
 }
+
 export const indigoLeague: LeagueMeta = {
   id: 'indigo-league',
   name: 'Indigo League',
@@ -77,12 +60,12 @@ export const indigoLeague: LeagueMeta = {
   themeColor: 'indigo-darken-2',
   icon: 'mdi-podium-gold',
 
-  // Champion League (The Summit)
   portalOverline: 'The Final Gauntlet',
   championTitle: 'Champion League',
   championDescription:
     'The pinnacle of the Indigo Federation. Face the Elite Four gauntlet to earn your right to challenge the reigning Champion.',
   championTo: '/sandbox/regions/indigo/league/champion-league',
+
   conferenceName: 'The Indigo Conference',
   conferenceDescription:
     'Held annually at the Indigo Plateau, the Conference is a month-long tournament where the top badge holders compete for the right to challenge the Elite Four.',
@@ -95,48 +78,44 @@ export const indigoLeague: LeagueMeta = {
     { date: 'December', label: 'The Conference', color: 'error' },
   ],
 
-  /**
-   * ELITE FOUR & CHAMPION
-   * Updated to match the "Chamber" interface requirements.
-   */
   summit: [
     {
       name: 'Will',
-      specialty: 'Psychic',
+      specialty: 'psychic',
       title: 'Master of Illusions',
-      color: '#ab47bc', // Psychic Purple
+      color: '#ab47bc',
       isChampion: false,
       image: '/path/to/will.png',
     },
     {
       name: 'Koga',
-      specialty: 'Poison',
+      specialty: 'poison',
       title: 'The Fanged Shinobi',
-      color: '#7e57c2', // Poison Purple-Deep
+      color: '#7e57c2',
       isChampion: false,
       image: '/path/to/koga.png',
     },
     {
       name: 'Bruno',
-      specialty: 'Fighting',
+      specialty: 'fighting',
       title: 'The Iron-Willed Warrior',
-      color: '#f44336', // Fighting Red
+      color: '#f44336',
       isChampion: false,
       image: '/path/to/bruno.png',
     },
     {
       name: 'Karen',
-      specialty: 'Dark',
+      specialty: 'dark',
       title: 'The Midnight Beauty',
-      color: '#37474f', // Dark Grey
+      color: '#37474f',
       isChampion: false,
       image: '/path/to/karen.png',
     },
     {
       name: 'Lance',
-      specialty: 'Dragon',
+      specialty: 'dragon',
       title: 'The Dragon Master',
-      color: '#ff5252', // Champion/Dragon Red
+      color: '#ff5252',
       isChampion: true,
       image: '/path/to/lance.png',
     },
@@ -148,122 +127,18 @@ export const indigoLeague: LeagueMeta = {
       name: 'Kanto Circuit',
       heroSubtitle: 'The journey of eight badges begins here.',
       heroColor: 'red-darken-2',
-      requirements: [
-        {
-          title: 'Badge Collection',
-          text: 'Trainers must collect all 8 official Indigo badges from Kanto-based sanctioned Gyms.',
-        },
-        {
-          title: 'Dojo Tradition',
-          text: 'Unofficial gyms like the Fighting Dojo do not count toward Conference qualification.',
-        },
-        {
-          title: 'G-Men Scouting',
-          text: 'Defeating local masters is often a requirement for specific "G-Men" scouting programs.',
-        },
-      ],
-      mainLeaders: [
-        {
-          name: 'Brock',
-          city: 'Pewter City',
-          specialty: 'Rock',
-          typeIcon: 'rock.svg',
-          color: 'brown-lighten-1',
-          badge: 'Boulder Badge',
-          to: '/sandbox/characters/npc/brock',
-        },
-        {
-          name: 'Misty',
-          city: 'Cerulean City',
-          specialty: 'Water',
-          typeIcon: 'water.svg',
-          color: 'blue-lighten-2',
-          badge: 'Cascade Badge',
-          to: '/sandbox/characters/npc/misty',
-        },
-        {
-          name: 'Visquez',
-          city: 'Vermilion City',
-          specialty: 'Electric',
-          typeIcon: 'electric.svg',
-          color: 'amber-darken-2',
-          badge: 'Thunder Badge',
-          to: '/sandbox/characters/npc/surge',
-        },
-        {
-          name: 'Erika',
-          city: 'Celadon City',
-          specialty: 'Grass',
-          typeIcon: 'grass.svg',
-          color: 'green-lighten-1',
-          badge: 'Rainbow Badge',
-          to: '/sandbox/characters/npc/erika',
-        },
-        {
-          name: 'Janine',
-          city: 'Fuchsia City',
-          specialty: 'Poison',
-          typeIcon: 'poison.svg',
-          color: 'purple-darken-2',
-          badge: 'Soul Badge',
-          to: '/sandbox/characters/npc/janine',
-        },
-        {
-          name: 'Sabrina',
-          city: 'Saffron City',
-          specialty: 'Psychic',
-          typeIcon: 'psychic.svg',
-          color: 'pink-accent-2',
-          badge: 'Marsh Badge',
-          to: '/sandbox/characters/npc/sabrina',
-        },
-        {
-          name: 'Maker',
-          city: 'Cinnabar Island',
-          specialty: 'Fire',
-          typeIcon: 'fire.svg',
-          color: 'deep-orange-darken-1',
-          badge: 'Volcano Badge',
-          to: '/sandbox/characters/oc/maker',
-        },
-        {
-          name: 'Blue',
-          city: 'Viridian City',
-          specialty: 'All-Type',
-          typeIcon: 'normal.svg',
-          color: 'blue-grey-darken-3',
-          badge: 'Earth Badge',
-          to: '/sandbox/characters/npc/blue',
-        },
-      ],
-      secondaryLeaders: [
-        {
-          name: 'Koichi',
-          city: 'Saffron City',
-          specialty: 'Fighting',
-          typeIcon: 'fighting.svg',
-          color: 'orange-darken-4',
-          badge: 'Unofficial / Dojo',
-          to: '/sandbox/characters/npc/karate-master',
-        },
-        {
-          name: 'Yas',
-          city: 'Dark City',
-          specialty: 'Scyther-Style',
-          typeIcon: 'bug.svg',
-          color: 'light-green-darken-4',
-          badge: 'Yas Gym',
-          to: '/sandbox/characters/npc/yas',
-        },
-        {
-          name: 'Kaz',
-          city: 'Dark City',
-          specialty: 'Electabuzz-Style',
-          typeIcon: 'electric.svg',
-          color: 'yellow-darken-4',
-          badge: 'Kaz Gym',
-          to: '/sandbox/characters/npc/kaz',
-        },
+      gymIds: [
+        'pewter-gym',
+        'cerulean-gym',
+        'vermilion-gym',
+        'celadon-gym',
+        'fuchsia-gym',
+        'saffron-gym',
+        'cinnabar-gym',
+        'viridian-gym',
+        'fighting-dojo',
+        'yas-gym',
+        'kaz-gym',
       ],
     },
     {
@@ -271,105 +146,17 @@ export const indigoLeague: LeagueMeta = {
       name: 'Johto Circuit',
       heroSubtitle: 'Explore the historic path across the Silver Mountains.',
       heroColor: 'blue-darken-2',
-      requirements: [
-        {
-          title: 'The Silver Challenge',
-          text: '8 Johto badges are required for entry into the Silver Conference bracket.',
-        },
-      ],
-      mainLeaders: [
-        {
-          name: 'Falkner',
-          city: 'Violet City',
-          specialty: 'Flying',
-          typeIcon: 'flying.svg',
-          color: 'blue-lighten-4',
-          badge: 'Zephyr Badge',
-          to: '/sandbox/characters/npc/falkner',
-        },
-        {
-          name: 'Bugsy',
-          city: 'Azalea Town',
-          specialty: 'Bug',
-          typeIcon: 'bug.svg',
-          color: 'light-green-accent-4',
-          badge: 'Hive Badge',
-          to: '/sandbox/characters/npc/bugsy',
-        },
-        {
-          name: 'Whitney',
-          city: 'Goldenrod City',
-          specialty: 'Normal',
-          typeIcon: 'normal.svg',
-          color: 'pink-lighten-3',
-          badge: 'Plain Badge',
-          to: '/sandbox/characters/npc/whitney',
-        },
-        {
-          name: 'Morty',
-          city: 'Ecruteak City',
-          specialty: 'Ghost',
-          typeIcon: 'ghost.svg',
-          color: 'deep-purple-darken-1',
-          badge: 'Fog Badge',
-          to: '/sandbox/characters/npc/morty',
-        },
-        {
-          name: 'Chuck',
-          city: 'Cianwood City',
-          specialty: 'Fighting',
-          typeIcon: 'fighting.svg',
-          color: 'brown-darken-3',
-          badge: 'Storm Badge',
-          to: '/sandbox/characters/npc/chuck',
-        },
-        {
-          name: 'Jasmine',
-          city: 'Olivine City',
-          specialty: 'Steel',
-          typeIcon: 'steel.svg',
-          color: 'blue-grey-lighten-2',
-          badge: 'Mineral Badge',
-          to: '/sandbox/characters/npc/jasmine',
-        },
-        {
-          name: 'Lorelei',
-          city: 'Mahogany Town',
-          specialty: 'Ice',
-          typeIcon: 'ice.svg',
-          color: 'cyan-lighten-4',
-          badge: 'Glacier Badge',
-          to: '/sandbox/characters/npc/lorelei',
-        },
-        {
-          name: 'Clair',
-          city: 'Blackthorn City',
-          specialty: 'Dragon',
-          typeIcon: 'dragon.svg',
-          color: 'indigo-accent-4',
-          badge: 'Rising Badge',
-          to: '/sandbox/characters/npc/clair',
-        },
-      ],
-      secondaryLeaders: [
-        {
-          name: 'Dorian',
-          city: 'Blackthorne Outskirts',
-          specialty: 'Water',
-          typeIcon: 'water.svg',
-          color: 'cyan-darken-2',
-          badge: 'Wave Badge',
-          to: '/sandbox/characters/npc/dorian',
-        },
-        {
-          name: 'Nathan',
-          city: 'Olivine City',
-          specialty: 'Normal',
-          typeIcon: 'Normal.svg',
-          color: 'grey-darken-2',
-          badge: 'Plain Badge',
-          to: '/sandbox/characters/npc/Nathan',
-        },
+      gymIds: [
+        'violet-gym',
+        'azalea-gym',
+        'goldenrod-gym',
+        'ecruteak-gym',
+        'cianwood-gym',
+        'olivine-gym',
+        'mahogany-gym',
+        'blackthorn-gym',
+        'blackthorne-outskirts',
+        'olivine-secondary',
       ],
     },
   ],
@@ -387,6 +174,7 @@ export const hoennLeague: LeagueMeta = {
   championDescription:
     'Ascend the floral peaks of Ever Grande City to challenge the Hoenn Elite Four.',
   championTo: '/sandbox/regions/hoenn/hoenn-league/champion-league',
+
   conferenceName: 'Ever Grande Conference',
   conferenceDescription:
     'A grand tournament gathering the strongest trainers from across the archipelago.',
@@ -402,7 +190,7 @@ export const hoennLeague: LeagueMeta = {
   summit: [
     {
       name: 'Sidney',
-      specialty: 'Dark',
+      specialty: 'dark',
       title: 'The Punk Master',
       color: '#455a64',
       isChampion: false,
@@ -410,7 +198,7 @@ export const hoennLeague: LeagueMeta = {
     },
     {
       name: 'Phoebe',
-      specialty: 'Ghost',
+      specialty: 'ghost',
       title: 'The Spirit Whistler',
       color: '#9c27b0',
       isChampion: false,
@@ -418,7 +206,7 @@ export const hoennLeague: LeagueMeta = {
     },
     {
       name: 'Glacia',
-      specialty: 'Ice',
+      specialty: 'ice',
       title: 'The Frozen Queen',
       color: '#81d4fa',
       isChampion: false,
@@ -426,7 +214,7 @@ export const hoennLeague: LeagueMeta = {
     },
     {
       name: 'Drake',
-      specialty: 'Dragon',
+      specialty: 'dragon',
       title: 'The Draconid Veteran',
       color: '#c62828',
       isChampion: false,
@@ -434,7 +222,7 @@ export const hoennLeague: LeagueMeta = {
     },
     {
       name: 'Steven',
-      specialty: 'Steel',
+      specialty: 'steel',
       title: 'The Iron Sovereign',
       color: '#546e7a',
       isChampion: true,
@@ -448,84 +236,17 @@ export const hoennLeague: LeagueMeta = {
       name: 'Hoenn Circuit',
       heroSubtitle: 'Master the elements of Hoenn.',
       heroColor: 'teal-darken-1',
-      requirements: [
-        { title: 'Island Navigation', text: 'Must possess a certified Surf-capable Pokémon.' },
+      // Unified list of all gyms in the circuit
+      gymIds: [
+        'rustboro-gym',
+        'dewford-gym',
+        'mauville-gym',
+        'lavaridge-gym',
+        'petalburg-gym',
+        'fortree-gym',
+        'mossdeep-gym',
+        'sootopolis-gym',
       ],
-      mainLeaders: [
-        {
-          name: 'Roxanne',
-          city: 'Rustboro',
-          specialty: 'Rock',
-          typeIcon: 'rock.svg',
-          color: 'brown-lighten-2',
-          badge: 'Stone Badge',
-          to: '/sandbox/characters/npc/roxanne',
-        },
-        {
-          name: 'Brawly',
-          city: 'Dewford',
-          specialty: 'Fighting',
-          typeIcon: 'fighting.svg',
-          color: 'blue-darken-4',
-          badge: 'Knuckle Badge',
-          to: '/sandbox/characters/npc/brawly',
-        },
-        {
-          name: 'Wattson',
-          city: 'Mauville',
-          specialty: 'Electric',
-          typeIcon: 'electric.svg',
-          color: 'amber-accent-4',
-          badge: 'Dynamo Badge',
-          to: '/sandbox/characters/npc/wattson',
-        },
-        {
-          name: 'Flannery',
-          city: 'Lavaridge',
-          specialty: 'Fire',
-          typeIcon: 'fire.svg',
-          color: 'orange-darken-3',
-          badge: 'Heat Badge',
-          to: '/sandbox/characters/npc/flannery',
-        },
-        {
-          name: 'Norman',
-          city: 'Petalburg',
-          specialty: 'Normal',
-          typeIcon: 'normal.svg',
-          color: 'grey-darken-1',
-          badge: 'Balance Badge',
-          to: '/sandbox/characters/npc/norman',
-        },
-        {
-          name: 'Winona',
-          city: 'Fortree',
-          specialty: 'Flying',
-          typeIcon: 'flying.svg',
-          color: 'light-blue-lighten-3',
-          badge: 'Feather Badge',
-          to: '/sandbox/characters/npc/winona',
-        },
-        {
-          name: 'Tate & Liza',
-          city: 'Mossdeep',
-          specialty: 'Psychic',
-          typeIcon: 'psychic.svg',
-          color: 'pink-lighten-2',
-          badge: 'Mind Badge',
-          to: '/sandbox/characters/npc/tate-liza',
-        },
-        {
-          name: 'Wallace',
-          city: 'Sootopolis',
-          specialty: 'Water',
-          typeIcon: 'water.svg',
-          color: 'cyan-darken-2',
-          badge: 'Rain Badge',
-          to: '/sandbox/characters/npc/wallace',
-        },
-      ],
-      secondaryLeaders: [],
     },
   ],
 }
@@ -542,6 +263,7 @@ export const sinnohLeague: LeagueMeta = {
   championDescription:
     'Only those who have weathered the snow of Route 216 may stand before the Champion.',
   championTo: '/sandbox/regions/sinnoh/sinnoh-league/champion-league',
+
   conferenceName: 'Lily of the Valley Conference',
   conferenceDescription:
     'The most grueling tournament in the North, held on its own private island.',
@@ -556,7 +278,7 @@ export const sinnohLeague: LeagueMeta = {
   summit: [
     {
       name: 'Aaron',
-      specialty: 'Bug',
+      specialty: 'bug',
       title: 'The Bug Prodigy',
       color: '#689f38',
       isChampion: false,
@@ -564,7 +286,7 @@ export const sinnohLeague: LeagueMeta = {
     },
     {
       name: 'Vacant',
-      specialty: 'None',
+      specialty: 'normal',
       title: 'None',
       color: '#795548',
       isChampion: false,
@@ -572,7 +294,7 @@ export const sinnohLeague: LeagueMeta = {
     },
     {
       name: 'Flint',
-      specialty: 'Fire',
+      specialty: 'fire',
       title: 'The Burning Spirit',
       color: '#ef5350',
       isChampion: false,
@@ -580,7 +302,7 @@ export const sinnohLeague: LeagueMeta = {
     },
     {
       name: 'Lucian',
-      specialty: 'Psychic',
+      specialty: 'psychic',
       title: 'The Master of Minds',
       color: '#ec407a',
       isChampion: false,
@@ -588,7 +310,7 @@ export const sinnohLeague: LeagueMeta = {
     },
     {
       name: 'Cynthia',
-      specialty: 'Varying',
+      specialty: 'mixed',
       title: 'The Archeologist Champion',
       color: '#212121',
       isChampion: true,
@@ -602,87 +324,16 @@ export const sinnohLeague: LeagueMeta = {
       name: 'Sinnoh Circuit',
       heroSubtitle: 'The path of ancient Sinnoh.',
       heroColor: 'blue-grey-darken-2',
-      requirements: [
-        {
-          title: 'HM Proficiency',
-          text: 'Sinnoh geography requires high mobility certifications.',
-        },
+      gymIds: [
+        'oreburgh-gym',
+        'eterna-gym',
+        'veilstone-gym',
+        'pastoria-gym',
+        'hearthome-gym',
+        'canalave-gym',
+        'snowpoint-gym',
+        'sunyshore-gym',
       ],
-      mainLeaders: [
-        {
-          name: 'Roark',
-          city: 'Oreburgh',
-          specialty: 'Rock',
-          typeIcon: 'rock.svg',
-          color: 'grey-darken-3',
-          badge: 'Coal Badge',
-          to: '',
-        },
-        {
-          name: 'Gardenia',
-          city: 'Eterna',
-          specialty: 'Grass',
-          typeIcon: 'grass.svg',
-          color: 'green-darken-2',
-          badge: 'Forest Badge',
-          to: '',
-        },
-        {
-          name: 'Maylene',
-          city: 'Veilstone',
-          specialty: 'Fighting',
-          typeIcon: 'fighting.svg',
-          color: 'pink-darken-1',
-          badge: 'Cobble Badge',
-          to: '',
-        },
-        {
-          name: 'Wake',
-          city: 'Pastoria',
-          specialty: 'Water',
-          typeIcon: 'water.svg',
-          color: 'blue-darken-1',
-          badge: 'Fen Badge',
-          to: '',
-        },
-        {
-          name: 'Fantina',
-          city: 'Hearthome',
-          specialty: 'Ghost',
-          typeIcon: 'ghost.svg',
-          color: 'purple-accent-4',
-          badge: 'Relic Badge',
-          to: '',
-        },
-        {
-          name: 'Byron',
-          city: 'Canalave',
-          specialty: 'Steel',
-          typeIcon: 'steel.svg',
-          color: 'blue-grey-darken-1',
-          badge: 'Mine Badge',
-          to: '',
-        },
-        {
-          name: 'Candice',
-          city: 'Snowpoint',
-          specialty: 'Ice',
-          typeIcon: 'ice.svg',
-          color: 'light-blue-lighten-4',
-          badge: 'Icicle Badge',
-          to: '',
-        },
-        {
-          name: 'Volkner',
-          city: 'Sunyshore',
-          specialty: 'Electric',
-          typeIcon: 'electric.svg',
-          color: 'yellow-darken-2',
-          badge: 'Beacon Badge',
-          to: '',
-        },
-      ],
-      secondaryLeaders: [],
     },
   ],
 }
@@ -699,6 +350,7 @@ export const unovaLeague: LeagueMeta = {
   championDescription:
     'At the end of the badge path lies the grandest palace in the Western world.',
   championTo: '/sandbox/regions/unova/unova-league/champion-league',
+
   conferenceName: 'Vertress Conference',
   conferenceDescription: 'A high-tech tournament hosted in the Vertress City complex.',
   qualificationRule: '<strong>Strict 8-Badge:</strong> Only current sanctioned gyms are valid.',
@@ -711,7 +363,7 @@ export const unovaLeague: LeagueMeta = {
   summit: [
     {
       name: 'Shauntal',
-      specialty: 'Ghost',
+      specialty: 'ghost',
       title: 'The Shadow Novelist',
       color: '#5e35b1',
       isChampion: false,
@@ -719,7 +371,7 @@ export const unovaLeague: LeagueMeta = {
     },
     {
       name: 'Marshal',
-      specialty: 'Fighting',
+      specialty: 'fighting',
       title: 'The Fist of Justice',
       color: '#d84315',
       isChampion: false,
@@ -727,7 +379,7 @@ export const unovaLeague: LeagueMeta = {
     },
     {
       name: 'Grimsley',
-      specialty: 'Dark',
+      specialty: 'dark',
       title: 'The High Stakes Gambler',
       color: '#263238',
       isChampion: false,
@@ -735,7 +387,7 @@ export const unovaLeague: LeagueMeta = {
     },
     {
       name: 'Caitlin',
-      specialty: 'Psychic',
+      specialty: 'psychic',
       title: 'The Dreaming Star',
       color: '#f06292',
       isChampion: false,
@@ -743,7 +395,7 @@ export const unovaLeague: LeagueMeta = {
     },
     {
       name: 'Iris',
-      specialty: 'Dragon',
+      specialty: 'dragon',
       title: 'The Dragon Queen',
       color: '#ab47bc',
       isChampion: true,
@@ -757,114 +409,18 @@ export const unovaLeague: LeagueMeta = {
       name: 'Unova Circuit',
       heroSubtitle: 'A modern challenge for a new age.',
       heroColor: 'blue-grey-darken-3',
-      requirements: [
-        {
-          title: 'Regional Integrity',
-          text: 'Trainers are scouted based on their growth in New Unova.',
-        },
-      ],
-      mainLeaders: [
-        {
-          name: 'Cheren',
-          city: 'Aspertia',
-          specialty: 'Normal',
-          typeIcon: 'normal.svg',
-          color: 'blue-lighten-1',
-          badge: 'Basic Badge',
-          to: '',
-        },
-        {
-          name: 'Roxie',
-          city: 'Virbank',
-          specialty: 'Poison',
-          typeIcon: 'poison.svg',
-          color: 'deep-purple-accent-2',
-          badge: 'Toxic Badge',
-          to: '',
-        },
-        {
-          name: 'Burgh',
-          city: 'Castelia',
-          specialty: 'Bug',
-          typeIcon: 'bug.svg',
-          color: 'light-green-darken-2',
-          badge: 'Insect Badge',
-          to: '',
-        },
-        {
-          name: 'Elesa',
-          city: 'Nimbasa',
-          specialty: 'Electric',
-          typeIcon: 'electric.svg',
-          color: 'yellow-accent-4',
-          badge: 'Bolt Badge',
-          to: '',
-        },
-        {
-          name: 'Clay',
-          city: 'Driftveil',
-          specialty: 'Ground',
-          typeIcon: 'ground.svg',
-          color: 'brown-darken-2',
-          badge: 'Quake Badge',
-          to: '',
-        },
-        {
-          name: 'Skyla',
-          city: 'Mistralton',
-          specialty: 'Flying',
-          typeIcon: 'flying.svg',
-          color: 'light-blue-accent-1',
-          badge: 'Jet Badge',
-          to: '',
-        },
-        {
-          name: 'Drayden',
-          city: 'Opelucid',
-          specialty: 'Dragon',
-          typeIcon: 'dragon.svg',
-          color: 'blue-grey-darken-4',
-          badge: 'Legend Badge',
-          to: '',
-        },
-        {
-          name: 'Marlon',
-          city: 'Humilau',
-          specialty: 'Water',
-          typeIcon: 'water.svg',
-          color: 'cyan-accent-3',
-          badge: 'Wave Badge',
-          to: '',
-        },
-      ],
-      secondaryLeaders: [
-        {
-          name: 'Lenora',
-          city: 'Nacrene',
-          specialty: 'Normal',
-          typeIcon: 'normal.svg',
-          color: 'brown-lighten-4',
-          badge: 'Retired',
-          to: '',
-        },
-        {
-          name: 'Brycen',
-          city: 'Icirrus',
-          specialty: 'Ice',
-          typeIcon: 'ice.svg',
-          color: 'cyan-lighten-5',
-          badge: 'Retired',
-          to: '',
-        },
-        {
-          name: 'Cilan, Chili, & Cress',
-          city: 'Straiton City',
-          specialty: 'Grass',
-          typeIcon: 'Grass.svg',
-          color: 'green-lighten-5',
-          badge: 'Retired',
-          to: '',
-        },
+      gymIds: [
+        'aspertia-gym',
+        'virbank-gym',
+        'castelia-gym',
+        'nimbasa-gym',
+        'driftveil-gym',
+        'mistralton-gym',
+        'opelucid-gym',
+        'humilau-gym',
+        'nacrene-gym',
+        'icirrus-gym',
+        'striaton-gym',
       ],
     },
   ],
@@ -882,6 +438,7 @@ export const kalosLeague: LeagueMeta = {
   championDescription:
     'Ascend to the highest peak of the Kalosian mountains to challenge the reigning Grand Star.',
   championTo: '/sandbox/regions/kalos/kalos-league/champion-league',
+
   conferenceName: 'Lumiose Conference',
   conferenceDescription: 'A world-class tournament gathering the strongest Mega Evolution masters.',
   qualificationRule:
@@ -895,7 +452,7 @@ export const kalosLeague: LeagueMeta = {
   summit: [
     {
       name: 'Malva',
-      specialty: 'Fire',
+      specialty: 'fire',
       title: 'The Burning Star',
       color: '#e91e63',
       isChampion: false,
@@ -903,7 +460,7 @@ export const kalosLeague: LeagueMeta = {
     },
     {
       name: 'Siebold',
-      specialty: 'Water',
+      specialty: 'water',
       title: 'The Culinary Master',
       color: '#0288d1',
       isChampion: false,
@@ -911,7 +468,7 @@ export const kalosLeague: LeagueMeta = {
     },
     {
       name: 'Wikstrom',
-      specialty: 'Steel',
+      specialty: 'steel',
       title: 'The Chivalrous Knight',
       color: '#607d8b',
       isChampion: false,
@@ -919,7 +476,7 @@ export const kalosLeague: LeagueMeta = {
     },
     {
       name: 'Drasna',
-      specialty: 'Dragon',
+      specialty: 'dragon',
       title: 'The Draconid Sage',
       color: '#9c27b0',
       isChampion: false,
@@ -927,7 +484,7 @@ export const kalosLeague: LeagueMeta = {
     },
     {
       name: 'Diantha',
-      specialty: 'Fairy',
+      specialty: 'fairy',
       title: 'The Grand Star',
       color: '#f8bbd0',
       isChampion: true,
@@ -941,84 +498,17 @@ export const kalosLeague: LeagueMeta = {
       name: 'Kalos Circuit',
       heroSubtitle: 'Master the arts of Kalosian battle.',
       heroColor: 'pink-lighten-2',
-      requirements: [
-        { title: 'Standard Entry', text: 'Open to all registered trainers with a starter permit.' },
+      // Unified list for easy filtering via isPrimary
+      gymIds: [
+        'santalune-gym',
+        'cyllage-gym',
+        'shalour-gym',
+        'coumarine-gym',
+        'lumiose-gym',
+        'laverre-gym',
+        'anistar-gym',
+        'snowbelle-gym',
       ],
-      mainLeaders: [
-        {
-          name: 'Viola',
-          city: 'Santalune',
-          specialty: 'Bug',
-          typeIcon: 'bug.svg',
-          color: 'light-green-darken-1',
-          badge: 'Bug Badge',
-          to: '',
-        },
-        {
-          name: 'Grant',
-          city: 'Cyllage',
-          specialty: 'Rock',
-          typeIcon: 'rock.svg',
-          color: 'brown-darken-1',
-          badge: 'Cliff Badge',
-          to: '',
-        },
-        {
-          name: 'Korrina',
-          city: 'Shalour',
-          specialty: 'Fighting',
-          typeIcon: 'fighting.svg',
-          color: 'red-darken-1',
-          badge: 'Rumble Badge',
-          to: '',
-        },
-        {
-          name: 'Ramos',
-          city: 'Coumarine',
-          specialty: 'Grass',
-          typeIcon: 'grass.svg',
-          color: 'green-darken-3',
-          badge: 'Plant Badge',
-          to: '',
-        },
-        {
-          name: 'Clemont',
-          city: 'Lumiose',
-          specialty: 'Electric',
-          typeIcon: 'electric.svg',
-          color: 'yellow-darken-1',
-          badge: 'Voltage Badge',
-          to: '',
-        },
-        {
-          name: 'Valerie',
-          city: 'Laverre',
-          specialty: 'Fairy',
-          typeIcon: 'fairy.svg',
-          color: 'pink-accent-1',
-          badge: 'Fairy Badge',
-          to: '',
-        },
-        {
-          name: 'Olympia',
-          city: 'Anistar',
-          specialty: 'Psychic',
-          typeIcon: 'psychic.svg',
-          color: 'indigo-darken-2',
-          badge: 'Psychic Badge',
-          to: '',
-        },
-        {
-          name: 'Wulfric',
-          city: 'Snowbelle',
-          specialty: 'Ice',
-          typeIcon: 'ice.svg',
-          color: 'cyan-lighten-4',
-          badge: 'Iceberg Badge',
-          to: '',
-        },
-      ],
-      secondaryLeaders: [],
     },
   ],
 }
@@ -1035,6 +525,7 @@ export const alolaLeague: LeagueMeta = {
   championDescription:
     'Alola’s newly established League welcomes those who have conquered the Great Trials.',
   championTo: '/sandbox/regions/alola/alola-league/champion-league',
+
   conferenceName: 'Manalo Conference',
   conferenceDescription:
     "A historic celebration marking Alola's entry into the global League community.",
@@ -1049,7 +540,7 @@ export const alolaLeague: LeagueMeta = {
   summit: [
     {
       name: 'Hala',
-      specialty: 'Fighting',
+      specialty: 'fighting',
       title: 'Kahuna of Melemele',
       color: '#f57c00',
       isChampion: false,
@@ -1057,7 +548,7 @@ export const alolaLeague: LeagueMeta = {
     },
     {
       name: 'Olivia',
-      specialty: 'Rock',
+      specialty: 'rock',
       title: 'Kahuna of Akala',
       color: '#8d6e63',
       isChampion: false,
@@ -1065,7 +556,7 @@ export const alolaLeague: LeagueMeta = {
     },
     {
       name: 'Acerola',
-      specialty: 'Ghost',
+      specialty: 'ghost',
       title: 'The Trial Captain',
       color: '#7e57c2',
       isChampion: false,
@@ -1073,7 +564,7 @@ export const alolaLeague: LeagueMeta = {
     },
     {
       name: 'Kahili',
-      specialty: 'Flying',
+      specialty: 'flying',
       title: 'The Golfing Ace',
       color: '#4fc3f7',
       isChampion: false,
@@ -1081,7 +572,7 @@ export const alolaLeague: LeagueMeta = {
     },
     {
       name: 'Kukui',
-      specialty: 'Varying',
+      specialty: 'mixed',
       title: 'The Founder',
       color: '#ffffff',
       isChampion: true,
@@ -1095,102 +586,17 @@ export const alolaLeague: LeagueMeta = {
       name: 'Island Challenge',
       heroSubtitle: 'Conquer the Trials of the Four Islands.',
       heroColor: 'amber-darken-1',
-      requirements: [
-        { title: 'Z-Ring Ritual', text: 'Must be recognized as an Island Challenger by a Kahuna.' },
-      ],
-      mainLeaders: [
-        {
-          name: 'Hala',
-          city: 'Melemele Island',
-          specialty: 'Fighting',
-          typeIcon: 'fighting.svg',
-          color: 'orange-darken-3',
-          badge: 'Melemele Stamp',
-          to: '',
-        },
-        {
-          name: 'Olivia',
-          city: 'Akala Island',
-          specialty: 'Rock',
-          typeIcon: 'rock.svg',
-          color: 'brown-lighten-1',
-          badge: 'Akala Stamp',
-          to: '',
-        },
-        {
-          name: 'Nanu',
-          city: "Ula'ula Island",
-          specialty: 'Dark',
-          typeIcon: 'dark.svg',
-          color: 'blue-grey-darken-4',
-          badge: "Ula'ula Stamp",
-          to: '',
-        },
-        {
-          name: 'Hapu',
-          city: 'Poni Island',
-          specialty: 'Ground',
-          typeIcon: 'ground.svg',
-          color: 'deep-orange-lighten-2',
-          badge: 'Poni Stamp',
-          to: '',
-        },
-      ],
-      secondaryLeaders: [
-        {
-          name: 'Ilima',
-          city: 'Melemele',
-          specialty: 'Normal',
-          typeIcon: 'normal.svg',
-          color: 'grey-lighten-2',
-          badge: 'Trial Captain',
-          to: '',
-        },
-        {
-          name: 'Lana',
-          city: 'Akala',
-          specialty: 'Water',
-          typeIcon: 'water.svg',
-          color: 'blue-accent-2',
-          badge: 'Trial Captain',
-          to: '',
-        },
-        {
-          name: 'Kiawe',
-          city: 'Akala',
-          specialty: 'Fire',
-          typeIcon: 'fire.svg',
-          color: 'red-darken-4',
-          badge: 'Trial Captain',
-          to: '',
-        },
-        {
-          name: 'Mallow',
-          city: 'Akala',
-          specialty: 'Grass',
-          typeIcon: 'grass.svg',
-          color: 'green-accent-3',
-          badge: 'Trial Captain',
-          to: '',
-        },
-        {
-          name: 'Sophocles',
-          city: "Ula'ula",
-          specialty: 'Electric',
-          typeIcon: 'electric.svg',
-          color: 'yellow-accent-4',
-          badge: 'Trial Captain',
-          to: '',
-        },
-        {
-          name: 'Mina',
-          city: 'Poni',
-          specialty: 'Fairy',
-          typeIcon: 'fairy.svg',
-          color: 'pink-lighten-4',
-          badge: 'Trial Captain',
-          to: '',
-        },
+      gymIds: [
+        'melemele-trial',
+        'akala-trial',
+        'ulaula-trial',
+        'poni-trial',
+        'ilima-trial',
+        'lana-trial',
+        'kiawe-trial',
+        'mallow-trial',
+        'sophocles-trial',
+        'mina-trial',
       ],
     },
   ],
@@ -1206,7 +612,8 @@ export const galarLeague: LeagueMeta = {
   portalOverline: 'The Champions Cup',
   championTitle: 'Wyndon Summit',
   championDescription: 'Face the Elite in Wyndon Stadium before the eyes of thousands.',
-  championTo: '/sandbox/regions/galar/galos-league/champion-league',
+  championTo: '/sandbox/regions/galar/galar-league/champion-league',
+
   conferenceName: 'The Champions Cup',
   conferenceDescription: 'A single-elimination tournament held in Wyndon Stadium.',
   qualificationRule:
@@ -1221,7 +628,7 @@ export const galarLeague: LeagueMeta = {
   summit: [
     {
       name: 'Leon',
-      specialty: 'Varying',
+      specialty: 'mixed',
       title: 'The Unbeatable',
       color: '#4527a0',
       isChampion: true,
@@ -1235,120 +642,19 @@ export const galarLeague: LeagueMeta = {
       name: 'Gym Challenge',
       heroSubtitle: 'Fight for the crowd in the Galar stadia.',
       heroColor: 'deep-purple-lighten-1',
-      requirements: [
-        { title: 'Dynamax Band', text: 'All challengers must be certified for Dynamax energy.' },
-      ],
-      mainLeaders: [
-        {
-          name: 'Milo',
-          city: 'Turffield',
-          specialty: 'Grass',
-          typeIcon: 'grass.svg',
-          color: 'green-darken-1',
-          badge: 'Grass Badge',
-          to: '',
-        },
-        {
-          name: 'Nessa',
-          city: 'Hulbury',
-          specialty: 'Water',
-          typeIcon: 'water.svg',
-          color: 'blue-darken-2',
-          badge: 'Water Badge',
-          to: '',
-        },
-        {
-          name: 'Kabu',
-          city: 'Motostoke',
-          specialty: 'Fire',
-          typeIcon: 'fire.svg',
-          color: 'red-darken-4',
-          badge: 'Fire Badge',
-          to: '',
-        },
-        {
-          name: 'Allister',
-          city: 'Stow-on-Side',
-          specialty: 'Ghost',
-          typeIcon: 'ghost.svg',
-          color: 'deep-purple-darken-4',
-          badge: 'Ghost Badge',
-          to: '',
-        },
-        {
-          name: 'Opal',
-          city: 'Ballonlea',
-          specialty: 'Fairy',
-          typeIcon: 'fairy.svg',
-          color: 'pink-lighten-2',
-          badge: 'Fairy Badge',
-          to: '',
-        },
-        {
-          name: 'Melony',
-          city: 'Circhester',
-          specialty: 'Ice',
-          typeIcon: 'ice.svg',
-          color: 'light-blue-lighten-4',
-          badge: 'Ice Badge',
-          to: '',
-        },
-        {
-          name: 'Marnie',
-          city: 'Spikemuth',
-          specialty: 'Dark',
-          typeIcon: 'dark.svg',
-          color: 'grey-darken-2',
-          badge: 'Dark Badge',
-          to: '',
-        },
-        {
-          name: 'Raihan',
-          city: 'Hammerlocke',
-          specialty: 'Dragon',
-          typeIcon: 'dragon.svg',
-          color: 'orange-darken-4',
-          badge: 'Dragon Badge',
-          to: '',
-        },
-        {
-          name: 'Bea',
-          city: 'Stow-on-Side',
-          specialty: 'Fighting',
-          typeIcon: 'fighting.svg',
-          color: 'orange-darken-2',
-          badge: 'Alt-Circuit',
-          to: '',
-        },
-        {
-          name: 'Gordie',
-          city: 'Circhester',
-          specialty: 'Rock',
-          typeIcon: 'rock.svg',
-          color: 'brown-darken-3',
-          badge: 'Alt-Circuit',
-          to: '',
-        },
-      ],
-      secondaryLeaders: [
-        {
-          name: 'Klara',
-          city: 'IDK',
-          specialty: 'Poison',
-          typeIcon: 'poison.svg',
-          color: 'purple-darken-3',
-          badge: 'Noxious Badge',
-          to: '',
-        },
-        {
-          name: 'Avery',
-          city: 'IDK',
-          specialty: 'Psychic',
-          typeIcon: 'psychic.svg',
-          color: 'purple-lighten-3',
-          badge: 'ESP Badge',
-          to: '',
-        },
+      gymIds: [
+        'turffield-gym',
+        'hulbury-gym',
+        'motostoke-gym',
+        'stow-on-side-ghost',
+        'ballonlea-gym',
+        'circhester-ice',
+        'spikemuth-gym',
+        'hammerlocke-gym',
+        'stow-on-side-fighting',
+        'circhester-rock',
+        'isle-armor-poison',
+        'isle-armor-psychic',
       ],
     },
   ],
@@ -1366,6 +672,7 @@ export const paldeaLeague: LeagueMeta = {
   championDescription:
     'Pass the interview and the gauntlet to achieve the prestigious Champion Rank.',
   championTo: '/sandbox/regions/paldea/paldea-league/champion-league',
+
   conferenceName: 'Champion Assessment',
   conferenceDescription:
     'Unlike other regions, multiple trainers can hold the rank of Champion simultaneously.',
@@ -1380,7 +687,7 @@ export const paldeaLeague: LeagueMeta = {
   summit: [
     {
       name: 'Rika',
-      specialty: 'Ground',
+      specialty: 'ground',
       title: 'The Casual Ace',
       color: '#4e342e',
       isChampion: false,
@@ -1388,7 +695,7 @@ export const paldeaLeague: LeagueMeta = {
     },
     {
       name: 'Poppy',
-      specialty: 'Steel',
+      specialty: 'steel',
       title: 'The Prodigy',
       color: '#90a4ae',
       isChampion: false,
@@ -1396,7 +703,7 @@ export const paldeaLeague: LeagueMeta = {
     },
     {
       name: 'Larry',
-      specialty: 'Flying',
+      specialty: 'flying',
       title: 'The Exceptional Salaryman',
       color: '#546e7a',
       isChampion: false,
@@ -1404,7 +711,7 @@ export const paldeaLeague: LeagueMeta = {
     },
     {
       name: 'Hassel',
-      specialty: 'Dragon',
+      specialty: 'dragon',
       title: 'The Art Master',
       color: '#b71c1c',
       isChampion: false,
@@ -1412,7 +719,7 @@ export const paldeaLeague: LeagueMeta = {
     },
     {
       name: 'Geeta',
-      specialty: 'Varying',
+      specialty: 'mixed',
       title: 'La Primera',
       color: '#212121',
       isChampion: true,
@@ -1426,87 +733,16 @@ export const paldeaLeague: LeagueMeta = {
       name: 'Victory Road',
       heroSubtitle: 'The open skies of Paldea await.',
       heroColor: 'orange-accent-4',
-      requirements: [
-        {
-          title: 'Academy Enrollment',
-          text: 'Must be a student or alumni of Naranja/Uva Academy.',
-        },
+      gymIds: [
+        'cortondo-gym',
+        'artazon-gym',
+        'levincia-gym',
+        'cascarrafa-gym',
+        'medali-gym',
+        'montenevera-gym',
+        'alfornada-gym',
+        'glaseado-gym',
       ],
-      mainLeaders: [
-        {
-          name: 'Katy',
-          city: 'Cortondo',
-          specialty: 'Bug',
-          typeIcon: 'bug.svg',
-          color: 'lime-darken-2',
-          badge: 'Bug Badge',
-          to: '',
-        },
-        {
-          name: 'Brassius',
-          city: 'Artazon',
-          specialty: 'Grass',
-          typeIcon: 'grass.svg',
-          color: 'green-darken-4',
-          badge: 'Grass Badge',
-          to: '',
-        },
-        {
-          name: 'Iono',
-          city: 'Levincia',
-          specialty: 'Electric',
-          typeIcon: 'electric.svg',
-          color: 'yellow-accent-2',
-          badge: 'Electric Badge',
-          to: '',
-        },
-        {
-          name: 'Kofu',
-          city: 'Cascarrafa',
-          specialty: 'Water',
-          typeIcon: 'water.svg',
-          color: 'blue-lighten-1',
-          badge: 'Water Badge',
-          to: '',
-        },
-        {
-          name: 'Larry',
-          city: 'Medali',
-          specialty: 'Normal',
-          typeIcon: 'normal.svg',
-          color: 'grey-darken-2',
-          badge: 'Normal Badge',
-          to: '',
-        },
-        {
-          name: 'Ryme',
-          city: 'Montenevera',
-          specialty: 'Ghost',
-          typeIcon: 'ghost.svg',
-          color: 'purple-darken-3',
-          badge: 'Ghost Badge',
-          to: '',
-        },
-        {
-          name: 'Tulip',
-          city: 'Alfornada',
-          specialty: 'Psychic',
-          typeIcon: 'psychic.svg',
-          color: 'pink-accent-3',
-          badge: 'Psychic Badge',
-          to: '',
-        },
-        {
-          name: 'Grusha',
-          city: 'Glaseado',
-          specialty: 'Ice',
-          typeIcon: 'ice.svg',
-          color: 'cyan-darken-3',
-          badge: 'Ice Badge',
-          to: '',
-        },
-      ],
-      secondaryLeaders: [],
     },
   ],
 }

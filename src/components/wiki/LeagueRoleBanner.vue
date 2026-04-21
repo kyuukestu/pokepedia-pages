@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { LeagueRole } from '@/types/character'
-import { LeagueTitleLabels } from '@/types/character'
+import type { LeagueRole } from '@/types/league'
+import { LeagueTitleLabels } from '@/types/league'
 
 type LeagueRoleWithType = LeagueRole & { type?: string; status?: 'active' | 'former' }
 
@@ -158,10 +158,6 @@ const label = LeagueTitleLabels[props.role.title] ?? props.role.title
   color: rgb(var(--v-theme-error));
 }
 
-.lr-banner--former .lr-banner__top-label {
-  color: rgb(var(--v-theme-on-surface-variant));
-}
-
 .lr-banner__title {
   font-size: 18px;
   font-weight: 900;
@@ -173,7 +169,6 @@ const label = LeagueTitleLabels[props.role.title] ?? props.role.title
 .lr-banner__subtitle {
   font-size: 12px;
   font-weight: 500;
-  color: rgb(var(--v-theme-on-surface-variant));
   margin-top: 4px;
   opacity: 0.8;
 }
@@ -185,7 +180,6 @@ const label = LeagueTitleLabels[props.role.title] ?? props.role.title
   padding: 2px 8px;
   border-radius: 6px;
   background: rgba(var(--v-theme-on-surface), 0.08);
-  color: rgb(var(--v-theme-on-surface-variant));
   text-transform: uppercase;
 }
 
