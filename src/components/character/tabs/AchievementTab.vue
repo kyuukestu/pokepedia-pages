@@ -4,6 +4,7 @@ import { allGymRegistry } from '@/data/gym-registry'
 import { allRibbonRegistry } from '@/data/contest-registry'
 import { RibbonCollection } from '@/types/association'
 import { CharacterMeta } from '@/types/character'
+import { BadgeCollection } from '@/types/league'
 
 const props = defineProps<{
   data: CharacterMeta
@@ -16,52 +17,64 @@ watchEffect(() => {
 })
 
 const ownedBadgeIds = computed(() => {
-  const actualData = props.data
-  const badgesObj = actualData?.badges
+  const badgesObj = props.data?.badges
+  if (!badgesObj || typeof badgesObj !== 'object') return []
 
-  console.log('--- Processing ownedBadgeIds ---')
-  console.log('Target Badges Attribute:', badgesObj)
-
-  if (!badgesObj || typeof badgesObj !== 'object') {
-    console.warn('AchievementTab: No badges found in data:', actualData)
-    return []
-  }
-
-  const ids = Object.values(badgesObj)
+  // Simply map the IDs present in the arrays
+  return Object.values(badgesObj)
     .flat()
-    .filter((b: any) => b && b.obtained)
     .map((b: any) => b.gymId)
-
-  console.log('Extracted Owned IDs:', ids)
-  return ids
 })
 
 const badgeCases = computed(() => {
-  const regions = [...new Set(allGymRegistry.map((g) => g.region))]
+  const collection = props.data.badges as BadgeCollection
+  if (!collection || typeof collection !== 'object') return []
 
-  return regions
-    .map((region) => {
-      const regionGyms = allGymRegistry.filter(
-        (g) => g.region.toLowerCase() === region.toLowerCase() && g.isPrimary,
-      )
+  return Object.entries(collection)
+    .map(([regionName, records]) => {
+      const mappedGyms = records.map((record) => {
+        // Find the source gym in the registry
+        const gym = allGymRegistry.find((g) => g.id === record.gymId)
 
-      const mappedGyms = regionGyms.map((gym) => {
-        // Find the active leader, or fallback to the first one if none are marked active
-        const activeLeader = gym.leaders.find((l) => l.isActive) || gym.leaders[0]
+        if (!gym) {
+          console.warn(`Badge ID ${record.gymId} not found in registry.`)
+          return {
+            id: record.gymId,
+            isOwned: true,
+            region: regionName,
+            badgeName: 'Unknown',
+            city: 'Unknown City', // Added fallback
+            badgeImg: '',
+            activeLeader: { name: 'Unknown', image: '', typeIcon: '', id: '', isOc: false },
+          }
+        }
 
+        // Calculate the active leader for this gym
+        const foundLeader = gym.leaders.find((l) => l.isActive) || gym.leaders[0]
+
+        // RETURN ORDER MATTERS:
+        // Spread the gym first to get city, badgeImg, badgeName, etc.
+        // Then explicitly overwrite/add the journey-specific data.
         return {
           ...gym,
-          activeLeader, // Now we have a single reference point
-          isOwned: ownedBadgeIds.value.includes(gym.id),
+          activeLeader: foundLeader,
+          isOwned: true,
+          dateObtained: record.dateObtained,
         }
       })
 
+      // Pad the case to 8 slots
+      const displaySlots = [...mappedGyms]
+      while (displaySlots.length < 8) {
+        displaySlots.push({ isOwned: false, region: regionName, city: '' } as any)
+      }
+
       return {
-        name: region,
-        gyms: mappedGyms,
+        name: regionName,
+        gyms: displaySlots,
       }
     })
-    .filter((regionCase) => regionCase.gyms.some((gym) => gym.isOwned))
+    .filter((regionCase) => regionCase.gyms.some((g) => g.isOwned))
 })
 
 const ribbonCases = computed(() => {
@@ -105,6 +118,12 @@ function getRibbonUrl(path: string, region: string): string {
   return `${base}/assets/ribbons/${region}/${path}`.replace(/\/+/g, '/')
 }
 
+function getBadgeUrl(path: string, region: string): string {
+  if (!path || path.startsWith('http')) return ''
+  const base = import.meta.env.BASE_URL
+  return `${base}/assets/badges/${region}/${path}`.replace(/\/+/g, '/')
+}
+
 const getTypeIcon = (name: string) => new URL(`/src/assets/types/${name}`, import.meta.url).href
 </script>
 
@@ -129,48 +148,56 @@ const getTypeIcon = (name: string) => new URL(`/src/assets/types/${name}`, impor
 
       <div class="badge-grid">
         <div
-          v-for="gym in regionCase.gyms"
-          :key="gym.id"
+          v-for="(gym, index) in regionCase.gyms"
+          :key="gym.id || `empty-${index}`"
           class="badge-segment"
           :class="{ 'is-locked': !gym.isOwned, 'is-collected': gym.isOwned }"
         >
-          <v-img
-            :src="
-              getImageUrl(
-                gym.activeLeader.image,
-                gym.activeLeader.isOc,
-                gym.activeLeader.id,
-                gym.region,
-              )
-            "
-            cover
-            class="segment-bg"
-          >
-            <div class="leader-overlay"></div>
-          </v-img>
-
-          <div class="type-icon-layer">
-            <v-img :src="getTypeIcon(gym.activeLeader.typeIcon)" width="20" class="type-filter" />
-          </div>
-
-          <div class="badge-foreground">
-            <div v-if="gym.isOwned" class="shiny-effect"></div>
+          <template v-if="gym.id && gym.activeLeader">
             <v-img
-              :src="gym.badgeImg"
-              :class="gym.isOwned ? 'badge-active' : 'badge-indent'"
-              width="54"
-              contain
-            />
-          </div>
+              :src="
+                getImageUrl(
+                  gym.activeLeader.image,
+                  gym.activeLeader.isOc,
+                  gym.activeLeader.id,
+                  gym.region,
+                )
+              "
+              cover
+              class="segment-bg"
+            >
+              <div class="leader-overlay"></div>
+            </v-img>
 
-          <v-tooltip activator="parent" location="top" transition="scroll-y-reverse-transition">
-            <div class="text-center">
-              <div class="font-weight-bold">{{ gym.badgeName }}</div>
-              <div class="text-caption text-uppercase">
-                {{ gym.activeLeader.name }} • {{ gym.city }}
-              </div>
+            <div class="type-icon-layer">
+              <v-img :src="getTypeIcon(gym.activeLeader.typeIcon)" width="20" class="type-filter" />
             </div>
-          </v-tooltip>
+
+            <div class="badge-foreground">
+              <div v-if="gym.isOwned" class="shiny-effect"></div>
+              <v-img
+                :src="getBadgeUrl(gym.badgeImg, gym.region)"
+                :class="gym.isOwned ? 'badge-active' : 'badge-indent'"
+                width="54"
+                contain
+              />
+            </div>
+
+            <v-tooltip activator="parent" location="top" transition="scroll-y-reverse-transition">
+              <div class="text-center">
+                <div class="font-weight-bold">{{ gym.badgeName }}</div>
+                <div class="text-caption text-uppercase">
+                  {{ gym.activeLeader.name }} • {{ gym.city }}
+                </div>
+              </div>
+            </v-tooltip>
+          </template>
+
+          <template v-else>
+            <div class="badge-indent-placeholder">
+              <v-icon color="white" style="opacity: 0.05" size="40">mdi-shield-outline</v-icon>
+            </div>
+          </template>
         </div>
       </div>
     </div>

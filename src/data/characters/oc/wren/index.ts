@@ -7,7 +7,25 @@ const meta: CharacterMeta = {
     full: 'Wren Blackwell',
     short: [],
   },
-  badges: {},
+  badges: {
+    johto: [
+      {
+        gymId: 'violet-gym',
+        leaderId: 'falkner-01',
+        obtained: true,
+      },
+      {
+        gymId: 'azalea-gym',
+        leaderId: 'bugsy-01',
+        obtained: true,
+      },
+      {
+        gymId: 'goldenrod-gym',
+        leaderId: 'whitney-01',
+        obtained: true,
+      },
+    ],
+  },
   ribbons: {},
   color: '',
   region: 'sinnoh',

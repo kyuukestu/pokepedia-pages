@@ -7,7 +7,30 @@ const meta: CharacterMeta = {
     full: 'Zelda',
     short: ['Zel'],
   },
-  badges: {},
+  badges: {
+    paldea: [
+      {
+        gymId: 'cortondo-gym',
+        leaderId: 'katy-01',
+        obtained: true,
+      },
+      {
+        gymId: 'levincia-gym',
+        leaderId: 'iono-01',
+        obtained: true,
+      },
+      {
+        gymId: 'artazon-gym',
+        leaderId: 'brassius-01',
+        obtained: true,
+      },
+      {
+        gymId: 'alfornada-gym',
+        leaderId: 'tulip-01',
+        obtained: true,
+      },
+    ],
+  },
   ribbons: {},
   color: '#AB6DE8',
   region: 'unova',
