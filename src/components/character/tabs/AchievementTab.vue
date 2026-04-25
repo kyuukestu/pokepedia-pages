@@ -5,6 +5,7 @@ import { allRibbonRegistry } from '@/data/contest-registry'
 import { RibbonCollection } from '@/types/association'
 import { CharacterMeta } from '@/types/character'
 import { BadgeCollection } from '@/types/league'
+import { getImageUrl, getBadgeUrl, getRibbonUrl } from '@/utils/path-resolvers'
 
 const props = defineProps<{
   data: CharacterMeta
@@ -102,27 +103,6 @@ const ribbonCases = computed(() => {
     })
     .filter((regionCase) => regionCase.ribbons.length > 0)
 })
-
-function getImageUrl(path: string, isOC: boolean, charId?: string, region?: string): string {
-  if (!path || path.startsWith('http')) return path
-  const base = import.meta.env.BASE_URL
-  return isOC
-    ? `${base}/assets/characters/oc/${charId}/${path}`.replace(/\/+/g, '/')
-    : `${base}/assets/characters/npc/${region}/${path}`.replace(/\/+/g, '/')
-}
-
-function getRibbonUrl(path: string, region: string): string {
-  if (!path || path.startsWith('http')) return ''
-  const base = import.meta.env.BASE_URL
-  // Standardizing path: /assets/ribbons/hoenn/cool-ribbon.png
-  return `${base}/assets/ribbons/${region}/${path}`.replace(/\/+/g, '/')
-}
-
-function getBadgeUrl(path: string, region: string): string {
-  if (!path || path.startsWith('http')) return ''
-  const base = import.meta.env.BASE_URL
-  return `${base}/assets/badges/${region}/${path}`.replace(/\/+/g, '/')
-}
 
 const getTypeIcon = (name: string) => new URL(`/src/assets/types/${name}`, import.meta.url).href
 </script>

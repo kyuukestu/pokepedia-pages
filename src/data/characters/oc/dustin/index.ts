@@ -16,6 +16,7 @@ const meta: CharacterMeta = {
   occupationRoles: {
     primary: 'Content Creator',
   },
+  image: 'dustin-crop.jpg',
 }
 
 export default meta

@@ -17,6 +17,7 @@ import CharacterSpeedDial from '@/components/nav/CharacterSpeedDial.vue'
 import AchievementBanner from '@/components/wiki/AchievementBanner.vue'
 import { allGymRegistry } from '@/data/gym-registry'
 import { allRibbonRegistry } from '@/data/contest-registry'
+import { getImageUrl } from '@/utils/path-resolvers'
 
 // ── Store + route ────────────────────────────────────────────────────────────
 const route = useRoute('/sandbox/characters/[category]/[id]/[[subpage]]')
@@ -112,13 +113,6 @@ const dialLinks = computed(() => {
   }))
 })
 
-function getImageUrl(path: string, charId: string, category: string): string {
-  if (!path || path.startsWith('http')) return path
-  const base = import.meta.env.BASE_URL
-  console.log(`${base}/assets/characters/${category}/${charId}/${path}`.replace(/\/+/g, '/'))
-  return `${base}/assets/characters/${category}/${charId}/${path}`.replace(/\/+/g, '/')
-}
-
 const totalGlobalBadges = computed(() => {
   if (!store.meta) return 0
   const ownedIds = Object.values(store.meta.badges || {})
@@ -159,7 +153,14 @@ const totalGlobalRibbons = computed(() => {
         <div class="d-flex align-center gap-4">
           <v-avatar size="72" class="mobile-avatar shrink-0">
             <v-img
-              :src="getImageUrl(store.meta.image ?? defaultImg, store.meta.id, store.meta.category)"
+              :src="
+                getImageUrl(
+                  store.meta.image ?? defaultImg,
+                  store.meta.category == 'oc' ? true : false,
+                  store.meta.id,
+                  store.meta.category,
+                )
+              "
               cover
             />
           </v-avatar>
@@ -211,7 +212,12 @@ const totalGlobalRibbons = computed(() => {
             <div class="portrait-wrap mb-5" :class="themeClass" :style="themeStyle">
               <v-img
                 :src="
-                  getImageUrl(store.meta.image ?? defaultImg, store.meta.id, store.meta.category)
+                  getImageUrl(
+                    store.meta.image ?? defaultImg,
+                    store.meta.category == 'oc' ? true : false,
+                    store.meta.id,
+                    store.meta.category,
+                  )
                 "
                 class="portrait-img"
                 contain
