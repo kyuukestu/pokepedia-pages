@@ -7,122 +7,153 @@ import Fuse from 'fuse.js'
 
 // Components
 import SandboxNav from '@/components/nav/SandboxNav.vue'
-import SyncNav from '@/components/nav/SyncNav.vue'
 
 // Store
 import { useEventStore } from '@/stores/eventStore'
 
 // ── Initialization ──────────────────────────────────────────────────────────
-const drawer = ref(true)
 const theme = useTheme()
 const route = useRoute()
 const router = useRouter()
 const { mobile } = useDisplay()
 const eventStore = useEventStore()
 
-// ── Search Logic ────────────────────────────────────────────────────────────
+const drawer = ref(!mobile.value)
+
+// ── Search Logic & Type Definitions ─────────────────────────────────────────
 const searchInput = ref('')
 const isSearchOpen = ref(false)
 
-/**
- * Extended route type that includes fullPath for search indexing
- */
-type FlattenedRoute = RouteRecordRaw & {
-  fullPath: string
+interface SearchResultItem {
+  title: string
+  breadcrumb: string
+  path: string
+  category: string
+  isLive: boolean
 }
 
-/**
- * Helper to turn nested route tree into a flat array with full paths.
- * Uses a Set to prevent duplication of parent/child routes.
- */
+type FlattenedRoute = RouteRecordRaw & { fullPath: string }
+
 function flattenRoutes(
   allRoutes: RouteRecordRaw[],
   parentPath = '',
   flat: FlattenedRoute[] = [],
 ): FlattenedRoute[] {
   const seenPaths = new Set<string>()
-
-  function recurse(routes: RouteRecordRaw[], currentParent: string) {
-    routes.forEach((route) => {
-      const fullPath = `${currentParent}/${route.path}`.replace(/\/+/g, '/')
-
-      if (!seenPaths.has(fullPath) && (route.component || !route.children)) {
+  function recurse(items: RouteRecordRaw[], currentParent: string) {
+    items.forEach((r) => {
+      const fullPath = `${currentParent}/${r.path}`.replace(/\/+/g, '/')
+      if (!seenPaths.has(fullPath) && (r.component || !r.children)) {
         seenPaths.add(fullPath)
-        flat.push({ ...route, fullPath } as FlattenedRoute)
+        flat.push({ ...r, fullPath } as FlattenedRoute)
       }
-
-      if (route.children && route.children.length > 0) {
-        recurse(route.children, fullPath)
-      }
+      if (r.children?.length) recurse(r.children, fullPath)
     })
   }
-
   recurse(allRoutes, parentPath)
   return flat
 }
 
+const staticFlattenedRoutes = flattenRoutes([...routes])
+
 /**
- * The searchable index.
- * Re-computes if routes change or if the RP Date advances.
+ * Extrapolates dynamic routes into real paths using store data.
  */
-const searchIndex = computed(() => {
-  // Accessing currentRPDate ensures the "Live" status updates site-wide
-  void eventStore.currentRPDate
-  const allFlattened = flattenRoutes([...routes])
+function extrapolateRoute(r: FlattenedRoute): SearchResultItem[] {
+  const p = r.fullPath.toLowerCase()
+  const results: SearchResultItem[] = []
 
-  return allFlattened
-    .filter((r) => {
-      const p = r.fullPath.toLowerCase()
-      return p !== '/' && p !== '' && !p.includes('[...') && !p.endsWith('/index')
+  // Helper to check if event is live
+  const checkLive = (path: string) => {
+    const activeEvent = eventStore.events.find((e: any) => {
+      const normalize = (val: string) => val.replace(/\/+$/, '').toLowerCase()
+      const eventPath = e.internalPath || e.metadata?.path || ''
+      return normalize(String(eventPath)) === normalize(path)
     })
-    .map((r) => {
-      const path = r.fullPath
-      const pathParts = path.split('/').filter(Boolean)
+    return activeEvent ? eventStore.isEventActive(activeEvent) : false
+  }
 
-      const breadcrumb = pathParts
-        .map((p) => p.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()))
-        .join(' > ')
+  // 1. Handle Characters ([slug] or :slug)
+  if (p.includes('slug')) {
+    // If store has characters, expand them. If not, this loop just won't run.
+    ;(eventStore as any).characters?.forEach((char: any) => {
+      const path = r.fullPath.replace(/[:\[]slug[\]]?/gi, char.slug)
+      results.push({
+        title: char.name || char.slug,
+        breadcrumb: `Characters > ${char.name}`,
+        path,
+        category: 'CHARACTER',
+        isLive: checkLive(path),
+      })
+    })
+  }
+  // 2. Handle Regions ([regionId] or :regionId)
+  else if (p.includes('regionid')) {
+    ;(eventStore as any).regions?.forEach((reg: any) => {
+      const path = r.fullPath.replace(/[:\[]regionid[\]]?/gi, reg.id)
+      results.push({
+        title: reg.name || reg.id,
+        breadcrumb: `World > ${reg.name}`,
+        path,
+        category: 'REGION',
+        isLive: checkLive(path),
+      })
+    })
+  }
 
-      const title = breadcrumb.split(' > ').pop() || 'Page'
+  return results
+}
 
-      // Match route to an event in the store
-      // Match route to an event in the store
-      const activeEvent = eventStore.events.find((e) => {
-        // Helper to remove trailing slashes and ensure lowercase for comparison
-        const normalize = (p: string) => p.replace(/\/+$/, '').toLowerCase()
+const searchIndex = computed(() => {
+  void eventStore.currentRPDate // Maintain reactivity
 
-        const eventPath = normalize((e.extendedProps.internalPath as any) || '')
-        const routePath = normalize(path)
+  const index: SearchResultItem[] = []
 
-        // Debug log to confirm normalization is working
-        console.log(`Comparing Normalized: [${routePath}] to [${eventPath}]`)
+  staticFlattenedRoutes.forEach((r) => {
+    const p = r.fullPath.toLowerCase()
+    if (p === '/' || p.startsWith('/sync')) return
 
-        return eventPath === routePath
+    // If route is dynamic, try to extrapolate.
+    // If extrapolation yields nothing (e.g. no data in store), we skip it to keep index clean.
+    if (p.includes(':') || p.includes('[')) {
+      const dynamicItems = extrapolateRoute(r)
+      index.push(...dynamicItems)
+    } else {
+      // Standard static route
+      const pathParts = r.fullPath.split('/').filter(Boolean)
+      const title =
+        pathParts[pathParts.length - 1]
+          ?.replace(/-/g, ' ')
+          .replace(/\b\w/g, (l) => l.toUpperCase()) || 'Page'
+
+      const activeEvent = eventStore.events.find((e: any) => {
+        const normalize = (val: string) => val.replace(/\/+$/, '').toLowerCase()
+        const eventPath = e.internalPath || e.metadata?.path || ''
+        return normalize(String(eventPath)) === normalize(r.fullPath)
       })
 
-      const isLive = activeEvent ? eventStore.isEventActive(activeEvent) : false
-
-      return {
+      index.push({
         title,
-        breadcrumb,
-        path,
+        breadcrumb: pathParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(' > '),
+        path: r.fullPath,
         category: pathParts[0]?.toUpperCase() || 'SYSTEM',
-        isLive,
-      }
-    })
+        isLive: activeEvent ? eventStore.isEventActive(activeEvent) : false,
+      })
+    }
+  })
+
+  return index
 })
 
-/**
- * Fuse.js configuration wrapped in computed for reactivity
- */
 const fuse = computed(
   () =>
     new Fuse(searchIndex.value, {
       keys: [
         { name: 'title', weight: 2 },
         { name: 'breadcrumb', weight: 1 },
+        { name: 'category', weight: 0.5 },
       ],
-      threshold: 0.2,
+      threshold: 0.3,
       ignoreLocation: true,
     }),
 )
@@ -132,59 +163,60 @@ const searchResults = computed(() => {
   return fuse.value.search(searchInput.value).map((res) => res.item)
 })
 
-interface SearchResultItem {
-  title: string
-  breadcrumb: string
-  path: string // Explicitly a string
-  category: string
-  isLive: boolean
-}
-
-// Then update your select function
 function onSearchSelect(item: SearchResultItem | null) {
   if (item?.path) {
-    router.push(item.path as any) // TS should now accept this as a string
+    router.push(item.path)
     searchInput.value = ''
     isSearchOpen.value = false
   }
 }
 
-// ── Theme toggle ────────────────────────────────────────────────────────────
+// ── UI States ───────────────────────────────────────────────────────────────
 const isDark = ref(theme.global.name.value === 'dark')
 watch(isDark, (val) => {
   theme.global.name.value = val ? 'dark' : 'light'
 })
 
-// ── Breadcrumbs Logic ───────────────────────────────────────────────────────
 const breadcrumbs = computed(() => {
   const pathArray = route.path.split('/').filter((p) => p)
   const items = [{ title: 'Home', disabled: false, to: '/' }]
-
   let currentPath = ''
   pathArray.forEach((path) => {
     currentPath += `/${path}`
-    const title = path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' ')
     items.push({
-      title,
+      title: path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' '),
       disabled: currentPath === route.path,
       to: currentPath,
     })
   })
-
   return items
 })
 
-// ── Navigation State ────────────────────────────────────────────────────────
-const activeWorld = ref<'sandbox' | 'sync'>('sandbox')
-const worlds = [
-  { key: 'sandbox', label: 'Sandbox', icon: 'mdi-pokeball' },
-  { key: 'sync', label: 'Sync', icon: 'mdi-sync' },
-] as const
-
 const topLinks = [
   { title: 'Home', icon: 'mdi-home-outline', to: '/' },
-  { title: 'Levels', icon: 'mdi-trending-up', to: '/level' },
-  { title: 'Events', icon: 'mdi-calendar-star', to: '/sandbox/events' },
+  {
+    title: 'About',
+    icon: 'mdi-earth',
+    to: '/',
+    children: [
+      {
+        title: 'Levels in RP',
+        icon: 'mdi-trending-up',
+        to: '/level',
+      },
+      { title: 'General Rules', icon: 'mdi-gavel', to: '/sandbox/rules' },
+      { title: 'RP Setting', icon: 'mdi-map', to: '/sandbox/setting' },
+    ],
+  },
+  {
+    title: 'Events',
+    icon: 'mdi-calendar-star',
+    to: '/sandbox/events',
+    children: [
+      { title: 'Event Library', icon: 'mdi-bookshelf', to: '/sandbox/events' },
+      { title: 'Calendar View', icon: 'mdi-calendar-month', to: '/sandbox/events/calendar' },
+    ],
+  },
 ]
 
 function handleNavigation() {
@@ -210,9 +242,7 @@ function handleNavigation() {
       class="pa-0 px-2 breadcrumb-nav text-truncate"
       density="compact"
     >
-      <template #divider>
-        <v-icon icon="mdi-chevron-right" size="small" />
-      </template>
+      <template #divider><v-icon icon="mdi-chevron-right" size="small" /></template>
     </v-breadcrumbs>
 
     <v-spacer />
@@ -222,7 +252,7 @@ function handleNavigation() {
         v-model:search="searchInput"
         :items="searchResults"
         item-title="title"
-        placeholder="Search Wiki..."
+        placeholder="Search Database..."
         prepend-inner-icon="mdi-magnify"
         variant="solo-filled"
         density="compact"
@@ -245,7 +275,6 @@ function handleNavigation() {
                 class="mr-2"
               />
             </template>
-
             <template #append>
               <div class="d-flex align-center ga-2">
                 <v-chip
@@ -254,13 +283,11 @@ function handleNavigation() {
                   color="error"
                   variant="flat"
                   class="font-weight-bold pulse-animation"
+                  >LIVE</v-chip
                 >
-                  LIVE
-                </v-chip>
-
-                <v-chip size="x-small" label variant="tonal" color="primary">
-                  {{ item.raw.category }}
-                </v-chip>
+                <v-chip size="x-small" label variant="tonal" color="primary">{{
+                  item.raw.category
+                }}</v-chip>
               </div>
             </template>
           </v-list-item>
@@ -277,60 +304,47 @@ function handleNavigation() {
     </template>
   </v-app-bar>
 
-  <v-navigation-drawer v-model="drawer" :width="300" temporary elevation="10">
+  <v-navigation-drawer
+    v-model="drawer"
+    :permanent="!mobile"
+    :temporary="mobile"
+    :width="345"
+    elevation="10"
+  >
     <div class="drawer-banner">
       <v-icon size="32" color="white" class="mb-1">mdi-pokeball</v-icon>
-      <span class="drawer-banner__title">Pokémon RP Hub</span>
+      <span class="drawer-banner__title">Pokémon Stories</span>
       <span class="drawer-banner__sub">Navigation</span>
     </div>
 
-    <v-list density="compact" nav class="px-2 pt-3 pb-1">
-      <v-list-item
-        v-for="link in topLinks"
-        :key="link.to"
-        :prepend-icon="link.icon"
-        :title="link.title"
-        :to="link.to"
-        :active="route.path === link.to"
-        active-class="nav-item--active"
-        rounded="lg"
-        class="nav-item mb-1"
-        @click="handleNavigation"
-      />
-    </v-list>
+    <v-toolbar flat border color="transparent" density="compact">
+      <v-spacer />
+      <template v-for="link in topLinks" :key="link.title">
+        <v-menu v-if="link.children" open-on-hover>
+          <template #activator="{ props }">
+            <v-btn v-bind="props" variant="text" :prepend-icon="link.icon" class="text-none">
+              {{ link.title }} <v-icon end size="small">mdi-chevron-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list density="compact" nav>
+            <v-list-item
+              v-for="sublink in link.children"
+              :key="sublink.to"
+              :to="sublink.to"
+              :prepend-icon="sublink.icon"
+              :title="sublink.title"
+              color="primary"
+            />
+          </v-list>
+        </v-menu>
+        <v-btn v-else variant="text" :to="link.to" :prepend-icon="link.icon" class="text-none">{{
+          link.title
+        }}</v-btn>
+      </template>
+    </v-toolbar>
 
     <v-divider class="mx-3 mb-3" />
-
-    <div class="px-4 mb-2">
-      <span class="text-overline text-medium-emphasis font-weight-bold">Game Worlds</span>
-    </div>
-
-    <div class="px-3 mb-2">
-      <v-btn-toggle
-        v-model="activeWorld"
-        variant="outlined"
-        density="compact"
-        divided
-        class="world-toggle"
-        mandatory
-      >
-        <v-btn
-          v-for="world in worlds"
-          :key="world.key"
-          :value="world.key"
-          :prepend-icon="world.icon"
-          size="small"
-          class="world-btn"
-        >
-          {{ world.label }}
-        </v-btn>
-      </v-btn-toggle>
-    </div>
-
-    <div class="sub-nav-body px-2">
-      <SandboxNav v-if="activeWorld === 'sandbox'" @navigate="handleNavigation" />
-      <SyncNav v-else @navigate="handleNavigation" />
-    </div>
+    <div class="sub-nav-body px-2"><SandboxNav @navigate="handleNavigation" /></div>
 
     <template #append>
       <v-divider />
@@ -340,25 +354,20 @@ function handleNavigation() {
     </template>
   </v-navigation-drawer>
 
-  <v-main>
-    <RouterView />
-  </v-main>
+  <v-main><RouterView /></v-main>
 </template>
 
 <style scoped>
-/* ── Breadcrumb Styling ────────────────────────────────────────────────── */
 .breadcrumb-nav {
   font-size: 0.875rem;
   font-weight: 500;
 }
-
 :deep(.v-breadcrumbs-item--disabled) {
   opacity: 1;
   color: rgb(var(--v-theme-primary)) !important;
   font-weight: 700;
 }
 
-/* ── Drawer Styling ────────────────────────────────────────────────────── */
 .drawer-banner {
   display: flex;
   flex-direction: column;
@@ -371,7 +380,6 @@ function handleNavigation() {
     radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='18' fill='none' stroke='%23ffffff' stroke-width='0.8' opacity='0.12'/%3E%3Cline x1='12' y1='30' x2='48' y2='30' stroke='%23ffffff' stroke-width='0.8' opacity='0.12'/%3E%3Ccircle cx='30' cy='30' r='5' fill='none' stroke='%23ffffff' stroke-width='0.8' opacity='0.12'/%3E%3C/svg%3E");
 }
-
 .drawer-banner__title {
   color: white;
   font-size: 1rem;
@@ -379,7 +387,6 @@ function handleNavigation() {
   letter-spacing: 0.01em;
   line-height: 1.2;
 }
-
 .drawer-banner__sub {
   color: rgba(255, 255, 255, 0.65);
   font-size: 0.72rem;
@@ -387,44 +394,18 @@ function handleNavigation() {
   text-transform: uppercase;
 }
 
-.nav-item {
-  transition: background 0.15s ease;
-}
-
-:deep(.nav-item--active) {
-  font-weight: 600;
-}
-
-.world-toggle {
-  width: 100%;
-}
-
-.world-btn {
-  flex: 1;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
 .sub-nav-body {
   flex: 1;
   overflow-y: auto;
 }
-
-.drawer-footer {
-  padding: 8px 16px;
-}
-
-/* ── Search Container ──────────────────────────────────────────────────── */
 .search-container {
   width: 40px;
   transition: all 0.3s ease;
   margin-left: 8px;
 }
-
 .search-container--open {
   width: 280px;
 }
-
 @media (max-width: 600px) {
   .search-container--open {
     width: 160px;
@@ -434,34 +415,24 @@ function handleNavigation() {
 :deep(.search-bar .v-field__outline) {
   display: none;
 }
-
-/* ── Animations ───────────────────────────────────────────────────────── */
 .pulse-animation {
   animation: pulse 2s infinite;
 }
-
 @keyframes pulse {
-  0% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
     opacity: 0.5;
   }
-  100% {
-    opacity: 1;
-  }
 }
-
 .ga-2 {
   gap: 8px;
 }
 
-/* Scrollbar styling */
 .v-navigation-drawer ::-webkit-scrollbar {
   width: 4px;
-}
-.v-navigation-drawer ::-webkit-scrollbar-track {
-  background: transparent;
 }
 .v-navigation-drawer ::-webkit-scrollbar-thumb {
   background: rgba(128, 128, 128, 0.25);

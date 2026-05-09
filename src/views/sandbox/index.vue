@@ -4,9 +4,7 @@
 // Full content lives in child routes — this page is a curated overview.
 import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
-import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
-import RuleList from '@/components/wiki/RuleList.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 
 // Quick-link cards for the main Sandbox sections
@@ -83,9 +81,9 @@ const groundRules = [
   },
 ]
 </script>
-
 <template>
   <v-container fluid class="pa-0">
+    <!-- Hero Section -->
     <WikiHero
       title="The Sandbox"
       subtitle="Open-world Pokémon RP — the entire Pokéverse is your Cloyster."
@@ -93,66 +91,100 @@ const groundRules = [
       pattern="pokeball"
     >
       <template #chips>
-        <div class="mt-4 d-flex justify-center flex-wrap gap-2">
-          <v-chip color="primary" variant="flat" size="small">Open-World</v-chip>
-          <v-chip color="secondary" variant="flat" size="small">Sandbox-Style</v-chip>
-          <v-chip variant="outlined" size="small">8 years post Sword &amp; Shield</v-chip>
+        <div class="mt-4 d-flex justify-center flex-wrap ga-2">
+          <v-chip color="primary" variant="elevated" size="small" class="font-weight-bold">
+            CURRENT ERA: 8 YR POST-SWSH
+          </v-chip>
+          <v-chip color="secondary" variant="flat" size="small">OPEN ENROLLMENT</v-chip>
         </div>
       </template>
     </WikiHero>
 
-    <v-container max-width="1200">
-      <WikiCard title="What is the Sandbox?" icon="mdi-information-outline" color="blue">
-        <p class="text-body-1 lh-lg mb-4">
-          We run an <strong>Open-World, Sandbox-style</strong> Pokémon RP drawing inspiration from
-          all forms of Poké-Media — Main Series Games, Side Games (Ranger, Conquest, etc.), Anime,
-          and Manga.
-        </p>
-        <WikiCallout label="Canon" icon="mdi-bookmark-check-outline" color="blue">
-          The <strong>Main Series Games</strong> form the canon timeline. Anime &amp; Manga are used
-          for reference and inspiration only.
-        </WikiCallout>
-        <p class="text-body-1 lh-lg mb-4">
-          There is no <strong>singular</strong> main plot everyone must follow; rather, we spread
-          <strong>Events, Story Lines, &amp; Character Arcs</strong> across threads that can run in
-          parallel.
-        </p>
+    <!-- Main Content Area -->
+    <v-container max-width="1200" class="py-8">
+      <!-- Top Row: Info & Rules -->
+      <v-row>
+        <v-col cols="12" md="7">
+          <WikiCard title="The Philosophy" icon="mdi-auto-fix" color="blue" class="h-100">
+            <div class="text-body-1 lh-lg">
+              <p class="mb-4">
+                We run an <strong>Open-World, Sandbox-style</strong> Pokémon RP. Unlike traditional
+                RPs, there is no single "Main Character."
+              </p>
 
-        <p class="text-body-1 lh-lg mb-4">Prefer to chart your own path? Go for it.</p>
+              <v-divider class="my-4" opacity="0.1" />
 
-        <p class="text-body-1 lh-lg mb-4">
-          We're open to suggestions and events where RP-ers create and run their own threads that
-          are connected to the wider role-play.
-        </p>
+              <div class="d-flex ga-4 align-center mb-4">
+                <v-icon color="blue" size="32">mdi-map-marker-path</v-icon>
+                <div>
+                  <div class="text-subtitle-2 font-weight-bold">Choose Your Path</div>
+                  <div class="text-caption text-medium-emphasis">
+                    Chart a unique journey across any region.
+                  </div>
+                </div>
+              </div>
 
-        <p class="text-body-1 lh-lg mb-0">
-          I you want to do something with big, rippling consequences — a villain arc, a regional
-          event, a world-altering discovery — bring it to the group first. World-building is a
-          collaborative effort.
-        </p>
-      </WikiCard>
+              <div class="d-flex ga-4 align-center">
+                <v-icon color="purple" size="32">mdi-account-group</v-icon>
+                <div>
+                  <div class="text-subtitle-2 font-weight-bold">Collaborative Canon</div>
+                  <div class="text-caption text-medium-emphasis">
+                    Create your own arcs that ripple through the world.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </WikiCard>
+        </v-col>
 
-      <WikiCard title="Explore" icon="mdi-compass-outline" color="green">
-        <p class="text-body-1 lh-lg mb-6">
-          Not sure where to start? Here are a few sections to get you started.
-        </p>
+        <v-col cols="12" md="5">
+          <WikiCard title="Quick Rules" icon="mdi-shield-check" color="red" class="h-100">
+            <v-list bg-color="transparent" density="compact">
+              <v-list-item v-for="(rule, i) in groundRules" :key="i" class="px-0">
+                <template #prepend>
+                  <v-icon :icon="rule.icon" :color="rule.color" size="small" class="mr-3" />
+                </template>
+                <v-list-item-title class="text-body-2 font-weight-bold">{{
+                  rule.title
+                }}</v-list-item-title>
+                <div class="text-caption text-medium-emphasis text-wrap">
+                  {{ rule.description }}
+                </div>
+              </v-list-item>
+            </v-list>
+            <v-btn to="/sandbox/rules" block color="red" variant="tonal" size="small" class="mt-4">
+              Full Ruleset
+            </v-btn>
+          </WikiCard>
+        </v-col>
+      </v-row>
+
+      <!-- Navigation Grid Section -->
+      <div class="mt-12 mb-6">
+        <div class="d-flex align-center mb-6">
+          <h2 class="text-h5 font-weight-black text-uppercase letter-spacing-1">
+            <v-icon start color="green">mdi-compass-outline</v-icon>
+            Explore the World
+          </h2>
+          <v-divider class="ml-4" />
+        </div>
+
+        <!-- We use the FeatureGrid directly now for a cleaner "app-like" look -->
         <FeatureGrid :items="sections" />
-      </WikiCard>
+      </div>
 
-      <WikiCard title="The Ground Rules" icon="mdi-gavel" color="red">
-        <p class="text-body-1 lh-lg mb-4">The spirit of our community is simple:</p>
-
-        <RuleList :rules="groundRules" />
-
-        <WikiAlert type="warning">
-          A poor attitude and disregard for your fellow RPers <strong>will</strong> see you swiftly
-          removed. No exceptions.
-        </WikiAlert>
-
-        <v-btn to="/sandbox/rules" color="red-darken-2" variant="tonal" class="mt-5">
-          Read the Full Rules
-        </v-btn>
-      </WikiCard>
+      <!-- Bottom Callout -->
+      <WikiAlert type="info" class="mt-12">
+        <div class="d-flex align-center justify-space-between flex-wrap ga-4">
+          <div>
+            <div class="text-h6 font-weight-bold">Ready to Start?</div>
+            <div class="text-body-2">Check the Trainer 101 guide to set up your ID and Permit.</div>
+          </div>
+          <v-btn color="blue-darken-3" prepend-icon="mdi-rocket-launch" to="/sandbox/trainer-101">
+            Begin Journey
+          </v-btn>
+        </div>
+      </WikiAlert>
     </v-container>
   </v-container>
 </template>
@@ -160,6 +192,15 @@ const groundRules = [
 <style scoped>
 .lh-lg {
   line-height: 1.8;
+}
+
+.letter-spacing-1 {
+  letter-spacing: 1.5px !important;
+}
+
+/* Subtle background for the page to make cards pop */
+:deep(.v-container) {
+  background-attachment: fixed;
 }
 
 .section-card {

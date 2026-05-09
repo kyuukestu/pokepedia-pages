@@ -1,9 +1,20 @@
-export function getImageUrl(path: string, isOC: boolean, charId?: string, region?: string): string {
+export function getCharImageUrl(
+  path: string,
+  isOC: boolean,
+  charId?: string,
+  region?: string,
+): string {
   if (!path || path.startsWith('http')) return path
   const base = import.meta.env.BASE_URL
   return isOC
     ? `${base}/assets/characters/oc/${charId}/${path}`.replace(/\/+/g, '/')
     : `${base}/assets/characters/npc/${region}/${path}`.replace(/\/+/g, '/')
+}
+
+export function getImageUrl(path: string): string {
+  if (!path || path.startsWith('http')) return path
+  const base = import.meta.env.BASE_URL
+  return `${base}/assets/${path}`.replace(/\/+/g, '/')
 }
 
 export function getRibbonUrl(path: string, region: string): string {

@@ -2,8 +2,6 @@
 import { ref, watch } from 'vue'
 import { useTheme, useDisplay } from 'vuetify'
 import { useRoute } from 'vue-router'
-import sandboxNav from './SandboxNav.vue'
-import SyncNav from './SyncNav.vue'
 
 const drawer = ref(false)
 const theme = useTheme()
@@ -12,10 +10,11 @@ const { mobile } = useDisplay()
 const icon = ref('mdi-weather-sunny')
 const navPage = ref(0)
 
-const length = ref(2)
+// const length = ref(2)
 
 // Navigation page titles for better UX
-const navTitles = ['Sandbox Navigation', 'Sync Navigation']
+// const navTitles = ['Sandbox Navigation', 'Sync Navigation']
+const navTitles = ['Pokémon Stories']
 
 watch(
   () => theme.global.name.value,
@@ -28,13 +27,13 @@ const toggleTheme = () => {
   theme.global.name.value = theme.global.name.value === 'dark' ? 'light' : 'dark'
 }
 
-function next() {
-  navPage.value = navPage.value + 1 >= length.value ? 0 : navPage.value + 1
-}
+// function next() {
+//   navPage.value = navPage.value + 1 >= length.value ? 0 : navPage.value + 1
+// }
 
-function prev() {
-  navPage.value = navPage.value - 1 < 0 ? length.value - 1 : navPage.value - 1
-}
+// function prev() {
+//   navPage.value = navPage.value - 1 < 0 ? length.value - 1 : navPage.value - 1
+// }
 
 // Auto-close drawer on mobile after navigation
 const handleNavigation = () => {
@@ -83,8 +82,8 @@ const handleNavigation = () => {
         prepend-icon="mdi-home-city"
         title="Home"
         value="home"
-        to="/"
-        :active="route.path === '/'"
+        to="/sandbox"
+        :active="route.path === '/sandbox'"
         class="nav-item main-nav-item"
         @click="handleNavigation"
       />
@@ -103,8 +102,8 @@ const handleNavigation = () => {
     <v-divider class="my-3" />
 
     <!-- Sub-Navigation Controls -->
-    <div class="sub-nav-header">
-      <h3 class="sub-nav-title">
+    <!-- <div class="sub-nav-header"> -->
+    <!-- <h3 class="sub-nav-title">
         <v-icon class="mr-2">mdi-view-dashboard</v-icon>
         Game Worlds
       </h3>
@@ -121,10 +120,10 @@ const handleNavigation = () => {
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
         </v-btn-group>
-      </div>
+      </div> -->
 
-      <!-- Page Indicator -->
-      <div class="page-indicator">
+    <!-- Page Indicator -->
+    <!-- <div class="page-indicator">
         <v-chip
           v-for="(title, index) in navTitles"
           :key="index"
@@ -136,8 +135,8 @@ const handleNavigation = () => {
         >
           {{ title.split(' ')[0] }}
         </v-chip>
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
 
     <!-- Sub-Navigation Window -->
     <v-card class="sub-nav-card" elevation="2">
@@ -148,7 +147,11 @@ const handleNavigation = () => {
         {{ navTitles[navPage] }}
       </v-card-title>
 
-      <v-window v-model="navPage" class="sub-nav-window" :touch="{ left: next, right: prev }">
+      <div class="nav-content">
+        <SyncNav @navigate="handleNavigation" />
+      </div>
+
+      <!-- <v-window v-model="navPage" class="sub-nav-window" :touch="{ left: next, right: prev }">
         <v-window-item :value="0" class="window-item">
           <div class="nav-content">
             <sandboxNav @navigate="handleNavigation" />
@@ -160,7 +163,7 @@ const handleNavigation = () => {
             <SyncNav @navigate="handleNavigation" />
           </div>
         </v-window-item>
-      </v-window>
+      </v-window> -->
     </v-card>
 
     <!-- Footer -->

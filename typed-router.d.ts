@@ -86,46 +86,39 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sandbox/events/balloon-race/': RouteRecordInfo<
-      '/sandbox/events/balloon-race/',
-      '/sandbox/events/balloon-race',
+    '/sandbox/events/[slug]/': RouteRecordInfo<
+      '/sandbox/events/[slug]/',
+      '/sandbox/events/:slug',
+      { slug: ParamValue<true> },
+      { slug: ParamValue<false> },
+      | never
+    >,
+    '/sandbox/events/[slug]/[instanceId]': RouteRecordInfo<
+      '/sandbox/events/[slug]/[instanceId]',
+      '/sandbox/events/:slug/:instanceId',
+      { slug: ParamValue<true>, instanceId: ParamValue<true> },
+      { slug: ParamValue<false>, instanceId: ParamValue<false> },
+      | never
+    >,
+    '/sandbox/events/calendar/': RouteRecordInfo<
+      '/sandbox/events/calendar/',
+      '/sandbox/events/calendar',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/sandbox/events/balloon-race/2022-08-01/': RouteRecordInfo<
-      '/sandbox/events/balloon-race/2022-08-01/',
-      '/sandbox/events/balloon-race/2022-08-01',
+    '/sandbox/kenn/': RouteRecordInfo<
+      '/sandbox/kenn/',
+      '/sandbox/kenn',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/sandbox/events/contest/exeggutor-isle/2022-08-11/': RouteRecordInfo<
-      '/sandbox/events/contest/exeggutor-isle/2022-08-11/',
-      '/sandbox/events/contest/exeggutor-isle/2022-08-11',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/events/contest/hauoli/2022-08-23/': RouteRecordInfo<
-      '/sandbox/events/contest/hauoli/2022-08-23/',
-      '/sandbox/events/contest/hauoli/2022-08-23',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/events/festival/rivers-crown/2022-08-04/': RouteRecordInfo<
-      '/sandbox/events/festival/rivers-crown/2022-08-04/',
-      '/sandbox/events/festival/rivers-crown/2022-08-04',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/events/tournament/indigo-conference/2022-12-05/': RouteRecordInfo<
-      '/sandbox/events/tournament/indigo-conference/2022-12-05/',
-      '/sandbox/events/tournament/indigo-conference/2022-12-05',
-      Record<never, never>,
-      Record<never, never>,
+    '/sandbox/kenn/[slug]': RouteRecordInfo<
+      '/sandbox/kenn/[slug]',
+      '/sandbox/kenn/:slug',
+      { slug: ParamValue<true> },
+      { slug: ParamValue<false> },
       | never
     >,
     '/sandbox/orgs/': RouteRecordInfo<
@@ -615,39 +608,33 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/events/balloon-race/index.vue': {
+    'src/views/sandbox/events/[slug]/index.vue': {
       routes:
-        | '/sandbox/events/balloon-race/'
+        | '/sandbox/events/[slug]/'
       views:
         | never
     }
-    'src/views/sandbox/events/balloon-race/2022-08-01/index.vue': {
+    'src/views/sandbox/events/[slug]/[instanceId].vue': {
       routes:
-        | '/sandbox/events/balloon-race/2022-08-01/'
+        | '/sandbox/events/[slug]/[instanceId]'
       views:
         | never
     }
-    'src/views/sandbox/events/contest/exeggutor-isle/2022-08-11/index.vue': {
+    'src/views/sandbox/events/calendar/index.vue': {
       routes:
-        | '/sandbox/events/contest/exeggutor-isle/2022-08-11/'
+        | '/sandbox/events/calendar/'
       views:
         | never
     }
-    'src/views/sandbox/events/contest/hauoli/2022-08-23/index.vue': {
+    'src/views/sandbox/kenn/index.vue': {
       routes:
-        | '/sandbox/events/contest/hauoli/2022-08-23/'
+        | '/sandbox/kenn/'
       views:
         | never
     }
-    'src/views/sandbox/events/festival/rivers-crown/2022-08-04/index.vue': {
+    'src/views/sandbox/kenn/[slug].vue': {
       routes:
-        | '/sandbox/events/festival/rivers-crown/2022-08-04/'
-      views:
-        | never
-    }
-    'src/views/sandbox/events/tournament/indigo-conference/2022-12-05/index.vue': {
-      routes:
-        | '/sandbox/events/tournament/indigo-conference/2022-12-05/'
+        | '/sandbox/kenn/[slug]'
       views:
         | never
     }

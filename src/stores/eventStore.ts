@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia'
-import { eventList } from '@/data/event-list'
-import type { CalendarEvent } from '@/data/event-list'
-
+import { eventInstances } from '@/data/event-list'
+import { EventInstance } from '@/types/events'
 export const useEventStore = defineStore('events', {
   state: () => ({
-    events: eventList as CalendarEvent[], // Type assertion for better IDE support
+    events: eventInstances as EventInstance[], // Type assertion for better IDE support
     currentRPDate: '2022-08-19T00:00:00',
   }),
 
@@ -37,7 +36,7 @@ export const useEventStore = defineStore('events', {
     },
 
     // Helper to check status of a specific event (used in Search/Wiki cards)
-    isEventActive(event: CalendarEvent): boolean {
+    isEventActive(event: EventInstance): boolean {
       const today = this.currentRPDate
       const start = event.start
       const end = event.end || event.start

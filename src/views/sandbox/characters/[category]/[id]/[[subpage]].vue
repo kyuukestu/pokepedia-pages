@@ -17,7 +17,7 @@ import CharacterSpeedDial from '@/components/nav/CharacterSpeedDial.vue'
 import AchievementBanner from '@/components/wiki/AchievementBanner.vue'
 import { allGymRegistry } from '@/data/gym-registry'
 import { allRibbonRegistry } from '@/data/contest-registry'
-import { getImageUrl } from '@/utils/path-resolvers'
+import { getCharImageUrl } from '@/utils/path-resolvers'
 
 // ── Store + route ────────────────────────────────────────────────────────────
 const route = useRoute('/sandbox/characters/[category]/[id]/[[subpage]]')
@@ -154,7 +154,7 @@ const totalGlobalRibbons = computed(() => {
           <v-avatar size="72" class="mobile-avatar shrink-0">
             <v-img
               :src="
-                getImageUrl(
+                getCharImageUrl(
                   store.meta.image ?? defaultImg,
                   store.meta.category == 'oc' ? true : false,
                   store.meta.id,
@@ -212,7 +212,7 @@ const totalGlobalRibbons = computed(() => {
             <div class="portrait-wrap mb-5" :class="themeClass" :style="themeStyle">
               <v-img
                 :src="
-                  getImageUrl(
+                  getCharImageUrl(
                     store.meta.image ?? defaultImg,
                     store.meta.category == 'oc' ? true : false,
                     store.meta.id,

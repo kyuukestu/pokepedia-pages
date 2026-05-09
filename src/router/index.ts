@@ -6,6 +6,24 @@ const router = createRouter({
   routes,
 })
 
+router.beforeEach((to, from, next) => {
+  const path = to.path.toLowerCase()
+  console.log(from)
+
+  // 1. Redirect root to /sandbox/
+  if (path === '/') {
+    return next('/sandbox/')
+  }
+
+  // 2. Block Sync access and redirect to /sandbox/
+  if (path.startsWith('/sync')) {
+    console.warn(`Sync RP is inactive. Redirecting to Sandbox.`)
+    return next('/sandbox/')
+  }
+
+  next()
+})
+
 console.log('Auto-Routes:', routes)
 
 export default router

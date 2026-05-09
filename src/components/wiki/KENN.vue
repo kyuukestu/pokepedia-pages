@@ -1,95 +1,133 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { RPNews } from '@/types/wiki'
+import { ref, computed, onMounted, shallowRef } from 'vue'
+import { articles } from '@/data/kenn'
+import type { Article } from '@/types/kenn'
 
 interface Props {
-  news?: RPNews[]
-  ticker?: string[] // Array of strings for the bottom running banner
+  region?: string // e.g., 'Johto', 'Kalos'
+  limit?: number // How many random articles to show
   interval?: number
 }
 
-// Default ticker message in case none are provided
-const {
-  news,
-  ticker = ['Monitoring all frequencies for breaking news updates...'],
-  interval = 8000,
-} = defineProps<Props>()
+const { region = 'Global', limit = 5, interval = 8000 } = defineProps<Props>()
+console.log(region, limit, interval)
 
 const currentSlide = ref(0)
+const displayNews = shallowRef<Article[]>([])
+
+/**
+ * 1. Process News on Mount
+ * Shuffling here ensures the selection is "random" per page load,
+ * but stays stable while the user is interacting with the page.
+ */
+onMounted(() => {
+  const filtered = articles.filter((a) =>
+    region === 'Global' ? true : a.region === region.toLowerCase(),
+  )
+
+  // Fisher-Yates or simple sort shuffle
+  displayNews.value = [...filtered].sort(() => Math.random() - 0.5).slice(0, limit)
+})
+
+/**
+ * 2. Dynamic Ticker Logic
+ * Synced specifically to the displayNews ref
+ */
+const tickerItems = computed(() => {
+  if (displayNews.value.length === 0) {
+    return ['Monitoring all frequencies for breaking news updates...']
+  }
+  return displayNews.value.map((a) => `${a.category}: ${a.title}`)
+})
 </script>
 
 <template>
-  <v-card rounded="lg" class="news-board border-opacity-25 mb-6">
+  <v-card variant="outlined" class="news-board mb-6 rounded-lg">
+    <!-- Watermark: Purely decorative -->
     <div class="board-watermark">
-      <v-img src="/assets/KENN.png" alt="Keen Eye Seal" referrerpolicy="no-referrer" />
+      <v-img src="/assets/KENN.png" alt="" aria-hidden="true" />
     </div>
 
-    <div
-      class="px-4 py-3 d-flex align-center justify-space-between border-b border-opacity-25 header-ui"
-    >
+    <!-- Header UI -->
+    <div class="px-4 py-3 d-flex align-center justify-space-between border-b header-ui">
       <div class="d-flex align-center text-high-emphasis">
-        <v-icon size="20" class="mr-2 opacity-80">mdi-newspaper-variant-outline</v-icon>
-        <span class="text-button font-weight-black tracking-wide">Keen Eye News Feed</span>
+        <v-icon size="20" class="mr-2 opacity-80" color="primary">mdi-antenna</v-icon>
+        <span class="text-button font-weight-black tracking-wide">
+          KENN // {{ region.toUpperCase() }} FEED
+        </span>
       </div>
-      <div v-if="news && news.length > 0" class="d-flex align-center">
+
+      <div v-if="displayNews.length > 0" class="d-flex align-center">
         <div class="live-indicator mr-2"></div>
-        <span class="text-caption font-weight-bold text-medium-emphasis tracking-wide">
-          LIVE UPDATES
+        <span
+          class="text-caption font-weight-bold text-medium-emphasis tracking-wide text-uppercase"
+        >
+          Signal Active
         </span>
       </div>
     </div>
 
+    <!-- News Display -->
     <v-carousel
-      v-if="news && news.length > 0"
+      v-if="displayNews.length > 0"
       v-model="currentSlide"
       cycle
-      height="220"
+      height="180"
       hide-delimiter-background
       hide-delimiters
       progress
+      progress-color="primary"
       :continuous="true"
       :show-arrows="false"
       :interval="interval"
       direction="vertical"
       class="news-carousel"
     >
-      <v-carousel-item v-for="(item, i) in news" :key="i">
+      <v-carousel-item v-for="(item, i) in displayNews" :key="item.id">
         <div
           class="px-6 py-4 news-content h-100 d-flex flex-column justify-center"
           :class="{ 'is-active': currentSlide === i }"
         >
-          <div
-            class="text-h6 font-weight-bold mb-2 d-flex align-center text-high-emphasis news-title"
+          <router-link
+            :to="`/sandbox/kenn/${item.slug}`"
+            class="text-decoration-none color-inherit"
+            :aria-label="`Read more about ${item.title}`"
           >
-            <v-icon v-if="item.icon" :icon="item.icon" start size="20" class="mr-2 opacity-80" />
-            <span>{{ item.title }}</span>
-          </div>
-          <div class="text-body-2 text-medium-emphasis news-text pr-8">
-            {{ item.text }}
-          </div>
+            <div class="text-overline text-primary mb-1 line-height-1">
+              {{ item.category }}
+            </div>
+            <div class="text-h6 font-weight-black mb-1 text-high-emphasis news-title line-clamp-1">
+              {{ item.title }}
+            </div>
+            <div class="text-body-2 text-medium-emphasis news-text line-clamp-2 pr-10">
+              {{ item.summary }}
+            </div>
+          </router-link>
         </div>
       </v-carousel-item>
     </v-carousel>
 
+    <!-- Fallback when no news is found -->
     <div
       v-else
-      class="d-flex flex-column align-center justify-center text-medium-emphasis"
-      style="height: 140px"
+      class="d-flex flex-column align-center justify-center text-medium-emphasis bg-black-thin"
+      style="height: 180px"
     >
-      <v-icon icon="mdi-text-box-search-outline" size="32" class="mb-2 opacity-50" />
-      <div class="text-subtitle-2 font-weight-bold tracking-wide">NO REPORTS AVAILABLE</div>
+      <v-icon icon="mdi-broadcast-off" size="32" class="mb-2 opacity-30" />
+      <div class="text-overline font-weight-bold">No Regional Signal Detected</div>
     </div>
 
-    <div class="ticker-banner border-t border-opacity-25 d-flex align-center">
+    <!-- Ticker Banner -->
+    <div class="ticker-banner border-t d-flex align-center">
       <div
-        class="ticker-badge px-3 py-1 bg-surface-variant text-caption font-weight-bold tracking-wide z-10"
+        class="ticker-badge px-3 py-1 bg-primary text-caption font-weight-black tracking-tighter z-10"
       >
-        BREAKING
+        LATEST
       </div>
       <div class="ticker-track-container overflow-hidden w-100">
-        <div class="ticker-track text-caption text-medium-emphasis font-weight-medium">
-          <span v-for="(msg, i) in ticker" :key="i" class="ticker-item mx-8">
-            <v-icon size="12" class="mx-2 opacity-50">mdi-circle-small</v-icon>
+        <div class="ticker-track text-caption text-medium-emphasis font-weight-bold">
+          <span v-for="(msg, i) in tickerItems" :key="i" class="ticker-item mx-8 text-uppercase">
+            <v-icon size="10" class="mx-2 opacity-50">mdi-rhombus</v-icon>
             {{ msg }}
           </span>
         </div>
@@ -99,132 +137,98 @@ const currentSlide = ref(0)
 </template>
 
 <style scoped>
+/* Utility */
+.color-inherit {
+  color: inherit !important;
+}
+.line-height-1 {
+  line-height: 1;
+}
+.tracking-wide {
+  letter-spacing: 2px !important;
+}
+
+.line-clamp-1,
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-1 {
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+.line-clamp-2 {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+/* Board Container */
 .news-board {
   position: relative;
   overflow: hidden;
-  /* Uses currentColor to ensure borders match the text theme of the parent page */
-  border-color: currentColor !important;
+  background-color: rgba(var(--v-theme-surface), 0.7);
+  border: 1px solid rgba(var(--v-border-color), 0.15) !important;
 }
 
-.tracking-wide {
-  letter-spacing: 1px !important;
-}
-
-/* Subtle, professional live indicator instead of a heavy glowing chip */
+/* Header & Status */
 .live-indicator {
   width: 8px;
   height: 8px;
-  background-color: #ef4444; /* Standard alert red */
+  background-color: rgb(var(--v-theme-error));
   border-radius: 50%;
-  animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse-dot 2s infinite;
 }
 
 @keyframes pulse-dot {
   0%,
   100% {
     opacity: 1;
+    transform: scale(1);
   }
   50% {
-    opacity: 0.4;
+    opacity: 0.3;
+    transform: scale(0.8);
   }
 }
 
-.news-content {
-  position: relative;
-  z-index: 1;
-}
-
-/* Clean entry animations for the news content */
+/* Animations */
 .news-title,
 .news-text {
   opacity: 0;
-  transform: translateX(-10px);
-  transition: all 0.5s ease-out;
-}
-
-.is-active .news-title {
-  opacity: 1;
-  transform: translateX(0);
+  transform: translateY(10px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .is-active .news-title,
 .is-active .news-text {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
 }
 
 .is-active .news-text {
-  opacity: 1;
-  transform: translateX(0);
-  transition-delay: 0.1s;
+  transition-delay: 0.15s;
 }
 
-/* Ticker Animation Layout */
+/* Ticker Styles */
 .ticker-banner {
-  position: relative;
-  background: rgba(128, 128, 128, 0.05); /* Extremely subtle contrast for the ticker bar */
   height: 32px;
+  background: rgba(var(--v-border-color), 0.03);
 }
 
 .ticker-badge {
-  position: relative;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
-  z-index: 2;
-}
-
-.ticker-track-container {
-  position: relative;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  height: 100%;
+  box-shadow: 10px 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .ticker-track {
   display: inline-block;
-  padding-left: 100%; /* Start off-screen to the right */
-  animation: marquee 25s linear infinite;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: marquee 30s linear infinite;
 }
 
-/* Pause the ticker when the user hovers over it to read */
 .ticker-banner:hover .ticker-track {
   animation-play-state: paused;
-}
-
-/* Watermark Styling */
-.board-watermark {
-  position: absolute;
-  right: -5%; /* Peeking off the edge feels more "designed" */
-  top: 50%;
-  transform: translateY(-50%);
-  width: 220px;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.04; /* Very subtle */
-  filter: grayscale(100%);
-  /* Ensures it looks good on both light and dark backgrounds */
-  mix-blend-mode: luminosity;
-}
-
-.board-watermark img {
-  width: 100%;
-  height: auto;
-}
-
-/* Precision Progress Bar Styling */
-:deep(.v-carousel__progress) {
-  top: 0;
-  height: 2px !important;
-  left: 0;
-  right: 0;
-  background: rgba(var(--v-border-color), 0.05);
-}
-
-:deep(.v-progress-linear__determinate) {
-  transition: width 0.3s linear;
 }
 
 @keyframes marquee {
@@ -234,5 +238,18 @@ const currentSlide = ref(0)
   100% {
     transform: translateX(-100%);
   }
+}
+
+/* Watermark */
+.board-watermark {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200px;
+  pointer-events: none;
+  opacity: 0.05;
+  filter: grayscale(1);
+  mix-blend-mode: luminosity;
 }
 </style>

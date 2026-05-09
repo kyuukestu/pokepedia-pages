@@ -110,7 +110,7 @@ const navLinks = computed((): NavItem[] => {
     <v-container max-width="1200" class="py-8">
       <v-row>
         <v-col cols="12" md="8">
-          <KENN :news="region.news" />
+          <KENN :region="region.name" :limit="5" />
 
           <RegionOverview :description="region.description" :traits="region.traits" />
 

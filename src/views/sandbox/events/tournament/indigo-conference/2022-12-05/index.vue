@@ -1,1 +1,0 @@
-<template>Indigo Conference</template>

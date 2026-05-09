@@ -5,7 +5,7 @@ import { allRibbonRegistry } from '@/data/contest-registry'
 import { RibbonCollection } from '@/types/association'
 import { CharacterMeta } from '@/types/character'
 import { BadgeCollection } from '@/types/league'
-import { getImageUrl, getBadgeUrl, getRibbonUrl } from '@/utils/path-resolvers'
+import { getCharImageUrl, getBadgeUrl, getRibbonUrl } from '@/utils/path-resolvers'
 
 const props = defineProps<{
   data: CharacterMeta
@@ -136,7 +136,7 @@ const getTypeIcon = (name: string) => new URL(`/src/assets/types/${name}`, impor
           <template v-if="gym.id && gym.activeLeader">
             <v-img
               :src="
-                getImageUrl(
+                getCharImageUrl(
                   gym.activeLeader.image,
                   gym.activeLeader.isOc,
                   gym.activeLeader.id,
