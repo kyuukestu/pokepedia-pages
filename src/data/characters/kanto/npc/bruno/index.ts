@@ -1,0 +1,14 @@
+import type { CharacterMeta } from '@/types/character'
+
+const meta: CharacterMeta = {
+  id: 'bruno',
+  name: { full: 'Bruno' },
+  region: 'kanto',
+  trainerClass: { primary: 'battler' },
+  color: 'orange',
+  image: { src: 'bruno.png' },
+  category: 'npc',
+  leagueRoles: [{ title: 'eliteFour', type: 'fighting' }],
+}
+
+export default meta

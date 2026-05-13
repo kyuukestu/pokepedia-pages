@@ -28,6 +28,7 @@ declare module 'vue' {
     PokemonTeam: typeof import('./src/components/character/tabs/PokemonTeam.vue')['default']
     ProcessSteps: typeof import('./src/components/ProcessSteps.vue')['default']
     RealWorldReference: typeof import('./src/components/wiki/RealWorldReference.vue')['default']
+    RegionFilter: typeof import('./src/components/RegionFilter.vue')['default']
     RegionNavGrid: typeof import('./src/components/wiki/RegionNavGrid.vue')['default']
     RegionOverview: typeof import('./src/components/wiki/RegionOverview.vue')['default']
     RegionQuickFacts: typeof import('./src/components/wiki/RegionQuickFacts.vue')['default']

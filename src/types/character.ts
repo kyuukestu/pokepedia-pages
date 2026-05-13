@@ -32,6 +32,32 @@ export const TrainerClassLabels: Record<TrainerClass, string> = {
   other: 'Other',
 }
 
+export type AcademicRole =
+  | 'professor' // Lead of a lab or department
+  | 'researcher' // Independent scholar/specialist
+  | 'assistant' // Aide to a professor (e.g., Hop, Bianca, Tracy)
+  | 'historian' // Specialized in lore/archeology
+  | 'engineer' // Tech/Invention focus (e.g., Colress, Clemont)
+
+export type AcademicRank =
+  | 'lead' // Head of a specific project or lab
+  | 'senior' // Established career academic
+  | 'junior' // Early career
+  | 'emeritus' // Retired but retains title for honorary/consultation purposes
+  | 'fellow' // Guest or temporary researcher
+
+export type AcademicStatus = 'active' | 'retired' | 'missing' | 'deceased' | 'hiatus'
+
+export interface AcademiaData {
+  role: AcademicRole
+  rank: AcademicRank
+  status: AcademicStatus
+  topic: string
+  field?: string
+  notableWorks?: string[]
+  bulba?: string
+}
+
 export type CharacterType = 'npc' | 'oc'
 
 export const CharacterTypeLabels: Record<CharacterType, string> = {
@@ -42,6 +68,13 @@ export const CharacterTypeLabels: Record<CharacterType, string> = {
 export type NameVariants = {
   full: string
   short?: string[]
+  nickname?: string[]
+}
+
+export type ImageDetails = {
+  src: string
+  type?: string
+  config?: { position?: string; scale?: number }
 }
 
 export interface RegistryEntry {
@@ -49,6 +82,7 @@ export interface RegistryEntry {
   category: CharacterType
   name: NameVariants
   region: Region
+  image?: ImageDetails
   trainerClass: { primary: TrainerClass; other?: TrainerClass[] }
 }
 
@@ -76,8 +110,8 @@ export interface CharacterMeta extends RegistryEntry {
   coordinatorRank?: CoordinatorRank
   rangerRank?: RangerRank
   wcsRank?: WCSRank
+  academia?: AcademiaData
   color?: string // Vuetify color class or hex
-  image?: string // URL to main portrait
   age?: number
   gender?: Gender
   affiliation?: OrgAffiliation[]
@@ -85,6 +119,7 @@ export interface CharacterMeta extends RegistryEntry {
   summary?: string
   ribbons?: RibbonCollection
   badges?: BadgeCollection
+  gallery?: ImageDetails[]
 }
 
 export interface PersonalityData {

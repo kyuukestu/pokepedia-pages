@@ -4,16 +4,13 @@ import { eventDefinitions } from '@/data/event-list'
 import { getImageUrl } from '@/utils/path-resolvers'
 import { Region } from '@/types/region'
 import { EventCategories } from '@/types/events'
+import RegionFilter from '@/components/RegionFilter.vue'
 
 // --- Filter State ---
 const selectedRegion = ref<Region | null>(null)
 const selectedCategory = ref<EventCategories | null>(null)
 
 // --- Dynamic Options ---
-// Automatically extract unique regions and categories from your data
-const regions = computed(() =>
-  [...new Set(eventDefinitions.map((e) => e.region.toUpperCase()))].sort(),
-)
 const categories = computed(() =>
   [...new Set(eventDefinitions.map((e) => e.category.toUpperCase()))].sort(),
 )
@@ -66,17 +63,12 @@ const clearFilters = () => {
     <!-- Filter Toolbar -->
     <v-row class="mb-6">
       <v-col cols="12" sm="5" md="4">
-        <v-select
+        <RegionFilter
           v-model="selectedRegion"
-          :items="regions"
-          label="Filter by Region"
+          :items="eventDefinitions"
+          label="Region Filter"
           prepend-inner-icon="mdi-earth"
-          variant="outlined"
-          flat
-          hide-details
-          clearable
-          density="comfortable"
-          class="rounded-lg text-uppercase"
+          class="rounded-lg"
         />
       </v-col>
       <v-col cols="12" sm="5" md="4">

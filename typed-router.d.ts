@@ -65,18 +65,18 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sandbox/characters/[category]/[id]/[[subpage]]': RouteRecordInfo<
-      '/sandbox/characters/[category]/[id]/[[subpage]]',
-      '/sandbox/characters/:category/:id/:subpage?',
-      { category: ParamValue<true>, id: ParamValue<true>, subpage?: ParamValueZeroOrOne<true> },
-      { category: ParamValue<false>, id: ParamValue<false>, subpage?: ParamValueZeroOrOne<false> },
-      | never
-    >,
     '/sandbox/characters/[redirectCat]': RouteRecordInfo<
       '/sandbox/characters/[redirectCat]',
       '/sandbox/characters/:redirectCat',
       { redirectCat: ParamValue<true> },
       { redirectCat: ParamValue<false> },
+      | never
+    >,
+    '/sandbox/characters/[region]/[category]/[id]/[[subpage]]': RouteRecordInfo<
+      '/sandbox/characters/[region]/[category]/[id]/[[subpage]]',
+      '/sandbox/characters/:region/:category/:id/:subpage?',
+      { region: ParamValue<true>, category: ParamValue<true>, id: ParamValue<true>, subpage?: ParamValueZeroOrOne<true> },
+      { region: ParamValue<false>, category: ParamValue<false>, id: ParamValue<false>, subpage?: ParamValueZeroOrOne<false> },
       | never
     >,
     '/sandbox/events/': RouteRecordInfo<
@@ -590,15 +590,15 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/characters/[category]/[id]/[[subpage]].vue': {
-      routes:
-        | '/sandbox/characters/[category]/[id]/[[subpage]]'
-      views:
-        | never
-    }
     'src/views/sandbox/characters/[redirectCat].vue': {
       routes:
         | '/sandbox/characters/[redirectCat]'
+      views:
+        | never
+    }
+    'src/views/sandbox/characters/[region]/[category]/[id]/[[subpage]].vue': {
+      routes:
+        | '/sandbox/characters/[region]/[category]/[id]/[[subpage]]'
       views:
         | never
     }

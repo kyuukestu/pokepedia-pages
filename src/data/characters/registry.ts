@@ -1,14 +1,23 @@
-import type { AnyCharacter } from '@/types/character'
-// src/data/characters/registry.ts
-
-const modules = import.meta.glob('@/data/characters/**/index.ts', { eager: true })
+import { AnyCharacter } from '@/types/character'
+import { ObliviaRegistry } from './oblivia/oblivia-registry'
+import { KantoRegistry } from './kanto/kanto-registry'
+import { JohtoRegistry } from './johto/johto-registry'
+import { HoennRegistry } from './hoenn/hoenn-registry'
+import { SinnohRegistry } from './sinnoh/sinnoh-registry'
+import { UnovaRegistry } from './unova/unova-registry'
+import { KalosRegistry } from './kalos/kalos-registry'
+import { AlolaRegistry } from './alola/alola-registry'
+import { PaldeaRegistry } from './paldea/paldea-registry'
 
 // Now you can map it cleanly
-export const autoRegistry = Object.values(modules).map((mod) => {
-  // Extract the default export from the index.ts file
-  const data = (mod as { default: AnyCharacter }).default
-
-  return {
-    ...data, // Captures id, name, region... PLUS badge/city if they exist
-  }
-}) as AnyCharacter[]
+export const autoRegistry: AnyCharacter[] = [
+  ...ObliviaRegistry,
+  ...KantoRegistry,
+  ...JohtoRegistry,
+  ...HoennRegistry,
+  ...SinnohRegistry,
+  ...UnovaRegistry,
+  ...KalosRegistry,
+  ...AlolaRegistry,
+  ...PaldeaRegistry,
+]

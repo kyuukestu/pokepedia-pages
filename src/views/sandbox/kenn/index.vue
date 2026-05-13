@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import { getImageUrl } from '@/utils/path-resolvers'
 import { articles } from '@/data/kenn'
 import { Region } from '@/types/region'
+import RegionFilter from '@/components/RegionFilter.vue'
 
 // 1. Reactive State
 const activeTab = ref('all')
@@ -19,9 +20,6 @@ const newsIconStyle = computed(() => ({
   maskRepeat: 'no-repeat',
   backgroundColor: 'currentColor',
 }))
-
-const regions = computed(() => [...new Set(articles.map((a) => a.region.toUpperCase()))].sort())
-// 3. Article Data (In production, this moves to @/data/articles.ts)
 
 // 4. Filter Logic
 const filteredArticles = computed(() => {
@@ -43,6 +41,10 @@ const filteredArticles = computed(() => {
     return matchesTab && matchesSearch && matchesRegion
   })
 })
+
+const clearFilters = () => {
+  selectedRegion.value = null
+}
 </script>
 <template>
   <v-container max-width="1440" class="py-10">
@@ -65,21 +67,27 @@ const filteredArticles = computed(() => {
         </v-tabs>
       </v-col>
       <v-col cols="12" sm="4" md="3">
-        <v-select
+        <RegionFilter
           v-model="selectedRegion"
-          :items="regions"
+          :items="articles"
           label="Region Filter"
-          variant="outlined"
-          density="comfortable"
-          hide-details
-          rounded="0"
           prepend-inner-icon="mdi-map-marker-radius"
           color="primary"
-          class="mono-font text-uppercase"
-        >
-        </v-select>
+          class="mono-font"
+          rounded="lg"
+        />
       </v-col>
-
+      <v-col cols="12" sm="2" class="d-flex align-center">
+        <v-btn
+          v-if="selectedRegion"
+          variant="text"
+          color="error"
+          @click="clearFilters"
+          prepend-icon="mdi-filter-off"
+        >
+          Reset
+        </v-btn>
+      </v-col>
       <!-- Search or other controls can go here -->
       <v-col cols="12" sm="8" md="9">
         <v-text-field

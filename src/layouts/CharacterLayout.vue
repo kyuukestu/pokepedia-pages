@@ -5,6 +5,7 @@ import { useCharacterStore } from '@/stores/characterStore'
 // These props come directly from the router's :params
 const props = defineProps<{
   category: string
+  region: string
   id: string
   subpage?: string
 }>()
@@ -13,7 +14,7 @@ const store = useCharacterStore()
 
 // This function runs whenever the URL changes
 const loadData = () => {
-  store.fetchCharacter(props.category, props.id, props.subpage)
+  store.fetchCharacter(props.region, props.category, props.id, props.subpage)
 }
 
 onMounted(loadData)

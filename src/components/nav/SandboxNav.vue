@@ -27,6 +27,7 @@ const groups = [
   {
     label: 'World',
     items: [
+      { title: 'Academia', icon: 'mdi-book-open', to: '/sandbox/academia' },
       { title: 'Organizations', icon: 'mdi-trophy', to: '/sandbox/orgs' },
       { title: 'Technology', icon: 'mdi-star-circle', to: '/sandbox/tech' },
       { title: 'Characters', icon: 'mdi-account', to: '/sandbox/characters' },
