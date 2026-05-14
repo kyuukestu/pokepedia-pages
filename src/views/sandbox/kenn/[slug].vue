@@ -20,9 +20,49 @@ const resolveBlockComponent = (type: string) => {
       return 'blockquote'
     case 'list':
       return 'ul'
+    case 'label':
+      return 'div'
     default:
       return 'div'
   }
+}
+
+const getBlockStyle = (block: any) => {
+  if (!block.color) {
+    block.color = '#2196F3'
+  }
+
+  const styles: Record<string, string> = {}
+
+  switch (block.type) {
+    case 'subheading':
+    case 'label':
+    case 'paragraph':
+      styles.color = block.color
+      break
+    case 'quote':
+      styles.borderLeftColor = block.color
+      break
+    // List color is handled inside the template for the icons
+  }
+
+  return styles
+}
+const getBlockClass = (block: any) => {
+  const classes = [
+    block.type === 'paragraph' ? 'text-body-1 mb-4' : '',
+    block.type === 'subheading' ? 'text-h5 font-weight-black text-uppercase mt-8 mb-4' : '',
+    block.type === 'quote' ? 'quote-block pa-6 my-8' : '',
+    block.type === 'list' ? 'custom-list ps-6' : '',
+    block.type === 'label' ? 'risk-label-container my-4' : '',
+  ]
+
+  // Add Vuetify text color class if it's a theme color (not a hex)
+  if (block.color && !block.color.startsWith('#') && !block.color.startsWith('rgb')) {
+    classes.push(`text-${block.color}`)
+  }
+
+  return classes
 }
 </script>
 
@@ -68,22 +108,26 @@ const resolveBlockComponent = (type: string) => {
           <div v-for="(block, index) in article.content" :key="index" class="mb-6">
             <component
               :is="resolveBlockComponent(block.type)"
-              :class="[
-                block.type === 'paragraph' ? 'text-body-1 mb-4' : '',
-                block.type === 'subheading'
-                  ? 'text-h5 font-weight-black text-uppercase mt-8 mb-4'
-                  : '',
-                block.type === 'quote' ? 'quote-block pa-6 my-8' : '',
-                block.type === 'list' ? 'custom-list ps-6' : '',
-              ]"
+              :class="getBlockClass(block)"
+              :style="getBlockStyle(block)"
             >
+              <!-- 1. Labels (Rendered as text with custom color) -->
+              <template v-if="block.type === 'label'">
+                <v-icon start size="16" :color="block.color" class="me-1"
+                  >mdi-chevron-right-circle</v-icon
+                >
+                {{ block.text?.toUpperCase() }}
+              </template>
+
               <!-- Handle text-based blocks -->
               <template v-if="block.text">{{ block.text }}</template>
 
               <!-- Handle list-based blocks -->
               <template v-if="block.type === 'list' && block.items">
                 <li v-for="item in block.items" :key="item" class="mb-2">
-                  <v-icon size="x-small" color="primary" class="me-2">mdi-rhombus</v-icon>
+                  <v-icon size="x-small" :style="{ color: block.color || 'primary' }" class="me-2"
+                    >mdi-rhombus</v-icon
+                  >
                   <span class="text-body-2 font-weight-medium">{{ item }}</span>
                 </li>
               </template>
@@ -197,18 +241,40 @@ const resolveBlockComponent = (type: string) => {
 }
 
 .quote-block {
-  border-left: 4px solid rgb(var(--v-theme-primary));
-  background-color: rgba(var(--v-theme-primary), 0.05);
+  border-left: 4px solid rgba(var(--v-theme-primary), 0.5);
+  background-color: rgba(var(--v-theme-primary), 0.03);
   font-style: italic;
+  transition: border-left-color 0.3s ease;
 }
 
 .custom-list {
   list-style: none;
+  padding: 0;
+}
+
+.risk-label-container {
+  display: flex;
+  align-items: center;
+  /* Add a horizontal line to separate sections if desired */
+  width: 100%;
+}
+
+.risk-label-container::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background: rgba(var(--v-border-color), 0.1);
+  margin-left: 16px;
 }
 
 /* Ensure subheadings stand out from the Newsreader body */
 h3 {
   font-family: inherit; /* Keeps it within the editorial look */
   letter-spacing: -0.5px;
+}
+
+h3.mono-font {
+  font-family: 'JetBrains Mono', monospace !important;
+  letter-spacing: 1px;
 }
 </style>

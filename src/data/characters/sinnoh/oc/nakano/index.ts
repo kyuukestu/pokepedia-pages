@@ -16,8 +16,18 @@ const meta: CharacterMeta = {
     rank: 'senior',
     role: 'researcher',
     status: 'active',
-    field: 'IDK, Ask Medic',
-    topic: 'A Research Specialization? In my RP???',
+    field: 'Pokemon Ecology, Genetics & Preservation',
+    topic: 'How Ecology affects Genetics',
+    notableWorks: [
+      {
+        category: 'FIELD REPORT',
+        date: '2022-06-09',
+        id: 'ART-2022-GAL-FR-001',
+        region: 'galar',
+        slug: 'motostoke-field-survey-warning',
+        title: 'Attention: Field Survey of Motostoke and Surrounding Areas',
+      },
+    ],
   },
 }
 

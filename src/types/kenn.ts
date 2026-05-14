@@ -16,8 +16,18 @@ export interface Article {
   links?: { label: string; link: string }[]
 }
 
+export interface ArticleReference {
+  id: string
+  slug: string
+  title: string
+  date: string
+  category: 'BREAKING' | 'FIELD REPORT' | 'EDITORIAL' | 'INTEL'
+  region: Region
+  color?: string // Allows the preview card to match the article's theme
+  summary?: string // Optional: for a "brief" text preview
+}
 // The individual types of blocks available
-export type BlockType = 'paragraph' | 'subheading' | 'list' | 'quote' | 'image'
+export type BlockType = 'paragraph' | 'subheading' | 'list' | 'quote' | 'image' | 'label'
 
 export interface ContentBlock {
   type: BlockType
@@ -26,4 +36,5 @@ export interface ContentBlock {
   author?: string // Optional for quotes
   src?: string // Optional for in-body images
   caption?: string // Optional for in-body images
+  color?: string
 }

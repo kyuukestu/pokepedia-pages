@@ -1,4 +1,5 @@
-import { RegistryEntry } from './character'
+import { RegistryEntry } from '@/types/character'
+import { ArticleReference } from '@//types/kenn'
 
 export type AcademicRole =
   | 'professor' // Lead of a lab or department
@@ -20,9 +21,9 @@ export interface AcademiaData {
   role: AcademicRole
   rank: AcademicRank
   status: AcademicStatus
-  topic: string
+  topic?: string
   field?: string
-  notableWorks?: string[]
+  notableWorks?: ArticleReference[]
   bulba?: string
 }
 
