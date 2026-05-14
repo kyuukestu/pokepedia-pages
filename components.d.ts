@@ -20,6 +20,7 @@ declare module 'vue' {
     FeatureGrid: typeof import('./src/components/wiki/FeatureGrid.vue')['default']
     FMoveCalc: typeof import('./src/components/calculators/FMoveCalc.vue')['default']
     FPokeCalc: typeof import('./src/components/calculators/FPokeCalc.vue')['default']
+    GalleryTab: typeof import('./src/components/character/tabs/GalleryTab.vue')['default']
     HomeHeader: typeof import('./src/components/sections/HomeHeader.vue')['default']
     InstitutionServiceCard: typeof import('./src/components/academia/InstitutionServiceCard.vue')['default']
     KENN: typeof import('./src/components/wiki/KENN.vue')['default']

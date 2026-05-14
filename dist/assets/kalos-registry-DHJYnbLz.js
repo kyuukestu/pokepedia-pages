@@ -1,0 +1,1 @@
+import{_ as t}from"./index-C7LlEQRl.js";const s=Object.assign({"/src/data/characters/kalos/npc/augustine-sycamore/index.ts":t}),o=Object.values(s).map(e=>{const a=e.default;return!a||!a.id?(console.warn("Malformed character module found:",e),null):{...a}});export{o as KalosRegistry};

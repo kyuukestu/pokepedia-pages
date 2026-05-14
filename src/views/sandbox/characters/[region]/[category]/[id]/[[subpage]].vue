@@ -15,6 +15,7 @@ import { allRibbonRegistry } from '@/data/contest-registry'
 import SummaryTab from '@/components/character/tabs/DefaultTab.vue'
 import PokemonTab from '@/components/character/tabs/PokemonTeam.vue'
 import AchievementTab from '@/components/character/tabs/AchievementTab.vue'
+import GalleryTab from '@/components/character/tabs/GalleryTab.vue'
 import CharacterSpeedDial from '@/components/nav/CharacterSpeedDial.vue'
 
 const route = useRoute('/sandbox/characters/[region]/[category]/[id]/[[subpage]]')
@@ -35,6 +36,7 @@ const tabComponents: Record<string, any> = {
   index: markRaw(SummaryTab),
   pokemon: markRaw(PokemonTab),
   achievements: markRaw(AchievementTab),
+  gallery: markRaw(GalleryTab),
 }
 
 const currentComponent = computed(() => {
@@ -74,6 +76,7 @@ const dialLinks = computed(() => [
   { title: 'Summary', icon: 'mdi-account-outline', to: currentPathBase.value },
   { title: 'Pokémon', icon: 'mdi-pokeball', to: `${currentPathBase.value}/pokemon` },
   { title: 'Achievements', icon: 'mdi-trophy-award', to: `${currentPathBase.value}/achievements` },
+  { title: 'Gallery', icon: 'mdi-image-multiple', to: `${currentPathBase.value}/gallery` },
 ])
 </script>
 <template>
@@ -186,6 +189,13 @@ const dialLinks = computed(() => [
 
           <v-col cols="12" lg="5" class="d-flex justify-center align-center">
             <div class="portrait-container">
+               <!-- AI Disclosure Badge -->
+                  <v-fade-transition>
+                    <div v-if="store.meta.image?.isAi" class="ai-badge">
+                      <v-icon size="12" icon="mdi-robot-outline" class="mr-1" />
+                      <span>AI</span>
+                    </div>
+                  </v-fade-transition>
               <v-img
                 :src="
                   getCharImageUrl(
@@ -197,7 +207,13 @@ const dialLinks = computed(() => [
                 "
                 class="main-portrait"
                 contain
-              />
+              >
+              <template #placeholder>
+      <v-row class="fill-height ma-0" align="center" justify="center">
+        <v-progress-circular indeterminate color="primary" />
+      </v-row>
+    </template>
+              </v-img>
             </div>
           </v-col>
         </v-row>
@@ -441,6 +457,7 @@ const dialLinks = computed(() => [
 
 /* --- Portrait --- */
 .portrait-container {
+  position: relative;
   width: 100%;
   max-width: 600px;
   z-index: 2;
@@ -452,5 +469,23 @@ const dialLinks = computed(() => [
 
 .tab-stage {
   width: 100%;
+}
+
+.ai-badge {
+  position: absolute;
+  top: 0;   /* Start at 0 to see it, then adjust */
+  right: 80px; /* Match the padding-right of the container to align with image edge */
+  z-index: 99; /* Force it to the very top */
+  background: rgba(0, 0, 0, 0.85); /* Slightly darker for contrast */
+  backdrop-filter: blur(4px);
+  color: #ffca28;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 900;
+  border: 1px solid rgba(255, 202, 40, 0.4);
+  display: flex;
+  align-items: center;
+  pointer-events: none; /* Prevents badge from interfering with clicks */
 }
 </style>

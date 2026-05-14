@@ -1,0 +1,1 @@
+import{_ as a}from"./index-Dd2AsdQ8.js";const r=Object.assign({"/src/data/characters/oblivia/oc/esther/index.ts":a}),s=Object.values(r).map(t=>{const e=t.default;return!e||!e.id?(console.warn("Malformed character module found:",t),null):{...e}});export{s as ObliviaRegistry};

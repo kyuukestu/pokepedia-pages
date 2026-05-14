@@ -420,7 +420,6 @@ export const johtoAcademyMap: AcademyMapConfig = {
         [-45, 640],
       ],
     },
-    ,
     // --- INNER COURT ---
     {
       type: 'building',

@@ -9,6 +9,7 @@ export const useCharacterStore = defineStore('character', {
     loading: false,
     error: false,
     researcherRegistry: [] as CharacterMeta[],
+    pokemonCount: 0,
   }),
 
   actions: {
@@ -21,6 +22,15 @@ export const useCharacterStore = defineStore('character', {
         const metaModule = await import(`@/data/characters/${region}/${category}/${id}/index.ts`)
         const baseMeta = metaModule.default
 
+        try {
+          const pokeModule = await import(
+            `@/data/characters/${region}/${category}/${id}/pokemon.ts`
+          )
+          this.pokemonCount = pokeModule.default?.length || 0
+        } catch (e) {
+          this.pokemonCount = 0
+        }
+
         // 2. Auto-detect sibling files for Tabs
         // We glob broadly and filter specifically
         const allCharacterFiles = import.meta.glob('@/data/characters/**/*.ts')
@@ -32,7 +42,7 @@ export const useCharacterStore = defineStore('character', {
         // 3. Set Meta with detected tabs
         this.meta = {
           ...baseMeta,
-          tabs: detectedTabs,
+          tabs: detectedTabs, 
         }
 
         // 4. Set Active Data

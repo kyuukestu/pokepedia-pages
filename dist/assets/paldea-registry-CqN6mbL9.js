@@ -1,0 +1,1 @@
+import{_ as r}from"./index-B06sW49S.js";const t=Object.assign({"/src/data/characters/paldea/npc/professor-sada/index.ts":r}),o=Object.values(t).map(e=>{const a=e.default;return!a||!a.id?(console.warn("Malformed character module found:",e),null):{...a}});export{o as PaldeaRegistry};

@@ -53,6 +53,7 @@ export type Titles = {
 export type ImageDetails = {
   src: string
   type?: string
+  isAi?: Boolean
   config?: { position?: string; scale?: number }
 }
 
@@ -96,7 +97,6 @@ export interface CharacterMeta extends RegistryEntry {
   summary?: string
   ribbons?: RibbonCollection
   badges?: BadgeCollection
-  gallery?: ImageDetails[]
   externalSheet?: {
     label: string
     url: string

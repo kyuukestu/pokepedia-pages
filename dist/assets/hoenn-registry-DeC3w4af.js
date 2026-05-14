@@ -1,0 +1,1 @@
+import{_ as n}from"./index-Dj3p--cF.js";const a=Object.assign({"/src/data/characters/hoenn/oc/dustin/index.ts":n}),r=Object.values(a).map(t=>{const e=t.default;return!e||!e.id?(console.warn("Malformed character module found:",t),null):{...e}});export{r as HoennRegistry};

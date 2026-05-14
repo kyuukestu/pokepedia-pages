@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { CharacterMeta } from '@/types/character'
+import { useCharacterStore } from '@/stores/useCharacterStore'
 import { WCSRankLabels, CoordinatorRankLabels, RangerRankLabels } from '@/types/league'
 
 const props = defineProps<{
@@ -8,6 +9,8 @@ const props = defineProps<{
   meta: CharacterMeta
   totals: { badges: number; ribbons: number }
 }>()
+
+const store = useCharacterStore()
 
 const hasCompetitive = computed(
   () => props.meta.wcsRank || props.meta.coordinatorRank || props.meta.rangerRank,
@@ -19,7 +22,7 @@ const genderIcon = computed(() => {
   return 'mdi-gender-non-binary'
 })
 
-const pokemonCount = computed(() => props.meta.pokemonIds?.length || 0)
+const pokemonCount = computed(() => store.pokemonCount)
 </script>
 
 <template>
