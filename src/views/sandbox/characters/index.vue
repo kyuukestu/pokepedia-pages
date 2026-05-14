@@ -80,7 +80,7 @@ const clearFilters = () => {
   <v-container fluid class="pa-0">
     <WikiHero
       title="Character Directory"
-      subtitle="Registry of the Indigo Federation's citizens and travelers."
+      subtitle="Registry of the World's OCs and NPCs."
       icon="mdi-account-details"
       pattern="dots"
     >
@@ -111,9 +111,8 @@ const clearFilters = () => {
             label="Search name..."
             variant="solo"
             hide-details
-            flat
+            outlined
             rounded="lg"
-            bg-color="surface-variant"
           />
         </v-col>
 
@@ -216,7 +215,7 @@ const clearFilters = () => {
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  background: #0a0a0a !important; /* Solid base for transparent PNGs */
+  background: transparent;
 }
 
 .elite-dossier-card:hover {

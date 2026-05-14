@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { useLeagueStore } from '@/stores/leagueStore'
+import { useLeagueStore } from '@/stores/useLeagueStore'
 import { allGymRegistry } from '@/data/gym-registry' // Import the flat registry
 
 // Components

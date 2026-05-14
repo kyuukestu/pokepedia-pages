@@ -1,208 +1,233 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { CharacterMeta } from '@/types/character'
-import { LeagueTitleLabels } from '@/types/league'
+import { WCSRankLabels, CoordinatorRankLabels, RangerRankLabels } from '@/types/league'
 
-defineProps<{ data: CharacterMeta }>()
+const props = defineProps<{
+  data: any
+  meta: CharacterMeta
+  totals: { badges: number; ribbons: number }
+}>()
 
-// Logic for detail lines in league roles
-function roleDetail(role: NonNullable<CharacterMeta['leagueRoles']>[number]): string {
-  const parts: string[] = []
-  if (role.type) parts.push(`${role.type.charAt(0).toUpperCase() + role.type.slice(1)} type`)
-  if ('badge' in role && role.badge) parts.push(`${role.badge} Badge`)
-  return parts.join(' · ')
-}
+const hasCompetitive = computed(
+  () => props.meta.wcsRank || props.meta.coordinatorRank || props.meta.rangerRank,
+)
 
-const hasAnyContent = (data: CharacterMeta) => {
-  if (!data) return false
+const genderIcon = computed(() => {
+  if (props.meta.gender === 'male') return 'mdi-gender-male'
+  if (props.meta.gender === 'female') return 'mdi-gender-female'
+  return 'mdi-gender-non-binary'
+})
 
-  return (
-    !!data.summary ||
-    (data.leagueRoles?.length ?? 0) > 0 ||
-    !!data.coordinatorRank ||
-    !!data.rangerRank ||
-    !!data.wcsRank ||
-    !!data.occupationRoles?.primary // <— Safely returns undefined/false instead of crashing
-  )
-}
+const pokemonCount = computed(() => props.meta.pokemonIds?.length || 0)
 </script>
+
 <template>
-  <div class="summary pt-0">
-    <v-row v-if="hasAnyContent(data)" class="mt-0 fill-height">
-      <v-col cols="12" md="7" class="pt-0 pr-md-4">
-        <section v-if="data?.summary" class="summary__section mb-8">
-          <div class="section-label mb-3">About</div>
-          <p class="text-body-1 summary__bio mb-0">{{ data.summary }}</p>
-        </section>
+  <div class="dashboard-grid">
+    <!-- BIO SECTION -->
+    <v-card class="glass-module bio-card pa-8 span-all">
+      <div class="module-header mb-4">
+        <v-icon size="16" class="me-2" color="primary">mdi-text-box-search-outline</v-icon>
+        Dossier Summary
+      </div>
+      <p class="text-h6 bio-text">
+        {{ meta.summary || 'Biographical data for this entity remains classified.' }}
+      </p>
 
-        <section v-if="data?.occupationRoles?.primary" class="summary__section mb-8">
-          <div class="section-label mb-3">Occupation</div>
-          <div class="occupation-block">
-            <div class="occupation-block__primary">
-              <v-icon size="16" class="me-2 text-medium-emphasis">mdi-briefcase-outline</v-icon>
-              {{ data.occupationRoles.primary }}
-            </div>
-            <div v-if="data?.occupationRoles?.other?.length" class="occupation-block__other mt-2">
-              <span v-for="role in data.occupationRoles.other" :key="role" class="other-role-chip">
-                {{ role }}
-              </span>
-            </div>
+      <div class="d-flex flex-wrap gap-4 mt-8">
+        <div v-if="meta.age" class="micro-box">
+          <span class="label">Age</span>
+          <span class="value">{{ meta.age }}</span>
+        </div>
+
+        <div v-if="meta.gender" class="micro-box gender-box" :class="meta.gender">
+          <span class="label">Identity</span>
+          <div class="d-flex align-center gap-2">
+            <v-icon size="20" class="gender-symbol">{{ genderIcon }}</v-icon>
+            <span class="value text-capitalize">{{ meta.gender }}</span>
           </div>
-        </section>
+        </div>
 
-        <section v-if="data?.leagueRoles?.length" class="summary__section mb-8">
-          <div class="section-label mb-3">League Roles</div>
-          <div class="roles-list">
-            <div v-for="role in data.leagueRoles" :key="role.title" class="role-item">
-              <v-icon size="16" color="amber-darken-2" class="shrink-0 mt-px">
-                mdi-shield-star
-              </v-icon>
-              <div>
-                <div class="text-body-2 font-weight-500">
-                  {{ LeagueTitleLabels[role.title] ?? role.title }}
-                </div>
-                <div v-if="roleDetail(role)" class="text-caption text-medium-emphasis mt-1">
-                  {{ roleDetail(role) }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </v-col>
-    </v-row>
+        <div v-if="meta.height" class="micro-box">
+          <span class="label">Height</span>
+          <span class="value">{{ meta.height }}</span>
+        </div>
+      </div>
+    </v-card>
 
-    <v-row v-else class="mt-0">
-      <v-col cols="12" class="pt-0">
-        <v-card variant="outlined" rounded="lg" class="pa-12 text-center border-dashed">
-          <v-icon size="48" class="text-medium-emphasis mb-4">mdi-account-question-outline</v-icon>
-          <p class="text-h6 text-medium-emphasis mb-1">Incomplete Records</p>
-          <p class="text-body-2 text-medium-emphasis">
-            This character's biographical data is currently restricted.
-          </p>
-        </v-card>
-      </v-col>
-    </v-row>
+    <!-- OCCUPATION SECTION -->
+    <v-card v-if="meta.occupationRoles?.primary" class="glass-module occupation-card pa-6">
+      <div class="module-header mb-6">Occupation</div>
+      <div class="primary-role">{{ meta.occupationRoles.primary }}</div>
+
+      <div class="chip-container mt-6">
+        <v-chip
+          v-for="r in meta.occupationRoles.other"
+          :key="r"
+          size="small"
+          class="custom-role-chip"
+          variant="flat"
+        >
+          {{ r }}
+        </v-chip>
+      </div>
+    </v-card>
+
+    <!-- COMPETITIVE SECTION (Enhanced Labeling) -->
+    <v-card v-if="hasCompetitive" class="glass-module rank-card pa-6">
+      <div class="module-header mb-6">Competitive Stats</div>
+      <div class="rank-stack">
+        <!-- WCS Entry -->
+        <div v-if="meta.wcsRank" class="rank-item mb-4">
+          <div class="rank-category">World Coronation Series</div>
+          <div class="rank-value highlight">{{ WCSRankLabels[meta.wcsRank] }}</div>
+        </div>
+
+        <!-- Contest Entry -->
+        <div v-if="meta.coordinatorRank" class="rank-item mb-4">
+          <div class="rank-category">Contest Circuit</div>
+          <div class="rank-value highlight">{{ CoordinatorRankLabels[meta.coordinatorRank] }}</div>
+        </div>
+
+        <!-- Ranger Entry -->
+        <div v-if="meta.rangerRank" class="rank-item">
+          <div class="rank-category">Ranger Union</div>
+          <div class="rank-value highlight">{{ RangerRankLabels[meta.rangerRank] }}</div>
+        </div>
+      </div>
+    </v-card>
+
+    <!-- CORE STATS SECTION -->
+    <v-card class="glass-module stat-card pa-6 span-all">
+      <div class="d-flex align-center justify-space-around text-center">
+        <div class="stat-group">
+          <div class="stat-value">{{ pokemonCount }}</div>
+          <div class="stat-label">Pokemon</div>
+        </div>
+        <v-divider vertical class="mx-2" />
+        <div class="stat-group">
+          <div class="stat-value">{{ totals.badges }}</div>
+          <div class="stat-label">Badges</div>
+        </div>
+        <v-divider vertical class="mx-2" />
+        <div class="stat-group">
+          <div class="stat-value">{{ totals.ribbons }}</div>
+          <div class="stat-label">Ribbons</div>
+        </div>
+      </div>
+    </v-card>
   </div>
 </template>
 
 <style scoped>
-/* Ensure the sidebar stays neatly tucked on the right */
-.sticky-sidebar {
-  position: sticky;
-  top: 24px;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.span-all {
+  grid-column: 1 / -1;
 }
 
-.summary__section {
-  /* Ensure the section doesn't introduce unwanted vertical offsets */
-  position: relative;
-  width: 100%;
+.glass-module {
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-left: 4px solid var(--v-theme-primary) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
 }
 
-.section-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+.module-header {
+  font-size: 0.7rem;
+  font-weight: 900;
   text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  letter-spacing: 0.15em;
+  color: var(--v-theme-primary);
   opacity: 0.8;
 }
 
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 0.5px;
+/* Competitive Rank Styling */
+.rank-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
 }
-
-.summary__bio {
-  line-height: 1.8;
-  color: rgb(var(--v-theme-on-surface));
-  /* Prevents text from feeling too wide and unreadable */
-  max-width: 65ch;
+.rank-item:last-child {
+  border-bottom: none;
 }
-
-/* Simplified CSS - BioDataCard handles the complex fact-item styles now */
-.section-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+.rank-category {
+  font-size: 0.65rem;
   text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  opacity: 0.8;
-  white-space: nowrap;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+.rank-value {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
 }
 
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 0.5px;
-  background: rgba(var(--v-border-color), var(--v-border-opacity));
-  margin-left: 8px; /* Space between text and line */
-}
-
-.summary__bio {
-  line-height: 1.8;
-  color: rgb(var(--v-theme-on-surface));
-}
-
-.occupation-block,
-.role-item {
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(var(--v-border-color), 0.1);
-  background: rgba(var(--v-theme-surface-variant), 0.1);
-}
-
-.occupation-block__primary {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 500;
-  color: rgb(var(--v-theme-on-surface));
-}
-
-.other-role-chip {
-  font-size: 11px;
-  background: rgba(var(--v-theme-surface-variant), 0.5);
-  border-radius: 20px;
-  padding: 2px 10px;
-  border: 1px solid rgba(var(--v-border-color), 0.1);
-}
-
-.roles-list {
+/* Micro-Box Styling (Restored) */
+.micro-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 20px;
+  border-radius: 8px;
+  min-width: 100px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+}
+.micro-box .label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 2px;
+}
+.micro-box .value {
+  font-size: 1.2rem;
+  font-weight: 800;
 }
 
-.explore-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.gender-box.male {
+  color: #4dabf7;
+  border-color: rgba(77, 171, 247, 0.3);
+}
+.gender-box.female {
+  color: #ff92ad;
+  border-color: rgba(255, 146, 173, 0.3);
 }
 
-.explore-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(var(--v-border-color), 0.2);
-  color: rgb(var(--v-theme-primary));
-  text-decoration: none;
-  transition: all 0.2s ease;
+.primary-role {
+  font-size: 2.2rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
-.explore-chip:hover {
-  background: rgba(var(--v-theme-primary), 0.08);
-  border-color: rgb(var(--v-theme-primary));
+.custom-role-chip {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.border-dashed {
-  border-style: dashed !important;
+.stat-group .stat-value {
+  font-size: 3rem;
+  font-weight: 950;
+  background: linear-gradient(to bottom, #fff, #888);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stat-group .stat-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  opacity: 0.6;
+}
+
+.highlight {
+  color: var(--v-theme-primary);
+  font-weight: 900;
 }
 </style>

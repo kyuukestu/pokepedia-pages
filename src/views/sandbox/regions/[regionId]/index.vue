@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { useRegionStore } from '@/stores/regionStore'
+import { useRegionStore } from '@/stores/useRegionStore'
 import type { NavItem } from '@/types/wiki'
 
 // Layout Components

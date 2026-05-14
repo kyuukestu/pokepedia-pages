@@ -8,6 +8,7 @@ export const useCharacterStore = defineStore('character', {
     activeData: null as any,
     loading: false,
     error: false,
+    researcherRegistry: [] as CharacterMeta[],
   }),
 
   actions: {
@@ -59,5 +60,9 @@ export const useCharacterStore = defineStore('character', {
 
     classLabels: (state) =>
       state.meta ? state.meta.trainerClass.other?.map((key) => TrainerClassLabels[key]) : [],
+
+    getCharacterById: (state) => (id: string) => {
+      return state.researcherRegistry.find((c) => c.id === id)
+    },
   },
 })

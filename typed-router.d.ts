@@ -58,6 +58,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/sandbox/academia/[slug]': RouteRecordInfo<
+      '/sandbox/academia/[slug]',
+      '/sandbox/academia/:slug',
+      { slug: ParamValue<true> },
+      { slug: ParamValue<false> },
+      | never
+    >,
     '/sandbox/characters/': RouteRecordInfo<
       '/sandbox/characters/',
       '/sandbox/characters',
@@ -581,6 +588,12 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/academia/index.vue': {
       routes:
         | '/sandbox/academia/'
+      views:
+        | never
+    }
+    'src/views/sandbox/academia/[slug].vue': {
+      routes:
+        | '/sandbox/academia/[slug]'
       views:
         | never
     }

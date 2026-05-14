@@ -1,4 +1,4 @@
-import type { AnyCharacter } from '@/types/character'
+import type { RegistryEntry } from '@/types/character'
 // src/data/characters/registry.ts
 
 const modules = import.meta.glob('@/data/characters/johto/(npc|oc)/**/index.ts', { eager: true })
@@ -6,7 +6,7 @@ const modules = import.meta.glob('@/data/characters/johto/(npc|oc)/**/index.ts',
 // Now you can map it cleanly
 export const JohtoRegistry = Object.values(modules).map((mod) => {
   // Extract the default export from the index.ts file
-  const data = (mod as { default: AnyCharacter }).default
+  const data = (mod as { default: RegistryEntry }).default
 
   if (!data || !data.id) {
     console.warn('Malformed character module found:', mod)
@@ -16,4 +16,4 @@ export const JohtoRegistry = Object.values(modules).map((mod) => {
   return {
     ...data, // Captures id, name, region... PLUS badge/city if they exist
   }
-}) as AnyCharacter[]
+}) as RegistryEntry[]

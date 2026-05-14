@@ -2,10 +2,10 @@ import type { CharacterMeta } from '@/types/character'
 
 const meta: CharacterMeta = {
   id: 'esther',
-  name: { full: 'Esther Rosana Sophys', short: ['Esther'], nickname: ['Essy', 'Rosa', 'Roxy'] },
+  name: { full: 'Esther Rosana Sophys', short: ['Esther'], nicknames: ['Essy', 'Rosa', 'Roxy'] },
   region: 'oblivia',
   trainerClass: { primary: 'coordinator', other: ['battler'] },
-  color: 'red',
+  color: '#f05656',
   image: { src: 'esther.png', config: { position: 'top center', scale: 1 } },
   category: 'oc',
   coordinatorRank: 'normal',
@@ -18,6 +18,7 @@ const meta: CharacterMeta = {
     ],
   },
   gender: 'female',
+  height: '5 ft 6 in',
   occupationRoles: {
     primary: 'dancer',
   },

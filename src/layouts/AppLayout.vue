@@ -304,13 +304,7 @@ function handleNavigation() {
     </template>
   </v-app-bar>
 
-  <v-navigation-drawer
-    v-model="drawer"
-    :permanent="!mobile"
-    :temporary="mobile"
-    :width="345"
-    elevation="10"
-  >
+  <v-navigation-drawer v-model="drawer" :width="345" elevation="10">
     <div class="drawer-banner">
       <v-icon size="32" color="white" class="mb-1">mdi-pokeball</v-icon>
       <span class="drawer-banner__title">Pokémon Stories</span>
@@ -354,7 +348,7 @@ function handleNavigation() {
     </template>
   </v-navigation-drawer>
 
-  <v-main><RouterView /></v-main>
+  <RouterView />
 </template>
 
 <style scoped>

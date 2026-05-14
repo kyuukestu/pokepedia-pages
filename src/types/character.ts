@@ -1,7 +1,6 @@
 // src/types/character.ts
 import type { Region } from '@/types/region'
 import {
-  LeagueEntry,
   CoordinatorRank,
   WCSRank,
   RangerRank,
@@ -9,7 +8,8 @@ import {
   TypeSpecialty,
   BadgeCollection,
 } from '@/types/league'
-import { RibbonCollection } from './association'
+import { AcademiaData } from '@/types/academia'
+import { RibbonCollection } from '@/types/association'
 
 export type TrainerClass =
   | 'coordinator'
@@ -32,32 +32,6 @@ export const TrainerClassLabels: Record<TrainerClass, string> = {
   other: 'Other',
 }
 
-export type AcademicRole =
-  | 'professor' // Lead of a lab or department
-  | 'researcher' // Independent scholar/specialist
-  | 'assistant' // Aide to a professor (e.g., Hop, Bianca, Tracy)
-  | 'historian' // Specialized in lore/archeology
-  | 'engineer' // Tech/Invention focus (e.g., Colress, Clemont)
-
-export type AcademicRank =
-  | 'lead' // Head of a specific project or lab
-  | 'senior' // Established career academic
-  | 'junior' // Early career
-  | 'emeritus' // Retired but retains title for honorary/consultation purposes
-  | 'fellow' // Guest or temporary researcher
-
-export type AcademicStatus = 'active' | 'retired' | 'missing' | 'deceased' | 'hiatus'
-
-export interface AcademiaData {
-  role: AcademicRole
-  rank: AcademicRank
-  status: AcademicStatus
-  topic: string
-  field?: string
-  notableWorks?: string[]
-  bulba?: string
-}
-
 export type CharacterType = 'npc' | 'oc'
 
 export const CharacterTypeLabels: Record<CharacterType, string> = {
@@ -68,7 +42,12 @@ export const CharacterTypeLabels: Record<CharacterType, string> = {
 export type NameVariants = {
   full: string
   short?: string[]
-  nickname?: string[]
+  nicknames?: string[]
+}
+
+export type Titles = {
+  primary: string
+  other?: string[]
 }
 
 export type ImageDetails = {
@@ -85,8 +64,6 @@ export interface RegistryEntry {
   image?: ImageDetails
   trainerClass: { primary: TrainerClass; other?: TrainerClass[] }
 }
-
-export type AnyCharacter = RegistryEntry | LeagueEntry
 
 export type Gender = 'male' | 'female' | 'undetermined' | 'non-binary' | 'other'
 
@@ -120,6 +97,12 @@ export interface CharacterMeta extends RegistryEntry {
   ribbons?: RibbonCollection
   badges?: BadgeCollection
   gallery?: ImageDetails[]
+  externalSheet?: {
+    label: string
+    url: string
+  }
+  height?: string
+  titles?: Titles
 }
 
 export interface PersonalityData {

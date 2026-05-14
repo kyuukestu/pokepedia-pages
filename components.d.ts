@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AcademyMap: typeof import('./src/components/academia/AcademyMap.vue')['default']
     AchievementBanner: typeof import('./src/components/wiki/AchievementBanner.vue')['default']
     AchievementTab: typeof import('./src/components/character/tabs/AchievementTab.vue')['default']
     AffiliationBanner: typeof import('./src/components/wiki/AffiliationBanner.vue')['default']
@@ -20,6 +21,7 @@ declare module 'vue' {
     FMoveCalc: typeof import('./src/components/calculators/FMoveCalc.vue')['default']
     FPokeCalc: typeof import('./src/components/calculators/FPokeCalc.vue')['default']
     HomeHeader: typeof import('./src/components/sections/HomeHeader.vue')['default']
+    InstitutionServiceCard: typeof import('./src/components/academia/InstitutionServiceCard.vue')['default']
     KENN: typeof import('./src/components/wiki/KENN.vue')['default']
     LeagueRoleBanner: typeof import('./src/components/wiki/LeagueRoleBanner.vue')['default']
     ListComponent: typeof import('./src/components/ListComponent.vue')['default']
