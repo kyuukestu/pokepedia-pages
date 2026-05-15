@@ -30,75 +30,63 @@ function genderMod(gender: PokemonMember['gender']): string {
   <div class="pokemon-team">
     <div v-if="!data?.length" class="empty-state">
       <v-icon size="48" class="text-medium-emphasis mb-3">mdi-pokeball</v-icon>
-      <p class="text-body-2 text-medium-emphasis">
-        No Pokémon team data is available for this character yet.
-      </p>
+      <p class="text-body-2 text-medium-emphasis">DATA NOT FOUND: Registry is currently empty.</p>
     </div>
 
     <div v-else class="team-grid">
       <div v-for="(poke, i) in data" :key="poke.speciesId + i" class="poke-card">
-        <!-- Hero: sprite on tinted background ────────────────────── -->
+        <!-- Hero: Tactical Sprite Display -->
         <div class="poke-card__hero">
-          <!-- Shiny / Alpha flags float over the hero -->
           <div class="poke-card__flags">
-            <span v-if="poke.shiny" class="flag flag--shiny">✦ Shiny</span>
-            <span v-if="poke.alpha" class="flag flag--alpha">α Alpha</span>
+            <span v-if="poke.shiny" class="flag flag--shiny">SHINY</span>
+            <span v-if="poke.alpha" class="flag flag--alpha">ALPHA</span>
           </div>
           <img
             :src="spriteUrl(poke.speciesId, poke.shiny ?? false)"
             :alt="poke.name?.full ?? poke.speciesId"
             class="poke-card__sprite"
-            loading="lazy"
           />
+          <div class="hero-accent-bar" />
         </div>
 
-        <!-- Body ──────────────────────────────────────────────────── -->
         <div class="poke-card__body">
-          <!-- Identity: name, species, level + gender badges ───────── -->
-          <div class="poke-card__identity">
-            <div class="poke-card__name">
-              {{ poke.name?.full ?? poke.speciesId }}
+          <!-- Identity Section -->
+          <div class="d-flex justify-space-between align-start">
+            <div>
+              <div class="poke-card__name">{{ poke.name?.full ?? poke.speciesId }}</div>
+              <div class="poke-card__species">SPECIES: {{ poke.speciesId.toUpperCase() }}</div>
             </div>
-            <div
-              v-if="
-                poke.name?.full && poke.name.full.toLowerCase() !== poke.speciesId.toLowerCase()
-              "
-              class="poke-card__species"
-            >
-              {{ poke.speciesId }}
-            </div>
-
-            <div class="poke-card__meta">
-              <span class="meta-badge">Lv. {{ poke.level }}</span>
-              <span class="meta-badge gender-badge" :class="genderMod(poke.gender)">
+            <div class="text-right">
+              <div class="meta-level">LVL.{{ poke.level }}</div>
+              <div class="meta-gender" :class="genderMod(poke.gender)">
                 {{ genderGlyph(poke.gender) }}
-              </span>
+              </div>
             </div>
           </div>
 
-          <div class="poke-card__divider" />
+          <v-divider class="my-4 opacity-10" />
 
-          <!-- Ability + held item ──────────────────────────────────── -->
-          <div class="poke-card__section">
-            <div class="section-label">Ability &amp; Item</div>
+          <!-- Ability & Item -->
+          <div class="poke-card__section mb-4">
+            <div class="section-label">SPECS</div>
             <div class="pill-row">
               <span class="stat-pill">
-                <v-icon size="11">mdi-dna</v-icon>
+                <v-icon size="10">mdi-dna</v-icon>
                 {{ poke.ability }}
               </span>
               <span v-if="poke.heldItem" class="stat-pill">
-                <v-icon size="11">mdi-bag-personal-outline</v-icon>
+                <v-icon size="10">mdi-package-variant-closed</v-icon>
                 {{ poke.heldItem }}
               </span>
             </div>
           </div>
 
-          <!-- Moves ────────────────────────────────────────────────── -->
+          <!-- Moves: Tactical Readout -->
           <div v-if="poke.moves?.length" class="poke-card__section">
-            <div class="section-label">Moves</div>
+            <div class="section-label">MOVES</div>
             <div class="moves-grid">
               <div v-for="move in poke.moves" :key="move" class="move-item">
-                {{ move }}
+                <span class="move-bullet">»</span> {{ move }}
               </div>
             </div>
           </div>
@@ -112,208 +100,161 @@ function genderMod(gender: PokemonMember['gender']): string {
 /* ── Team grid ───────────────────────────────────────────────────── */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-/* ── Card shell ──────────────────────────────────────────────────── */
+/* ── Card Shell ──────────────────────────────────────────────────── */
 .poke-card {
-  border: 0.5px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  border-radius: var(--v-border-radius-lg, 12px);
-  background: rgb(var(--v-theme-surface));
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px; /* Tactical Sharpness */
   overflow: hidden;
-  transition: border-color 0.15s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .poke-card:hover {
-  border-color: rgba(var(--v-border-color), calc(var(--v-border-opacity) * 2.5));
+  border-color: rgba(var(--v-theme-primary), 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-4px);
 }
 
-/* ── Hero zone ───────────────────────────────────────────────────── */
+/* ── Hero Zone ───────────────────────────────────────────────────── */
 .poke-card__hero {
   position: relative;
-  height: 108px;
-  background: rgba(var(--v-theme-surface-variant), 0.5);
+  height: 120px;
+  background: radial-gradient(circle at center, rgba(var(--v-theme-primary), 0.15) 0%, transparent 70%);
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hero-accent-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--v-theme-primary);
 }
 
 .poke-card__sprite {
-  width: 96px;
-  height: 96px;
-  object-fit: contain;
-  image-rendering: auto;
+  width: 110px;
+  height: 110px;
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
 }
 
-/* Shiny / Alpha flags — float top-left over the hero */
+/* ── Flags ──────────────────────────────────────────────────────── */
 .poke-card__flags {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 10px;
+  left: 10px;
   display: flex;
+  flex-direction: column;
   gap: 4px;
-  flex-wrap: wrap;
 }
 
 .flag {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  letter-spacing: 0.03em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 2px;
+  text-transform: uppercase;
 }
 
-.flag--shiny {
-  background: #faeeda;
-  color: #854f0b;
-}
+.flag--shiny { background: #ffca28; color: #000; }
+.flag--alpha { background: #f44336; color: #fff; }
 
-.flag--alpha {
-  background: #eeedfe;
-  color: #534ab7;
-}
-
-/* ── Card body ───────────────────────────────────────────────────── */
-.poke-card__body {
-  padding: 14px 16px 16px;
-}
-
-/* ── Identity ────────────────────────────────────────────────────── */
-.poke-card__identity {
-  margin-bottom: 12px;
-}
+/* ── Identity ───────────────────────────────────────────────────── */
+.poke-card__body { padding: 16px; }
 
 .poke-card__name {
-  font-size: 15px;
-  font-weight: 600;
-  color: rgb(var(--v-theme-on-surface));
-  line-height: 1.2;
-  text-transform: capitalize;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
 }
 
 .poke-card__species {
-  font-size: 11px;
-  color: rgb(var(--v-theme-on-surface));
-  text-transform: capitalize;
-  margin-top: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  opacity: 0.5;
+  letter-spacing: 1px;
 }
 
-.poke-card__meta {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  flex-wrap: wrap;
+.meta-level {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--v-theme-primary);
 }
 
-/* ── Meta badges (level + gender share the same base) ────────────── */
-.meta-badge {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 4px;
-  border: 0.5px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  color: rgb(var(--v-theme-on-surface));
-  background: rgba(var(--v-theme-surface-variant), 0.5);
+.meta-gender {
+  font-size: 0.8rem;
+  font-weight: 900;
 }
+.gender-badge--male { color: #4dabf7; }
+.gender-badge--female { color: #ff92ad; }
 
-/* Gender badge color overrides — fixed semantics, both modes */
-.gender-badge--male {
-  color: #185fa5;
-  background: #e6f1fb;
-  border-color: #b5d4f4;
-}
-
-.gender-badge--female {
-  color: #993556;
-  background: #fbeaf0;
-  border-color: #f4c0d1;
-}
-
-.gender-badge--unknown {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 4px;
-  border: 0.5px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  color: rgb(var(--v-theme-on-surface));
-  background: rgba(var(--v-theme-surface), 0.5);
-}
-
-/* ── Divider ─────────────────────────────────────────────────────── */
-.poke-card__divider {
-  height: 0.5px;
-  background: rgba(var(--v-border-color), var(--v-border-opacity));
-  margin: 12px 0;
-}
-
-/* ── Sections (ability/item, moves) ──────────────────────────────── */
-.poke-card__section {
-  margin-bottom: 12px;
-}
-
-.poke-card__section:last-child {
-  margin-bottom: 0;
-}
-
+/* ── Sections ───────────────────────────────────────────────────── */
 .section-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 800;
   text-transform: uppercase;
-  color: rgb(var(--v-theme-on-surface));
-  margin-bottom: 6px;
-  opacity: 0.7;
-}
-
-/* ── Ability / item pills ────────────────────────────────────────── */
-.pill-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+  letter-spacing: 2px;
+  color: var(--v-theme-primary);
+  margin-bottom: 8px;
+  opacity: 0.8;
 }
 
 .stat-pill {
-  display: inline-flex;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 2px;
+  display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  color: rgb(var(--v-theme-on-surface));
-  background: rgba(var(--v-theme-surface-variant), 0.5);
-  border: 0.5px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  border-radius: 20px;
-  padding: 3px 10px;
-  text-transform: capitalize;
+  gap: 6px;
 }
 
-/* ── Move grid ───────────────────────────────────────────────────── */
+/* ── Moves Grid ─────────────────────────────────────────────────── */
 .moves-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5px;
+  gap: 6px;
 }
 
 .move-item {
-  font-size: 11px;
-  color: rgb(var(--v-theme-on-surface));
-  padding: 5px 9px;
-  border-radius: 6px;
-  border: 0.5px solid rgba(var(--v-border-color), var(--v-border-opacity));
-  background: rgba(var(--v-theme-surface-variant), 0.3);
-  text-transform: capitalize;
-  line-height: 1.2;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px 10px;
+  border-radius: 2px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-/* ── Empty state ─────────────────────────────────────────────────── */
+.move-bullet {
+  color: var(--v-theme-primary);
+  margin-right: 4px;
+}
+
+/* ── Empty State ────────────────────────────────────────────────── */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 48px 24px;
-  border-radius: var(--v-border-radius-lg, 12px);
-  border: 0.5px dashed rgba(var(--v-border-color), 0.4);
-  text-align: center;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 40px;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 </style>

@@ -112,9 +112,15 @@ const dialLinks = computed(() => [
     </aside>
 
     <v-container fluid class="pa-0 relative-content">
-      <v-container max-width="1440" class="py-16">
-        <v-row :reverse="!lgAndUp" align="center">
-          <v-col cols="12" lg="7" :class="lgAndUp ? 'ps-lg-16' : 'text-center'">
+      <v-container max-width="1440" class="fill-height py-16">
+        <v-row :reverse="!lgAndUp" align="center" class="fill-height">
+          <v-col
+            cols="12"
+            lg="7"
+            :class="lgAndUp ? 'ps-lg-16' : 'text-center'"
+            class="d-flex flex-column"
+            style="height: 90vh"
+          >
             <header class="character-header mb-16">
               <h1 class="display-name text-capitalize mb-8" :style="safeTitleColor">
                 {{ store.meta.name?.full }}
@@ -174,7 +180,7 @@ const dialLinks = computed(() => [
               </div>
             </div>
 
-            <div class="tab-stage">
+            <div class="tab-stage custom-scrollbar">
               <v-fade-transition mode="out-in">
                 <component
                   :is="currentComponent"
@@ -189,13 +195,13 @@ const dialLinks = computed(() => [
 
           <v-col cols="12" lg="5" class="d-flex justify-center align-center">
             <div class="portrait-container">
-               <!-- AI Disclosure Badge -->
-                  <v-fade-transition>
-                    <div v-if="store.meta.image?.isAi" class="ai-badge">
-                      <v-icon size="12" icon="mdi-robot-outline" class="mr-1" />
-                      <span>AI</span>
-                    </div>
-                  </v-fade-transition>
+              <!-- AI Disclosure Badge -->
+              <v-fade-transition>
+                <div v-if="store.meta.image?.isAi" class="ai-badge">
+                  <v-icon size="12" icon="mdi-robot-outline" class="mr-1" />
+                  <span>AI</span>
+                </div>
+              </v-fade-transition>
               <v-img
                 :src="
                   getCharImageUrl(
@@ -208,11 +214,11 @@ const dialLinks = computed(() => [
                 class="main-portrait"
                 contain
               >
-              <template #placeholder>
-      <v-row class="fill-height ma-0" align="center" justify="center">
-        <v-progress-circular indeterminate color="primary" />
-      </v-row>
-    </template>
+                <template #placeholder>
+                  <v-row class="fill-height ma-0" align="center" justify="center">
+                    <v-progress-circular indeterminate color="primary" />
+                  </v-row>
+                </template>
               </v-img>
             </div>
           </v-col>
@@ -229,12 +235,12 @@ const dialLinks = computed(() => [
 
 .character-page-wrapper {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   background: rgb(var(--v-theme-surface));
   color: rgb(var(--v-theme-on-surface));
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .hero-backdrop {
@@ -255,11 +261,33 @@ const dialLinks = computed(() => [
   position: relative;
   z-index: 2;
   flex: 1 0 auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center; /* Keeps portrait centered vertically */
+}
+
+/* Custom Tactical Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(var(--v-theme-primary), 0.3);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--v-theme-primary), 0.6);
 }
 
 /* --- New Technical Sidebar --- */
 .data-sidebar {
-  position: absolute;
+  position: fixed;
   right: 5vw;
   top: 50%;
   transform: translateY(-50%);
@@ -469,11 +497,34 @@ const dialLinks = computed(() => [
 
 .tab-stage {
   width: 100%;
+  height: 60vh; /* Adjust based on your header size */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 12px; /* Prevent scrollbar overlap */
+
+  /* Tactical Masking for the content scroll */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 5%,
+    black 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 90%, transparent 100%);
+}
+
+/* Apply the custom scrollbar to the tab stage */
+.tab-stage::-webkit-scrollbar {
+  width: 4px;
+}
+.tab-stage::-webkit-scrollbar-thumb {
+  background: rgba(var(--v-theme-primary), 0.3);
+  border-radius: 10px;
 }
 
 .ai-badge {
   position: absolute;
-  top: 0;   /* Start at 0 to see it, then adjust */
+  top: 0; /* Start at 0 to see it, then adjust */
   right: 80px; /* Match the padding-right of the container to align with image edge */
   z-index: 99; /* Force it to the very top */
   background: rgba(0, 0, 0, 0.85); /* Slightly darker for contrast */
