@@ -23,21 +23,21 @@ defineProps({
   margin-bottom: 2rem;
   padding: 1.5rem;
   border-radius: 16px;
-  background-color: var(--v-theme-surface);
-  color: var(--v-theme-on-surface);
+  background-color: rbg(var(--v-theme-surface));
+  color: rbg(var(--v-theme-on-surface));
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .section-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--v-theme-on-surface);
+  color: rgb(var(--v-theme-on-surface));
   text-align: center;
 }
 
 .section-subtitle {
   font-size: 1rem;
-  color: var(--v-theme-on-surface);
+  color: rgb(var(--v-theme-on-surface));
   opacity: 0.7;
   text-align: center;
 }

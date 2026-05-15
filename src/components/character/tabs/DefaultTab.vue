@@ -230,7 +230,7 @@ const pokemonCount = computed(() => store.pokemonCount)
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.65rem;
   text-transform: uppercase;
-  color: var(--v-theme-primary);
+  color: rgb(var(--v-theme-primary));
   display: block;
   letter-spacing: 2px;
   margin-bottom: 4px;
@@ -268,7 +268,7 @@ const pokemonCount = computed(() => store.pokemonCount)
 .glass-module {
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-left: 4px solid var(--v-theme-primary) !important;
+  border-left: 4px solid rgb(var(--v-theme-primary)) !important;
   border-radius: 12px !important;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
 }
@@ -278,7 +278,7 @@ const pokemonCount = computed(() => store.pokemonCount)
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--v-theme-primary);
+  color: rgb(var(--v-theme-primary));
   opacity: 0.8;
 }
 
@@ -363,7 +363,7 @@ const pokemonCount = computed(() => store.pokemonCount)
 }
 
 .highlight {
-  color: var(--v-theme-primary);
+  color: rgb(var(--v-theme-secondary));
   font-weight: 900;
 }
 
@@ -374,7 +374,7 @@ const pokemonCount = computed(() => store.pokemonCount)
   line-height: 1.1;
   color: #fff;
   /* Decorative Underline */
-  background: linear-gradient(to right, var(--v-theme-primary) 30%, transparent 100%);
+  background: linear-gradient(to right, rgb(var(--v-theme-primary)) 30%, transparent 100%);
   background-position: 0 105%;
   background-size: 100% 2px;
   background-repeat: no-repeat;
@@ -417,7 +417,7 @@ const pokemonCount = computed(() => store.pokemonCount)
 }
 
 .rank-stamp {
-  color: var(--v-theme-primary);
+  color: rgb(var(--v-theme-primary));
   border-color: rgba(var(--v-theme-primary), 0.5);
   background: rgba(var(--v-theme-primary), 0.05);
 }
@@ -439,7 +439,7 @@ const pokemonCount = computed(() => store.pokemonCount)
 .work-item::before {
   content: '»';
   margin-right: 8px;
-  color: var(--v-theme-primary);
+  color: rgb(var(--v-theme-primary));
   font-style: normal;
 }
 
@@ -483,7 +483,7 @@ const pokemonCount = computed(() => store.pokemonCount)
   top: 0;
   height: 100%;
   width: 2px;
-  background: var(--v-theme-primary);
+  background: rgb(var(--v-theme-primary));
   opacity: 0.3;
   transition: opacity 0.3s ease;
 }
@@ -586,7 +586,7 @@ const pokemonCount = computed(() => store.pokemonCount)
   font-size: 9px !important;
   font-weight: 900;
   letter-spacing: 1px;
-  color: var(--v-theme-primary) !important;
+  color: rgb(var(--v-theme-primary)) !important;
 }
 
 .read-link:hover {

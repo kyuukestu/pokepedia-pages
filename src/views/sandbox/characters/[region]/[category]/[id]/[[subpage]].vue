@@ -54,7 +54,7 @@ const isHex = computed(() => rawColor.value.startsWith('#'))
 
 // Ensures titles are punchy even if the character color is too light/dark
 const safeTitleColor = computed(() => {
-  if (!isHex.value) return `color: var(--v-theme-${rawColor.value})`
+  if (!isHex.value) return `color: rgb(var(--v-theme-${rawColor.value}))`
   return `color: ${rawColor.value}`
 })
 

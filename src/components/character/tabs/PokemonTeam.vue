@@ -124,7 +124,11 @@ function genderMod(gender: PokemonMember['gender']): string {
 .poke-card__hero {
   position: relative;
   height: 120px;
-  background: radial-gradient(circle at center, rgba(var(--v-theme-primary), 0.15) 0%, transparent 70%);
+  background: radial-gradient(
+    circle at center,
+    rgba(var(--v-theme-primary), 0.15) 0%,
+    transparent 70%
+  );
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
@@ -138,13 +142,13 @@ function genderMod(gender: PokemonMember['gender']): string {
   left: 0;
   width: 40px;
   height: 2px;
-  background: var(--v-theme-primary);
+  background: rgb(var(--v-theme-secondary));
 }
 
 .poke-card__sprite {
   width: 110px;
   height: 110px;
-  filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
 }
 
 /* ── Flags ──────────────────────────────────────────────────────── */
@@ -166,17 +170,24 @@ function genderMod(gender: PokemonMember['gender']): string {
   text-transform: uppercase;
 }
 
-.flag--shiny { background: #ffca28; color: #000; }
-.flag--alpha { background: #f44336; color: #fff; }
+.flag--shiny {
+  background: #ffca28;
+  color: #000;
+}
+.flag--alpha {
+  background: #f44336;
+  color: #fff;
+}
 
 /* ── Identity ───────────────────────────────────────────────────── */
-.poke-card__body { padding: 16px; }
+.poke-card__body {
+  padding: 16px;
+}
 
 .poke-card__name {
   font-family: 'Outfit', sans-serif;
   font-size: 1.1rem;
   font-weight: 800;
-  color: #fff;
   text-transform: uppercase;
   letter-spacing: -0.5px;
 }
@@ -192,15 +203,19 @@ function genderMod(gender: PokemonMember['gender']): string {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.9rem;
   font-weight: 900;
-  color: var(--v-theme-primary);
+  color: rgb(var(--v-theme-primary));
 }
 
 .meta-gender {
   font-size: 0.8rem;
   font-weight: 900;
 }
-.gender-badge--male { color: #4dabf7; }
-.gender-badge--female { color: #ff92ad; }
+.gender-badge--male {
+  color: #4dabf7;
+}
+.gender-badge--female {
+  color: #ff92ad;
+}
 
 /* ── Sections ───────────────────────────────────────────────────── */
 .section-label {
@@ -209,7 +224,7 @@ function genderMod(gender: PokemonMember['gender']): string {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--v-theme-primary);
+  color: rgb(var(--v-theme-primary));
   margin-bottom: 8px;
   opacity: 0.8;
 }
@@ -236,15 +251,13 @@ function genderMod(gender: PokemonMember['gender']): string {
 .move-item {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(var(--v-theme-primary), 0.8);
   padding: 6px 10px;
   border-radius: 2px;
-  color: rgba(255, 255, 255, 0.8);
 }
 
 .move-bullet {
-  color: var(--v-theme-primary);
+  color: rgb(var(--v-theme-primary));
   margin-right: 4px;
 }
 
