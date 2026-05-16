@@ -1,1 +1,0 @@
-const e={coordinator:"Coordinator",researcher:"Researcher",athlete:"Athlete",ranger:"Ranger",performer:"Performer",battler:"Battler",breeder:"Breeder",other:"Other"},r={npc:"NPC",oc:"OC"};export{r as C,e as T};

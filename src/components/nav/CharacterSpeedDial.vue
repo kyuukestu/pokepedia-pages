@@ -1,21 +1,39 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
+// Update our property expectations to look for clear subpage tokens instead of raw path strings
 const props = defineProps<{
-  links: Array<{ title: string; to: string; icon: string }>
+  links: Array<{ title: string; slug: string; icon: string }>
   rootPath: string
 }>()
 
 const route = useRoute()
+const router = useRouter()
 
-const isLinkActive = (path: string) => {
+/**
+ * Programmatically computes the precise path without relying on Vuetify's route tracker
+ */
+const getLinkPath = (slug: string) => {
+  return slug === 'index' ? props.rootPath : `${props.rootPath}/${slug}`
+}
+
+const isLinkActive = (slug: string) => {
   const current = route.path.replace(/\/$/, '').toLowerCase()
-  const target = path.replace(/\/$/, '').toLowerCase()
+  const target = getLinkPath(slug).replace(/\/$/, '').toLowerCase()
   return current === target
 }
 
-const isRoot = (path: string) => {
-  return path.toLowerCase() === props.rootPath.toLowerCase()
+const isRoot = (slug: string) => {
+  return slug === 'index'
+}
+
+/**
+ * Programmatic Navigation Safeguard
+ * Guarantees that router changes only push when explicitly clicked, using fully established params
+ */
+const navigateTo = (slug: string) => {
+  const destination = getLinkPath(slug)
+  router.push(destination)
 }
 </script>
 
@@ -33,40 +51,47 @@ const isRoot = (path: string) => {
         />
       </template>
 
+      <!--
+        TACTICAL FIX:
+        We strip out ':to' entirely. Vuetify will no longer attempt background routing logic,
+        and our explicit click event execution locks out malformed navigation loops.
+      -->
       <v-btn
         v-for="link in links"
-        :key="link.to.replace(/\//g, '-')"
-        :to="link.to"
-        :color="isLinkActive(link.to) ? 'primary' : isRoot(link.to) ? 'white' : 'surface-variant'"
+        :key="link.slug"
+        @click="navigateTo(link.slug)"
+        :color="
+          isLinkActive(link.slug) ? 'primary' : isRoot(link.slug) ? 'white' : 'surface-variant'
+        "
         :class="{
-          'active-dial-item': isLinkActive(link.to),
-          'home-dial-btn': isRoot(link.to),
+          'active-dial-item': isLinkActive(link.slug),
+          'home-dial-btn': isRoot(link.slug),
         }"
         icon
         size="small"
         class="mb-2 dial-btn"
-        :elevation="isRoot(link.to) ? 4 : 2"
+        :elevation="isRoot(link.slug) ? 4 : 2"
       >
         <v-icon size="20">
-          {{ isRoot(link.to) ? 'mdi-home-account' : link.icon }}
+          {{ isRoot(link.slug) ? 'mdi-home-account' : link.icon }}
         </v-icon>
         <span class="custom-label">{{ link.title }}</span>
       </v-btn>
     </v-speed-dial>
   </div>
 </template>
+
 <style scoped>
 /* Manually handle positioning since we are outside v-main */
 .speed-dial-anchor {
   position: fixed;
-  bottom: 40px; /* Adjust to taste */
-  right: 40px; /* Adjust to taste */
+  bottom: 40px;
+  right: 40px;
   z-index: 200;
 }
 
 .dial-btn {
   overflow: visible !important;
-  /* Keep movement instant, only animate color/opacity */
   transition:
     background-color 0.2s ease,
     opacity 0.2s ease !important;

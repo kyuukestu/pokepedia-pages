@@ -32,6 +32,26 @@ const formatDate = (dateStr: string) => {
 }
 
 const pokemonCount = computed(() => store.pokemonCount)
+
+// ── Enhanced Color Intelligence ──────────────────────────────────────────────
+const rawColor = computed(() => store.meta?.color ?? 'primary')
+const isHex = computed(() => rawColor.value.startsWith('#'))
+
+const glowStyle = computed(() => {
+  // If it's a custom hex color from the character profile
+  if (isHex.value) {
+    return {
+      color: '#ffffff', // Keep text white/bright so the glow pops
+      textShadow: `0 0 8px ${rawColor.value}, 0 0 20px ${rawColor.value}40`,
+    }
+  }
+
+  // If it's using a standard Vuetify theme variable name (like 'secondary')
+  return {
+    color: '#ffffff',
+    textShadow: `0 0 8px rgb(var(--v-theme-${rawColor.value})), 0 0 20px rgba(var(--v-theme-${rawColor.value}), 0.25)`,
+  }
+})
 </script>
 
 <template>
@@ -92,19 +112,25 @@ const pokemonCount = computed(() => store.pokemonCount)
         <!-- WCS Entry -->
         <div v-if="meta.wcsRank" class="rank-item mb-4">
           <div class="rank-category">World Coronation Series</div>
-          <div class="rank-value highlight">{{ WCSRankLabels[meta.wcsRank] }}</div>
+          <div class="rank-value highlight" :style="glowStyle">
+            {{ WCSRankLabels[meta.wcsRank] }}
+          </div>
         </div>
 
         <!-- Contest Entry -->
         <div v-if="meta.coordinatorRank" class="rank-item mb-4">
           <div class="rank-category">Contest Circuit</div>
-          <div class="rank-value highlight">{{ CoordinatorRankLabels[meta.coordinatorRank] }}</div>
+          <div class="rank-value highlight" :style="glowStyle">
+            {{ CoordinatorRankLabels[meta.coordinatorRank] }}
+          </div>
         </div>
 
         <!-- Ranger Entry -->
         <div v-if="meta.rangerRank" class="rank-item">
           <div class="rank-category">Ranger Union</div>
-          <div class="rank-value highlight">{{ RangerRankLabels[meta.rangerRank] }}</div>
+          <div class="rank-value highlight" :style="glowStyle">
+            {{ RangerRankLabels[meta.rangerRank] }}
+          </div>
         </div>
       </div>
     </v-card>
@@ -270,7 +296,7 @@ const pokemonCount = computed(() => store.pokemonCount)
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-left: 4px solid rgb(var(--v-theme-primary)) !important;
   border-radius: 12px !important;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4) !important;
 }
 
 .module-header {
@@ -363,8 +389,11 @@ const pokemonCount = computed(() => store.pokemonCount)
 }
 
 .highlight {
-  color: rgb(var(--v-theme-secondary));
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 900;
+  letter-spacing: 0.5px;
+  padding: 0 4px;
+  display: inline-block;
 }
 
 .research-topic {

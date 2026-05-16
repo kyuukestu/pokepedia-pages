@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { markRaw, computed, onMounted, watch } from 'vue'
+import { markRaw, computed, onMounted, watch, onErrorCaptured } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDisplay, useTheme } from 'vuetify'
 import { useCharacterStore } from '@/stores/useCharacterStore'
@@ -40,14 +40,37 @@ const tabComponents: Record<string, any> = {
 }
 
 const currentComponent = computed(() => {
-  const sub = (route.params.subpage as string) || 'index'
-  return tabComponents[sub] ?? SummaryTab
+  const sub = route.params.subpage as string | undefined
+
+  // 1. If there's no subpage slug parameter context, default cleanly to the root layout
+  if (!sub) return SummaryTab
+
+  // 2. Explicitly verify the component exists inside your layout mapping record
+  const targetComponent = tabComponents[sub]
+
+  // 3. SECURE FALLBACK GATEKEEPER: If a tab doesn't exist or is corrupt,
+  // return a verified component reference rather than null or undefined.
+  if (!targetComponent) {
+    console.warn(
+      `Tactical UI Intercept: Tab layout variant [${sub}] could not be found. Dropping back to summary.`,
+    )
+    return SummaryTab
+  }
+
+  return targetComponent
 })
 
-const currentPathBase = computed(
-  () => `/sandbox/characters/${route.params.region}/${route.params.category}/${route.params.id}`,
-)
+const currentPathBase = computed(() => {
+  const region = route.params.region as string | undefined
+  const category = route.params.category as string | undefined
+  const id = route.params.id as string | undefined
 
+  // Strict structural barrier: if we don't have all three layout keys,
+  // do not generate a partial, breaking URL route.
+  if (!region || !category || !id) return ''
+
+  return `/sandbox/characters/${region}/${category}/${id}`
+})
 // ── Enhanced Color Intelligence ──────────────────────────────────────────────
 const rawColor = computed(() => store.meta?.color ?? 'primary')
 const isHex = computed(() => rawColor.value.startsWith('#'))
@@ -72,161 +95,235 @@ const totals = computed(() => {
   return { badges, ribbons }
 })
 
-const dialLinks = computed(() => [
-  { title: 'Summary', icon: 'mdi-account-outline', to: currentPathBase.value },
-  { title: 'Pokémon', icon: 'mdi-pokeball', to: `${currentPathBase.value}/pokemon` },
-  { title: 'Achievements', icon: 'mdi-trophy-award', to: `${currentPathBase.value}/achievements` },
-  { title: 'Gallery', icon: 'mdi-image-multiple', to: `${currentPathBase.value}/gallery` },
-])
+const dialLinks = computed(() => {
+  const region = route.params.region as string | undefined
+  const category = route.params.category as string | undefined
+  const id = route.params.id as string | undefined
+
+  if (!region || !category || !id) return []
+
+  const allPossibleLinks = [
+    { title: 'Summary', icon: 'mdi-account-outline', slug: 'index' },
+    { title: 'Pokémon', icon: 'mdi-pokeball', slug: 'pokemon' },
+    { title: 'Achievements', icon: 'mdi-trophy-award', slug: 'achievements' },
+    { title: 'Gallery', icon: 'mdi-image-multiple', slug: 'gallery' },
+  ]
+
+  return allPossibleLinks.filter((link) => {
+    if (link.slug === 'index') return true
+    return store.hasAssetFile(region, category, id, link.slug)
+  })
+})
+
+function retryFetch() {
+  const { region, category, id, subpage } = route.params
+  if (region && category && id) {
+    store.fetchCharacter(
+      region as string,
+      category as string,
+      id as string,
+      (subpage as string) || 'index',
+    )
+  }
+}
+
+onErrorCaptured((err, _instance, info) => {
+  console.error('Captured a localized sub-component render panic:', err, info)
+
+  // If the pokemon view crashes, force activeData to a safe structure
+  // and do not propagate the error to the root window core
+  if (route.params.subpage === 'pokemon') {
+    store.activeData = []
+  }
+
+  return false // Prevents the crash from breaking the parent DOM layout tree
+})
 </script>
 <template>
-  <div v-if="store.meta" class="character-page-wrapper" :class="{ 'mobile-view': mobile }">
-    <!-- Atmospheric Background Layers -->
+  <div class="character-page-wrapper" :class="{ 'mobile-view': mobile }">
+    <!-- 1. GLOBAL LOADING SCREEN STATE -->
     <div
-      class="hero-backdrop"
-      :class="!isHex ? `bg-${rawColor}` : ''"
-      :style="{ ...bgStyle, opacity: theme.global.current.value.dark ? 0.12 : 0.06 }"
-    />
-    <div class="hero-vignette" />
+      v-if="store.loading && !store.meta"
+      class="profile-loading-shimmer d-flex align-center justify-center"
+    >
+      <v-progress-circular indeterminate color="primary" size="64" />
+    </div>
 
-    <!-- Technical Sidebar (Replaces Ribbons) -->
-    <aside v-if="lgAndUp" class="data-sidebar">
-      <div class="sidebar-line" :style="borderStyle" />
+    <!-- 2. DEFENSIVE ERROR STATE -->
+    <div v-else-if="store.error" class="profile-error-pane text-center pa-8">
+      <v-icon size="64" color="error" class="mb-4">mdi-alert-octagon-outline</v-icon>
+      <h3 class="text-h5 font-weight-bold mb-2">TACTICAL BLOCK: DATA LOST</h3>
+      <p class="text-body-2 text-medium-emphasis mb-4">
+        Could not establish contact with registry files.
+      </p>
+      <v-btn color="primary" @click="retryFetch">Retry Synchronization</v-btn>
+    </div>
 
-      <div class="data-point">
-        <span class="label">Region</span>
-        <span class="value">{{ RegionLabels[store.meta.region] }}</span>
-      </div>
+    <!-- 3. SECURE DATA WRAPPER PANEL -->
+    <!-- By enforcing v-if="store.meta", NO child components can try to read properties of null! -->
+    <div v-else-if="store.meta" class="profile-main-stage">
+      <!-- Atmospheric Background Layers -->
+      <div
+        class="hero-backdrop"
+        :class="!isHex ? `bg-${rawColor}` : ''"
+        :style="{ ...bgStyle, opacity: theme.global.current.value.dark ? 0.12 : 0.06 }"
+      />
+      <div class="hero-vignette" />
 
-      <div class="data-point active">
-        <span class="label">Classification</span>
-        <span class="value" :style="safeTitleColor">{{
-          CharacterTypeLabels[store.meta.category]
-        }}</span>
-      </div>
+      <!-- Technical Sidebar (Replaces Ribbons) -->
+      <aside v-if="lgAndUp" class="data-sidebar">
+        <div class="sidebar-line" :style="borderStyle" />
 
-      <div class="data-point">
-        <span class="label">Registry ID</span>
-        <span class="value">#{{ store.meta.id.toUpperCase() }}</span>
-      </div>
-    </aside>
+        <div class="data-point">
+          <span class="label">Region</span>
+          <span class="value">{{ RegionLabels[store.meta.region] }}</span>
+        </div>
 
-    <v-container fluid class="pa-0 relative-content">
-      <v-container max-width="1440" class="fill-height py-16">
-        <v-row :reverse="!lgAndUp" align="center" class="fill-height">
-          <v-col
-            cols="12"
-            lg="7"
-            :class="lgAndUp ? 'ps-lg-16' : 'text-center'"
-            class="d-flex flex-column"
-            style="height: 90vh"
-          >
-            <header class="character-header mb-16">
-              <h1 class="display-name text-capitalize mb-8" :style="safeTitleColor">
-                {{ store.meta.name?.full }}
-              </h1>
+        <div class="data-point active">
+          <span class="label">Classification</span>
+          <span class="value" :style="safeTitleColor">{{
+            CharacterTypeLabels[store.meta.category]
+          }}</span>
+        </div>
 
-              <div class="classification-bracket" :style="borderStyle">
-                <div class="bracket-accent" :style="bgStyle" />
-                <div class="bracket-content">
-                  <span class="bracket-label">Trainer Classes</span>
-                  <span class="bracket-value">
-                    {{
-                      [store.meta.trainerClass.primary, ...(store.meta.trainerClass.other || [])]
-                        .map((cls) => TrainerClassLabels[cls])
-                        .join(' • ')
-                    }}
-                  </span>
-                </div>
-              </div>
-            </header>
+        <div class="data-point">
+          <span class="label">Registry ID</span>
+          <span class="value">#{{ store.meta.id.toUpperCase() }}</span>
+        </div>
+      </aside>
 
-            <!-- Marquee Section -->
-            <div class="marquee-stack mb-12">
-              <!-- Nicknames Track -->
-              <div v-if="store.meta.name?.nicknames?.length" class="marquee-group">
-                <span class="marquee-label">Nicknames //</span>
-                <div class="marquee-track">
-                  <div class="marquee-content">
-                    <span v-for="n in 4" :key="n">
-                      <span v-for="nick in store.meta.name.nicknames" :key="nick" class="nick-item">
-                        {{ nick }} <v-icon size="8" class="mx-6 opacity-20">mdi-rhombus</v-icon>
-                      </span>
+      <v-container fluid class="pa-0 relative-content">
+        <v-container max-width="1440" class="fill-height py-16">
+          <v-row :reverse="!lgAndUp" align="center" class="fill-height">
+            <v-col
+              cols="12"
+              lg="7"
+              :class="lgAndUp ? 'ps-lg-16' : 'text-center'"
+              class="d-flex flex-column"
+              style="height: 90vh"
+            >
+              <header class="character-header mb-16">
+                <h1 class="display-name text-capitalize mb-8" :style="safeTitleColor">
+                  {{ store.meta.name?.full }}
+                </h1>
+
+                <div class="classification-bracket" :style="borderStyle">
+                  <div class="bracket-accent" :style="bgStyle" />
+                  <div class="bracket-content">
+                    <span class="bracket-label">Trainer Classes</span>
+                    <span class="bracket-value">
+                      {{
+                        [store.meta.trainerClass.primary, ...(store.meta.trainerClass.other || [])]
+                          .map((cls) => TrainerClassLabels[cls])
+                          .join(' • ')
+                      }}
                     </span>
+                  </div>
+                </div>
+              </header>
+
+              <!-- Marquee Section -->
+              <div class="marquee-stack mb-12">
+                <!-- Nicknames Track -->
+                <div v-if="store.meta.name?.nicknames?.length" class="marquee-group">
+                  <span class="marquee-label">Nicknames //</span>
+                  <div class="marquee-track">
+                    <div class="marquee-content">
+                      <span v-for="n in 4" :key="n">
+                        <span
+                          v-for="nick in store.meta.name.nicknames"
+                          :key="nick"
+                          class="nick-item"
+                        >
+                          {{ nick }} <v-icon size="8" class="mx-6 opacity-20">mdi-rhombus</v-icon>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Titles Track (Using trainerClass values or other meta titles) -->
+                <div v-if="store.meta.titles" class="marquee-group">
+                  <span class="marquee-label">Titles //</span>
+                  <div class="marquee-track">
+                    <div class="marquee-content reverse">
+                      <span v-for="n in 4" :key="n">
+                        <span
+                          v-for="title in [
+                            store.meta.titles.primary,
+                            ...(store.meta.titles.other || []),
+                          ]"
+                          :key="title"
+                          class="nick-item"
+                        >
+                          {{ title }}
+                          <v-icon size="8" class="mx-6 opacity-20">mdi-slash-forward</v-icon>
+                        </span>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Titles Track (Using trainerClass values or other meta titles) -->
-              <div v-if="store.meta.titles" class="marquee-group">
-                <span class="marquee-label">Titles //</span>
-                <div class="marquee-track">
-                  <div class="marquee-content reverse">
-                    <span v-for="n in 4" :key="n">
-                      <span
-                        v-for="title in [
-                          store.meta.titles.primary,
-                          ...(store.meta.titles.other || []),
-                        ]"
-                        :key="title"
-                        class="nick-item"
-                      >
-                        {{ title }}
-                        <v-icon size="8" class="mx-6 opacity-20">mdi-slash-forward</v-icon>
-                      </span>
-                    </span>
-                  </div>
-                </div>
+              <div class="tab-stage custom-scrollbar">
+                <Suspense>
+                  <template #default>
+                    <v-fade-transition mode="out-in">
+                      <component
+                        :is="currentComponent"
+                        :data="
+                          route.params.subpage === 'pokemon'
+                            ? Array.isArray(store.activeData)
+                              ? store.activeData
+                              : []
+                            : store.activeData || {}
+                        "
+                        :meta="store.meta"
+                        :totals="totals"
+                        :key="route.params.subpage || 'index'"
+                        :character-color="rawColor"
+                      />
+                    </v-fade-transition>
+                  </template>
+                </Suspense>
               </div>
-            </div>
+            </v-col>
 
-            <div class="tab-stage custom-scrollbar">
-              <v-fade-transition mode="out-in">
-                <component
-                  :is="currentComponent"
-                  :data="store.activeData"
-                  :meta="store.meta"
-                  :totals="totals"
-                  :key="route.params.subpage || 'index'"
-                />
-              </v-fade-transition>
-            </div>
-          </v-col>
-
-          <v-col cols="12" lg="5" class="d-flex justify-center align-center">
-            <div class="portrait-container">
-              <!-- AI Disclosure Badge -->
-              <v-fade-transition>
-                <div v-if="store.meta.image?.isAi" class="ai-badge">
-                  <v-icon size="12" icon="mdi-robot-outline" class="mr-1" />
-                  <span>AI</span>
-                </div>
-              </v-fade-transition>
-              <v-img
-                :src="
-                  getCharImageUrl(
-                    store.meta.image?.src ?? 'default.png',
-                    store.meta.category === 'oc',
-                    store.meta.id,
-                    store.meta.category,
-                  )
-                "
-                class="main-portrait"
-                contain
-              >
-                <template #placeholder>
-                  <v-row class="fill-height ma-0" align="center" justify="center">
-                    <v-progress-circular indeterminate color="primary" />
-                  </v-row>
-                </template>
-              </v-img>
-            </div>
-          </v-col>
-        </v-row>
+            <v-col cols="12" lg="5" class="d-flex justify-center align-center">
+              <div class="portrait-container">
+                <!-- AI Disclosure Badge -->
+                <v-fade-transition>
+                  <div v-if="store.meta.image?.isAi" class="ai-badge">
+                    <v-icon size="12" icon="mdi-robot-outline" class="mr-1" />
+                    <span>AI</span>
+                  </div>
+                </v-fade-transition>
+                <v-img
+                  :src="
+                    getCharImageUrl(
+                      store.meta.image?.src ?? 'default.png',
+                      store.meta.category === 'oc',
+                      store.meta.id,
+                      store.meta.category,
+                    )
+                  "
+                  class="main-portrait"
+                  contain
+                >
+                  <template #placeholder>
+                    <v-row class="fill-height ma-0" align="center" justify="center">
+                      <v-progress-circular indeterminate color="primary" />
+                    </v-row>
+                  </template>
+                </v-img>
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-container>
-    </v-container>
 
-    <CharacterSpeedDial :links="dialLinks" :root-path="currentPathBase" />
+      <CharacterSpeedDial :links="dialLinks" :root-path="currentPathBase" />
+    </div>
   </div>
 </template>
 

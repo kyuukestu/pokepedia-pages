@@ -1,9 +1,19 @@
 <script setup lang="ts">
 // components/character/tabs/PokemonTeam.vue
 // Pokémon Team section — shown at /sandbox/chars/[category]/[id]/pokemon
+import { computed } from 'vue'
 import type { PokemonMember } from '@/types/pokemon'
 
-defineProps<{ data: PokemonMember[] }>()
+const props = withDefaults(
+  defineProps<{
+    data: PokemonMember[]
+    // Accept the dynamic raw color string ('primary', '#ff0055', etc.)
+    characterColor?: string
+  }>(),
+  {
+    characterColor: 'primary',
+  },
+)
 
 function spriteUrl(species: string, shiny: boolean): string {
   const isShiny = shiny ? 'shiny' : 'normal'
@@ -18,16 +28,41 @@ function genderGlyph(gender: PokemonMember['gender']): string {
   return '—'
 }
 
-// Returns a CSS class applied to the gender badge for color
 function genderMod(gender: PokemonMember['gender']): string {
   if (gender === 'male') return 'gender-badge--male'
   if (gender === 'female') return 'gender-badge--female'
   return 'gender-badge--unknown'
 }
+
+// ── Intelligence Parser for Inline CSS Variables ─────────────────────────────
+const themeStyles = computed(() => {
+  const color = props.characterColor
+  const isHex = color.startsWith('#')
+
+  // Resolve base tactical color value
+  const baseColor = isHex ? color : `rgb(var(--v-theme-${color}))`
+
+  // Resolve tactical low-light transparencies for gradient glows and hover backgrounds
+  const glowColor = isHex ? `${color}26` : `rgba(var(--v-theme-${color}), 0.15)`
+  const edgeColor = isHex ? `${color}66` : `rgba(var(--v-theme-${color}), 0.4)`
+
+  return {
+    '--char-color': baseColor,
+    '--char-glow': glowColor,
+    '--char-edge': edgeColor,
+  }
+})
 </script>
 
 <template>
-  <div class="pokemon-team">
+  <!-- Injected computed styles safely control all internal thematic nodes -->
+  <div class="pokemon-team" :style="themeStyles">
+    <!-- If data is empty or missing mid-flight, render a safe structural layout pane -->
+    <div v-if="!props.data || !props.data.length" class="no-pokemon-pane text-center pa-8">
+      <v-icon size="48" class="mb-2" color="medium-emphasis">mdi-pokeball</v-icon>
+      <p class="text-body-2 text-medium-emphasis">No deployment records found for this asset.</p>
+    </div>
+
     <div v-if="!data?.length" class="empty-state">
       <v-icon size="48" class="text-medium-emphasis mb-3">mdi-pokeball</v-icon>
       <p class="text-body-2 text-medium-emphasis">DATA NOT FOUND: Registry is currently empty.</p>
@@ -109,13 +144,14 @@ function genderMod(gender: PokemonMember['gender']): string {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px; /* Tactical Sharpness */
+  border-radius: 4px;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .poke-card:hover {
-  border-color: rgba(var(--v-theme-primary), 0.4);
+  /* Dynamic Fallback System mapping directly via custom styling variables */
+  border-color: var(--char-edge, rgba(var(--v-theme-primary), 0.4));
   background: rgba(255, 255, 255, 0.05);
   transform: translateY(-4px);
 }
@@ -126,7 +162,7 @@ function genderMod(gender: PokemonMember['gender']): string {
   height: 120px;
   background: radial-gradient(
     circle at center,
-    rgba(var(--v-theme-primary), 0.15) 0%,
+    var(--char-glow, rgba(var(--v-theme-primary), 0.15)) 0%,
     transparent 70%
   );
   background-color: rgba(0, 0, 0, 0.3);
@@ -142,7 +178,7 @@ function genderMod(gender: PokemonMember['gender']): string {
   left: 0;
   width: 40px;
   height: 2px;
-  background: rgb(var(--v-theme-secondary));
+  background: var(--char-color, rgb(var(--v-theme-primary)));
 }
 
 .poke-card__sprite {
@@ -183,7 +219,6 @@ function genderMod(gender: PokemonMember['gender']): string {
 .poke-card__body {
   padding: 16px;
 }
-
 .poke-card__name {
   font-family: 'Outfit', sans-serif;
   font-size: 1.1rem;
@@ -191,7 +226,6 @@ function genderMod(gender: PokemonMember['gender']): string {
   text-transform: uppercase;
   letter-spacing: -0.5px;
 }
-
 .poke-card__species {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.65rem;
@@ -203,7 +237,7 @@ function genderMod(gender: PokemonMember['gender']): string {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.9rem;
   font-weight: 900;
-  color: rgb(var(--v-theme-primary));
+  color: var(--char-color, rgb(var(--v-theme-primary)));
 }
 
 .meta-gender {
@@ -224,7 +258,7 @@ function genderMod(gender: PokemonMember['gender']): string {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: rgb(var(--v-theme-primary));
+  color: var(--char-color, rgb(var(--v-theme-primary)));
   margin-bottom: 8px;
   opacity: 0.8;
 }
@@ -251,13 +285,14 @@ function genderMod(gender: PokemonMember['gender']): string {
 .move-item {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
-  border: 2px solid rgba(var(--v-theme-primary), 0.8);
+  border: 1px solid var(--char-glow, rgba(var(--v-theme-primary), 0.3));
+  background: rgba(255, 255, 255, 0.01);
   padding: 6px 10px;
   border-radius: 2px;
 }
 
 .move-bullet {
-  color: rgb(var(--v-theme-primary));
+  color: var(--char-color, rgb(var(--v-theme-primary)));
   margin-right: 4px;
 }
 

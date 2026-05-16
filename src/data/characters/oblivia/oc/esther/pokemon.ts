@@ -146,6 +146,7 @@ const pokemon: PokemonMember[] = [
       full: 'Istha Haqra',
       short: ['Istha'],
     },
+    moves: ['Splash', 'Mirror Coat', 'Hypnosis', 'Brine'],
   },
   {
     speciesId: 'oddish',
