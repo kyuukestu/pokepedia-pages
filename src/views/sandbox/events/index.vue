@@ -191,7 +191,7 @@ const clearFilters = () => {
                 <!-- Right Segment: Region Identification -->
                 <div class="segment-hull px-3 py-1 rounded-sm border-right-accent">
                   <span
-                    class="font-mono text-caption font-weight-black text-uppercase tracking-widest text-medium-emphasis"
+                    class="font-mono text-caption font-weight-black text-uppercase tracking-widest"
                   >
                     REG: {{ event.region }}
                   </span>
