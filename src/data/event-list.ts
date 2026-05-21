@@ -711,4 +711,7 @@ export const eventInstances: EventInstance[] = [
   ...festivalInstances,
   ...raceInstances,
   ...conferenceInstances,
+  ...johtoCompetitionInstances,
+  ...ecologicalInstances,
+  ...sinnohCompetitionInstances,
 ]

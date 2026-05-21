@@ -80,6 +80,8 @@ const themeStyles = computed(() => {
             :src="spriteUrl(poke.speciesId, poke.shiny ?? false)"
             :alt="poke.name?.full ?? poke.speciesId"
             class="poke-card__sprite"
+            crossorigin="anonymous"
+            loading="lazy"
           />
           <div class="hero-accent-bar" />
         </div>

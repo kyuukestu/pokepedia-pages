@@ -128,6 +128,13 @@ declare module 'vue-router/auto-routes' {
       { slug: ParamValue<false> },
       | never
     >,
+    '/sandbox/lore/': RouteRecordInfo<
+      '/sandbox/lore/',
+      '/sandbox/lore',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/sandbox/orgs/': RouteRecordInfo<
       '/sandbox/orgs/',
       '/sandbox/orgs',
@@ -648,6 +655,12 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/kenn/[slug].vue': {
       routes:
         | '/sandbox/kenn/[slug]'
+      views:
+        | never
+    }
+    'src/views/sandbox/lore/index.vue': {
+      routes:
+        | '/sandbox/lore/'
       views:
         | never
     }

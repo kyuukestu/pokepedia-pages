@@ -11,7 +11,6 @@ const groups = [
   {
     label: 'Overview',
     items: [
-      { title: 'Events', icon: 'mdi-calendar-star', to: '/sandbox/events' },
       // FIXED: Corrected spelling from 'assests' to 'assets'
       { title: 'Keen Eye News', customIcon: '/KENN.png', to: '/sandbox/kenn' },
     ],
@@ -30,6 +29,7 @@ const groups = [
       { title: 'Academia', icon: 'mdi-book-open', to: '/sandbox/academia' },
       { title: 'Organizations', icon: 'mdi-trophy', to: '/sandbox/orgs' },
       { title: 'Technology', icon: 'mdi-star-circle', to: '/sandbox/tech' },
+      { title: 'Lore', icon: 'mdi-compass', to: '/sandbox/lore' },
       { title: 'Characters', icon: 'mdi-account', to: '/sandbox/characters' },
     ],
   },

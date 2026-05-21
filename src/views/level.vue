@@ -1,456 +1,424 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import WikiHero from '@/components/sections/WikiHero.vue'
+import WikiCard from '@/components/wiki/WikiCard.vue'
+import { tiers } from '@/data/lore'
+import { ExampleTrainer } from '@/types/lore'
+import { useCharacterStore } from '@/stores/useCharacterStore'
 
-// Reactive data for level calculator
 const pokemonLevel = ref<number>(50)
+const trainerCategories = ref(tiers)
+const characterStore = useCharacterStore()
 
-// Trainer categories with their level ranges
-const trainerCategories = ref([
-  {
-    name: 'Champions',
-    levelRange: '75 - 88',
-    color: 'deep-purple-lighten-2',
-    image:
-      'https://static1.thegamerimages.com/wordpress/wp-content/uploads/2020/02/featured-12.jpg',
-    icon: 'mdi-crown',
-    description: 'Peak trainers with re-match teams representing the absolute pinnacle of strength',
-    examples: [
-      {
-        name: 'Cynthia',
-        highest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0445.png',
-          level: '88',
-        },
-        lowest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0442.png',
-          level: '84',
-        },
-      },
-      {
-        name: 'Red',
-        highest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0025_01.png',
-          level: '88',
-        },
-        lowest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0131.png',
-          level: '80',
-        },
-      },
-      {
-        name: 'Geeta',
-        highest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0970.png',
-          level: '85',
-        },
-        lowest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0956.png',
-          level: '84',
-        },
-      },
-      {
-        name: 'Iris',
-        highest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0612.png',
-          level: '83',
-        },
-        lowest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0567.png',
-          level: '81',
-        },
-      },
-      {
-        name: 'Steven',
-        highest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0376.png',
-          level: '79',
-        },
-        lowest: {
-          sprite: 'https://projectpokemon.org/images/sprites-models/sv-sprites-home/0227.png',
-          level: '77',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Elite Four',
-    levelRange: '65 - 80',
-    color: 'indigo-lighten-2',
-    icon: 'mdi-star-four-points',
-    description: 'Regional guardians representing the highest echelon of competitive trainers',
-    examples: [],
-  },
-  {
-    name: 'Gym Leaders',
-    levelRange: '60 - 75',
-    color: 'blue-lighten-2',
-    icon: 'mdi-medal',
-    description: 'Personal teams of seasoned leaders (not their scaled challenger teams)',
-    examples: [],
-  },
-  {
-    name: 'Veteran Trainers',
-    levelRange: '45 - 60',
-    color: 'green-lighten-2',
-    icon: 'mdi-account-star',
-    description: 'Experienced trainers with well-developed teams and solid battle records',
-    examples: [],
-  },
-  {
-    name: 'Skilled Trainers',
-    levelRange: '25 - 45',
-    color: 'light-green-lighten-2',
-    icon: 'mdi-account-plus',
-    description: 'Competent trainers with solid fundamentals and growing experience',
-    examples: [],
-  },
-  {
-    name: 'Junior Trainers',
-    levelRange: '1 - 25',
-    color: 'amber-lighten-2',
-    icon: 'mdi-account-school',
-    description: 'New trainers with some experience but still learning fundamentals',
-    examples: [],
-  },
-])
+/**
+ * Safely extracts the identifier string from a string or an object structure.
+ * Account for the exact fallback structure matching your Registry types (.id over .characterId).
+ */
+function getExampleId(example: any): string {
+  if (!example) return ''
+  if (typeof example === 'string') return example
+  // Fall back cleanly across possible variations used in your types
+  return example.id || example.characterId || ''
+}
+
+/**
+ * Maps background file statuses into a single reactive profile entity
+ */
+function getTrainerState(rawExample: any) {
+  // Guard clause against empty items or accidental booleans passing through loops
+  if (!rawExample || typeof rawExample === 'boolean') {
+    return {
+      name: 'Unknown Entry',
+      sourceGame: 'System Registry Error',
+      highest: undefined,
+      lowest: undefined,
+    }
+  }
+
+  // If it's a static vanilla lore example with pre-filled metrics, pass it straight through
+  if (typeof rawExample !== 'string' && !rawExample?.isCustomCharacter) {
+    return rawExample as ExampleTrainer
+  }
+
+  const id = getExampleId(rawExample)
+  const cacheData = characterStore.resolvedTeamCache[id]
+
+  // Look up metadata fields to populate the card header
+  const characterMeta = characterStore.getCharacterById(id) || characterStore.getAcademicById(id)
+  const displayName = characterMeta?.name?.short?.[0] || characterMeta?.name || id
+
+  return {
+    name: displayName,
+    sourceGame: cacheData?.sourceGame || 'Querying internal files...',
+    highest: cacheData?.highest, // Kept undefined while loading runs
+    lowest: cacheData?.lowest,
+  }
+}
+
+// Loop over components safely on load
+onMounted(() => {
+  if (!Array.isArray(trainerCategories.value)) return
+
+  trainerCategories.value.forEach((tier) => {
+    const examplesList = tier?.examples || []
+    examplesList.forEach((example) => {
+      if (example && (typeof example === 'string' || example?.isCustomCharacter)) {
+        const id = getExampleId(example)
+        if (id) {
+          characterStore.loadTeamMetrics(id)
+        }
+      }
+    })
+  })
+})
+
+const activeCategory = computed(() => {
+  const current = pokemonLevel.value
+  const sortedTiers = [...trainerCategories.value].sort((a, b) => b.minLevel - a.minLevel)
+
+  for (const tier of sortedTiers) {
+    if (current >= tier.minLevel) {
+      return { name: tier.name, icon: tier.icon, color: tier.color }
+    }
+  }
+  return { name: 'Rookie', icon: 'mdi-help-circle-outline', color: 'medium-emphasis' }
+})
 </script>
 
 <template>
-  <v-app>
-    <!-- Hero Section -->
-    <v-container fluid class="hero-section pa-8">
-      <v-row justify="center" align="center" class="text-center">
-        <v-col cols="12" md="8">
-          <h1 class="display-2 font-weight-bold mb-4">
-            <v-icon size="48" class="mr-3">mdi-trending-up</v-icon>
-            Pokemon Levels in Role play
-          </h1>
-          <p class="text-h6 mb-6">
-            Understanding strength, skill, and the hierarchy of trainers through Pokemon levels
-          </p>
-          <div class="level-indicator mx-auto" style="max-width: 400px">
-            <div class="level-fill" :style="{ width: (pokemonLevel / 100) * 100 + '%' }"></div>
-            <div class="level-text">Level {{ pokemonLevel }}</div>
+  <v-container fluid class="pa-0 tactical-level-directory">
+    <WikiHero
+      title="Levels within the RP"
+      subtitle="Using baseline in-game levels as an out-of-character tool to measure Pokémon strength."
+      icon="mdi-trending-up"
+      pattern="pokeball"
+      class="border-bottom-structural"
+    >
+      <template #chips>
+        <div class="mt-4 d-flex justify-center align-center flex-wrap ga-4 w-100 px-4">
+          <div
+            class="interactive-level-hub border-structural pa-3 rounded-lg d-flex align-center flex-wrap ga-3 bg-surface-variant"
+          >
+            <span
+              class="text-caption font-mono font-weight-black text-uppercase tracking-wider select-none mr-2"
+            >
+              Tier Checker //
+            </span>
+            <v-slider
+              v-model="pokemonLevel"
+              min="1"
+              max="100"
+              step="1"
+              hide-details
+              density="compact"
+              color="primary"
+              track-color="rgba(var(--v-theme-on-surface), 0.1)"
+              class="level-slider-input flex-grow-1"
+            />
+            <div
+              class="dynamic-category-pill font-mono font-weight-black text-caption px-3 py-1 rounded border-structural d-flex align-center ga-1 text-uppercase"
+              color="primary"
+            >
+              <v-icon size="14" class="mr-1">{{ activeCategory.icon }}</v-icon>
+              {{ activeCategory.name }}
+            </div>
+            <div
+              class="level-readout-badge font-mono font-weight-black text-primary px-3 py-1 border-structural text-center"
+            >
+              LV.{{ String(pokemonLevel).padStart(3, '0') }}
+            </div>
           </div>
-        </v-col>
-      </v-row>
-    </v-container>
+        </div>
+      </template>
+    </WikiHero>
 
-    <!-- Main Content -->
-    <v-container class="my-8">
-      <!-- Overview Section -->
-      <v-row class="mb-8">
-        <v-col cols="12">
-          <v-card elevation="3" class="pa-6">
-            <h2 class="text-h4 mb-4 text-center">Understanding Pokemon Levels</h2>
-            <v-row>
-              <v-col cols="12" md="8">
-                <p class="text-body-1 mb-4">
-                  Determining Pokemon strength in role play can be challenging, but the in-game
-                  level system provides an excellent foundation.
-                  <strong>Levels represent raw strength</strong> and nothing more—they might imply
-                  experience, but that isn't always the case.
-                </p>
-                <p class="text-body-1 mb-4">
-                  Consider this: you could have a level 100 Pokemon who's never battled because it
-                  was fed rare candies. Levels are pure power measurement, not necessarily wisdom or
-                  battle experience.
-                </p>
-                <p class="text-body-1">
-                  By examining where Champions, Elite Four, and Gym Leaders' Pokemon fall on this
-                  scale, we can establish realistic expectations for trainer strength in our role
-                  play setting.
-                </p>
-
-                <v-alert
-                  type="error"
-                  variant="tonal"
-                  class="mb-8"
-                  elevation="2"
-                  border="start"
-                  border-color="error"
-                  >Levels are NOT enforced. They exist to provide a simple measure of a Pokemon's
-                  strength that's understandable OOC and as a means to track your own progression in
-                  terms of when moves are learned, etc.
-                </v-alert>
-              </v-col>
-              <v-col cols="12" md="4">
-                <v-card color="blue-grey-lighten-5" class="pa-4">
-                  <v-icon size="32" color="primary" class="mb-2">mdi-chart-line</v-icon>
-                  <h3 class="text-h6 mb-2">Key Concepts</h3>
-                  <v-chip class="ma-1" color="primary" variant="outlined">Raw Strength</v-chip>
-                  <v-chip class="ma-1" color="secondary" variant="outlined">Not Experience</v-chip>
-                  <v-chip class="ma-1" color="success" variant="outlined">Plateau Effect</v-chip>
-                  <v-chip class="ma-1" color="warning" variant="outlined"
-                    >Point of Reference</v-chip
-                  >
-                  <v-chip class="ma-1" color="warning" variant="outlined">Optional</v-chip>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card>
+    <v-container max-width="1200" class="py-12 position-relative z-index-2">
+      <!-- ── CONCEPT PHILOSOPHY BLOCK ── -->
+      <v-row class="ma-0 mb-12">
+        <v-col cols="12" class="pa-2">
+          <WikiCard
+            title="Overview"
+            icon="mdi-google-analytics"
+            color="blue"
+            class="border-structural"
+          >
+            <div class="text-body-2 text-high-emphasis lh-base font-weight-medium">
+              In this RP we use levels as a representation of raw power. By checking metrics across
+              structural tiers like Champions, Gym Leaders, and various trainer classes, we build an
+              objective, mathematical path for character growth.
+            </div>
+          </WikiCard>
         </v-col>
       </v-row>
 
-      <!-- Trainer Categories Section -->
-      <v-row class="mb-8">
-        <v-col cols="12">
-          <h2 class="text-h4 mb-6 text-center">Trainer Hierarchy & Level Ranges</h2>
-          <v-card elevation="3" class="pa-4">
-            <div class="trainer-hierarchy">
+      <!-- ── LINEAR MASTER DIRECTORY STREAM ── -->
+      <div class="directory-linear-pipeline">
+        <section
+          v-for="category in trainerCategories"
+          :key="category.id"
+          class="tier-pipeline-section mb-12"
+        >
+          <!-- Structural Anchor Header Bar -->
+          <div
+            class="tier-anchor-header border-structural rounded-xl pa-4 mb-6 d-flex align-center justify-space-between flex-wrap ga-4"
+          >
+            <div class="d-flex align-center">
               <div
-                v-for="(category, index) in trainerCategories"
-                :key="category.name"
-                class="trainer-tier"
-                :class="{ 'tier-divider': index === 2 }"
+                class="tier-header-avatar border-structural mr-4"
+                :style="{ color: `rgb(var(--v-theme-${category.color}))` }"
               >
-                <v-card
-                  :color="category.color"
-                  class="tier-card pa-6"
-                  elevation="2"
-                  :class="{ 'elite-tier': index <= 2 }"
+                <v-icon size="22">{{ category.icon }}</v-icon>
+              </div>
+              <div>
+                <div
+                  class="text-caption font-mono font-weight-black text-disabled tracking-widest text-uppercase lh-none mb-1"
                 >
-                  <v-row align="center">
-                    <v-col cols="12" sm="2" class="text-center">
-                      <v-icon
-                        :icon="category.icon"
-                        size="48"
-                        :class="{ 'elite-icon': index <= 2 }"
-                      ></v-icon>
-                    </v-col>
-                    <v-col cols="12" sm="3">
-                      <h3 class="text-h5 font-weight-bold">{{ category.name }}</h3>
-                      <p class="text-h6 mt-1">Level {{ category.levelRange }}</p>
-                    </v-col>
-                    <v-col cols="12" sm="5">
-                      <p class="text-body-1">{{ category.description }}</p>
-                    </v-col>
-                    <v-col cols="12" sm="2" class="text-center">
-                      <v-chip
-                        :color="category.color.replace('-lighten-2', '')"
-                        variant="elevated"
-                        class="font-weight-bold"
-                      >
-                        {{ category.levelRange.split(' - ')[1] || category.levelRange }} Max
-                      </v-chip>
-                    </v-col>
-                  </v-row>
-
-                  <!-- Examples for Champions -->
-                  <div v-if="category.examples.length > 0" class="mt-4">
-                    <v-divider class="my-3"></v-divider>
-                    <h4 class="text-h6 mb-3">Notable Champions:</h4>
-                    <v-row>
-                      <v-col
-                        v-for="example in category.examples"
-                        :key="example.name"
-                        cols="12"
-                        sm="6"
-                        lg="4"
-                        class="py-2"
-                      >
-                        <v-card class="champion-card pa-3" elevation="2" variant="outlined">
-                          <div class="text-center mb-2">
-                            <h5 class="text-h6 font-weight-bold">{{ example.name }}</h5>
-                          </div>
-
-                          <v-row class="champion-pokemon">
-                            <v-col cols="6" class="text-center">
-                              <div class="pokemon-info">
-                                <v-img
-                                  :src="example.highest.sprite"
-                                  :alt="example.name + ' highest level Pokemon'"
-                                  width="64"
-                                  height="64"
-                                  class="mx-auto mb-1"
-                                ></v-img>
-                                <v-chip color="red" size="small" class="font-weight-bold">
-                                  Lv {{ example.highest.level }}
-                                </v-chip>
-                                <p class="text-caption mt-1">Highest</p>
-                              </div>
-                            </v-col>
-                            <v-col cols="6" class="text-center">
-                              <div class="pokemon-info">
-                                <v-img
-                                  :src="example.lowest.sprite"
-                                  :alt="example.name + ' lowest level Pokemon'"
-                                  width="64"
-                                  height="64"
-                                  class="mx-auto mb-1"
-                                ></v-img>
-                                <v-chip color="green" size="small" class="font-weight-bold">
-                                  Lv {{ example.lowest.level }}
-                                </v-chip>
-                                <p class="text-caption mt-1">Lowest</p>
-                              </div>
-                            </v-col>
-                          </v-row>
-                        </v-card>
-                      </v-col>
-                    </v-row>
-                  </div>
-                </v-card>
+                  {{ category.id }} //
+                  <span :class="category.isElite ? 'text-primary' : 'text-medium-emphasis'">
+                    {{ category.isElite ? 'ELITE ASSIGNMENT' : 'STANDARD ASSIGNMENT' }}
+                  </span>
+                </div>
+                <h3 class="text-h5 font-weight-black font-heading text-high-emphasis lh-none">
+                  {{ category.name }}
+                </h3>
               </div>
             </div>
-          </v-card>
-        </v-col>
-      </v-row>
+            <div class="d-flex align-center ga-3">
+              <p
+                class="text-body-2 text-medium-emphasis font-weight-medium max-width-desc mb-0 mr-4 d-none d-lg-block"
+              >
+                {{ category.description }}
+              </p>
+              <div
+                class="border-structural font-mono text-subtitle-1 font-weight-black px-4 py-2 rounded-lg label-range-badge bg-surface-variant"
+              >
+                RANGE: {{ category.levelRange }}
+              </div>
+            </div>
+          </div>
 
-      <!-- Warning Section -->
-      <v-row class="mb-8">
-        <v-col cols="12">
-          <v-alert type="warning" variant="outlined" class="pa-6">
-            <h3 class="text-h6 mb-3">Role Play Responsibility</h3>
-            <p class="text-body-1 mb-2">
-              When estimating your OC's Pokemon levels, remember that
-              <strong
-                >levels 60-70+ suggest your character should be able to go toe-to-toe with sitting
-                Elite Four members or Gym Leaders</strong
-              >.
-            </p>
-            <p class="text-body-1">
-              Consider whether your character's background, experience, and story justify such
-              exceptional strength. High-level Pokemon should be rare and come with compelling
-              narratives explaining their power.
-            </p>
-          </v-alert>
-        </v-col>
-      </v-row>
+          <!-- High Density Example Grid -->
+          <div class="px-2">
+            <v-row class="ma-0 ga-y-6">
+              <v-col
+                v-for="(rawExample, index) in category.examples || []"
+                :key="
+                  typeof rawExample === 'string' ? rawExample : rawExample?.characterId || index
+                "
+                cols="12"
+                md="6"
+                xl="4"
+                class="pa-2"
+              >
+                <div
+                  v-if="rawExample"
+                  class="macro-showcase-card border-structural rounded-xl bg-surface"
+                >
+                  <div
+                    class="d-flex align-center justify-space-between bg-surface px-4 py-3 border-bottom-structural"
+                  >
+                    <span
+                      class="font-heading font-weight-black text-subtitle-1 text-high-emphasis text-uppercase tracking-wide"
+                    >
+                      {{ getTrainerState(rawExample).name }}
+                    </span>
+                    <span
+                      class="font-mono text-caption font-weight-black text-primary text-uppercase tracking-wider"
+                    >
+                      // {{ getTrainerState(rawExample).sourceGame }}
+                    </span>
+                  </div>
+
+                  <!-- Render card profile panels if data maps are populated inside state -->
+                  <div
+                    v-if="getTrainerState(rawExample).highest && getTrainerState(rawExample).lowest"
+                    class="d-flex align-stretch cross-profile-row"
+                  >
+                    <!-- High Ace Column -->
+                    <div
+                      class="flex-50 pa-4 text-center profile-sub-panel border-right-dashed position-relative"
+                    >
+                      <div class="showcase-transparent-sprite mx-auto mb-1">
+                        <v-img
+                          :src="getTrainerState(rawExample).highest?.sprite"
+                          :alt="getTrainerState(rawExample).highest?.name"
+                          width="120"
+                          height="120"
+                          class="mx-auto"
+                        />
+                      </div>
+                      <div class="giant-level-typography text-error font-mono font-weight-black">
+                        LV.{{ getTrainerState(rawExample).highest?.level }}
+                      </div>
+                      <div class="text-body-2 font-weight-bold text-high-emphasis truncate-text">
+                        {{ getTrainerState(rawExample).highest?.name }}
+                      </div>
+                      <div
+                        class="text-overline font-weight-black text-disabled tracking-widest lh-none"
+                      >
+                        Ace
+                      </div>
+                    </div>
+
+                    <!-- Baseline Floor Column -->
+                    <div class="flex-50 pa-4 text-center profile-sub-panel position-relative">
+                      <div class="showcase-transparent-sprite mx-auto mb-1">
+                        <v-img
+                          :src="getTrainerState(rawExample).lowest?.sprite"
+                          :alt="getTrainerState(rawExample).lowest?.name"
+                          width="120"
+                          height="120"
+                          class="mx-auto"
+                        />
+                      </div>
+                      <div class="giant-level-typography text-success font-mono font-weight-black">
+                        LV.{{ getTrainerState(rawExample).lowest?.level }}
+                      </div>
+                      <div class="text-body-2 font-weight-bold text-high-emphasis truncate-text">
+                        {{ getTrainerState(rawExample).lowest?.name }}
+                      </div>
+                      <div
+                        class="text-overline font-weight-black text-disabled tracking-widest lh-none"
+                      >
+                        Other
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Loading state runs natively until the asynchronous module triggers cache commitment -->
+                  <div v-else class="pa-8 text-center font-mono text-caption text-medium-emphasis">
+                    <v-progress-circular
+                      indeterminate
+                      size="20"
+                      width="2"
+                      class="mr-2"
+                      color="primary"
+                    />
+                    Querying internal character repository...
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+        </section>
+      </div>
     </v-container>
-  </v-app>
+  </v-container>
 </template>
-
 <style scoped>
-.hero-section {
-  background: linear-gradient(135deg, #3f51b5 0%, #2196f3 100%);
-  color: white;
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+.font-heading {
+  font-family: 'Outfit', sans-serif !important;
+}
+.font-mono {
+  font-family: 'JetBrains Mono', monospace !important;
+}
+.lh-base {
+  line-height: 1.55;
+}
+.lh-none {
+  line-height: 1 !important;
+}
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.max-width-desc {
+  max-width: 460px;
 }
 
-.level-indicator {
-  background: linear-gradient(90deg, #4caf50 0%, #ffeb3b 50%, #f44336 100%);
+.border-structural {
+  border: 2px solid rgba(var(--v-theme-on-surface), 0.35) !important;
+}
+.border-bottom-structural {
+  border-bottom: 2px solid rgba(var(--v-theme-on-surface), 0.35) !important;
+}
+.border-right-dashed {
+  border-right: 2px dashed rgba(var(--v-theme-on-surface), 0.15) !important;
+}
+.tactical-level-directory {
+  background: rgb(var(--v-theme-background));
+}
+
+.v-theme--light .tier-anchor-header,
+.v-theme--light .interactive-level-hub {
+  background: #ffffff !important;
+}
+
+.interactive-level-hub {
+  width: 100%;
+  max-width: 650px;
+  border-radius: 12px !important;
+  background: rgba(var(--v-theme-on-surface), 0.02);
+}
+.level-slider-input {
+  max-width: 240px;
+  min-width: 140px;
+}
+.level-readout-badge {
+  background: rgb(var(--v-theme-surface));
+  border-radius: 6px;
+  font-size: 1.1rem;
+  box-shadow: 2px 2px 0px 0px rgba(var(--v-theme-primary), 0.15);
+}
+.dynamic-category-pill {
+  background: rgb(var(--v-theme-primary));
+  white-space: nowrap;
+}
+
+.tier-anchor-header {
+  background: rgb(var(--v-theme-surface));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+.tier-header-avatar {
+  width: 42px;
+  height: 42px;
   border-radius: 10px;
-  height: 25px;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--v-theme-on-surface), 0.02);
+}
+
+.giant-level-typography {
+  font-size: 1.75rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: -1px;
+  margin-top: -4px;
+  margin-bottom: 2px;
+}
+.text-error {
+  color: #ff5252 !important;
+}
+.text-success {
+  color: #4caf50 !important;
+}
+
+.macro-showcase-card {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04) !important;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
   overflow: hidden;
 }
-
-.level-fill {
-  background: rgba(255, 255, 255, 0.3);
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.3s ease;
+.macro-showcase-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(var(--v-theme-primary), 0.6) !important;
 }
-
-.level-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+.cross-profile-row {
+  width: 100%;
 }
-
-.trainer-hierarchy {
+.profile-sub-panel {
+  flex: 1 1 50%;
+}
+.showcase-transparent-sprite {
+  width: 120px;
+  height: 120px;
+  background: transparent !important;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.trainer-tier {
-  position: relative;
-}
-
-.tier-card {
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  border-left: 4px solid transparent;
-}
-
-.tier-card:hover {
-  transform: translateX(8px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.elite-tier {
-  border-left-color: #ffd700 !important;
-}
-
-.elite-tier .tier-card {
-  position: relative;
-}
-
-.elite-tier .tier-card::before {
-  content: '';
-  position: absolute;
-  left: -4px;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #ffd700, #ffb300);
-}
-
-.elite-icon {
-  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
-}
-
-.tier-divider {
-  margin-bottom: 24px;
-  position: relative;
-}
-
-.tier-divider::after {
-  content: 'Elite Trainers Above | Regular Trainers Below';
-  position: absolute;
-  bottom: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, #3f51b5, #2196f3);
-  color: white;
-  padding: 4px 16px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.champion-card {
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  border: 2px solid transparent;
-}
-
-.champion-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border-color: #673ab7;
-}
-
-.champion-pokemon {
-  margin: 0;
-}
-
-.pokemon-info {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-}
-
-.pokemon-info .v-img {
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 4px;
-}
-
-.v-slider {
-  margin: 20px 0;
-}
-
-.v-alert {
-  border-radius: 8px;
+  justify-content: center;
 }
 </style>

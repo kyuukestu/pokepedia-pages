@@ -4,6 +4,7 @@ import { eventDefinitions } from '@/data/event-list'
 import { getImageUrl } from '@/utils/path-resolvers'
 import { Region } from '@/types/region'
 import { EventCategories } from '@/types/events'
+import WikiHero from '@/components/sections/WikiHero.vue'
 import RegionFilter from '@/components/RegionFilter.vue'
 
 // --- Filter State ---
@@ -26,7 +27,7 @@ const filteredEvents = computed(() => {
 })
 
 /**
- * Utility to get colors based on category
+ * Utility to get color token states matched directly to your theme variables
  */
 const getCategoryColor = (category: string) => {
   const colors: Record<string, string> = {
@@ -47,134 +48,301 @@ const clearFilters = () => {
 </script>
 
 <template>
-  <v-container>
-    <!-- Header Section -->
-    <div class="d-flex flex-column flex-sm-row align-sm-end justify-space-between mb-6 ga-4">
-      <div class="d-flex align-end">
-        <v-icon size="40" color="error" class="mr-3">mdi-map-marker-radius</v-icon>
-        <h1 class="text-h4 font-weight-bold">World Events</h1>
-      </div>
-
-      <div class="text-subtitle-2 text-disabled">
-        Showing {{ filteredEvents.length }} of {{ eventDefinitions.length }} Events
-      </div>
-    </div>
-
-    <!-- Filter Toolbar -->
-    <v-row class="mb-6">
-      <v-col cols="12" sm="5" md="4">
-        <RegionFilter
-          v-model="selectedRegion"
-          :items="eventDefinitions"
-          label="Region Filter"
-          prepend-inner-icon="mdi-earth"
-          class="rounded-lg"
-        />
-      </v-col>
-      <v-col cols="12" sm="5" md="4">
-        <v-select
-          v-model="selectedCategory"
-          :items="categories"
-          label="Filter by Category"
-          prepend-inner-icon="mdi-tag-outline"
-          variant="outlined"
-          flat
-          hide-details
-          clearable
-          density="comfortable"
-          class="rounded-lg text-uppercase"
-        />
-      </v-col>
-      <v-col cols="12" sm="2" class="d-flex align-center">
-        <v-btn
-          v-if="selectedRegion || selectedCategory"
-          variant="text"
-          color="error"
-          @click="clearFilters"
-          prepend-icon="mdi-filter-off"
-        >
-          Reset
-        </v-btn>
-      </v-col>
-    </v-row>
-
-    <!-- Empty State -->
-    <v-row v-if="filteredEvents.length === 0" justify="center" class="py-12">
-      <v-col cols="auto" class="text-center">
-        <v-icon size="64" color="grey-lighten-1">mdi-magnify-close</v-icon>
-        <div class="text-h6 text-medium-emphasis mt-4">No events match your filters.</div>
-        <v-btn variant="tonal" class="mt-4" @click="clearFilters">Clear all filters</v-btn>
-      </v-col>
-    </v-row>
-
-    <!-- Event Grid -->
-    <v-row>
-      <v-col v-for="event in filteredEvents" :key="event.slug" cols="12" sm="6" md="4">
-        <v-card
-          :to="`/sandbox/events/${event.slug}`"
-          class="event-card rounded-xl"
-          elevation="4"
-          hover
-        >
-          <v-img
-            :src="getImageUrl(event.image)"
-            height="320"
-            cover
-            crossorigin="anonymous"
-            class="align-end"
-            gradient="to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.9) 100%"
+  <v-container fluid class="pa-0 tactical-event-directory">
+    <!-- Header Hero Banner Assembly -->
+    <WikiHero
+      title="World Events"
+      subtitle="Historical manifests, current tournament listings, and recurring ecological phenomena."
+      icon="mdi-map-marker-radius"
+      pattern="pokeball"
+      class="border-bottom-tactical"
+    >
+      <template #chips>
+        <div class="mt-4 d-flex justify-center align-center flex-wrap ga-4 w-100 px-4">
+          <div
+            class="interactive-level-hub border-tactical-heavy pa-3 rounded-lg d-flex align-center flex-wrap ga-3 bg-surface-variant"
           >
-            <v-card-text class="text-white">
-              <div class="d-flex align-center mb-1">
-                <v-chip
-                  size="x-small"
-                  :color="getCategoryColor(event.category)"
-                  variant="flat"
-                  class="text-uppercase font-weight-black mr-2"
+            <span
+              class="text-caption font-mono font-weight-black text-uppercase tracking-wider select-none mr-2"
+            >
+              Event Registry //
+            </span>
+            <div
+              class="level-readout-badge font-mono text-caption font-weight-black text-primary px-3 py-1 border-tactical text-center bg-surface"
+            >
+              SHOWING: {{ String(filteredEvents.length).padStart(3, '0') }}
+            </div>
+            <div
+              class="level-readout-badge font-mono text-caption font-weight-black text-disabled px-3 py-1 border-tactical text-center bg-surface"
+            >
+              TOTAL: {{ String(eventDefinitions.length).padStart(3, '0') }}
+            </div>
+          </div>
+        </div>
+      </template>
+    </WikiHero>
+
+    <!-- Main Directory Layout -->
+    <v-container max-width="1200" class="py-12 position-relative z-index-2">
+      <!-- Tactical Action Hub Filter Toolbar -->
+      <v-row class="ma-0 mb-8 border-tactical-heavy rounded-xl pa-4 bg-surface align-center ga-y-4">
+        <v-col cols="12" sm="5" md="4" class="pa-2">
+          <RegionFilter
+            v-model="selectedRegion"
+            :items="eventDefinitions"
+            label="Region Filter"
+            prepend-inner-icon="mdi-earth"
+            variant="outlined"
+            density="comfortable"
+            hide-details
+            class="rounded-lg text-uppercase font-mono text-caption"
+          />
+        </v-col>
+        <v-col cols="12" sm="5" md="4" class="pa-2">
+          <v-select
+            v-model="selectedCategory"
+            :items="categories"
+            label="Filter by Category"
+            prepend-inner-icon="mdi-tag-outline"
+            variant="outlined"
+            flat
+            hide-details
+            clearable
+            density="comfortable"
+            class="rounded-lg text-uppercase font-mono text-caption"
+          />
+        </v-col>
+        <v-col cols="12" sm="2" class="pa-2 d-flex align-center justify-start">
+          <v-btn
+            v-if="selectedRegion || selectedCategory"
+            variant="text"
+            color="error"
+            size="small"
+            class="font-mono font-weight-black text-uppercase"
+            @click="clearFilters"
+            prepend-icon="mdi-filter-off"
+          >
+            Reset
+          </v-btn>
+        </v-col>
+      </v-row>
+
+      <!-- Empty State Records Uncovered View -->
+      <v-row v-if="filteredEvents.length === 0" justify="center" class="ma-0 py-12">
+        <v-col
+          cols="12"
+          max-width="400"
+          class="text-center border-tactical-heavy rounded-xl pa-8 bg-surface"
+        >
+          <v-icon size="48" color="medium-emphasis" class="mb-4">mdi-magnify-close</v-icon>
+          <div
+            class="text-subtitle-1 font-mono font-weight-black text-high-emphasis text-uppercase mb-2"
+          >
+            No events match your filters.
+          </div>
+          <v-btn
+            variant="tonal"
+            size="small"
+            color="primary"
+            class="font-mono font-weight-black mt-4"
+            @click="clearFilters"
+          >
+            Clear all filters
+          </v-btn>
+        </v-col>
+      </v-row>
+
+      <!-- Event Grid Manifest Display -->
+      <v-row class="ma-0 ga-y-6">
+        <v-col
+          v-for="event in filteredEvents"
+          :key="event.slug"
+          cols="12"
+          sm="6"
+          md="4"
+          class="pa-2"
+        >
+          <v-card
+            :to="`/sandbox/events/${event.slug}`"
+            class="event-card border-tactical-heavy rounded-xl overflow-hidden h-100"
+            elevation="4"
+            hover
+          >
+            <div class="media-canvas-wrapper h-100 position-relative">
+              <!-- Segmented Top Telemetry Hulls (Dynamic Theme Glass) -->
+              <div
+                class="telemetry-segment-top d-flex align-center justify-space-between w-100 pa-3"
+              >
+                <!-- Left Segment: Category Identification -->
+                <div
+                  class="segment-hull px-3 py-1 rounded-sm"
+                  :style="{
+                    borderLeft: `3px solid rgb(var(--v-theme-${getCategoryColor(event.category)}))`,
+                  }"
                 >
-                  {{ event.category }}
-                </v-chip>
-                <span class="text-caption text-uppercase letter-spacing-1 shadow-text">
-                  {{ event.region }}
-                </span>
+                  <span
+                    class="font-mono text-caption font-weight-black text-uppercase tracking-wider"
+                    :style="{ color: `rgb(var(--v-theme-${getCategoryColor(event.category)}))` }"
+                  >
+                    // {{ event.category }}
+                  </span>
+                </div>
+
+                <!-- Right Segment: Region Identification -->
+                <div class="segment-hull px-3 py-1 rounded-sm border-right-accent">
+                  <span
+                    class="font-mono text-caption font-weight-black text-uppercase tracking-widest text-medium-emphasis"
+                  >
+                    REG: {{ event.region }}
+                  </span>
+                </div>
               </div>
 
-              <h2 class="text-h5 font-weight-bold shadow-text line-height-tight">
-                {{ event.title }}
-              </h2>
-            </v-card-text>
-          </v-img>
-        </v-card>
-      </v-col>
-    </v-row>
+              <v-img
+                :src="getImageUrl(event.image)"
+                height="340"
+                cover
+                crossorigin="anonymous"
+                class="align-end h-100"
+              >
+                <!-- Segmented Bottom Title Hull (Dynamic Theme Glass) -->
+                <div class="telemetry-segment-bottom pa-3 w-100">
+                  <div class="title-hull pa-4 rounded-lg">
+                    <h2
+                      class="text-h5 font-heading-tactical tracking-tight text-high-emphasis text-uppercase lh-tight"
+                    >
+                      {{ event.title }}
+                    </h2>
+                  </div>
+                </div>
+              </v-img>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
 
 <style scoped>
-/* Keeping your existing styles */
-.event-card {
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-  overflow: hidden;
-}
-.event-card:hover {
-  transform: translateY(-8px);
-}
-.shadow-text {
-  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
-}
-.letter-spacing-1 {
-  letter-spacing: 1px;
-}
-.line-height-tight {
-  line-height: 1.2;
+/* --- Tactical Cyber Wiki Core Typography --- */
+.font-mono {
+  font-family: 'Fira Code', 'Courier New', Courier, monospace !important;
 }
 
-.event-card :deep(.v-img__img) {
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.font-heading-tactical {
+  font-family: 'Space Grotesk', 'Outfit', 'Arial Black', sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.01em !important;
 }
-.event-card:hover :deep(.v-img__img) {
-  transform: scale(1.1);
+
+.tracking-wider {
+  letter-spacing: 0.08em !important;
+}
+.tracking-widest {
+  letter-spacing: 0.16em !important;
+}
+
+.lh-tight {
+  line-height: 1.15 !important;
+}
+
+/* --- High Contrast Structural Theme Borders --- */
+.border-tactical {
+  border: 1px solid rgba(var(--v-border-color), 0.4) !important;
+}
+
+.border-tactical-heavy {
+  border: 2px solid rgb(var(--v-border-color)) !important;
+}
+
+.border-bottom-tactical {
+  border-bottom: 2px solid rgb(var(--v-border-color)) !important;
+}
+
+.level-readout-badge {
+  border: 1px solid rgba(var(--v-border-color), 0.35);
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+}
+
+.interactive-level-hub {
+  backdrop-filter: blur(8px);
+  max-width: fit-content;
+}
+
+/* --- Segmented Telemetry Overlays (Adaptive UI Glass) --- */
+.telemetry-segment-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.telemetry-segment-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+}
+
+/*
+ * Replaced hardcoded black with dynamic translucent theme surfaces.
+ * High saturation and heavy blur shield text readability effortlessly over image content.
+ */
+.segment-hull,
+.title-hull {
+  background: rgba(var(--v-theme-surface), 0.82) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border: 1.5px solid rgba(var(--v-border-color), 0.6) !important;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12) !important;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.border-right-accent {
+  border-right: 3px solid rgb(var(--v-border-color)) !important;
+}
+
+/* --- Interactive Card Transition Systems --- */
+.event-card {
+  background: transparent !important;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease !important;
+  cursor: pointer;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  border-color: rgb(var(--v-theme-primary)) !important;
+  box-shadow: 0 16px 32px -4px rgba(var(--v-theme-primary), 0.3) !important;
+}
+
+/* Subtle accent transformation on hover */
+.event-card:hover .title-hull {
+  border-color: rgb(var(--v-theme-primary)) !important;
+  background: rgba(var(--v-theme-surface), 0.9) !important;
+  box-shadow: 0 0 12px rgba(var(--v-theme-primary), 0.15) !important;
+}
+
+/* Media Canvas Depth Transforms */
+.media-canvas-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.media-canvas-wrapper :deep(.v-img__img) {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.event-card:hover .media-canvas-wrapper :deep(.v-img__img) {
+  transform: scale(1.04);
 }
 </style>
