@@ -1,1 +1,0 @@
-import{_ as e}from"./index-BQCYY-GU.js";import{_ as o}from"./index-CsWZkrBZ.js";const r=Object.assign({"/src/data/characters/unova/oc/leona/index.ts":e,"/src/data/characters/unova/oc/zelda/index.ts":o}),n=Object.values(r).map(t=>{const a=t.default;return!a||!a.id?(console.warn("Malformed character module found:",t),null):{...a}});export{n as UnovaRegistry};

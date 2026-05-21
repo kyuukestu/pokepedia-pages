@@ -46,7 +46,14 @@ const badgeCases = computed(() => {
             badgeName: 'Unknown',
             city: 'Unknown City', // Added fallback
             badgeImg: '',
-            activeLeader: { name: 'Unknown', image: '', typeIcon: '', id: '', isOc: false },
+            activeLeader: {
+              name: 'Unknown',
+              image: '',
+              typeIcon: '',
+              id: '',
+              isOc: false,
+              region: 'Unknown',
+            },
           }
         }
 
@@ -140,7 +147,7 @@ const getTypeIcon = (name: string) => new URL(`/src/assets/types/${name}`, impor
                   gym.activeLeader.image,
                   gym.activeLeader.isOc,
                   gym.activeLeader.id,
-                  gym.region,
+                  gym.activeLeader.region,
                 )
               "
               cover

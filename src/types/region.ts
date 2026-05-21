@@ -44,11 +44,18 @@ export const SideRegionLabels: Record<SideRegions, string> = {
   decoloreIslands: 'Decolore Islands',
 }
 
-export type Region = MainRegions | SideRegions | 'unknown'
+export type CustomRegions = 'metztli'
+
+export const CustomRegionLabels: Record<CustomRegions, string> = {
+  metztli: 'Metztli',
+}
+
+export type Region = MainRegions | SideRegions | CustomRegions | 'unknown'
 
 export const RegionLabels: Record<Region, string> = {
   ...MainRegionLabels,
   ...SideRegionLabels,
+  ...CustomRegionLabels,
   unknown: 'Unknown',
 }
 

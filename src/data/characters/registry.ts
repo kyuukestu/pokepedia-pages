@@ -9,6 +9,7 @@ import { UnovaRegistry } from './unova/unova-registry'
 import { KalosRegistry } from './kalos/kalos-registry'
 import { AlolaRegistry } from './alola/alola-registry'
 import { PaldeaRegistry } from './paldea/paldea-registry'
+import { MetztliRegistry } from './metztli/metztli-registry'
 
 const allCharacterMeta: CharacterMeta[] = [
   ...ObliviaRegistry,
@@ -20,6 +21,7 @@ const allCharacterMeta: CharacterMeta[] = [
   ...KalosRegistry,
   ...AlolaRegistry,
   ...PaldeaRegistry,
+  ...MetztliRegistry,
 ] as CharacterMeta[]
 
 // Now you can map it cleanly

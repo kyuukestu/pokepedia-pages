@@ -1,5 +1,3 @@
-import { RegistryEntry } from './character'
-
 export interface OverarchingPlot {
   id: string
   title: string

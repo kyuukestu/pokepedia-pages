@@ -203,10 +203,27 @@ onErrorCaptured((err, _instance, info) => {
               style="height: 90vh"
             >
               <header class="character-header mb-16">
-                <h1 class="display-name text-capitalize mb-8" :style="safeTitleColor">
-                  {{ store.meta.name?.full }}
+                <!-- Short Name: Primary scannable focal point -->
+                <h1 class="display-name text-capitalize mb-1" :style="safeTitleColor">
+                  {{ store.meta.name?.short?.[0] || store.meta.name?.full }}
                 </h1>
 
+                <!-- Full Name Sub-text: Only renders if a distinct long name exists -->
+                <div
+                  v-if="
+                    store.meta.name?.short?.[0] &&
+                    store.meta.name?.short?.[0] !== store.meta.name?.full
+                  "
+                  class="full-name-subtext font-mono text-caption text-uppercase tracking-widest mb-8 mt-10"
+                  :style="safeTitleColor"
+                >
+                  // Full Name: {{ store.meta.name?.full }}
+                </div>
+
+                <!-- Add a spacer if the sub-text block doesn't render to preserve layout intent -->
+                <div v-else class="mb-8" />
+
+                <!-- Classification Bracket System -->
                 <div class="classification-bracket" :style="borderStyle">
                   <div class="bracket-accent" :style="bgStyle" />
                   <div class="bracket-content">
@@ -361,6 +378,14 @@ onErrorCaptured((err, _instance, info) => {
   overflow: hidden;
   display: flex;
   align-items: center; /* Keeps portrait centered vertically */
+}
+
+.full-name-subtext {
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  opacity: 0.65;
+  filter: saturate(0.85);
+  padding-left: 6px; /* Offsets slightly to align with the italic lean of the H1 */
 }
 
 /* Custom Tactical Scrollbar */

@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import { getImageUrl } from '@/utils/path-resolvers'
 
+type SandboxNavItem = {
+  title: string
+  to: string
+  customIcon?: string
+  icon?: string
+}
+
 const emit = defineEmits<{ navigate: [] }>()
 
 function nav() {
   emit('navigate')
 }
 
-const groups = [
+const groups: Array<{ label: string; items: SandboxNavItem[] }> = [
   {
     label: 'Overview',
     items: [
@@ -54,7 +61,7 @@ const groups = [
       >
         <template v-slot:prepend>
           <!-- Use v-icon as a wrapper to normalize alignment -->
-          <v-icon v-if="item.customIcon" class="me-4" size="20">
+          <v-icon v-if="item?.customIcon" class="me-4" size="20">
             <div
               class="icon-mask"
               :style="

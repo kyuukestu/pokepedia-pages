@@ -6,6 +6,7 @@ import { TypeSpecialty } from '@/types/league' // Your existing TypeSpecialty un
 export interface GymLeaderRegistry {
   id: string // Unique ID: 'kanto-brock'
   name: string
+  region: Region
   specialty: TypeSpecialty
   image: string // Path to the leader art
   isOc: boolean

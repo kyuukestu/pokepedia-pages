@@ -1,1 +1,0 @@
-const e={id:"karen",name:{full:"Karen"},region:"johto",trainerClass:{primary:"battler"},color:"orange",image:{src:"karen.png"},category:"npc",leagueRoles:[{title:"eliteFour",type:"dark"}]},r=Object.freeze(Object.defineProperty({__proto__:null,default:e},Symbol.toStringTag,{value:"Module"}));export{r as _};

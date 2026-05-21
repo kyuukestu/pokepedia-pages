@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
-import { computed } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
 const theme = useTheme()

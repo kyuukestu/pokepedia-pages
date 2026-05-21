@@ -1,1 +1,0 @@
-import{_ as t}from"./index-ntRJEGhN.js";import{_ as e}from"./index-GhxJOghq.js";const o=Object.assign({"/src/data/characters/alola/npc/lusamine/index.ts":t,"/src/data/characters/alola/npc/professor-kukui/index.ts":e}),c=Object.values(o).map(r=>{const a=r.default;return!a||!a.id?(console.warn("Malformed character module found:",r),null):{...a}});export{c as AlolaRegistry};
