@@ -3,6 +3,7 @@
 // Pokémon Team section — shown at /sandbox/chars/[category]/[id]/pokemon
 import { computed } from 'vue'
 import type { PokemonMember } from '@/types/pokemon'
+import { getPokemonSprite } from '@/utils/path-resolvers'
 
 const props = withDefaults(
   defineProps<{
@@ -15,12 +16,12 @@ const props = withDefaults(
   },
 )
 
-function spriteUrl(species: string, shiny: boolean): string {
-  const isShiny = shiny ? 'shiny' : 'normal'
-  return `https://img.pokemondb.net/sprites/home/${isShiny}/${species
-    .toLowerCase()
-    .replace(/[^a-z0-9-]/g, '')}.png`
-}
+// function spriteUrl(species: string, shiny: boolean): string {
+//   const isShiny = shiny ? 'shiny' : 'normal'
+//   return `https://img.pokemondb.net/sprites/home/${isShiny}/${species
+//     .toLowerCase()
+//     .replace(/[^a-z0-9-]/g, '')}.png`
+// }
 
 function genderGlyph(gender: PokemonMember['gender']): string {
   if (gender === 'male') return '♂'
@@ -77,7 +78,7 @@ const themeStyles = computed(() => {
             <span v-if="poke.alpha" class="flag flag--alpha">ALPHA</span>
           </div>
           <img
-            :src="spriteUrl(poke.speciesId, poke.shiny ?? false)"
+            :src="getPokemonSprite(poke.speciesId, poke.shiny ?? false)"
             :alt="poke.name?.full ?? poke.speciesId"
             class="poke-card__sprite"
             crossorigin="anonymous"

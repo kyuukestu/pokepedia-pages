@@ -1,0 +1,120 @@
+import { PokemonMember } from '@/types/pokemon'
+
+const pokemon: PokemonMember[] = [
+  {
+    speciesId: 'gardevoir',
+    name: {
+      short: ['Nana'],
+      full: 'Nana',
+    },
+    gender: 'female',
+    ability: 'telepathy',
+    moves: [
+      'moonblast',
+      'psyshock',
+      'calm-mind',
+      'life-dew',
+      'magical-leaf',
+      'mystical-fire',
+      'hypnosis',
+      'thunder-wave',
+    ],
+  },
+  {
+    speciesId: 'tyrantrum',
+    name: {
+      short: ['Edward'],
+      full: 'Edward',
+    },
+    shiny: true,
+    gender: 'male',
+    ability: 'rock-head',
+    moves: [
+      'head-smash',
+      'rock-slide',
+      'dragon-claw',
+      'crunch',
+      'protect',
+      'iron-tail',
+      'stomp',
+      'bulldoze',
+    ],
+  },
+  {
+    speciesId: 'lucario',
+    name: {
+      short: ['Anakin'],
+      full: 'Anakin',
+    },
+    gender: 'male',
+    ability: 'inner-focus',
+    moves: [
+      'aura-sphere',
+      'force-palm',
+      'detect',
+      'bone-rush',
+      'bullet-punch',
+      'flash-cannon',
+      'ice-punch',
+      'thunder-punch',
+    ],
+  },
+  {
+    speciesId: 'meowscarada',
+    name: {
+      short: ['Lily'],
+      full: 'Lily',
+    },
+    gender: 'female',
+    ability: 'overgrow',
+    moves: [
+      'flower-trick',
+      'double-team',
+      'trick',
+      'night-slash',
+      'hone-claws',
+      'quick-attack',
+      'worry-seed',
+      'u-turn',
+    ],
+  },
+  {
+    speciesId: 'altaria',
+    name: {
+      short: ['Nimbus'],
+      full: 'Nimbus',
+    },
+    gender: 'female',
+    ability: 'natural-cure',
+    moves: [
+      'dragon-dance',
+      'take-down',
+      'dragon-breath',
+      'sing',
+      'safeguard',
+      'mist',
+      'aerial-ace',
+      'disarming-voice',
+    ],
+  },
+  {
+    speciesId: 'mudsdale',
+    name: {
+      short: ['Roy'],
+      full: 'Roy',
+    },
+    gender: 'male',
+    ability: 'stamina',
+    moves: [
+      'high-horsepower',
+      'counter',
+      'strength',
+      'double-kick',
+      'heavy-slam',
+      'stomp',
+      'bulldoze',
+    ],
+  },
+]
+
+export default pokemon

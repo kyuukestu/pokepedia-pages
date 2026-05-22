@@ -6,7 +6,7 @@ const pokemon: PokemonMember[] = [
       full: 'Pyrrha Achilleia Astierra',
       short: ['Pyrrha'],
     },
-    speciesId: 'jangmo-o',
+    speciesId: 'jangmoo',
     level: 26,
     ability: 'Overcoat',
     gender: 'female',
@@ -85,7 +85,7 @@ const pokemon: PokemonMember[] = [
     ],
   },
   {
-    speciesId: 'zigzagoon-galarian',
+    speciesId: 'zigzagoon-galar',
     ability: 'Gluttony',
     gender: 'male',
     level: 25,
