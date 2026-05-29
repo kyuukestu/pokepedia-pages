@@ -5,7 +5,7 @@ const meta: CharacterMeta = {
   category: 'oc',
   name: {
     full: 'Zelda',
-    short: ['Zel'],
+    short: ['Zelda', 'Zel'],
   },
   badges: {
     paldea: [
@@ -39,6 +39,7 @@ const meta: CharacterMeta = {
   occupationRoles: {
     primary: 'Musician',
   },
+  image: { src: 'zelda.png' },
 }
 
 export default meta

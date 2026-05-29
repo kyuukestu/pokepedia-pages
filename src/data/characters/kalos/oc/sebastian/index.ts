@@ -5,7 +5,7 @@ const meta: CharacterMeta = {
   name: { full: 'Sebastian Yu', short: ['Sebastian'], nicknames: ['Seb', 'Yuyu'] },
   region: 'kalos',
   trainerClass: { primary: 'battler' },
-  color: '#f05656',
+  color: '#9CB0C4',
   image: { src: 'sebastian.png', config: { position: 'center center', scale: 1 } },
   category: 'oc',
   age: 21,

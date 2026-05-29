@@ -6,7 +6,7 @@ const meta: CharacterMeta = {
   region: 'kalos',
   trainerClass: { primary: 'battler' },
   color: '#f05656',
-  image: { src: 'azumi.png', config: { position: 'center center', scale: 1 } },
+  image: { src: 'azumi.png', config: { position: 'top', scale: 1 } },
   category: 'oc',
   age: 21,
   badges: {},

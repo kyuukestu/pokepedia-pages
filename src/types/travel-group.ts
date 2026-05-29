@@ -1,13 +1,16 @@
-import { RegistryEntry } from '@/types/character'
-
 export interface TravelGroup {
   id: string
   name: string
   location: string
   date: string
-  activity: string
+  activityLevel: string
+  objective: string
   intent: string
   color: string
   threadUrl?: string
-  members: RegistryEntry[]
+  contactPerson: {
+    name: string
+    rpnlink: string
+  }
+  members: string[]
 }

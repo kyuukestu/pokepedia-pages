@@ -6,7 +6,7 @@ const meta: CharacterMeta = {
   region: 'kalos',
   trainerClass: { primary: 'coordinator', other: ['battler'] },
   color: '#f05656',
-  image: { src: 'maker.png', config: { position: 'center center', scale: 1 } },
+  image: { src: 'maker.png', config: { position: 'top', scale: 1 } },
   category: 'oc',
   age: 17,
   badges: {},

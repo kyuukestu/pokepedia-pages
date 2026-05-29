@@ -4,7 +4,8 @@ const meta: CharacterMeta = {
   id: 'leona',
   name: {
     full: 'Leona',
-    short: ['Leo', 'Lea'],
+    short: ['Leona'],
+    nicknames: ['Leo', 'Lea'],
   },
   region: 'unova',
   trainerClass: { primary: 'battler' },

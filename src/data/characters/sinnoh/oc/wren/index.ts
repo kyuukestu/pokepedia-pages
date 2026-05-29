@@ -5,7 +5,7 @@ const meta: CharacterMeta = {
   category: 'oc',
   name: {
     full: 'Wren Blackwell',
-    short: [],
+    short: ['Wren'],
   },
   badges: {
     johto: [
@@ -26,6 +26,7 @@ const meta: CharacterMeta = {
       },
     ],
   },
+  image: { src: 'wren.png' },
   ribbons: {},
   color: '',
   region: 'sinnoh',

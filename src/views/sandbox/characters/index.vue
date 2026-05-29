@@ -31,18 +31,27 @@ watch(
 )
 
 const characters = computed(() => {
-  return autoRegistry.map((char) => ({
-    ...char,
-    resolvedImage: getCharImageUrl(
-      char.image?.src ?? 'default.png',
-      char.category === 'oc',
-      char.id,
-      char.region,
-    ),
-    // Updated path order: Region-First
-    path: `/sandbox/characters/${char.region}/${char.category}/${char.id}`,
-    displayLabel: CharacterTypeLabels[char.category],
-  }))
+  return autoRegistry
+    .map((char) => ({
+      ...char,
+      resolvedImage: getCharImageUrl(
+        char.image?.src ?? 'default.png',
+        char.category === 'oc',
+        char.id,
+        char.region,
+      ),
+      // Updated path order: Region-First
+      path: `/sandbox/characters/${char.region}/${char.category}/${char.id}`,
+      displayLabel: CharacterTypeLabels[char.category],
+    }))
+    .sort((a, b) => {
+      // Fallback hierarchy to ensure we don't try to compare undefined values
+      const nameA = a.name?.short?.[0] || a.name?.full || a.id || ''
+      const nameB = b.name?.short?.[0] || b.name?.full || b.id || ''
+
+      // localeCompare handles natural alphabetical sorting (including accents) cleanly
+      return nameA.localeCompare(nameB, undefined, { sensitivity: 'base' })
+    })
 })
 
 const categories = computed(() => {
@@ -151,7 +160,7 @@ const clearFilters = () => {
             flat
             class="elite-dossier-card"
             :style="{
-              '--char-pos': char.image?.config?.position ?? 'center center',
+              '--char-pos': char.image?.config?.position ?? 'center top',
               '--char-scale': char.image?.config?.scale ?? '1',
             }"
           >
@@ -243,7 +252,7 @@ const clearFilters = () => {
 
 :deep(.character-art-cover .v-img__img) {
   /* Use 'center' as a hard default if the variable is missing */
-  object-position: var(--char-pos, center center) !important;
+  object-position: var(--char-pos, top top) !important;
   transform: scale(var(--char-scale, 1));
   transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
