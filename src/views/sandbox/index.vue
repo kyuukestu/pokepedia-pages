@@ -515,7 +515,8 @@ const formatGroupDate = (dateVal?: string | Date): string => {
                           class="wiki-pill-link"
                         >
                           {{
-                            characterStore.getCharacterById(characterId)?.name?.short || characterId
+                            characterStore.getCharacterById(characterId)?.name?.short?.[0] ||
+                            characterId
                           }}
                           <v-icon
                             v-if="
