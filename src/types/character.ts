@@ -53,7 +53,7 @@ export type Titles = {
 export type ImageDetails = {
   src: string
   type?: string
-  isAi?: Boolean
+  isAi?: boolean
   config?: { position?: string; scale?: number }
 }
 
