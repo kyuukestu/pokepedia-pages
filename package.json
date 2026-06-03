@@ -72,6 +72,7 @@
     "npm-run-all2": "^7.0.2",
     "oxlint": "^1.66.0",
     "prettier": "3.5.3",
+    "supabase": "^2.104.0",
     "typescript": "~5.8.3",
     "unplugin-vue-router": "^0.19.2",
     "vite": "^6.4.2",

@@ -1,0 +1,157 @@
+Table characters {
+  id varchar [pk]
+
+  full_name varchar
+
+  origin_region_id varchar
+  current_region_id varchar
+  category varchar
+
+  age int
+  dob date
+  gender varchar
+  height varchar
+
+  summary text
+
+  color varchar
+
+  primary_title varchar
+  secondary_titles json
+
+  primary_class varchar
+  secondary_classes json
+
+  short_names json
+  nicknames json
+
+  image_src varchar
+  image_type varchar
+
+  external_sheet_url varchar
+}
+
+
+
+Table character_organization_roles {
+  id uuid [pk]
+
+  character_id varchar
+  organization_id varchar
+
+  role_id varchar
+  rank_id varchar
+
+  status varchar [note: 'active | former | temporary | honorary | suspended']
+
+  is_primary boolean
+
+  start_date date
+  end_date date
+
+  Note: 'Only one active role per character-org-role combination'
+}
+
+Ref: character_organization_roles.character_id > characters.id
+
+Table regions {
+  id varchar [pk]
+  name varchar
+}
+
+Ref: characters.origin_region_id > regions.id
+Ref: characters.current_region_id > regions.id
+
+Table organizations {
+  id varchar [pk]
+  name varchar
+  type varchar
+  region_id varchar
+}
+
+Ref: character_organization_roles.organization_id > organizations.id
+Ref: organizations.region_id > regions.id
+
+Table roles {
+  id varchar [pk]
+
+  name varchar
+  category varchar
+  tags json // Tags?
+}
+
+Ref: character_organization_roles.role_id > roles.id
+
+Table organization_ranks {
+  id varchar [pk]
+  organization_id varchar
+  name varchar
+  hierarchy_level int
+}
+
+Ref: character_organization_roles.rank_id > organization_ranks.id
+Ref: organization_ranks.organization_id > organizations.id
+
+
+Table pokemon {
+  id uuid [pk]
+
+  species_id varchar
+
+  shiny boolean
+  alpha boolean
+
+  full_name varchar
+  short_name JSONB
+  gender varchar
+
+  caught_at timestamp
+}
+
+Table pokemon_builds {
+  id uuid [pk]
+
+  pokemon_id uuid
+
+  name varchar
+  is_default boolean
+
+  level int
+  ability varchar
+  held_item varchar
+
+  created_at timestamptz
+}
+
+Ref: pokemon_builds.pokemon_id > pokemon.id
+
+Table pokemon_build_moves {
+  id uuid [pk]
+
+  build_id uuid
+
+  move varchar
+
+  slot_order int
+}
+
+Ref: pokemon_build_moves.build_id > pokemon_builds.id
+
+
+
+
+Table pokemon_ownership_history {
+  id uuid [pk]
+
+  pokemon_id uuid
+
+  character_id varchar
+
+  start_date date
+  end_date date
+
+  Note: 'Only one active owner per pokemon_id'
+}
+
+Ref: pokemon_ownership_history.pokemon_id > pokemon.id
+Ref: pokemon_ownership_history.character_id > characters.id
