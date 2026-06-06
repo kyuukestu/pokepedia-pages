@@ -1,4 +1,0 @@
-CREATE TABLE test_table (
-    id TEXT PRIMARY KEY
-
-);

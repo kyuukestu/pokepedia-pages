@@ -1,7 +1,8 @@
 Table characters {
-  id varchar [pk]
+  id uuid [pk]
 
   full_name varchar
+  slug varchar
 
   origin_region_id varchar
   current_region_id varchar
@@ -16,12 +17,6 @@ Table characters {
 
   color varchar
 
-  primary_title varchar
-  secondary_titles json
-
-  primary_class varchar
-  secondary_classes json
-
   short_names json
   nicknames json
 
@@ -31,48 +26,99 @@ Table characters {
   external_sheet_url varchar
 }
 
+Ref: characters.origin_region_id > regions.id
+Ref: characters.current_region_id > regions.id
 
+Table trainer_classes {
+  id varchar [pk]
+
+  name varchar
+  description text
+  color varchar
+}
+
+Table character_classes {
+  character_id uuid
+  class_id varchar
+
+  is_primary boolean
+}
+
+Ref: character_classes.character_id > characters.id
+Ref: character_classes.class_id > trainer_classes.id
+
+Table character_titles {
+  id varchar [pk]
+
+  character_id uuid
+
+  title varchar
+
+  is_featured boolean
+
+  awarded_date date
+}
+
+Ref: character_titles.character_id > characters.id
 
 Table character_organization_roles {
-  id uuid [pk]
+  id varchar [pk]
 
-  character_id varchar
+  character_id uuid
   organization_id varchar
 
   role_id varchar
-  rank_id varchar
 
   status varchar [note: 'active | former | temporary | honorary | suspended']
 
-  is_primary boolean
-
   start_date date
   end_date date
-
-  Note: 'Only one active role per character-org-role combination'
 }
 
 Ref: character_organization_roles.character_id > characters.id
+Ref: character_organization_roles.organization_id > organizations.id
+
 
 Table regions {
   id varchar [pk]
   name varchar
 }
 
-Ref: characters.origin_region_id > regions.id
-Ref: characters.current_region_id > regions.id
+
 
 Table organizations {
   id varchar [pk]
+
   name varchar
   type varchar
+
   region_id varchar
+
+  description text
+
+  image_url text
+  banner_url text
+
+  map_embed_url text
+  map_data jsonb
 }
 
-Ref: character_organization_roles.organization_id > organizations.id
 Ref: organizations.region_id > regions.id
 
-Table roles {
+Table organization_maps {
+  id varchar [pk]
+
+  organization_id varchar
+  type varchar [note: 'interactive | illustration']
+
+  title varchar
+
+  image_url text
+
+  map_data jsonb [note: 'interactive map only']
+}
+
+Table org_roles {
   id varchar [pk]
 
   name varchar
@@ -80,38 +126,28 @@ Table roles {
   tags json // Tags?
 }
 
-Ref: character_organization_roles.role_id > roles.id
-
-Table organization_ranks {
-  id varchar [pk]
-  organization_id varchar
-  name varchar
-  hierarchy_level int
-}
-
-Ref: character_organization_roles.rank_id > organization_ranks.id
-Ref: organization_ranks.organization_id > organizations.id
-
+Ref: character_organization_roles.role_id > org_roles.id
 
 Table pokemon {
-  id uuid [pk]
+  id varchar [pk]
 
   species_id varchar
+  species_name varchar
 
   shiny boolean
   alpha boolean
 
   full_name varchar
-  short_name JSONB
+  short_names JSONB
   gender varchar
 
-  caught_at timestamp
+  caught_at date
 }
 
 Table pokemon_builds {
-  id uuid [pk]
+  id varchar [pk]
 
-  pokemon_id uuid
+  pokemon_id varchar
 
   name varchar
   is_default boolean
@@ -120,15 +156,15 @@ Table pokemon_builds {
   ability varchar
   held_item varchar
 
-  created_at timestamptz
+  created_at date
 }
 
 Ref: pokemon_builds.pokemon_id > pokemon.id
 
 Table pokemon_build_moves {
-  id uuid [pk]
+  id varchar [pk]
 
-  build_id uuid
+  build_id varchar
 
   move varchar
 
@@ -137,15 +173,12 @@ Table pokemon_build_moves {
 
 Ref: pokemon_build_moves.build_id > pokemon_builds.id
 
-
-
-
 Table pokemon_ownership_history {
-  id uuid [pk]
+  id varchar [pk]
 
-  pokemon_id uuid
+  pokemon_id varchar
 
-  character_id varchar
+  character_id uuid
 
   start_date date
   end_date date
@@ -155,3 +188,400 @@ Table pokemon_ownership_history {
 
 Ref: pokemon_ownership_history.pokemon_id > pokemon.id
 Ref: pokemon_ownership_history.character_id > characters.id
+
+Table ranking_systems {
+  id varchar [pk]
+  organization_id varchar
+  name varchar
+  scope_type varchar [note: 'organization | global']
+}
+
+Ref: ranking_systems.organization_id > organizations.id
+
+
+Table ranking_tiers {
+  id varchar [pk]
+
+  ranking_system_id varchar
+
+  name varchar
+  tier_order int
+}
+
+Ref: ranking_tiers.ranking_system_id > ranking_systems.id
+
+Table character_rankings {
+  id varchar [pk]
+
+  character_id uuid
+
+  ranking_tier_id varchar
+
+  is_current boolean
+
+  start_date date
+  end_date date
+}
+
+Ref: character_rankings.character_id > characters.id
+Ref: character_rankings.ranking_tier_id > ranking_tiers.id
+
+Table gyms {
+  id varchar [pk]
+
+  name varchar
+  city varchar
+
+  region_id varchar [note: 'duplication allowed for unofficial gyms which arent associated with a league']
+  league_id varchar
+}
+
+Ref: gyms.region_id > regions.id
+Ref: gyms.league_id > leagues.id
+
+Table gym_badges {
+  id varchar [pk]
+
+  gym_id varchar
+
+  name varchar
+
+  image_url varchar
+}
+
+Ref: gym_badges.gym_id > gyms.id
+
+Table badge_variants {
+  id varchar [pk]
+
+  badge_id varchar
+
+  name varchar
+
+  image_url varchar
+
+  introduce_date date
+  retired_date date
+}
+
+Ref: badge_variants.badge_id > gym_badges.id
+
+Table badge_variant_issuers {
+  id varchar [pk]
+
+  badge_variant_id varchar
+
+  character_id uuid
+
+  start_date date
+  end_date date
+}
+
+Ref: badge_variant_issuers.badge_variant_id > badge_variants.id
+Ref: badge_variant_issuers.character_id > characters.id
+
+Table gym_leaders {
+  id varchar [pk]
+
+  gym_id varchar
+
+  character_id uuid
+
+  start_date date
+  end_date date
+
+  is_head_leader boolean
+}
+
+Ref: gym_leaders.gym_id > gyms.id
+Ref: gym_leaders.character_id > characters.id
+
+Table character_badges {
+  id varchar [pk]
+
+  character_id uuid
+
+  badge_variant_id varchar
+
+  awarded_by_character_id uuid
+
+  obtained_date date
+}
+
+Ref: character_badges.character_id > characters.id
+Ref: character_badges.badge_variant_id > badge_variants.id
+Ref: character_badges.awarded_by_character_id > characters.id
+
+Table gym_pokemon_species {
+  id varchar [pk]
+
+  gym_id varchar
+
+  species_id int
+  species_name varchar
+
+  min_level int
+  max_level int
+
+  notes text
+}
+
+Ref: gym_pokemon_species.gym_id > gyms.id
+
+Table gym_challenges {
+  id varchar [pk]
+
+  gym_id varchar
+
+  name varchar
+
+  format varchar
+
+  description text
+}
+
+Ref: gym_challenges.gym_id > gyms.id
+
+Table leagues {
+  id varchar [pk]
+  name varchar
+  type varchar
+  region_id varchar
+}
+
+Ref: leagues.region_id > regions.id
+
+Table league_dependencies {
+  id varchar [pk]
+
+  parent_league_id varchar
+  child_league_id varchar
+
+  requirement_type text
+  description text
+}
+
+Ref: league_dependencies.parent_league_id > leagues.id
+Ref: league_dependencies.child_league_id > leagues.id
+
+Table gym_staff {
+  id varchar [pk]
+
+  gym_id varchar
+  character_id uuid
+
+  gym_role varchar
+}
+
+Ref: gym_staff.gym_id > gyms.id
+Ref: gym_staff.character_id > characters.id
+
+Table event_definitions {
+  id varchar [pk]
+
+  slug varchar
+  title varchar
+  category varchar
+
+  region_id varchar
+
+  description text
+}
+
+Ref: event_definitions.region_id > regions.id
+
+Table event_instances {
+  id varchar [pk]
+
+  event_definition_id varchar
+
+  title varchar [note: 'optional override for this instance']
+
+  start_date date
+  end_date date
+
+  status varchar [note: 'upcoming | ongoing | completed | cancelled']
+
+  location varchar
+
+  thread_url text
+}
+
+Ref: event_instances.event_definition_id > event_definitions.id
+
+Table event_participants {
+  id varchar [pk]
+
+  event_instance_id varchar
+  character_id uuid
+
+  role varchar [note: 'participant | host | referee | spectator | npc']
+
+  status varchar [note: 'entered | active | eliminated | withdrawn | completed']
+
+  result varchar [note: 'winner | finalist | top_cut | eliminated | unknown']
+
+  joined_at date
+  exited_at date
+}
+
+Ref: event_participants.event_instance_id > event_instances.id
+Ref: event_participants.character_id > characters.id
+
+Table event_brackets {
+  id varchar [pk]
+
+  event_instance_id varchar
+
+  name varchar
+  type varchar [note: 'single_elim | double_elim | round_robin | swiss | points']
+
+  description text
+}
+
+Ref: event_brackets.event_instance_id > event_instances.id
+
+Table bracket_participants {
+  id varchar [pk]
+
+  bracket_id varchar
+
+  character_id uuid
+
+  seed int
+  status varchar [note: 'active | eliminated | winner | withdrawn']
+
+  elimination_round int
+  notes varchar
+}
+
+Ref: bracket_participants.bracket_id > event_brackets.id
+Ref: bracket_participants.character_id > characters.id
+
+Table event_rewards {
+  id varchar [pk]
+
+  event_instance_id varchar
+  name varchar
+  placement int
+}
+
+Ref: event_rewards.event_instance_id > event_instances.id
+
+Table kenn_articles {
+  id varchar [pk]
+
+  slug varchar
+
+  title varchar
+
+  content_source varchar [note: 'character | kenn']
+  category varchar [note: 'BREAKING_NEWS | FIRST_HAND_ACCOUNT | OPINION | HISTORICAL_RECORD | GUIDE | REPORT ']
+
+  region_id varchar
+
+  author_id varchar
+
+  summary text
+
+  content text [note: 'Markdown body']
+
+  image_url varchar
+
+  published_date date
+}
+
+Ref: kenn_articles.region_id > regions.id
+Ref: kenn_articles.author_id > characters.id
+
+Table kenn_article_hashtags {
+  article_id varchar
+
+  tag varchar
+}
+
+Ref: kenn_article_hashtags.article_id > kenn_articles.id
+
+Table kenn_report_subtypes {
+  article_id varchar
+  report_type varchar [note: 'ecological | faction | character | battle | etc.']
+}
+
+Ref: kenn_report_subtypes.article_id > kenn_articles.id
+
+Table kenn_article_links {
+  id varchar [pk]
+
+  article_id varchar
+
+  label varchar
+
+  link_type varchar [note: 'character | event | gym | organization | external']
+
+  target_id varchar [note: 'target_id for internal, external_url otherwise']
+
+  external_url text
+
+  created_at date
+}
+
+Ref: kenn_article_links.article_id > kenn_articles.id
+
+Table plots {
+  id varchar [pk]
+
+  title varchar
+
+  summary text
+
+  genre varchar
+
+  status varchar [note: 'active | paused | closed | recruiting']
+
+  contact_name varchar
+  contact_url text
+
+  created_at date
+}
+
+Table plot_characters {
+  id varchar [pk]
+
+  plot_id varchar
+
+  character_id uuid
+
+  role varchar [note: 'protagonist | antagonist | support | featured']
+}
+
+Ref: plot_characters.plot_id > plots.id
+Ref: plot_characters.character_id > characters.id
+
+Table plot_relations {
+  id varchar [pk]
+
+  source_plot_id varchar
+  target_plot_id varchar
+
+  relation_type varchar [note: 'related | sequel | prequel | parallel | crossover']
+}
+
+Ref: plot_relations.source_plot_id > plots.id
+Ref: plot_relations.target_plot_id > plots.id
+
+Table users {
+  id uuid [pk]
+  discord_id text
+  username varchar
+  created_at timestamp
+}
+
+Table user_characters {
+  user_id text
+  character_id uuid
+
+  is_primary boolean
+}
+
+Ref: user_characters.user_id > users.id
+Ref: user_characters.character_id > characters.id
