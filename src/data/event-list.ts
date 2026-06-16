@@ -111,6 +111,23 @@ export const eventDefinitions: EventDefinition[] = [
     generalDescription:
       ' Are you the next greatest fisher in the Sinnoh Region? Whether you are one with the professional fish folks or an amateur angler, all are welcomed in the Great Sinnohian Angling Contest.',
   },
+  {
+    slug: 'mantine-surf',
+    title: 'Mantine Surf',
+    category: 'competition',
+    region: 'alola',
+    image: 'https://i.pinimg.com/736x/db/43/4b/db434bfb767b1afc30d0704e49b31880.jpg',
+    generalDescription: 'Mantine Surf Series!',
+  },
+  {
+    slug: 'grass-tournament',
+    title: 'Grass Tournament',
+    category: 'competition',
+    region: 'johto',
+    image:
+      'https://static.wikia.nocookie.net/pokemon/images/9/90/GS062_01.png/revision/latest/scale-to-width-down/250?cb=20250723082955',
+    generalDescription: 'Mantine Surf Series!',
+  },
 ]
 
 export const johtoCompetitionInstances: EventInstance[] = [
@@ -194,26 +211,26 @@ export const johtoCompetitionInstances: EventInstance[] = [
     },
   },
   {
-    eventSlug: 'one-on-one-tauros-competition',
-    instanceId: 'palmpona-tauros-2026',
-    start: '',
+    eventSlug: 'grass-tournament',
+    instanceId: 'grass-tournament-22',
+    start: '2022-09-04T18:00:00Z',
     allDay: true, // "Anyone can enter at any time"
-    location: 'Palmpona, Johto',
-    status: 'ongoing',
+    location: 'Johto',
+    status: 'upcoming',
 
-    participants: [{ name: 'Reina' }],
+    participants: [{ name: 'Reina' }, { name: 'Naka' }, { name: 'Esther' }],
 
     competitions: [
       {
-        name: 'Horn-to-Horn Grapple',
+        name: 'One-on-One Grass Tournament',
         type: 'bracket',
-        notes: 'Standard Palmpona rules: charging and holding only. No elemental moves allowed.',
+        notes: 'Standard Tournament. Grass-Types Only.',
       },
     ],
 
     requirements: {
-      requiredItems: ['Tauros (Species-locked)'],
-      description: 'Open entry. Any trainer with a Tauros may challenge the current victor.',
+      requiredItems: ['Grass (Typr-locked)'],
+      description: 'Open entry. Any trainer with a Grass Type may entert.',
     },
 
     metadata: {
@@ -271,6 +288,34 @@ export const johtoCompetitionInstances: EventInstance[] = [
     requirements: {
       description:
         'A team of specialized Water, Ice, or Ground type Pokémon is recommended. Must be able to work as a cohesive unit.',
+    },
+  },
+  {
+    eventSlug: 'one-on-one-tauros-competition',
+    instanceId: 'palmpona-tauros-2023',
+    start: '2023-07-14T18:00:00Z',
+    allDay: true, // "Anyone can enter at any time"
+    location: 'Palmpona, Johto',
+    status: 'ongoing',
+
+    participants: [{ name: 'Reina' }],
+
+    competitions: [
+      {
+        name: 'Horn-to-Horn Grapple',
+        type: 'bracket',
+        notes: 'Standard Palmpona rules: charging and holding only. No elemental moves allowed.',
+      },
+    ],
+
+    requirements: {
+      requiredItems: ['Tauros (Species-locked)'],
+      description: 'Open entry. Any trainer with a Tauros may challenge the current victor.',
+    },
+
+    metadata: {
+      victoryCondition: 'Last trainer standing',
+      customType: 'Strength Trial',
     },
   },
 ]
@@ -452,10 +497,10 @@ export const alolaContestInstances: EventInstance[] = [
   {
     eventSlug: 'alola-contest',
     instanceId: 'hauoli-2022-08-23',
-    start: '2022-08-23T00:00:00',
+    start: '2022-08-31T00:00:00',
     allDay: true,
     location: "Hau'oli City",
-    status: 'completed',
+    status: 'upcoming',
     participants: [],
     competitions: [
       {
@@ -497,6 +542,31 @@ export const alolaContestInstances: EventInstance[] = [
       description:
         'Singles Format only. Entrants must present their Contest Pass upon registration.',
     },
+  },
+]
+
+export const alolaCompetitionInstances: EventInstance[] = [
+  {
+    instanceId: 'mantine-sur-08-2022',
+    eventSlug: 'mantine-surf',
+    start: '2022-08-21T00:00:00',
+    end: '2022-08-28T11:59:59',
+    allDay: false,
+    location: 'alola',
+    status: 'ongoing',
+    competitions: [
+      {
+        type: 'judged',
+      },
+    ],
+    participants: [
+      {
+        name: 'esther',
+      },
+      {
+        name: 'g',
+      },
+    ],
   },
 ]
 
@@ -708,6 +778,7 @@ export const raceInstances: EventInstance[] = [
 
 export const eventInstances: EventInstance[] = [
   ...alolaContestInstances,
+  ...alolaCompetitionInstances,
   ...festivalInstances,
   ...raceInstances,
   ...conferenceInstances,
