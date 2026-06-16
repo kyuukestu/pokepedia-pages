@@ -1,5 +1,6 @@
-create table user_characters (
-  discord_user_id text,
-  character_id uuid references characters(id),
-  primary key (discord_user_id, character_id)
-);
+select
+  conname,
+  conrelid::regclass as table_from,
+  confrelid::regclass as table_to
+from pg_constraint
+where conrelid = 'pokemon_ownership_history'::regclass;

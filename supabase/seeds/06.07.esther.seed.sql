@@ -22,7 +22,7 @@ with inserted_character as (
     'female',
     '5 ft 6 in',
     '#f05656',
-    'esther.png'
+    '/images/characters/esther.png'
   )
   returning id as character_id
 ),

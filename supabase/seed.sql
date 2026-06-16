@@ -386,7 +386,7 @@ insert into organizations (
   map_embed_url,
   map_data
 ) values (
-  'johto-academy',
+  'johto_academy',
   'Johto Academy',
   'academy',
   'johto',
@@ -399,73 +399,86 @@ insert into organizations (
 
 insert into leagues (id, name, type, region_id)
 values
-('kanto-league', 'Kanto League', 'regional_league', 'kanto'),
-('johto-league', 'Johto League', 'regional_league', 'johto'),
-('indigo-league', 'Indigo League', 'federation_league', 'kanto');
+('kanto_league', 'Kanto League', 'regional_league', 'kanto'),
+('johto_league', 'Johto League', 'regional_league', 'johto'),
+('indigo_league', 'Indigo League', 'federation_league', 'kanto');
 
 insert into league_dependencies values
-('indigo-kanto', 'indigo-league', 'kanto-league', 'badge_requirement',
+('indigo-kanto', 'indigo_league', 'kanto_league', 'badge_requirement',
  'Must obtain 8 Kanto badges'),
 
-('indigo-johto', 'indigo-league', 'johto-league', 'badge_requirement',
+('indigo-johto', 'indigo_league', 'johto_league', 'badge_requirement',
  'Must obtain 8 Johto badges');
 
 
 insert into leagues (id, name, type, region_id)
 values (
-  'hoenn-league',
+  'hoenn_league',
   'Hoenn League',
   'regional_league',
   'hoenn'
-);
-
-insert into leagues (id, name, type, region_id)
-values (
-  'sinnoh-league',
+), (
+  'sinnoh_league',
   'Sinnoh League',
   'regional_league',
   'sinnoh'
-);
-
-insert into leagues (id, name, type, region_id)
-values (
-  'unova-league',
+), (
+  'unova_league',
   'Unova League',
   'regional_league',
   'unova'
-);
-
-insert into leagues (id, name, type, region_id)
-values (
-  'kalos-league',
+), (
+  'kalos_league',
   'Kalos League',
   'regional_league',
   'kalos'
-);
-
-insert into leagues (id, name, type, region_id)
-values (
-  'alola-league',
+), (
+  'alola_league',
   'Alola League',
   'regional_league',
   'alola'
-);
-
-insert into leagues (id, name, type, region_id)
-values (
-  'galar-league',
+), (
+  'galar_league',
   'Galar League',
   'sporting_league',
   'galar'
-);
-
-insert into leagues (id, name, type, region_id)
-values (
-  'paldea-league',
+), (
+  'paldea_league',
   'Paldea League',
   'assessment_system',
   'paldea'
 );
+
+insert into gyms (id, name, city, region_id, league_id)
+values (
+  'humilau_gym',
+  'Humilau Gym',
+  'Humilau',
+  'unova',
+  'unova_league'
+), (
+  'nacrene_gym',
+  'Nacrene Gym',
+  'Nacrene',
+  'unova',
+  'unova_league'
+);
+
+insert into ribbons (id, name)
+values
+('cool_ribbon', 'Cool Ribbon'),
+('beauty_ribbon', 'Beauty Ribbon');
+
+
+insert into gym_badges (id, name, gym_id)
+values
+('wave_badge', 'Wave Badge', 'humilau_gym'),
+('basic_badge', 'Basic Badge', 'nacrene_gym');
+
+insert into badge_variants (id, badge_id, name)
+values
+('wave_badge_variant', 'wave_badge', 'Wave Badge Variant'),
+('basic_badge_variant', 'basic_badge', 'Basic Badge Variant');
 
 with inserted_character as (
 
@@ -496,6 +509,50 @@ with inserted_character as (
   returning id as character_id
 ),
 
+inserted_badges as (
+  insert into character_badges (
+    id,
+    character_id,
+    badge_variant_id,
+    obtained_date
+  )
+  select
+    gen_random_uuid(),
+    character_id,
+    badge.badge_variant_id,
+    badge.obtained_date
+  from inserted_character
+  cross join (
+    values
+      ('basic_badge_variant', '2026-01-12'::date),
+      ('wave_badge_variant', '2026-02-02'::date)
+  ) as badge(badge_variant_id, obtained_date)
+
+  returning character_id
+),
+
+inserted_ribbons as (
+  insert into character_ribbons (
+    id,
+    character_id,
+    ribbon_id,
+    obtained_date
+  )
+  select
+    gen_random_uuid(),
+    character_id,
+    ribbon.ribbon_id,
+    ribbon.obtained_date
+  from inserted_character
+  cross join (
+    values
+      ('cool_ribbon', '2026-03-10'::date),
+      ('beauty_ribbon', '2026-03-28'::date)
+  ) as ribbon(ribbon_id, obtained_date)
+
+  returning character_id
+),
+
 primary_class as (
   insert into character_classes (
     character_id,
@@ -522,9 +579,50 @@ secondary_class as (
   from inserted_character
 ),
 
-inserted_pokemon as (
+pokemon_seed AS (
+  SELECT *
+  FROM (
+    VALUES
+      (
+        gen_random_uuid(),
+        0782,
+        'Jangmo-o',
+        false,
+        false,
+        'Pyrrha Achilleia Astierra',
+        'female',
+        26,
+        'Overcoat',
+        'Everstone'
+      ),
+      (
+        gen_random_uuid(),
+        0228,
+        'Houndour',
+        false,
+        true,
+        'Halay-Alae Huaka’i Pöncu',
+        'female',
+        26,
+        'Unnerve',
+        NULL
+      )
+  ) AS p(
+    pokemon_id,
+    species_id,
+    species_name,
+    shiny,
+    alpha,
+    full_name,
+    gender,
+    level,
+    ability,
+    held_item
+  )
+),
 
-  insert into pokemon (
+inserted_pokemon AS (
+  INSERT INTO pokemon (
     id,
     species_id,
     species_name,
@@ -534,22 +632,21 @@ inserted_pokemon as (
     gender,
     caught_at
   )
-  values (
-    gen_random_uuid(),
-    '0782',
-    'Jangmo-o',
-    false,
-    false,
-    'Pyrrha Achilleia Astierra',
-    'female',
-    null
-  )
-  returning id as pokemon_id
+  SELECT
+    pokemon_id,
+    species_id,
+    species_name,
+    shiny,
+    alpha,
+    full_name,
+    gender,
+    NULL
+  FROM pokemon_seed
+  RETURNING id AS pokemon_id, species_name
 ),
 
-inserted_build as (
-
-  insert into pokemon_builds (
+inserted_build AS (
+  INSERT INTO pokemon_builds (
     id,
     pokemon_id,
     name,
@@ -559,46 +656,107 @@ inserted_build as (
     held_item,
     created_at
   )
-  select
+  SELECT
     gen_random_uuid(),
-    pokemon_id,
+    ip.pokemon_id,
     'Default',
     true,
-    26,
-    'Overcoat',
-    'Everstone',
-    null
-  from inserted_pokemon
-  returning id as build_id, pokemon_id
+    ps.level,
+    ps.ability,
+    ps.held_item,
+    NULL
+  FROM inserted_pokemon ip
+  JOIN pokemon_seed ps
+    ON ip.species_name = ps.species_name
+  RETURNING id AS build_id, pokemon_id
 ),
 
-inserted_moves as (
+moves_seed AS (
+  SELECT *
+  FROM (
+    VALUES
+      ('Jangmo-o', 'Protect', 1),
+      ('Jangmo-o', 'Dragon Tail', 2),
+      ('Jangmo-o', 'Iron Defense', 3),
+      ('Jangmo-o', 'Scale Shot', 4),
 
-  insert into pokemon_build_moves (
+      ('Houndour', 'Leer', 1),
+      ('Houndour', 'Ember', 2),
+      ('Houndour', 'Howl', 3),
+      ('Houndour', 'Roar', 4)
+  ) AS m(species_name, move, slot_order)
+),
+
+inserted_moves AS (
+  INSERT INTO pokemon_build_moves (
     id,
     build_id,
     move,
     slot_order
   )
-  select *
-  from (
-    values
-      (gen_random_uuid(), (select build_id from inserted_build), 'Protect', 1),
-      (gen_random_uuid(), (select build_id from inserted_build), 'Dragon Tail', 2),
-      (gen_random_uuid(), (select build_id from inserted_build), 'Iron Defense', 3),
-      (gen_random_uuid(), (select build_id from inserted_build), 'Scale Shot', 4),
-      (gen_random_uuid(), (select build_id from inserted_build), 'Work Up', 5),
-      (gen_random_uuid(), (select build_id from inserted_build), 'Screech', 6),
-      (gen_random_uuid(), (select build_id from inserted_build), 'Bide', 7),
-      (gen_random_uuid(), (select build_id from inserted_build), 'Scary Face', 8)
-  ) as m(id, build_id, move, slot_order)
-  returning id
+  SELECT
+    gen_random_uuid(),
+    b.build_id,
+    ms.move,
+    ms.slot_order
+  FROM inserted_build b
+  JOIN inserted_pokemon ip ON ip.pokemon_id = b.pokemon_id
+  JOIN moves_seed ms ON ms.species_name = ip.species_name
+),
+
+inserted_history AS (
+  INSERT INTO pokemon_ownership_history (
+    id,
+    pokemon_id,
+    character_id,
+    start_date
+  )
+  SELECT
+    gen_random_uuid(),
+    ip.pokemon_id,
+    ic.character_id,
+    '2026-03-28'::date
+  FROM inserted_pokemon ip
+  CROSS JOIN inserted_character ic
+  RETURNING id, pokemon_id, character_id, start_date
+),
+
+inserted_party AS (
+insert into character_parties (id, character_id, name, is_default)
+SELECT 
+gen_random_uuid(),
+ic.character_id,
+'Default',
+true
+ FROM inserted_character ic
+ RETURNING id, character_id
+),
+inserted_party_members AS (
+  INSERT INTO character_party_members (
+    party_id,
+    pokemon_id,
+    slot_index
+  )
+  SELECT
+    ip.id,
+    ih.pokemon_id,
+    row_number() OVER (
+      ORDER BY ih.start_date
+    ) - 1
+  FROM inserted_party ip
+  JOIN inserted_history ih
+    ON ih.character_id = ip.character_id
+  RETURNING party_id, pokemon_id
 )
 
-select
-  c.character_id,
-  p.pokemon_id,
-  b.build_id
-from inserted_character c
-cross join inserted_pokemon p
-cross join inserted_build b;
+-- SELECT
+--   ih.*,
+--   ipm.*
+-- FROM inserted_history ih
+-- LEFT JOIN inserted_party_members ipm
+--   ON true;
+
+SELECT * FROM inserted_party_members;
+
+  
+select 'seed_complete' as status;

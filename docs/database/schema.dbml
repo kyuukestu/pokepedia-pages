@@ -139,6 +139,7 @@ Table pokemon {
 
   full_name varchar
   short_names JSONB
+  nicknames JSONB
   gender varchar
 
   caught_at date
@@ -188,6 +189,33 @@ Table pokemon_ownership_history {
 
 Ref: pokemon_ownership_history.pokemon_id > pokemon.id
 Ref: pokemon_ownership_history.character_id > characters.id
+
+Table pokemon_ownership_active [view, note: 'Derived from pokemon_ownership_history where end_date IS NULL'] {
+  pokemon_id uuid
+  character_id uuid
+  start_date date
+  end_date date
+}
+
+Table character_parties {
+ id uuid [pk]
+ character_id uuid
+ name text
+ is_default boolean
+ event_id uuid
+ }
+
+Ref: character_parties.character_id > characters.id
+Ref: character_parties.event_id > events.id
+
+Table character_party_members {
+  party_id uuid
+  pokemon_id uuid
+  slot_index int
+}
+
+Ref: character_party_members.party_id > character_parties.id
+Ref: character_party_members.pokemon_id > pokemon.id
 
 Table ranking_systems {
   id varchar [pk]
@@ -245,11 +273,10 @@ Table gym_badges {
   gym_id varchar
 
   name varchar
-
-  image_url varchar
 }
 
 Ref: gym_badges.gym_id > gyms.id
+Ref: gym_badges.variant_id > badge_variants.id
 
 Table badge_variants {
   id varchar [pk]
@@ -311,6 +338,27 @@ Table character_badges {
 Ref: character_badges.character_id > characters.id
 Ref: character_badges.badge_variant_id > badge_variants.id
 Ref: character_badges.awarded_by_character_id > characters.id
+
+Table ribbons {
+id varchar [pk]
+
+name varchar
+
+image_src text
+}
+
+Table character_ribbons {
+  id uuid [pk]
+
+  character_id uuid
+
+  ribbon_id varchar
+
+  obtained_date date
+}
+
+Ref: character_ribbons.character_id > characters.id
+Ref: character_ribbons.ribbon_id > ribbons.id
 
 Table gym_pokemon_species {
   id varchar [pk]
