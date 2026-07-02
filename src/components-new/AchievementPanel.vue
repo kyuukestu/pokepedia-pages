@@ -4,168 +4,115 @@ import type { BadgeCase, RibbonCase } from '@/types/CharacterDashboard'
 const { badgeCases, ribbonCases } = defineProps<{
   badgeCases: BadgeCase[]
   ribbonCases: RibbonCase[]
+  tournamentResults?: any[]
 }>()
 </script>
 
 <template>
-  <!-- BADGES -->
-  <v-card class="achievement-panel pa-5 mb-5">
-    <h2 class="mb-5">Badge Case</h2>
+  <div class="wiki-achievements-panel-group">
+    <!-- BADGE CASE DISPLAY -->
+    <v-card flat class="wiki-card-panel pa-5 mb-6">
+      <h3
+        class="text-subtitle-1 font-weight-black text-uppercase tracking-wide mb-4 border-bottom pb-2"
+      >
+        Badge Cases
+      </h3>
 
-    <div v-for="badgeCase in badgeCases" :key="badgeCase.region" class="badge-case mb-6">
-      <div class="case-header">
-        {{ badgeCase.region }}
-      </div>
+      <div v-for="bCase in badgeCases" :key="bCase.region" class="mb-4">
+        <div class="text-caption font-weight-black text-uppercase tracking-wider text-primary mb-2">
+          {{ bCase.region }} Region
+        </div>
 
-      <div class="badge-grid">
-        <div v-for="badge in badgeCase.badges" :key="badge.id" class="badge-slot">
-          <div class="badge-display">
-            <img v-if="badge.image_url" :src="badge.image_url" class="badge-image" />
+        <div class="badge-mini-flex d-flex flex-wrap ga-2">
+          <div
+            v-for="badge in bCase.badges"
+            :key="badge.id"
+            class="badge-icon-node pa-2 text-center"
+          >
+            <img
+              v-if="badge.image_url"
+              :src="badge.image_url"
+              class="badge-img"
+              :alt="badge.badge_name"
+            />
+            <div v-else class="badge-fallback-ico">🏅</div>
 
-            <div v-else class="badge-placeholder">🏅</div>
-
-            <div class="badge-name">
-              {{ badge.badge_name }}
-            </div>
-
-            <div class="badge-issuer">
-              {{ badge.issuer?.full_name }}
-            </div>
-
-            <div class="badge-date">
-              {{ badge.obtained_date }}
+            <div class="badge-tooltip-meta">
+              <span class="text-truncate d-block font-weight-bold">{{ badge.badge_name }}</span>
+              <span class="text-xxs text-medium-emphasis d-block">{{ badge.obtained_date }}</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </v-card>
+    </v-card>
 
-  <!-- RIBBONS -->
+    <!-- RIBBON CASE DISPLAY -->
+    <v-card flat class="wiki-card-panel pa-5">
+      <h3
+        class="text-subtitle-1 font-weight-black text-uppercase tracking-wide mb-4 border-bottom pb-2"
+      >
+        Ribbon Case
+      </h3>
 
-  <v-card class="achievement-panel pa-5">
-    <h2 class="mb-5">Ribbon Case</h2>
+      <div v-for="rCase in ribbonCases" :key="rCase.category" class="mb-4">
+        <div class="text-caption font-weight-bold text-medium-emphasis text-uppercase mb-2">
+          {{ rCase.category }}
+        </div>
 
-    <div v-for="ribbonCase in ribbonCases" :key="ribbonCase.category" class="ribbon-row mb-4">
-      <div class="text-subtitle-1 mb-3">
-        {{ ribbonCase.category }}
-      </div>
-
-      <div class="d-flex ga-3 overflow-x-auto">
-        <div v-for="ribbon in ribbonCase.ribbons" :key="ribbon.id" class="ribbon-display">
-          <div class="ribbon-name">
-            {{ ribbon.id }}
-          </div>
-
-          <div class="ribbon-date">
-            {{ ribbon.obtained_date }}
+        <div class="d-flex flex-column ga-1">
+          <div
+            v-for="ribbon in rCase.ribbons"
+            :key="ribbon.id"
+            class="ribbon-list-row pa-2 d-flex justify-space-between align-center"
+          >
+            <span class="text-body-2 font-weight-bold">{{
+              ribbon.ribbon_name.replace(/_/g, ' ')
+            }}</span>
+            <span class="text-caption text-medium-emphasis">{{ ribbon.obtained_date }}</span>
           </div>
         </div>
       </div>
-    </div>
-  </v-card>
+    </v-card>
+  </div>
 </template>
 
 <style scoped>
-.achievement-panel {
-  background: linear-gradient(to bottom, rgb(28 28 34), rgb(20 20 24));
+.wiki-card-panel {
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.12) !important;
+  background: rgb(var(--v-theme-surface));
+  border-radius: 8px !important;
 }
-
-.badge-case {
-  border-radius: 16px;
-
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-
-  padding: 24px;
+.border-bottom {
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
-
-.case-header {
-  font-size: 1.1rem;
-
-  font-weight: 700;
-
-  margin-bottom: 18px;
-
-  letter-spacing: 0.05em;
+.badge-icon-node {
+  position: relative;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+  background: rgba(var(--v-theme-on-surface), 0.02);
+  border-radius: 6px;
+  width: calc(25% - 6px);
+  min-width: 64px;
 }
-
-.badge-grid {
-  display: grid;
-
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-
-  gap: 16px;
-}
-
-.badge-slot {
-  aspect-ratio: 1;
-}
-
-.badge-display {
-  height: 100%;
-
-  border-radius: 14px;
-
-  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-
-  padding: 16px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-  align-items: center;
-}
-
-.badge-image {
-  width: 72px;
-
-  height: 72px;
-
+.badge-img {
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
-
-.badge-placeholder {
-  font-size: 42px;
+.badge-fallback-ico {
+  font-size: 1.5rem;
+  line-height: 1.2;
 }
-
-.badge-name {
-  margin-top: 12px;
-
-  font-weight: 700;
+.badge-tooltip-meta {
+  font-size: 0.65rem;
+  line-height: 1.1;
+  margin-top: 4px;
 }
-
-.badge-issuer {
-  opacity: 0.75;
-
-  font-size: 0.85rem;
+.text-xxs {
+  font-size: 0.55rem;
 }
-
-.badge-date {
-  opacity: 0.55;
-
-  font-size: 0.75rem;
-}
-
-.ribbon-display {
-  min-width: 180px;
-
-  padding: 16px;
-
-  border-radius: 12px;
-
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.ribbon-name {
-  font-weight: 600;
-}
-
-.ribbon-date {
-  opacity: 0.6;
-
-  margin-top: 6px;
+.ribbon-list-row {
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.06);
+  border-radius: 4px;
+  background: rgba(var(--v-theme-on-surface), 0.01);
 }
 </style>

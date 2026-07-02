@@ -464,10 +464,10 @@ values (
   'unova_league'
 );
 
-insert into ribbons (id, name)
+insert into ribbons (id, name, region_id)
 values
-('cool_ribbon', 'Cool Ribbon'),
-('beauty_ribbon', 'Beauty Ribbon');
+('cool_ribbon', 'Cool Ribbon', 'unova'),
+('beauty_ribbon', 'Beauty Ribbon', 'unova');
 
 
 insert into gym_badges (id, name, gym_id)

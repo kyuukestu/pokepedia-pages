@@ -1,38 +1,32 @@
-import { computed, unref, ComputedRef } from 'vue'
-import type { Ref } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import type {
   BadgeCase,
   RibbonCase,
-  AchievementBadgeDTO,
-  AchievementRibbonDTO,
+  CharacterBadgeDTO,
+  CharacterRibbonDTO,
+  AchievementSection,
 } from '@/types/CharacterDashboard'
 
-type AchievementLike = {
-  badges: AchievementBadgeDTO[]
-  ribbons: AchievementRibbonDTO[]
-  tournament_results: {
-    event_id: string
-    placement: string
-  }[]
+const EMPTY_ACHIEVEMENTS: AchievementSection = {
+  badges: [],
+  ribbons: [],
+  tournament_results: [],
 }
 
-export function useAchievements(
-  achievements: Ref<AchievementLike | null> | ComputedRef<AchievementLike | null>,
-) {
+export function useAchievements(achievements: ComputedRef<AchievementSection | null>) {
+  const safe = computed(() => achievements.value ?? EMPTY_ACHIEVEMENTS)
+
   const badgeCases = computed<BadgeCase[]>(() => {
-    const a = unref(achievements)
-    if (!a) return []
+    const grouped = new Map<string, CharacterBadgeDTO[]>()
 
-    const grouped = new Map<string, AchievementBadgeDTO[]>()
-
-    for (const badge of a.badges ?? []) {
+    for (const badge of safe.value.badges) {
       const region = badge.region ?? 'Unknown Region'
       if (!grouped.has(region)) grouped.set(region, [])
       grouped.get(region)!.push(badge)
     }
 
-    console.log('achievements:', a)
-    console.log('badges:', a?.badges)
+    console.log('achievements:', safe)
+    console.log('badges:', safe.value?.badges)
 
     return Array.from(grouped.entries()).map(([region, badges]) => ({
       region,
@@ -41,19 +35,29 @@ export function useAchievements(
   })
 
   const ribbonCases = computed<RibbonCase[]>(() => {
-    const a = unref(achievements)
-    if (!a) return []
+    const grouped = new Map<string, CharacterRibbonDTO[]>()
 
-    return [
-      {
-        category: 'Ribbons',
-        ribbons: a.ribbons ?? [],
-      },
-    ]
+    for (const ribbon of safe.value.ribbons) {
+      const key = ribbon.region_id ?? 'unknown'
+
+      if (!grouped.has(key)) grouped.set(key, [])
+      grouped.get(key)!.push(ribbon)
+    }
+
+    return Array.from(grouped.entries()).map(([regionId, ribbons]) => ({
+      region: ribbons[0]?.region ?? 'Unknown Region',
+      region_id: regionId,
+      ribbons,
+    }))
+  })
+
+  const tournamentResults = computed(() => {
+    return safe.value.tournament_results
   })
 
   return {
     badgeCases,
     ribbonCases,
+    tournamentResults,
   }
 }

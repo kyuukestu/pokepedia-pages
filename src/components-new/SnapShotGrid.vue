@@ -1,52 +1,50 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { CharacterCore, PokemonSection, AchievementSection } from '@/types/CharacterDashboard'
+import type { CharacterCore, AchievementSection } from '@/types/CharacterDashboard'
 
 const props = defineProps<{
   character: CharacterCore
-  pokemon: PokemonSection
   achievements: AchievementSection
 }>()
 
-const stats = computed(() => ({
-  activePokemon: props.pokemon.active_party.length,
-  boxPokemon: props.pokemon.box.length,
-  totalPokemon: props.pokemon.active_party.length + props.pokemon.box.length,
+const stats = computed(() => {
+  const badges = props.achievements.badges ?? []
+  const ribbons = props.achievements.ribbons ?? []
 
-  badges: props.achievements.badges.length,
-  ribbons: props.achievements.ribbons.length,
-
-  classes: props.character.classes.length,
-}))
+  return {
+    badges: badges.length,
+    ribbons: ribbons.length,
+  }
+})
 </script>
 <template>
-  <v-row class="mt-4 mb-4">
-    <v-col cols="6" md="3">
-      <v-card class="pa-3 text-center">
-        <div class="text-h6">{{ stats.activePokemon }}</div>
-        <div class="text-caption">Active Pokémon</div>
-      </v-card>
-    </v-col>
-
-    <v-col cols="6" md="3">
-      <v-card class="pa-3 text-center">
-        <div class="text-h6">{{ stats.boxPokemon }}</div>
-        <div class="text-caption">Box</div>
-      </v-card>
-    </v-col>
-
-    <v-col cols="6" md="3">
-      <v-card class="pa-3 text-center">
-        <div class="text-h6">{{ stats.badges }}</div>
-        <div class="text-caption">Badges</div>
-      </v-card>
-    </v-col>
-
-    <v-col cols="6" md="3">
-      <v-card class="pa-3 text-center">
-        <div class="text-h6">{{ stats.ribbons }}</div>
-        <div class="text-caption">Ribbons</div>
+  <v-row class="mb-6">
+    <v-col
+      v-for="(val, label) in {
+        Badges: stats.badges,
+        Ribbons: stats.ribbons,
+      }"
+      :key="label"
+      cols="6"
+      sm="3"
+    >
+      <v-card flat class="wiki-stat-node pa-4 text-center">
+        <div class="stat-value text-h4 font-weight-black text-high-emphasis mb-1">{{ val }}</div>
+        <div class="stat-label text-caption text-uppercase font-weight-bold text-medium-emphasis">
+          {{ label }}
+        </div>
       </v-card>
     </v-col>
   </v-row>
 </template>
+
+<style scoped>
+.wiki-stat-node {
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.12) !important;
+  background: rgb(var(--v-theme-surface));
+  border-radius: 8px !important;
+}
+.stat-value {
+  line-height: 1;
+}
+</style>

@@ -72,25 +72,11 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sandbox/characters/[region]/[category]/[id]/[[subpage]]': RouteRecordInfo<
-      '/sandbox/characters/[region]/[category]/[id]/[[subpage]]',
-      '/sandbox/characters/:region/:category/:id/:subpage?',
-      { region: ParamValue<true>, category: ParamValue<true>, id: ParamValue<true>, subpage?: ParamValueZeroOrOne<true> },
-      { region: ParamValue<false>, category: ParamValue<false>, id: ParamValue<false>, subpage?: ParamValueZeroOrOne<false> },
-      | never
-    >,
     '/sandbox/characters/[slug]': RouteRecordInfo<
       '/sandbox/characters/[slug]',
       '/sandbox/characters/:slug',
       { slug: ParamValue<true> },
       { slug: ParamValue<false> },
-      | never
-    >,
-    '/sandbox/characters/index-old': RouteRecordInfo<
-      '/sandbox/characters/index-old',
-      '/sandbox/characters/index-old',
-      Record<never, never>,
-      Record<never, never>,
       | never
     >,
     '/sandbox/events/': RouteRecordInfo<
@@ -624,21 +610,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/characters/[region]/[category]/[id]/[[subpage]].vue': {
-      routes:
-        | '/sandbox/characters/[region]/[category]/[id]/[[subpage]]'
-      views:
-        | never
-    }
     'src/views/sandbox/characters/[slug].vue': {
       routes:
         | '/sandbox/characters/[slug]'
-      views:
-        | never
-    }
-    'src/views/sandbox/characters/index-old.vue': {
-      routes:
-        | '/sandbox/characters/index-old'
       views:
         | never
     }

@@ -407,8 +407,7 @@ using (true);
 create table gym_badges (
   id text primary key,
   gym_id text references gyms(id) on delete cascade,
-  variant_id text references badge_variants(id),
-  name text not null,
+  name text not null
 );
 
 alter table gym_badges enable row level security;
@@ -421,7 +420,8 @@ using (true);
 create table ribbons (
   id text primary key,
   name text not null,
-  image_url text
+  image_url text,
+  region_id text references regions(id)
 );
 
 alter table ribbons enable row level security;
@@ -855,40 +855,192 @@ order by pokemon_id, start_date desc;
 
 create or replace view character_dashboard_view as
 select
-  c.*,
+    c.id,
+    c.slug,
+    
+    c.full_name,
+    coalesce(c.short_names, '[]'::jsonb) as short_names,
+    coalesce(c.nicknames, '[]'::jsonb) as nicknames,
+    
+    origin.id   as origin_region_id,
+    origin.name as origin_region_name,
+
+    current.id   as current_region_id,
+    current.name as current_region_name,
+
+    c.category,
+
+    c.age,
+    c.dob,
+    c.gender,
+    c.height,
+
+    c.summary,
+
+    c.color,
+    c.image_src,
+    c.image_type,
+    
+    c.external_sheet_url,
+    
+    (
+      select coalesce(
+        jsonb_agg(
+          jsonb_build_object(
+            'id', cc.class_id,
+            'is_primary', cc.is_primary
+          )
+        ),
+        '[]'::jsonb
+      )
+      from character_classes cc
+      where cc.character_id = c.id
+    ) as classes,
+
+    (
+      select coalesce(
+        jsonb_agg(
+          jsonb_build_object(
+            'id', ct.id,
+            'title', ct.title,
+            'is_featured', ct.is_featured,
+            'awarded_date', ct.awarded_date
+          )
+          order by ct.awarded_date desc nulls last
+        ),
+        '[]'::jsonb
+      )
+      from character_titles ct
+      where ct.character_id = c.id
+    ) as titles,
+    
+    (
+      select coalesce(
+        jsonb_agg(to_jsonb(ordered)),
+        '[]'::jsonb
+      )
+      from (
+        select p.*, cpm.slot_index
+        from character_party_members cpm
+        join character_parties cp
+          on cp.id = cpm.party_id
+        join pokemon p
+          on p.id = cpm.pokemon_id
+        where cp.character_id = c.id
+          and cp.is_default = true
+        order by cpm.slot_index
+      ) ordered
+    )
+    as pokemon_active,
+
+  ( -- This can be expanded when the UI wants to present ownership timeline; currently purely relational.
+      select coalesce(
+         jsonb_agg(to_jsonb(ordered)),
+         '[]'::jsonb
+       )
+       from (
+         select poh.*
+         from pokemon_ownership_history poh
+         where poh.character_id = c.id
+         order by poh.start_date desc
+       ) ordered
+  ) as pokemon_history, -- Join on pokemon table to grab pokemon name and species to present instead of ids
+
+  (
+    select coalesce(jsonb_agg(to_jsonb(poa)), '[]'::jsonb)
+    from pokemon_ownership_active poa
+    where poa.character_id = c.id
+  ) as pokemon_owned_current,
 
   (
     select coalesce(
-      json_agg(p ORDER BY cpm.slot_index),
-      '[]'
+      jsonb_agg(
+        jsonb_build_object(
+          'id', cb.id,
+          'character_id', cb.character_id,
+          'obtained_date', cb.obtained_date,
+  
+          'badge_id', gb.id,
+          'badge_name', gb.name,
+  
+          'gym_id', g.id,
+          'gym_name', g.name,
+  
+          'region_id', r.id,
+          'region', r.name,
+
+          'league_id', l.id,
+          'league', l.name,
+  
+          'variant_id', bv.id,
+          'variant_name', bv.name,
+          'image_url', bv.image_url,
+  
+          'issuer', jsonb_build_object(
+            'id', issuer.id,
+            'full_name', issuer.full_name
+          )
+        )
+    )  
+    , '[]'::jsonb
     )
-    from character_party_members cpm
-    join character_parties cp
-      on cp.id = cpm.party_id
-    join pokemon p
-      on p.id = cpm.pokemon_id
-    where cp.character_id = c.id
-      and cp.is_default = true
-  ) as pokemon_active,
+    from character_badges cb
+  
+    join badge_variants bv
+      on bv.id = cb.badge_variant_id
+  
+    join gym_badges gb
+      on gb.id = bv.badge_id
+  
+    join gyms g
+      on g.id = gb.gym_id
+  
+    join regions r
+      on r.id = g.region_id
 
-  (
-    select coalesce(json_agg(p), '[]')
-    from pokemon_ownership_history poh
-    join pokemon p
-      on p.id = poh.pokemon_id
-    where poh.character_id = c.id
-  ) as pokemon_history_preview,
+    join leagues l
+      on l.id = g.league_id
+  
+    left join characters issuer
+      on issuer.id = cb.awarded_by_character_id
+  
+    where cb.character_id = c.id
 
-  (
-    select coalesce(json_agg(b), '[]')
-    from character_badges b
-    where b.character_id = c.id
   ) as character_badges,
 
   (
-    select coalesce(json_agg(r), '[]')
-    from character_ribbons r
-    where r.character_id = c.id
+    select coalesce(
+        json_agg(
+        
+        json_build_object(
+          'id', cr.id,
+          'character_id', cr.character_id,
+          'obtained_date', cr.obtained_date,
+          
+          'ribbon_id', cr.ribbon_id,
+          'ribbon_name', r.name,
+
+          'region_id', r2.id,
+          'region', r2.name,
+
+          'image_url', r.image_url
+        )
+      ), '[]'::json)
+    from character_ribbons cr
+
+    join ribbons r
+      on r.id = cr.ribbon_id
+
+    join regions r2
+      on r2.id = r.region_id
+
+    where cr.character_id = c.id
   ) as character_ribbons
 
-from characters c;
+from characters c
+
+left join regions origin 
+on origin.id = c.origin_region_id
+
+left join regions current
+on current.id = c.current_region_id;

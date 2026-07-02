@@ -1,4 +1,56 @@
 export type CharacterDashboardDTO = {
+  // One-to-one with the SQL dashboard
+  id: string
+  slug: string
+
+  full_name: string
+  short_names: string[]
+  nicknames: string[]
+
+  origin_region_id: string
+  origin_region_name: string
+
+  current_region_id: string
+  current_region_name: string
+
+  category: string
+
+  age: number | null
+  dob: string | null
+  gender: string | null
+  height: string | null
+
+  summary: string | null
+
+  color: string | null
+  image_src: string | null
+  image_type: string | null
+
+  external_sheet_url: string | null
+
+  pokemon_active: PokemonDTO[]
+
+  pokemon_owned_current: PokemonHistoryDTO[]
+  pokemon_history: PokemonHistoryDTO[]
+
+  character_badges: CharacterBadgeDTO[]
+  character_ribbons: CharacterRibbonDTO[]
+
+  classes: {
+    id: string
+    is_primary: boolean
+  }[]
+
+  titles: {
+    id: string
+    title: string
+    is_featured: boolean
+    awarded_date: string | null
+  }[]
+}
+
+export type CharacterDashboard = {
+  // Modified Dashboard for display/presentation
   character: CharacterCore
   pokemon: PokemonSection
   achievements: AchievementSection
@@ -9,13 +61,33 @@ export type CharacterDashboardDTO = {
 export type CharacterCore = {
   id: string
   slug: string
+
   full_name: string
+  short_names: string[]
+  nicknames: string[]
+
+  category: string
+  age: number | null
+  dob: string | null
+  gender: string | null
+  height: string | null
+
+  summary: string | null
+
   image_src: string | null
   color: string | null
 
+  external_sheet_url: string | null
+
   region: {
-    id: string
-    name: string
+    origin: {
+      id: string
+      name: string
+    }
+    current: {
+      id: string
+      name: string
+    }
   }
 
   classes: {
@@ -23,55 +95,56 @@ export type CharacterCore = {
     is_primary: boolean
   }[]
 
-  titles: string[]
-  nicknames: string[]
+  titles: {
+    id: string
+    title: string
+    is_featured: boolean
+    awarded_date: string | null
+  }[]
 }
 
 export type PokemonSection = {
   active_party: PokemonDTO[]
-  box: PokemonDTO[]
-  history_preview: PokemonHistoryDTO[]
+  owned_current: PokemonHistoryDTO[]
+  history: PokemonHistoryDTO[]
 }
 
 export type PokemonDTO = {
   id: string
-  species_id: number
-  species_name: string
 
-  full_name?: string
-  gender?: string
-
-  shiny: boolean
   alpha: boolean
+  shiny: boolean
+
+  caught_at: string | null
+
+  full_name: string | null
+  short_names: string[]
+  nicknames: string[]
+
+  species_name: string | null
+  species_id: number | null
+
+  gender: string | null
 }
 
 export type PokemonHistoryDTO = {
+  id: string
   pokemon_id: string
+  character_id: string
   start_date: string
   end_date: string | null
 }
 
 export type AchievementSection = {
-  badges: {
-    region: string
-    gym_id: string
-    obtained: boolean
-  }[]
+  badges: CharacterBadgeDTO[]
 
-  ribbons: {
-    region: string
-    ribbon_id: string
-  }[]
+  ribbons: CharacterRibbonDTO[]
 
-  tournament_results: {
-    event_id: string
-    placement: string
-  }[]
+  tournament_results: TournamentResultDTO[]
 }
 
-export type AchievementBadgeDTO = {
+export type CharacterBadgeDTO = {
   id: string
-  character_id: string
   obtained_date: string
 
   badge_id: string
@@ -91,12 +164,26 @@ export type AchievementBadgeDTO = {
   issuer?: {
     id: string | null
     full_name: string | null
-  }
+  } | null
 }
 
-export type AchievementRibbonDTO = {
-  region: string
+export type CharacterRibbonDTO = {
+  id: string
+  character_id: string
+  obtained_date: string
+
   ribbon_id: string
+  ribbon_name: string
+
+  region: string
+  region_id: string
+
+  image_url: string | null
+}
+
+export type TournamentResultDTO = {
+  event_id: string
+  placement: string
 }
 
 export type AchievementPanelProps = {
@@ -106,12 +193,12 @@ export type AchievementPanelProps = {
 
 export type BadgeCase = {
   region: string
-  badges: AchievementBadgeDTO[]
+  badges: CharacterBadgeDTO[]
 }
 
 export type RibbonCase = {
   category?: string
-  ribbons: AchievementRibbonDTO[]
+  ribbons: CharacterRibbonDTO[]
 }
 
 export type CharacterBadge = {
