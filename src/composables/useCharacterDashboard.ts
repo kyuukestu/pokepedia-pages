@@ -1,5 +1,5 @@
-import { ref, watch } from 'vue'
-import { supabase, type Ref } from '@/lib/supabase'
+import { ref, watch, type Ref } from 'vue'
+import { supabase,  } from '@/lib/supabase'
 import type { CharacterDashboardDTO, CharacterDashboard } from '@/types/CharacterDashboard'
 
 export function useCharacterDashboard(slug: Ref<string>) {

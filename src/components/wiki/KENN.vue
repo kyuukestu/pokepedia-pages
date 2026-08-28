@@ -2,6 +2,8 @@
 import { ref, computed, onMounted, shallowRef } from 'vue'
 import { articles } from '@/data/kenn'
 import type { Article } from '@/types/kenn'
+import { AllRegions } from '@/types/region'
+
 
 interface Props {
   region?: string // e.g., 'Johto', 'Kalos'
