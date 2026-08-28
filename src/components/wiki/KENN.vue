@@ -2,6 +2,8 @@
 import { ref, computed, onMounted, shallowRef } from 'vue'
 import { articles } from '@/data/kenn'
 import type { Article } from '@/types/kenn'
+import { AllRegions } from '@/types/region'
+
 
 interface Props {
   region?: string // e.g., 'Johto', 'Kalos'
@@ -20,14 +22,17 @@ const displayNews = shallowRef<Article[]>([])
  * Shuffling here ensures the selection is "random" per page load,
  * but stays stable while the user is interacting with the page.
  */
-onMounted(() => {
-  const filtered = articles.filter((a) =>
-    region === 'Global' ? true : a.region === region.toLowerCase(),
-  )
-
-  // Fisher-Yates or simple sort shuffle
-  displayNews.value = [...filtered].sort(() => Math.random() - 0.5).slice(0, limit)
-})
+ onMounted(() => {
+   const filtered = articles.filter((article) =>
+     region === 'Global'
+       ? true
+       : article.regions.includes(region.toLowerCase() as AllRegions),
+   )
+ 
+   displayNews.value = [...filtered]
+     .sort(() => Math.random() - 0.5)
+     .slice(0, limit)
+ })
 
 /**
  * 2. Dynamic Ticker Logic
@@ -89,7 +94,7 @@ const tickerItems = computed(() => {
           :class="{ 'is-active': currentSlide === i }"
         >
           <router-link
-            :to="`/sandbox/kenn/${item.slug}`"
+            :to="`/sandbox/kenn/${item.id}`"
             class="text-decoration-none color-inherit"
             :aria-label="`Read more about ${item.title}`"
           >

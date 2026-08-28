@@ -195,9 +195,9 @@ const glowStyle = computed(() => {
                 <div class="article-title">{{ article.title }}</div>
 
                 <div class="d-flex align-center justify-space-between mt-2">
-                  <span class="article-region text-overline">{{ article.region }}</span>
+                  <span class="article-region text-overline">{{ article.regions }}</span>
                   <v-btn
-                    :to="`/sandbox/kenn/${article.slug}`"
+                    :to="`/sandbox/kenn/${article.id}`"
                     variant="text"
                     density="compact"
                     class="read-link px-0"

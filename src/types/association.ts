@@ -1,8 +1,8 @@
-import { Region } from '@/types/region'
+import { AllRegions } from '@/types/region'
 
 export interface RibbonRecord {
   ribbonId: string
   dateObtained?: string
 }
 
-export type RibbonCollection = Partial<Record<Region, RibbonRecord[]>>
+export type RibbonCollection = Partial<Record<AllRegions, RibbonRecord[]>>

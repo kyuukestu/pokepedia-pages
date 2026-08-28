@@ -1,26 +1,31 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { AllRegions } from '@/types/region'
 
-// Define a generic interface for items that have a region property
-interface ItemWithRegion {
-  region: string
+interface ItemWithRegions {
+  regions: AllRegions[]
 }
 
 const props = defineProps<{
-  modelValue: string | null
-  items: ItemWithRegion[]
+  modelValue: AllRegions | null
+  items: ItemWithRegions[]
   label?: string
 }>()
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits<{
+  'update:modelValue': [value: AllRegions | null]
+}>()
 
-// Extract unique regions from the provided items
-const regions = computed(() => [...new Set(props.items.map((i) => i.region.toUpperCase()))].sort())
+const regions = computed<AllRegions[]>(() => {
+  return [...new Set(props.items.flatMap((item) => item.regions))]
+    .sort()
+})
 
-// Computed for v-model binding
 const internalValue = computed({
   get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val),
+  set: (value: AllRegions | null) => {
+    emit('update:modelValue', value)
+  },
 })
 </script>
 

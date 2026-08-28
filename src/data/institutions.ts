@@ -28,7 +28,6 @@ export const institutionData: Institution[] = [
       fee: 0,
       benefits: ['Academy Uniform', 'Tera Orb Certification'],
     },
-    slug: 'johto-academy',
     mapConfig: johtoAcademyMap,
     customMapPath: '/johto-academy-map.png',
   },

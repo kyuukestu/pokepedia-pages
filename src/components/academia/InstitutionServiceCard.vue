@@ -93,7 +93,7 @@ defineProps<{
         variant="flat"
         size="large"
         class="rounded-lg font-weight-black"
-        :to="`/sandbox/academia/${institution.slug}`"
+        :to="`/sandbox/academia/${institution.id}`"
       >
         VIEW FACILITY DETAILS
         <v-icon end>mdi-arrow-right</v-icon>

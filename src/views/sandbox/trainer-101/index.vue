@@ -5,7 +5,7 @@ import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
 import RuleList from '@/components/wiki/RuleList.vue'
 
-// Section 4d: FeatureGrid items
+// FeatureGrid items
 const leagueServices: FeatureItem[] = [
   { title: 'PokéMart', icon: 'mdi-store', description: 'Purchase items, gear, and Pokéballs.' },
   {
@@ -82,7 +82,7 @@ const permits: FeatureItem[] = [
   },
 ]
 
-// Section 4e: RuleList items
+// RuleList items
 const carryExceptions = [
   {
     icon: 'mdi-baby-face-outline',
@@ -110,44 +110,56 @@ const carryExceptions = [
       pattern="dots"
     >
       <template #chips>
-        <div class="mt-4 d-flex justify-center flex-wrap gap-2">
-          <v-chip color="blue-darken-2" variant="outlined" size="small">League Services</v-chip>
-          <v-chip color="blue-darken-2" variant="flat" size="small">Trainer IDs</v-chip>
-          <v-chip variant="tonal" size="small">New Player Guide</v-chip>
+        <div class="mt-4 d-flex justify-center flex-wrap ga-2">
+          <v-chip color="blue-darken-2" variant="outlined" size="small" class="font-mono text-caption">
+            League Services
+          </v-chip>
+          <v-chip color="blue-darken-2" variant="flat" size="small" class="font-mono text-caption">
+            Trainer IDs
+          </v-chip>
+          <v-chip variant="tonal" size="small" class="font-mono text-caption">
+            New Player Guide
+          </v-chip>
         </div>
       </template>
     </WikiHero>
 
-    <v-container max-width="1200">
+    <v-container max-width="1200" class="py-10">
+      <!-- Section 1: Trainer Registry -->
       <WikiCard title="The Trainer Registry" icon="mdi-account-check" color="blue">
-        <p class="text-body-1 lh-lg mb-6">
+        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
           A Pokémon Trainer is anyone who catches, trains, or cares for Pokémon. From the age of
           ten, individuals are eligible to apply for official recognition. Registration grants
           access to a global network of League services:
         </p>
 
-        <FeatureGrid :items="leagueServices" :cols="3" />
+        <FeatureGrid :items="leagueServices" :cols="3" default-color="blue" />
       </WikiCard>
 
-      <WikiCard title="Identification Systems" icon="mdi-card-bulleted-settings" color="blue">
-        <p class="text-body-1 lh-lg mb-6">
+      <!-- Section 2: Identification Systems -->
+      <WikiCard title="Identification Systems" icon="mdi-card-bulleted-settings" color="blue" class="mt-10">
+        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
           Depending on your region and career path, you may carry different forms of identification.
-          These digital and physical assets track your progress, badges, and records:
+          These digital and physical assets track your progress, badges, and official records:
         </p>
 
-        <FeatureGrid :items="idTypes" :cols="4" />
+        <FeatureGrid :items="idTypes" :cols="4" default-color="blue" />
       </WikiCard>
 
-      <WikiCard title="The Carry Limit" icon="mdi-briefcase-check" color="blue">
-        <p class="text-body-1 lh-lg mb-4">
+      <!-- Section 3: The Carry Limit -->
+      <WikiCard title="The Carry Limit" icon="mdi-briefcase-check" color="blue" class="mt-10">
+        <p class="text-body-1 lh-relaxed mb-4 text-high-emphasis">
           To ensure the welfare of the Pokémon and the safety of the public, the League mandates a
-          standard carry limit of <strong>six Pokémon</strong>. Any additional Pokémon are
+          standard carry limit of <strong class="text-blue-darken-2">six Pokémon</strong>. Any additional Pokémon are
           automatically transferred to the Trainer's designated PC storage system.
         </p>
 
-        <p class="text-body-1 lh-lg mb-4">The following exceptions apply:</p>
+        <div class="text-overline text-medium-emphasis mb-3 d-flex align-center ga-2 font-mono">
+          <v-icon size="14" color="blue-darken-2">mdi-shield-alert-outline</v-icon>
+          Authorized Exceptions
+        </div>
 
-        <RuleList :rules="carryExceptions" class="mb-4" />
+        <RuleList :rules="carryExceptions" class="mb-6" />
 
         <WikiCallout label="Venue Rules" icon="mdi-information-outline" color="blue">
           While exceptions exist for personal travel, official tournaments and public facilities
@@ -155,8 +167,9 @@ const carryExceptions = [
         </WikiCallout>
       </WikiCard>
 
-      <WikiCard title="Travel Permits" icon="mdi-map-check" color="blue">
-        <p class="text-body-1 lh-lg mb-6">
+      <!-- Section 4: Travel Permits -->
+      <WikiCard title="Travel Permits" icon="mdi-map-check" color="blue" class="mt-10">
+        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
           Certain regions require specialized permits to navigate hazardous or protected
           environments. These are usually earned by completing regional trials or attaining specific
           milestones.
@@ -165,18 +178,18 @@ const carryExceptions = [
         <div class="d-flex justify-center my-8">
           <v-btn
             prepend-icon="mdi-license"
-            color="blue-darken-4"
-            variant="elevated"
+            color="blue-darken-2"
+            variant="flat"
             size="large"
             to="/sandbox/trainer-101/permits"
-            rounded="lg"
-            elevation="4"
+            class="font-mono font-weight-bold"
+            elevation="2"
           >
-            Transit Permits
+            Transit Permits Hub
           </v-btn>
         </div>
 
-        <FeatureGrid :items="permits" :cols="3" />
+        <FeatureGrid :items="permits" :cols="3" default-color="blue" />
 
         <WikiCallout label="Mechanics Note" icon="mdi-cog-outline" color="blue" class="mt-6">
           Permits are primarily used for flavor and narrative progression. They are not strictly
@@ -188,7 +201,11 @@ const carryExceptions = [
 </template>
 
 <style scoped>
-.lh-lg {
-  line-height: 1.8;
+.font-mono {
+  font-family: 'JetBrains Mono', monospace, sans-serif;
+}
+
+.lh-relaxed {
+  line-height: 1.75;
 }
 </style>

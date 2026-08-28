@@ -1,0 +1,1228 @@
+{
+  "version": "2.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "currentViewName": null,
+  "defaultView": {
+    "detailLevel": "All",
+    "tablePositions": [
+      {
+        "name": "characters",
+        "schemaName": "public",
+        "x": 306.42333984375,
+        "y": 12
+      },
+      {
+        "name": "regions",
+        "schemaName": "public",
+        "x": 12,
+        "y": 702
+      },
+      {
+        "name": "character_organization_roles",
+        "schemaName": "public",
+        "x": 12,
+        "y": 848
+      },
+      {
+        "name": "organizations",
+        "schemaName": "public",
+        "x": 12,
+        "y": 1186
+      },
+      {
+        "name": "pokemon",
+        "schemaName": "public",
+        "x": 12,
+        "y": 1816
+      },
+      {
+        "name": "pokemon_ownership_history",
+        "schemaName": "public",
+        "x": 12,
+        "y": 2542
+      },
+      {
+        "name": "pokemon_builds",
+        "schemaName": "public",
+        "x": 12,
+        "y": 2784
+      },
+      {
+        "name": "pokemon_build_moves",
+        "schemaName": "public",
+        "x": 12,
+        "y": 3058
+      },
+      {
+        "name": "ranking_systems",
+        "schemaName": "public",
+        "x": 582.74462890625,
+        "y": 3268
+      },
+      {
+        "name": "ranking_tiers",
+        "schemaName": "public",
+        "x": 911.70947265625,
+        "y": 3268
+      },
+      {
+        "name": "character_rankings",
+        "schemaName": "public",
+        "x": 12,
+        "y": 3446
+      },
+      {
+        "name": "gyms",
+        "schemaName": "public",
+        "x": 286.8701171875,
+        "y": 3574
+      },
+      {
+        "name": "gym_badges",
+        "schemaName": "public",
+        "x": 582.74462890625,
+        "y": 3414
+      },
+      {
+        "name": "badge_variants",
+        "schemaName": "public",
+        "x": 911.70947265625,
+        "y": 3478
+      },
+      {
+        "name": "badge_variant_issuers",
+        "schemaName": "public",
+        "x": 12,
+        "y": 3656
+      },
+      {
+        "name": "gym_leaders",
+        "schemaName": "public",
+        "x": 286.8701171875,
+        "y": 3816
+      },
+      {
+        "name": "character_badges",
+        "schemaName": "public",
+        "x": 582.74462890625,
+        "y": 3624
+      },
+      {
+        "name": "gym_pokemon_species",
+        "schemaName": "public",
+        "x": 911.70947265625,
+        "y": 3688
+      },
+      {
+        "name": "gym_challenges",
+        "schemaName": "public",
+        "x": 12,
+        "y": 3898
+      },
+      {
+        "name": "leagues",
+        "schemaName": "public",
+        "x": 286.8701171875,
+        "y": 4090
+      },
+      {
+        "name": "gym_staff",
+        "schemaName": "public",
+        "x": 582.74462890625,
+        "y": 3866
+      },
+      {
+        "name": "event_definitions",
+        "schemaName": "public",
+        "x": 12,
+        "y": 4300
+      },
+      {
+        "name": "event_instances",
+        "schemaName": "public",
+        "x": 271.05810546875,
+        "y": 4300
+      },
+      {
+        "name": "event_participants",
+        "schemaName": "public",
+        "x": 560.0009765625,
+        "y": 4300
+      },
+      {
+        "name": "event_brackets",
+        "schemaName": "public",
+        "x": 821.20458984375,
+        "y": 4300
+      },
+      {
+        "name": "bracket_participants",
+        "schemaName": "public",
+        "x": 12,
+        "y": 4574
+      },
+      {
+        "name": "event_rewards",
+        "schemaName": "public",
+        "x": 271.05810546875,
+        "y": 4638
+      },
+      {
+        "name": "trainer_classes",
+        "schemaName": "public",
+        "x": 313.0947265625,
+        "y": 12
+      },
+      {
+        "name": "character_classes",
+        "schemaName": "public",
+        "x": 1427.28125,
+        "y": 12
+      },
+      {
+        "name": "character_titles",
+        "schemaName": "public",
+        "x": 1427.28125,
+        "y": 187
+      },
+      {
+        "name": "organization_maps",
+        "schemaName": "public",
+        "x": 12,
+        "y": 12
+      },
+      {
+        "name": "org_roles",
+        "schemaName": "public",
+        "x": 36.70904649944063,
+        "y": 373.819284003153
+      },
+      {
+        "name": "league_dependencies",
+        "schemaName": "public",
+        "x": 1427.28125,
+        "y": 1616
+      },
+      {
+        "name": "kenn_articles",
+        "schemaName": "public",
+        "x": 1427.28125,
+        "y": 2190
+      },
+      {
+        "name": "kenn_article_hashtags",
+        "schemaName": "public",
+        "x": 2024.3134765625,
+        "y": 2261
+      },
+      {
+        "name": "kenn_report_subtypes",
+        "schemaName": "public",
+        "x": 2024.3134765625,
+        "y": 2403
+      },
+      {
+        "name": "kenn_article_links",
+        "schemaName": "public",
+        "x": 2024.3134765625,
+        "y": 2545
+      },
+      {
+        "name": "plots",
+        "schemaName": "public",
+        "x": 313.0947265625,
+        "y": 932
+      },
+      {
+        "name": "plot_characters",
+        "schemaName": "public",
+        "x": 1427.28125,
+        "y": 2620
+      },
+      {
+        "name": "plot_relations",
+        "schemaName": "public",
+        "x": 825.88037109375,
+        "y": 1916
+      },
+      {
+        "name": "users",
+        "schemaName": "public",
+        "x": 313.0947265625,
+        "y": 1266
+      },
+      {
+        "name": "user_characters",
+        "schemaName": "public",
+        "x": 1427.28125,
+        "y": 2826
+      }
+    ],
+    "tableGroupCollapseStates": [],
+    "stickyNoteLayouts": [],
+    "referencePaths": [
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "character_affiliations",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "region_id"
+        ],
+        "firstTableName": "characters",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "regions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "origin_region_id"
+        ],
+        "firstTableName": "characters",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "regions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "character_organization_roles",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "associated_region_id"
+        ],
+        "firstTableName": "characters",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "regions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "organization_id"
+        ],
+        "firstTableName": "character_organization_roles",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "organizations",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "region_id"
+        ],
+        "firstTableName": "organizations",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "regions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "role_id"
+        ],
+        "firstTableName": "character_organization_roles",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "roles",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "rank_id"
+        ],
+        "firstTableName": "character_organization_roles",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "organization_ranks",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "current_owner_id"
+        ],
+        "firstTableName": "pokemon",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "pokemon_id"
+        ],
+        "firstTableName": "pokemon_ownership_history",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "pokemon",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "pokemon_ownership_history",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "organization_id"
+        ],
+        "firstTableName": "organization_ranks",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "organizations",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "pokemon_id"
+        ],
+        "firstTableName": "pokemon_builds",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "pokemon",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "build_id"
+        ],
+        "firstTableName": "pokemon_build_moves",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "pokemon_builds",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "character_league_positions",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "league_position_id"
+        ],
+        "firstTableName": "character_league_positions",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "league_positions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "league_id"
+        ],
+        "firstTableName": "character_league_positions",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "organizations",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "ranking_system_id"
+        ],
+        "firstTableName": "ranking_tiers",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "ranking_systems",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "character_rankings",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "ranking_tier_id"
+        ],
+        "firstTableName": "character_rankings",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "ranking_tiers",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "region_id"
+        ],
+        "firstTableName": "gyms",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "regions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "league_id"
+        ],
+        "firstTableName": "gyms",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "leagues",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "gym_id"
+        ],
+        "firstTableName": "gym_badges",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "gyms",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "badge_id"
+        ],
+        "firstTableName": "badge_variants",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "gym_badges",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "badge_variant_id"
+        ],
+        "firstTableName": "badge_variant_issuers",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "badge_variants",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "badge_variant_issuers",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "gym_id"
+        ],
+        "firstTableName": "gym_leaders",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "gyms",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "gym_leaders",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "character_badges",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "badge_variant_id"
+        ],
+        "firstTableName": "character_badges",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "badge_variants",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "awarded_by_character_id"
+        ],
+        "firstTableName": "character_badges",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "gym_id"
+        ],
+        "firstTableName": "gym_pokemon_species",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "gyms",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "gym_id"
+        ],
+        "firstTableName": "gym_challenges",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "gyms",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "region_id"
+        ],
+        "firstTableName": "leagues",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "regions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "gym_id"
+        ],
+        "firstTableName": "gym_staff",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "gyms",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "gym_staff",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "league_id"
+        ],
+        "firstTableName": "character_league_positions",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "leagues",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "region_id"
+        ],
+        "firstTableName": "event_definitions",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "regions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "event_definition_id"
+        ],
+        "firstTableName": "event_instances",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "event_definitions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "event_instance_id"
+        ],
+        "firstTableName": "event_participants",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "event_instances",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "event_participants",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "event_instance_id"
+        ],
+        "firstTableName": "event_brackets",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "event_instances",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "bracket_id"
+        ],
+        "firstTableName": "bracket_participants",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "event_brackets",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "bracket_participants",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "event_instance_id"
+        ],
+        "firstTableName": "event_rewards",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "event_instances",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "character_classes",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "class_id"
+        ],
+        "firstTableName": "character_classes",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "trainer_classes",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "character_titles",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "role_id"
+        ],
+        "firstTableName": "character_organization_roles",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "org_roles",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "organization_id"
+        ],
+        "firstTableName": "ranking_systems",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "organizations",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "parent_league_id"
+        ],
+        "firstTableName": "league_dependencies",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "leagues",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "child_league_id"
+        ],
+        "firstTableName": "league_dependencies",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "leagues",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "region_id"
+        ],
+        "firstTableName": "kenn_articles",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "regions",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "author_id"
+        ],
+        "firstTableName": "kenn_articles",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "article_id"
+        ],
+        "firstTableName": "kenn_article_hashtags",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "kenn_articles",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "article_id"
+        ],
+        "firstTableName": "kenn_report_subtypes",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "kenn_articles",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "article_id"
+        ],
+        "firstTableName": "kenn_article_links",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "kenn_articles",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "plot_id"
+        ],
+        "firstTableName": "plot_characters",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "plots",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "plot_characters",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "source_plot_id"
+        ],
+        "firstTableName": "plot_relations",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "plots",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "target_plot_id"
+        ],
+        "firstTableName": "plot_relations",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "plots",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "user_id"
+        ],
+        "firstTableName": "user_characters",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "users",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      },
+      {
+        "firstFieldNames": [
+          "character_id"
+        ],
+        "firstTableName": "user_characters",
+        "firstSchemaName": "public",
+        "firstRelation": "*",
+        "secondFieldNames": [
+          "id"
+        ],
+        "secondTableName": "characters",
+        "secondSchemaName": "public",
+        "secondRelation": "1",
+        "checkPoints": []
+      }
+    ]
+  },
+  "views": {}
+}

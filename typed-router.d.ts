@@ -58,11 +58,11 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sandbox/academia/[slug]': RouteRecordInfo<
-      '/sandbox/academia/[slug]',
-      '/sandbox/academia/:slug',
-      { slug: ParamValue<true> },
-      { slug: ParamValue<false> },
+    '/sandbox/academia/[institutionId]': RouteRecordInfo<
+      '/sandbox/academia/[institutionId]',
+      '/sandbox/academia/:institutionId',
+      { institutionId: ParamValue<true> },
+      { institutionId: ParamValue<false> },
       | never
     >,
     '/sandbox/characters/': RouteRecordInfo<
@@ -72,18 +72,11 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sandbox/characters/[redirectCat]': RouteRecordInfo<
-      '/sandbox/characters/[redirectCat]',
-      '/sandbox/characters/:redirectCat',
-      { redirectCat: ParamValue<true> },
-      { redirectCat: ParamValue<false> },
-      | never
-    >,
-    '/sandbox/characters/[region]/[category]/[id]/[[subpage]]': RouteRecordInfo<
-      '/sandbox/characters/[region]/[category]/[id]/[[subpage]]',
-      '/sandbox/characters/:region/:category/:id/:subpage?',
-      { region: ParamValue<true>, category: ParamValue<true>, id: ParamValue<true>, subpage?: ParamValueZeroOrOne<true> },
-      { region: ParamValue<false>, category: ParamValue<false>, id: ParamValue<false>, subpage?: ParamValueZeroOrOne<false> },
+    '/sandbox/characters/[characterId]': RouteRecordInfo<
+      '/sandbox/characters/[characterId]',
+      '/sandbox/characters/:characterId',
+      { characterId: ParamValue<true> },
+      { characterId: ParamValue<false> },
       | never
     >,
     '/sandbox/events/': RouteRecordInfo<
@@ -93,18 +86,18 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sandbox/events/[slug]/': RouteRecordInfo<
-      '/sandbox/events/[slug]/',
-      '/sandbox/events/:slug',
-      { slug: ParamValue<true> },
-      { slug: ParamValue<false> },
+    '/sandbox/events/[definitionId]/': RouteRecordInfo<
+      '/sandbox/events/[definitionId]/',
+      '/sandbox/events/:definitionId',
+      { definitionId: ParamValue<true> },
+      { definitionId: ParamValue<false> },
       | never
     >,
-    '/sandbox/events/[slug]/[instanceId]': RouteRecordInfo<
-      '/sandbox/events/[slug]/[instanceId]',
-      '/sandbox/events/:slug/:instanceId',
-      { slug: ParamValue<true>, instanceId: ParamValue<true> },
-      { slug: ParamValue<false>, instanceId: ParamValue<false> },
+    '/sandbox/events/[definitionId]/[instanceId]': RouteRecordInfo<
+      '/sandbox/events/[definitionId]/[instanceId]',
+      '/sandbox/events/:definitionId/:instanceId',
+      { definitionId: ParamValue<true>, instanceId: ParamValue<true> },
+      { definitionId: ParamValue<false>, instanceId: ParamValue<false> },
       | never
     >,
     '/sandbox/events/calendar/': RouteRecordInfo<
@@ -121,18 +114,11 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sandbox/kenn/[slug]': RouteRecordInfo<
-      '/sandbox/kenn/[slug]',
-      '/sandbox/kenn/:slug',
-      { slug: ParamValue<true> },
-      { slug: ParamValue<false> },
-      | never
-    >,
-    '/sandbox/lore/': RouteRecordInfo<
-      '/sandbox/lore/',
-      '/sandbox/lore',
-      Record<never, never>,
-      Record<never, never>,
+    '/sandbox/kenn/[articleId]': RouteRecordInfo<
+      '/sandbox/kenn/[articleId]',
+      '/sandbox/kenn/:articleId',
+      { articleId: ParamValue<true> },
+      { articleId: ParamValue<false> },
       | never
     >,
     '/sandbox/orgs/': RouteRecordInfo<
@@ -345,6 +331,20 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/sandbox/pokemon/[id]': RouteRecordInfo<
+      '/sandbox/pokemon/[id]',
+      '/sandbox/pokemon/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
+      | never
+    >,
+    '/sandbox/quest-board/': RouteRecordInfo<
+      '/sandbox/quest-board/',
+      '/sandbox/quest-board',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/sandbox/regions/': RouteRecordInfo<
       '/sandbox/regions/',
       '/sandbox/regions',
@@ -411,13 +411,6 @@ declare module 'vue-router/auto-routes' {
     '/sandbox/tech/': RouteRecordInfo<
       '/sandbox/tech/',
       '/sandbox/tech',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/todo/': RouteRecordInfo<
-      '/sandbox/todo/',
-      '/sandbox/todo',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -598,9 +591,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/academia/[slug].vue': {
+    'src/views/sandbox/academia/[institutionId].vue': {
       routes:
-        | '/sandbox/academia/[slug]'
+        | '/sandbox/academia/[institutionId]'
       views:
         | never
     }
@@ -610,15 +603,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/characters/[redirectCat].vue': {
+    'src/views/sandbox/characters/[characterId].vue': {
       routes:
-        | '/sandbox/characters/[redirectCat]'
-      views:
-        | never
-    }
-    'src/views/sandbox/characters/[region]/[category]/[id]/[[subpage]].vue': {
-      routes:
-        | '/sandbox/characters/[region]/[category]/[id]/[[subpage]]'
+        | '/sandbox/characters/[characterId]'
       views:
         | never
     }
@@ -628,15 +615,15 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/events/[slug]/index.vue': {
+    'src/views/sandbox/events/[definitionId]/index.vue': {
       routes:
-        | '/sandbox/events/[slug]/'
+        | '/sandbox/events/[definitionId]/'
       views:
         | never
     }
-    'src/views/sandbox/events/[slug]/[instanceId].vue': {
+    'src/views/sandbox/events/[definitionId]/[instanceId].vue': {
       routes:
-        | '/sandbox/events/[slug]/[instanceId]'
+        | '/sandbox/events/[definitionId]/[instanceId]'
       views:
         | never
     }
@@ -652,15 +639,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/kenn/[slug].vue': {
+    'src/views/sandbox/kenn/[articleId].vue': {
       routes:
-        | '/sandbox/kenn/[slug]'
-      views:
-        | never
-    }
-    'src/views/sandbox/lore/index.vue': {
-      routes:
-        | '/sandbox/lore/'
+        | '/sandbox/kenn/[articleId]'
       views:
         | never
     }
@@ -844,6 +825,18 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/views/sandbox/pokemon/[id].vue': {
+      routes:
+        | '/sandbox/pokemon/[id]'
+      views:
+        | never
+    }
+    'src/views/sandbox/quest-board/index.vue': {
+      routes:
+        | '/sandbox/quest-board/'
+      views:
+        | never
+    }
     'src/views/sandbox/regions/index.vue': {
       routes:
         | '/sandbox/regions/'
@@ -901,12 +894,6 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/tech/index.vue': {
       routes:
         | '/sandbox/tech/'
-      views:
-        | never
-    }
-    'src/views/sandbox/todo/index.vue': {
-      routes:
-        | '/sandbox/todo/'
       views:
         | never
     }

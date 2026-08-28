@@ -1,5 +1,5 @@
 import type { RegistryEntry } from '@/types/character'
-import type { Region } from '@/types/region'
+import type { AllRegions } from '@/types/region'
 
 export type TypeSpecialty =
   | 'flying'
@@ -76,4 +76,4 @@ export interface BadgeRecord {
   dateObtained?: string
 }
 
-export type BadgeCollection = Partial<Record<Region, BadgeRecord[]>>
+export type BadgeCollection = Partial<Record<AllRegions, BadgeRecord[]>>

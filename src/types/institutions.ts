@@ -25,7 +25,7 @@ export interface AcademyMapConfig {
 }
 
 export interface Institution {
-  id: string // e.g., 'cinnabar-lab'
+  id: string // e.g., 'cinnabar-lab' &  URL path: /academia/institutions/cinnabar-lab
   name: string
   category: InstitutionCategory
   image: string // Main banner/campus photo
@@ -50,7 +50,6 @@ export interface Institution {
   }
 
   // The "Main Page" content
-  slug: string // URL path: /academia/institutions/cinnabar-lab
   mapConfig?: AcademyMapConfig
   customMapPath?: string
 }
