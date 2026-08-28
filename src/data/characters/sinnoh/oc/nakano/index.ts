@@ -22,9 +22,8 @@ const meta: CharacterMeta = {
       {
         category: 'FIELD REPORT',
         date: '2022-06-09',
-        id: 'ART-2022-GAL-FR-001',
-        region: 'galar',
-        slug: 'motostoke-field-survey-warning',
+        id: 'FR-001',
+        regions: ['galar'],
         title: 'Attention: Field Survey of Motostoke and Surrounding Areas',
       },
     ],

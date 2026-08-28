@@ -10,7 +10,7 @@ import PokemonPanel from '@/components-new/PokemonPanel.vue'
 import AchievementPanel from '@/components-new/AchievementPanel.vue'
 
 const route = useRoute()
-const slug = computed(() => route.params.slug as string)
+const slug = computed(() => route.params as string) // Some params goes here
 
 const { data, loading, error } = useCharacterDashboard(slug)
 

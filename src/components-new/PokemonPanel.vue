@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import type { PokemonDTO, PokemonHistoryDTO } from '@/types/CharacterDashboard'
+import type { PokemonDTO, PokemonHistoryDTO } from '@/types/PokemonDashboard'
 
 defineProps<{
   activeParty: PokemonDTO[]

@@ -8,7 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { useEventStore } from '@/stores/eventStore'
 import { eventDefinitions } from '@/data/events/definitions'
-import { type EventDefinition, type EventInstance, type EventStatus } from '@/types/events'
+import { type EventDefinition, type EventStatus } from '@/types/events'
 import { getImageUrl } from '@/utils/path-resolvers'
 
 const eventStore = useEventStore()

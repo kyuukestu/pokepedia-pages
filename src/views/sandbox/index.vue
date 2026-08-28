@@ -31,7 +31,7 @@ const openGroups = ref([...travelGroups])
 // ─────────────────────────────────────────────
 const ongoingEvents = computed(() => {
   if (!rawEventInstances || !Array.isArray(rawEventInstances)) return []
-  return rawEventInstances.filter((e) => e.status?.trim().toLowerCase() === 'ongoing')
+  return rawEventInstances.filter((e) => e.statusOverride?.trim().toLowerCase() !== 'postponed')
 })
 
 const selectedPlot = ref<OverarchingPlot | null>(allPlots.value[0] || null)
@@ -64,7 +64,7 @@ const getCharacterLink = (characterId: string) => {
 }
 
 const navigateToEventInstance = (event: EventInstance) => {
-  router.push(`/sandbox/events/${event.eventSlug}/${event.instanceId}`)
+  router.push(`/sandbox/events/${event.eventId}/${event.id}`)
 }
 
 const isExternalLink = (url?: string) => {
@@ -319,18 +319,18 @@ const formatGroupDate = (dateVal?: string | Date): string => {
               <div class="sidebar-section-heading">Ongoing Events</div>
               <button
                 v-for="event in ongoingEvents"
-                :key="event.instanceId"
+                :key="event.id"
                 class="sidebar-row-item"
                 :class="{
-                  'sidebar-row-item--active': selectedEvent?.instanceId === event.instanceId,
+                  'sidebar-row-item--active': selectedEvent?.id === event.id,
                 }"
                 @click="selectedEvent = event"
               >
                 <div class="row-item-title">
                   {{
-                    event.customDescription
-                      ? event.customDescription.split(':')[0]
-                      : event.eventSlug
+                    event.description
+                      ? event.description.split(':')[0]
+                      : event.eventId
                   }}
                 </div>
                 <div class="row-item-meta">
@@ -348,7 +348,7 @@ const formatGroupDate = (dateVal?: string | Date): string => {
                     >Active Event Instance</span
                   >
                   <h3 class="text-h5 font-weight-black mt-1">
-                    {{ selectedEvent.customDescription }}
+                    {{ selectedEvent.description }}
                   </h3>
                 </div>
                 <v-chip color="success" variant="flat" label class="font-weight-bold">
@@ -367,7 +367,7 @@ const formatGroupDate = (dateVal?: string | Date): string => {
                 <div class="content-data-section">
                   <h4 class="data-label">Timestamp</h4>
                   <div class="data-text-prominent text-primary">
-                    {{ formatEventDate(selectedEvent.start) }}
+                    {{ formatEventDate(selectedEvent.calendar.start) }}
                   </div>
                 </div>
               </div>
@@ -378,15 +378,12 @@ const formatGroupDate = (dateVal?: string | Date): string => {
                   <v-icon size="18" color="amber-darken-4" class="mr-1"
                     >mdi-weather-partly-cloudy</v-icon
                   >
-                  {{ selectedEvent.weatherCondition || 'Standard Clear' }}
                 </div>
               </div>
 
               <div class="content-data-section">
                 <h4 class="data-label">Status Details</h4>
-                <p class="data-text-body text-capitalize">
-                  {{ selectedEvent.status }}
-                </p>
+                
               </div>
 
               <v-btn

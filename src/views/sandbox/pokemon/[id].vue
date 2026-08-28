@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { usePokemonDashboard } from '@/composables/usePokemonDashboard'
 
 const route = useRoute()
-const id = computed(() => route.params.id as string)
+const id = computed(() => route.params as string) // Some param goes here
 
 const { pokemon, loading, error } = usePokemonDashboard(id)
 

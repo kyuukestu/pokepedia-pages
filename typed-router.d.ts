@@ -72,11 +72,11 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sandbox/characters/[slug]': RouteRecordInfo<
-      '/sandbox/characters/[slug]',
-      '/sandbox/characters/:slug',
-      { slug: ParamValue<true> },
-      { slug: ParamValue<false> },
+    '/sandbox/characters/[characterId]': RouteRecordInfo<
+      '/sandbox/characters/[characterId]',
+      '/sandbox/characters/:characterId',
+      { characterId: ParamValue<true> },
+      { characterId: ParamValue<false> },
       | never
     >,
     '/sandbox/events/': RouteRecordInfo<
@@ -603,9 +603,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/sandbox/characters/[slug].vue': {
+    'src/views/sandbox/characters/[characterId].vue': {
       routes:
-        | '/sandbox/characters/[slug]'
+        | '/sandbox/characters/[characterId]'
       views:
         | never
     }

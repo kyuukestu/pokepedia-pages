@@ -5,6 +5,7 @@ import WikiHero from '@/components/sections/WikiHero.vue'
 import { eventInstances  } from '@/data/events/instances'
 import { eventDefinitions } from '@/data/events/definitions'
 import { useEventStore } from '@/stores/eventStore'
+import { AllRegions } from '@/types/region'
 
 const route = useRoute()
 const eventStore = useEventStore()
@@ -23,24 +24,33 @@ const displayName = computed(() => {
 
 // 2. Create Lookup Map for Definition data
 const definitionMap = computed(() => {
-  return Object.fromEntries(eventDefinitions.map((d) => [d.slug, d]))
+  return Object.fromEntries(eventDefinitions.map((d) => [d.id, d]))
 })
 
 // 3. Hydrate and Filter
 const filteredEvents = computed(() => {
-  const searchSlug = regionId.value.toLowerCase().replace(/-/g, ' ')
+  const searchRegion = regionId.value.toLowerCase().replace(/-/g, ' ') as AllRegions
 
   return eventInstances
     .map((instance) => ({
       ...instance,
-      // Merge definition data into the object for the template
-      meta: definitionMap.value[instance.eventSlug],
+      meta: definitionMap.value[instance.eventId],
     }))
     .filter((item) => {
       if (!item.meta) return false
-      return item.meta.region.toLowerCase().includes(searchSlug)
+      return item.meta.regions.includes(searchRegion)
     })
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+    .sort((a, b) => {
+      const startA = a.calendar.start
+        ? new Date(a.calendar.start).getTime()
+        : Infinity
+
+      const startB = b.calendar.start
+        ? new Date(b.calendar.start).getTime()
+        : Infinity
+
+      return startA - startB
+    })
 })
 
 const checkActiveStatus = (event: any) => {
@@ -66,7 +76,7 @@ const checkActiveStatus = (event: any) => {
               variant="outlined"
               class="event-item-card rounded-0 overflow-hidden mb-2"
               :class="{ 'active-border': checkActiveStatus(event) }"
-              :to="`/sandbox/events/${event.eventSlug}/${event.instanceId}`"
+              :to="`/sandbox/events/${event.eventId}/${event.id}`"
             >
               <div class="d-flex flex-column flex-sm-row">
                 <!-- Date Block: Technical Aesthetic -->
@@ -75,10 +85,10 @@ const checkActiveStatus = (event: any) => {
                   style="min-width: 120px"
                 >
                   <div class="text-overline font-weight-black line-height-1 mb-1 text-grey">
-                    {{ new Date(event.start).toLocaleString('default', { month: 'short' }) }}
+                    {{ new Date(event.calendar.start).toLocaleString('default', { month: 'short' }) }}
                   </div>
                   <div class="text-h4 font-weight-black line-height-1">
-                    {{ new Date(event.start).getDate() }}
+                    {{ new Date(event.calendar.start).getDate() }}
                   </div>
                   <v-chip
                     v-if="checkActiveStatus(event)"
@@ -106,7 +116,7 @@ const checkActiveStatus = (event: any) => {
                         {{ event.meta?.category }}
                       </span>
                       <span class="text-grey-lighten-1">•</span>
-                      <span class="text-caption mono-font text-grey">{{ event.instanceId }}</span>
+                      <span class="text-caption mono-font text-grey">{{ event.id }}</span>
                     </div>
 
                     <h3
