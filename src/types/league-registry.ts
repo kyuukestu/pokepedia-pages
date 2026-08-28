@@ -1,12 +1,12 @@
 // types/league-registry.ts
 
-import { Region } from '@/types/region'
+import { AllRegions } from '@/types/region'
 import { TypeSpecialty } from '@/types/league' // Your existing TypeSpecialty union
 
 export interface GymLeaderRegistry {
   id: string // Unique ID: 'kanto-brock'
   name: string
-  region: Region
+  region: AllRegions
   specialty: TypeSpecialty
   image: string // Path to the leader art
   isOc: boolean
@@ -18,7 +18,7 @@ export interface GymLeaderRegistry {
 
 export interface GymRegistry {
   id: string // Unique ID: 'pewter-gym'
-  region: Region
+  region: AllRegions
   city: string
   badgeName: string
   badgeImg: string // The official high-res badge image

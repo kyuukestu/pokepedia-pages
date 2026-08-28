@@ -1,15 +1,45 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { eventDefinitions, eventInstances } from '@/data/event-list'
+import { computed } from 'vue'
+import { eventInstances } from '@/data/events/instances'
+import { eventDefinitions } from '@/data/events/definitions'
+
 
 const route = useRoute()
-const params = route.params as { slug: string }
-const slug = params.slug
+const params = route.params as { definitionId: string }
+const slug = params.definitionId
 
-const definition = eventDefinitions.find((d) => d.slug === slug)
-const instances = eventInstances
-  .filter((i) => i.eventSlug === slug)
-  .sort((a, b) => b.start.localeCompare(a.start))
+const definition = eventDefinitions.find((d) => d.id === slug)
+
+const instances = computed(() => {
+  const now = new Date()
+
+  return eventInstances
+    .filter((i) => i.eventId === slug)
+    .map((instance) => {
+      const start = new Date(instance.calendar.start)
+      const end = instance.calendar.end
+        ? new Date(instance.calendar.end)
+        : null
+
+      let status: 'upcoming' | 'ongoing' | 'past'
+
+      if (now < start) {
+        status = 'upcoming'
+      } else if (end && now < end) {
+        status = 'ongoing'
+      } else {
+        status = 'past'
+      }
+
+      return {
+        ...instance,
+        status,
+      }
+    })
+    .sort((a, b) => b.calendar.start.localeCompare(a.calendar.start))
+})
+
 </script>
 <template>
   <v-container v-if="definition" max-width="1400" class="py-12 px-6">
@@ -36,14 +66,14 @@ const instances = eventInstances
               {{ definition.category }}
             </v-chip>
             <v-chip variant="outlined" rounded="lg" prepend-icon="mdi-map-marker-outline">
-              {{ definition.region }}
+              {{ definition.regions }}
             </v-chip>
           </div>
         </header>
 
         <article class="lore-content">
           <p class="text-body-1 text-high-emphasis">
-            {{ definition.generalDescription }}
+            {{ definition.description }}
           </p>
 
           <v-divider class="my-10" />
@@ -77,15 +107,15 @@ const instances = eventInstances
           </div>
 
           <div v-if="instances.length > 0" class="sleek-timeline">
-            <div v-for="inst in instances" :key="inst.instanceId" class="timeline-entry">
+            <div v-for="inst in instances" :key="inst.id" class="timeline-entry">
               <div class="rail">
                 <div :class="['dot', inst.status]"></div>
                 <div class="line"></div>
               </div>
 
-              <RouterLink :to="`/sandbox/events/${slug}/${inst.instanceId}`" class="entry-content">
+              <RouterLink :to="`/sandbox/events/${slug}/${inst.id}`" class="entry-content">
                 <div class="d-flex flex-column">
-                  <span class="entry-date">{{ inst.start.split('T')[0] }}</span>
+                  <span class="entry-date">{{ inst.calendar.start.split('T')[0] }}</span>
                   <span class="entry-title">{{ inst.location }}</span>
                 </div>
 

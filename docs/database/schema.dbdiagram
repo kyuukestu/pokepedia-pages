@@ -324,7 +324,7 @@
       },
       {
         "firstFieldNames": [
-          "current_region_id"
+          "associated_region_id"
         ],
         "firstTableName": "characters",
         "firstSchemaName": "public",

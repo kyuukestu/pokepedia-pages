@@ -12,15 +12,13 @@ interface RegionItem extends FeatureItem {
 }
 
 // ── Region data ──────────────────────────────────────────────────────────────
-// Updated "to" paths to match the /regions/[regionId] dynamic pattern
 const allRegions: RegionItem[] = [
-  
   {
     title: 'Kanto',
     description:
       'The industrial starting point. Known for rural charm and major urban hubs like Saffron City.',
     icon: 'mdi-map-marker-radius',
-    to: '/sandbox/regions/kanto', // Dynamic route
+    to: '/sandbox/regions/kanto',
     indigoMember: true,
   },
   {
@@ -28,7 +26,7 @@ const allRegions: RegionItem[] = [
     description:
       'A land of tradition and ancient architecture, physically connected via the Mt. Silver range.',
     icon: 'mdi-temple-buddhist',
-    to: '/sandbox/regions/johto', // Dynamic route
+    to: '/sandbox/regions/johto',
     indigoMember: true,
   },
   {
@@ -184,18 +182,24 @@ const travelMethods = [
       pattern="pokeball"
     >
       <template #chips>
-        <div class="mt-4 d-flex justify-center flex-wrap gap-2">
-          <v-chip color="green-darken-2" variant="flat" size="small">Core Regions</v-chip>
-          <v-chip color="green-darken-2" variant="tonal" size="small">Secondary Regions</v-chip>
-          <v-chip variant="outlined" size="small">Global Sandbox</v-chip>
+        <div class="mt-4 d-flex justify-center flex-wrap ga-2">
+          <v-chip color="green-darken-2" variant="flat" size="small" class="font-mono text-caption">
+            Core Regions
+          </v-chip>
+          <v-chip color="green-darken-2" variant="tonal" size="small" class="font-mono text-caption">
+            Secondary Regions
+          </v-chip>
+          <v-chip variant="outlined" size="small" class="font-mono text-caption">
+            Global Sandbox
+          </v-chip>
         </div>
       </template>
     </WikiHero>
 
-    <v-container max-width="1200">
+    <v-container max-width="1200" class="py-10">
       <WikiCard title="The Major Leagues" icon="mdi-map-check" color="green">
         <div class="mb-8">
-          <div class="text-overline text-medium-emphasis mb-3 d-flex align-center gap-2">
+          <div class="text-overline text-medium-emphasis mb-3 d-flex align-center ga-2 font-mono">
             <v-icon size="14" color="green-darken-2">mdi-link-variant</v-icon>
             Shared League Jurisdiction
           </div>
@@ -203,33 +207,45 @@ const travelMethods = [
           <v-card
             variant="flat"
             rounded="lg"
-            class="indigo-card overflow-hidden"
+            class="indigo-card overflow-hidden position-relative"
             :class="theme.current.value.dark ? 'indigo-card--dark' : 'indigo-card--light'"
           >
-            <div class="indigo-header pa-5">
-              <div class="d-flex align-center gap-3 mb-2">
-                <v-icon size="28" color="white">mdi-shield-crown</v-icon>
-                <h3 class="text-h5 font-weight-bold text-white">Indigo Federation</h3>
-                <v-chip color="white" variant="tonal" size="x-small" class="ml-auto"
-                  >Dual-Region Zone</v-chip
+            <v-icon class="indigo-watermark" size="240">mdi-shield-crown-outline</v-icon>
+
+            <div class="indigo-header pa-6 position-relative">
+              <div class="d-flex align-center ga-3 mb-2 flex-wrap">
+                <v-icon size="32" color="white">mdi-shield-crown</v-icon>
+                <div>
+                  <h3 class="text-h5 font-weight-black text-white text-uppercase tracking-tight">
+                    Indigo Federation
+                  </h3>
+                </div>
+                <v-chip
+                  color="white"
+                  variant="outlined"
+                  size="x-small"
+                  class="ml-auto font-mono text-caption font-weight-bold"
                 >
+                  Dual-Region Zone
+                </v-chip>
               </div>
-              <p class="text-body-2 indigo-header__desc mb-3">
+              <p class="text-body-2 indigo-header__desc mb-4 max-w-2xl">
                 Kanto and Johto share the <strong>Indigo Plateau League</strong> authority — forming
                 a single administrative zone unique in the Pokémon world.
               </p>
               <v-btn
                 to="/sandbox/regions/indigo"
                 variant="outlined"
-                size="x-small"
+                size="small"
                 color="white"
                 prepend-icon="mdi-map-outline"
+                class="font-mono font-weight-bold"
               >
                 Indigo Region Details
               </v-btn>
             </div>
 
-            <div class="indigo-members">
+            <div class="indigo-members position-relative">
               <v-row no-gutters>
                 <v-col
                   v-for="(region, i) in indigoMembers"
@@ -241,19 +257,21 @@ const travelMethods = [
                 >
                   <RouterLink :to="region.to!" class="indigo-member__link">
                     <div class="indigo-member__inner pa-5">
-                      <div class="d-flex align-center gap-2 mb-2">
+                      <div class="d-flex align-center ga-2 mb-2">
                         <v-icon
-                          size="20"
+                          size="22"
                           :color="theme.current.value.dark ? 'green-accent-2' : 'green-darken-2'"
                         >
                           {{ region.icon }}
                         </v-icon>
-                        <span class="text-subtitle-2 font-weight-bold">{{ region.title }}</span>
-                        <v-icon size="14" class="ml-auto text-medium-emphasis indigo-member__arrow"
-                          >mdi-arrow-right</v-icon
-                        >
+                        <span class="text-subtitle-1 font-weight-black text-uppercase">
+                          {{ region.title }}
+                        </span>
+                        <v-icon size="16" class="ml-auto text-medium-emphasis indigo-member__arrow">
+                          mdi-arrow-right
+                        </v-icon>
                       </div>
-                      <p class="text-caption text-medium-emphasis mb-0">
+                      <p class="text-caption text-medium-emphasis mb-0 leading-relaxed">
                         {{ region.description }}
                       </p>
                     </div>
@@ -267,7 +285,7 @@ const travelMethods = [
         <FeatureGrid :items="mainLeagueGrid" :cols="3" default-color="green" />
       </WikiCard>
 
-      <WikiCard title="External Territories" icon="mdi-map-marker-plus" color="green" class="mt-8">
+      <WikiCard title="External Territories" icon="mdi-map-marker-plus" color="green" class="mt-10">
         <FeatureGrid :items="secondaryRegions" :cols="4" default-color="green" />
       </WikiCard>
 
@@ -275,18 +293,18 @@ const travelMethods = [
         title="Inter-Regional Travel"
         icon="mdi-airplane-takeoff"
         color="green"
-        class="mt-8"
+        class="mt-10"
       >
         <FeatureGrid :items="travelMethods" :cols="3" default-color="green" compact class="mb-6" />
         <WikiCallout label="Permit Requirements" icon="mdi-credit-card-fast-outline" color="green">
-          Flying and ground mount travel requires a valid permit.
-          <div class="mt-3">
+          Flying and ground mount travel requires a valid permit issued by regional transit authorities.
+          <div class="mt-4">
             <v-btn
               to="/trainer-101/permits"
               color="green-darken-2"
-              variant="tonal"
+              variant="flat"
               size="small"
-              rounded="lg"
+              class="font-mono font-weight-bold"
             >
               View Permit Requirements
             </v-btn>
@@ -298,48 +316,88 @@ const travelMethods = [
 </template>
 
 <style scoped>
-/* Keeping your existing Indigo Card styles */
+.font-mono {
+  font-family: 'JetBrains Mono', monospace, sans-serif;
+}
+
+.tracking-tight {
+  letter-spacing: -0.5px;
+}
+
+.leading-relaxed {
+  line-height: 1.5;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+/* Indigo Card Styling */
 .indigo-card {
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.1);
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.12) !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
+
 .indigo-card--light {
-  background: #f8faf8;
+  background: #f4f7f4;
 }
+
 .indigo-card--dark {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
 }
+
+.indigo-watermark {
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  opacity: 0.05;
+  pointer-events: none;
+  transform: rotate(12deg);
+}
+
 .indigo-header {
-  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .indigo-header__desc {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.88);
 }
+
 .indigo-members {
   border-top: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
+
 .indigo-member {
-  transition: background 0.15s ease;
+  transition: background-color 0.2s ease;
 }
+
 .indigo-member--bordered {
   border-right: 1px solid rgba(var(--v-theme-on-surface), 0.08);
 }
+
 .indigo-member:hover {
-  background: rgba(var(--v-theme-success), 0.06);
+  background: rgba(var(--v-theme-success), 0.05);
 }
+
 .indigo-member__link {
   text-decoration: none;
   color: inherit;
   display: block;
 }
+
 .indigo-member__arrow {
-  opacity: 0;
+  opacity: 0.3;
   transform: translateX(-4px);
-  transition: all 0.15s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
+
 .indigo-member:hover .indigo-member__arrow {
   opacity: 1;
   transform: translateX(0);
+  color: rgb(var(--v-theme-primary)) !important;
 }
+
 @media (max-width: 600px) {
   .indigo-member--bordered {
     border-right: none;

@@ -486,7 +486,7 @@ with inserted_character as (
     full_name,
     slug,
     origin_region_id,
-    current_region_id,
+    associated_region_id,
     category,
     age,
     gender,

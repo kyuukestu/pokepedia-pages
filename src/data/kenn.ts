@@ -2,10 +2,9 @@ import { Article } from '@/types/kenn.ts'
 
 export const articles: Article[] = [
   {
-    id: 'ken-01', // Assigned based on "Issue #01"
-    slug: 'sanguine-swarms-johto',
+    id: 'KENN-001', // Assigned based on "Issue #01"
     date: 'AUGUST 01, XX22',
-    region: 'johto',
+    regions: ['johto'],
     category: 'FIELD REPORT', // Classified as Field Report based on the advisory content
     title: 'Sanguine Swarms!',
     author: 'DJ Mary',
@@ -57,10 +56,9 @@ export const articles: Article[] = [
     ],
   },
   {
-    id: 'ken-02',
-    slug: 'monkey-madness-ecruteak',
+    id: 'KENN-002',
     date: 'AUGUST 02, XX22',
-    region: 'johto',
+    regions: ['johto'],
     category: 'FIELD REPORT',
     title: 'Monkey Madness!',
     author: 'DJ Mary',
@@ -124,12 +122,11 @@ export const articles: Article[] = [
     ],
   },
   {
-    id: 'ken-03',
-    slug: 'kalos-medieval-festival-promo',
+    id: 'KENN-003',
     date: 'AUGUST 04, XX22',
-    region: 'kalos',
+    regions: ['kalos'],
     category: 'FIELD REPORT', // Could also be 'EDITORIAL' or 'PROMO' depending on your news types
-    title: 'Kalos Medieval Festival: Promo',
+    title: 'River\'s Crown Medieval Festival: Promo',
     author: 'DJ Mary',
     summary:
       "The renaissance returns to Loire de Fleuve Isle! Experience a 10-day spectacular of knight's duels, jousting, and a Tag-Team Pokémon Tournament at Cyllage City's biggest event.",
@@ -184,7 +181,7 @@ export const articles: Article[] = [
     id: 'ART-2022-GAL-FR-001',
     slug: 'motostoke-field-survey-warning',
     date: '2022-06-09',
-    region: 'galar',
+    regions: 'galar',
     category: 'FIELD REPORT',
     title: 'Attention: Field Survey of Motostoke and Surrounding Areas',
     author: 'Nakano Saito',

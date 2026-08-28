@@ -7,7 +7,7 @@ export async function getCharacter(slug: string) {
       `
       *,
       origin_region:regions!origin_region_id(*),
-      current_region:regions!current_region_id(*),
+      associated_region:regions!associated_region_id(*),
 
       character_classes(
         is_primary,
@@ -35,7 +35,7 @@ export async function getCharacters(query: CharacterQuery = {}) {
     image_src,
     color,
     category,
-    current_region:regions!current_region_id (
+    associated_region:regions!associated_region_id (
       id,
       name
     )`)
@@ -51,7 +51,7 @@ export async function getCharacters(query: CharacterQuery = {}) {
   }
 
   if (query.regionId) {
-    q = q.eq('current_region_id', query.regionId)
+    q = q.eq('associated_region_id', query.regionId)
   }
 
   const { data, error } = await q
@@ -76,7 +76,7 @@ export async function getCharacterBySlug(slug: string) {
       category,
 
       origin_region:regions!origin_region_id(id, name),
-      current_region:regions!current_region_id(id, name),
+      associated_region:regions!associated_region_id(id, name),
 
       pokemon:pokemon_ownership_active(
       pokemon_id,

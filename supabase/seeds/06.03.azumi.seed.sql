@@ -4,7 +4,7 @@ with inserted_character as (
     id,
     full_name,
     origin_region_id,
-    current_region_id,
+    associated_region_id,
     category,
     age,
     gender,

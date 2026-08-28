@@ -1,3 +1,5 @@
+import type { PokemonDTO, PokemonHistoryDTO } from '@/types/PokemonDashboard'
+
 export type CharacterDashboardDTO = {
   // One-to-one with the SQL dashboard
   id: string
@@ -10,8 +12,8 @@ export type CharacterDashboardDTO = {
   origin_region_id: string
   origin_region_name: string
 
-  current_region_id: string
-  current_region_name: string
+  associated_region_id: string
+  associated_region_name: string
 
   category: string
 
@@ -107,32 +109,6 @@ export type PokemonSection = {
   active_party: PokemonDTO[]
   owned_current: PokemonHistoryDTO[]
   history: PokemonHistoryDTO[]
-}
-
-export type PokemonDTO = {
-  id: string
-
-  alpha: boolean
-  shiny: boolean
-
-  caught_at: string | null
-
-  full_name: string | null
-  short_names: string[]
-  nicknames: string[]
-
-  species_name: string | null
-  species_id: number | null
-
-  gender: string | null
-}
-
-export type PokemonHistoryDTO = {
-  id: string
-  pokemon_id: string
-  character_id: string
-  start_date: string
-  end_date: string | null
 }
 
 export type AchievementSection = {

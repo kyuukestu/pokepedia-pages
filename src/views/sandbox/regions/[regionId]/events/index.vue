@@ -2,7 +2,8 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import WikiHero from '@/components/sections/WikiHero.vue'
-import { eventInstances, eventDefinitions } from '@/data/event-list'
+import { eventInstances  } from '@/data/events/instances'
+import { eventDefinitions } from '@/data/events/definitions'
 import { useEventStore } from '@/stores/eventStore'
 
 const route = useRoute()

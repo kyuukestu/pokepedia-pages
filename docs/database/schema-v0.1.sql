@@ -28,7 +28,7 @@ create table characters (
   slug text unique,
 
   origin_region_id text references regions(id),
-  current_region_id text references regions(id),
+  associated_region_id text references regions(id),
 
   category text not null,
 
@@ -58,7 +58,7 @@ for select
 using (true);
 
 create index idx_characters_origin_region on characters(origin_region_id);
-create index idx_characters_current_region on characters(current_region_id);
+create index idx_characters_current_region on characters(associated_region_id);
 
 -- =========================================
 -- TRAINER CLASSES
@@ -865,8 +865,8 @@ select
     origin.id   as origin_region_id,
     origin.name as origin_region_name,
 
-    current.id   as current_region_id,
-    current.name as current_region_name,
+    current.id   as associated_region_id,
+    current.name as associated_region_name,
 
     c.category,
 
@@ -939,9 +939,26 @@ select
          '[]'::jsonb
        )
        from (
-         select poh.*
+         select poh.id,
+             poh.pokemon_id,
+             p.full_name as pokemon_name,
+
+             poh.character_id,
+             ch.full_name as character_name
+
+             poh.start_date,
+             poh.end_date
+         
          from pokemon_ownership_history poh
-         where poh.character_id = c.id
+         
+         join pokemon p
+         on p.id = poh.pokemon_id
+         
+         join characters ch
+         on ch.id = poh.character_id
+
+         where poh.character_id = ch.id
+        
          order by poh.start_date desc
        ) ordered
   ) as pokemon_history, -- Join on pokemon table to grab pokemon name and species to present instead of ids
@@ -1043,4 +1060,4 @@ left join regions origin
 on origin.id = c.origin_region_id
 
 left join regions current
-on current.id = c.current_region_id;
+on current.id = c.associated_region_id;

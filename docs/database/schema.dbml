@@ -5,7 +5,7 @@ Table characters {
   slug varchar
 
   origin_region_id varchar
-  current_region_id varchar
+  associated_region_id varchar
   category varchar
 
   age int
@@ -27,7 +27,7 @@ Table characters {
 }
 
 Ref: characters.origin_region_id > regions.id
-Ref: characters.current_region_id > regions.id
+Ref: characters.associated_region_id > regions.id
 
 Table trainer_classes {
   id varchar [pk]

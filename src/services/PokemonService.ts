@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase'
 
-export async function getPokemonbyId(id: string) {
+export async function getPokemonById(id: string) {
   const { data, error } = await supabase
     .from('pokemon')
     .select(
@@ -45,5 +45,16 @@ export async function getPokemonbyId(id: string) {
 
   if (error) throw error
 
+  return data
+}
+
+export async function getPokemonDashboardById(id: string) {
+  const { data, error } = await supabase
+    .from('pokemon_dashboard_view')
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  if (error) throw error
   return data
 }

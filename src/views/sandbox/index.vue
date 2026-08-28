@@ -6,7 +6,7 @@ import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiAlert from '@/components/wiki/WikiAlert.vue'
 
 import { EventInstance } from '@/types/events'
-import { eventInstances as rawEventInstances } from '@/data/event-list'
+import { eventInstances as rawEventInstances } from '@/data/events/instances.ts'
 import { TravelGroup } from '@/types/travel-group'
 import { OverarchingPlot } from '@/types/plots'
 import plots from '@/data/plots'

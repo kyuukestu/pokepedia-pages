@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import type { PokemonDTO, PokemonHistoryDTO } from '@/types/CharacterDashboard'
 
-const props = defineProps<{
+defineProps<{
   activeParty: PokemonDTO[]
   box: PokemonHistoryDTO[]
   history: PokemonHistoryDTO[]
@@ -87,7 +87,7 @@ function openPokemon(id: string) {
             class="pokemon-member-card pa-2 text-center text-truncate text-body-2 font-weight-medium"
             @click="openPokemon(p.id)"
           >
-            {{ p.full_name || p.species_name }}
+            {{ p.pokemon_name }}
             <!-- TODO // expand join to pull in name and species of pokemon <-->
           </v-card>
         </v-col>
@@ -118,7 +118,7 @@ function openPokemon(id: string) {
           @click="openPokemon(h.pokemon_id)"
         >
           <div>
-            <span class="text-caption font-weight-bold text-mono">ID: {{ h.pokemon_id }}</span>
+            <span class="text-caption font-weight-bold text-mono"> {{ h.pokemon_name }}</span>
             <div class="text-caption text-medium-emphasis">Ownership Status</div>
           </div>
           <div class="text-right">

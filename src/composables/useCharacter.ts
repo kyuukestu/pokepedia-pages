@@ -18,7 +18,7 @@ export function useCharacter(slug: string) {
       character.value = {
         ...data,
         image: characterImageResolver(data.image_src),
-        currentRegion: data.current_region.name ?? 'Unknown',
+        associatedRegion: data.associated_region.name ?? 'Unknown',
         originRegion: data.origin_region.name ?? 'Unknown',
         pokemon: (data.pokemon ?? []).map((p: any) => ({
           id: p.id,

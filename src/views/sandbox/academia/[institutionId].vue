@@ -7,12 +7,12 @@ import { getCharImageUrl } from '@/utils/path-resolvers'
 
 const overlay = ref(false)
 // Default to 'art' if it exists, otherwise 'interactive'
-const route = useRoute('/sandbox/academia/[slug]') // Typed route if using unplugin
+const route = useRoute('/sandbox/academia/[institutionId]') // Typed route if using unplugin
 const institutionStore = useInstitutionStore()
 
 // Find the institution that matches the URL slug
 const institution = computed(() =>
-  institutionStore.allInstitutions.find((inst) => inst.slug === route.params.slug),
+  institutionStore.allInstitutions.find((inst) => inst.id === route.params.institutionId),
 )
 
 const mapMode = ref(institution.value?.customMapPath ? 'art' : 'interactive')

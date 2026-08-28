@@ -80,8 +80,8 @@ export function useCharacters() {
         image: characterImageResolver(c.image_src),
         color: c.color,
         category: c.category,
-        regionId: c.current_region?.id ?? 'global',
-        regionName: c.current_region?.name ?? 'Global',
+        regionId: c.associated_region?.id ?? 'global',
+        regionName: c.associated_region?.name ?? 'Global',
         path: `/sandbox/characters/${c.slug}`,
       }))
       .sort((a, b) =>

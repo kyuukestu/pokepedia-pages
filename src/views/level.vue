@@ -143,9 +143,7 @@ const activeCategory = computed(() => {
             class="border-structural"
           >
             <div class="text-body-2 text-high-emphasis lh-base font-weight-medium">
-              In this RP we use levels as a representation of raw power. By checking metrics across
-              structural tiers like Champions, Gym Leaders, and various trainer classes, we build an
-              objective, mathematical path for character growth.
+              We use levels as a loose representation of raw power. Here are the levels for the Pokemon some notable NPCs and some estimated levels for OCs all categorized into tiers.
             </div>
           </WikiCard>
         </v-col>
@@ -256,7 +254,7 @@ const activeCategory = computed(() => {
                       <div
                         class="text-overline font-weight-black text-disabled tracking-widest lh-none"
                       >
-                        Ace
+                        HIGHEST
                       </div>
                     </div>
 
@@ -280,7 +278,7 @@ const activeCategory = computed(() => {
                       <div
                         class="text-overline font-weight-black text-disabled tracking-widest lh-none"
                       >
-                        Other
+                        Lowest
                       </div>
                     </div>
                   </div>

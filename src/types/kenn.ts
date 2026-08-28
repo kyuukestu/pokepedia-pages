@@ -1,40 +1,87 @@
 // @/data/news-articles.ts
-import { Region } from './region'
+import { AllRegions } from './region'
 
-export interface Article {
-  id: string
-  slug: string
-  date: string
-  region: Region
-  category: 'BREAKING' | 'FIELD REPORT' | 'EDITORIAL' | 'INTEL'
-  title: string
-  author: string
-  summary: string
-  content?: ContentBlock[] // Full text for the detail page
-  image?: string
-  tags?: string[]
-  links?: { label: string; link: string }[]
+export type LoreCategoryId = 'REGION' | 'HISTORY' | 'MECHANIC' | 'FACTION'
+
+export interface LoreCategory {
+  id: LoreCategoryId
+  label: string
+  icon: string
 }
 
-export interface ArticleReference {
-  id: string
-  slug: string
-  title: string
-  date: string
-  category: 'BREAKING' | 'FIELD REPORT' | 'EDITORIAL' | 'INTEL'
-  region: Region
-  color?: string // Allows the preview card to match the article's theme
-  summary?: string // Optional: for a "brief" text preview
+export interface PokemonExample {
+  name: string
+  sprite: string
+  level: string
 }
-// The individual types of blocks available
+
+export interface ExampleTrainer {
+  name: string
+  sourceGame?: string
+  highest?: PokemonExample
+  lowest?: PokemonExample
+  isCustomCharacter?: boolean
+  characterId?: string
+  characterType?: 'oc' | 'npc'
+}
+
+export interface TrainerTier {
+  id: string
+  name: string
+  levelRange: string
+  minLevel: number
+  maxLevel: number
+  icon: string
+  color: string
+  description: string
+  isElite: boolean
+  examples: string[] | ExampleTrainer[]
+}
+
+// Unified Article Categories
+export type ArticleCategory = 'NEWS' | 'FIELD REPORT' | 'OPINION' | 'LORE'
+
 export type BlockType = 'paragraph' | 'subheading' | 'list' | 'quote' | 'image' | 'label'
 
 export interface ContentBlock {
   type: BlockType
-  text?: string // Used for paragraphs, subheadings, quotes
-  items?: string[] // Used specifically for lists
-  author?: string // Optional for quotes
-  src?: string // Optional for in-body images
-  caption?: string // Optional for in-body images
+  text?: string
+  items?: string[]
+  author?: string
+  src?: string
+  caption?: string
   color?: string
+}
+
+export interface Article {
+  id: string
+  date: string
+  regions: AllRegions[]
+  category: ArticleCategory
+  title: string
+  author: string
+  summary: string
+  content?: ContentBlock[]
+  image?: string
+  tags?: string[]
+  toOverride?: string;
+  links?: { label: string; link: string }[]
+  
+  // ── Lore Specific Extensions (Optional) ──────────────────────────────────
+  loreCategory?: LoreCategoryId
+  icon?: string           // Custom icon override (e.g. MDI icon name)
+  color?: string          // Custom accent color string
+  lastUpdated?: string    // Lore specific timestamp tracking
+  trainerTiers?: TrainerTier[] // Structured trainer mechanics / roster data
+}
+
+export interface ArticleReference {
+  id: string
+  title: string
+  date: string
+  category: ArticleCategory
+  regions: AllRegions[]
+  color?: string
+  summary?: string
+  loreCategory?: LoreCategoryId
 }

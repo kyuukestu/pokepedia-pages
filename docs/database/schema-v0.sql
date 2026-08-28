@@ -20,7 +20,7 @@ CREATE TABLE characters (
     full_name TEXT NOT NULL,
     
     origin_region_id TEXT NOT NULL REFERENCES regions(id),
-    current_region_id TEXT REFERENCES regions(id),
+    associated_region_id TEXT REFERENCES regions(id),
     
     category character_category NOT NULL,
     

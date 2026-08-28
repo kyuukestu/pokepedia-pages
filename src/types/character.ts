@@ -1,5 +1,5 @@
 // src/types/character.ts
-import type { Region } from '@/types/region'
+import type { AllRegions } from '@/types/region'
 import {
   CoordinatorRank,
   WCSRank,
@@ -61,7 +61,7 @@ export interface RegistryEntry {
   id: string // folder name (e.g., 'falkner')
   category: CharacterType
   name: NameVariants
-  region: Region
+  region: AllRegions
   image?: ImageDetails
   trainerClass: { primary: TrainerClass; other?: TrainerClass[] }
 }

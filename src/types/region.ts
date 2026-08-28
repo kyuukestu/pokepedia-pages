@@ -1,16 +1,19 @@
 import type { NavItem, RPNews } from './wiki'
 
-export type MainRegions =
-  | 'indigo'
-  | 'kanto'
-  | 'johto'
-  | 'hoenn'
-  | 'sinnoh'
-  | 'unova'
-  | 'kalos'
-  | 'alola'
-  | 'galar'
-  | 'paldea'
+export const MAIN_REGIONS = [
+  'indigo',
+  'kanto',
+  'johto',
+  'hoenn',
+  'sinnoh',
+  'unova',
+  'kalos',
+  'alola',
+  'galar',
+  'paldea',
+] as const
+
+export type MainRegions = (typeof MAIN_REGIONS)[number]
 
 export const MainRegionLabels: Record<MainRegions, string> = {
   indigo: 'Indigo',
@@ -25,14 +28,17 @@ export const MainRegionLabels: Record<MainRegions, string> = {
   paldea: 'Paldea',
 }
 
-export type SideRegions =
-  | 'fiore'
-  | 'almia'
-  | 'oblivia'
-  | 'ferrum'
-  | 'orre'
-  | 'orangeIslands'
-  | 'decoloreIslands'
+export const SIDE_REGIONS = [
+  'fiore',
+  'almia',
+  'oblivia',
+  'ferrum',
+  'orre',
+  'orangeIslands',
+  'decoloreIslands',
+] as const
+
+export type SideRegions = (typeof SIDE_REGIONS)[number]
 
 export const SideRegionLabels: Record<SideRegions, string> = {
   fiore: 'Fiore',
@@ -44,19 +50,26 @@ export const SideRegionLabels: Record<SideRegions, string> = {
   decoloreIslands: 'Decolore Islands',
 }
 
-export type CustomRegions = 'metztli'
+export const CUSTOM_REGIONS = ['metztli'] as const
+
+export type CustomRegions = (typeof CUSTOM_REGIONS)[number]
 
 export const CustomRegionLabels: Record<CustomRegions, string> = {
   metztli: 'Metztli',
 }
 
-export type Region = MainRegions | SideRegions | CustomRegions | 'unknown'
+export const ALL_CANON_REGIONS = [...MAIN_REGIONS, ...SIDE_REGIONS] as const
 
-export const RegionLabels: Record<Region, string> = {
+export type CanonRegions = MainRegions | SideRegions
+
+export const ALL_REGIONS = [...ALL_CANON_REGIONS, ...CUSTOM_REGIONS] as const
+
+export type AllRegions = (typeof ALL_REGIONS)[number]
+
+export const RegionLabels: Record<AllRegions, string> = {
   ...MainRegionLabels,
   ...SideRegionLabels,
   ...CustomRegionLabels,
-  unknown: 'Unknown',
 }
 
 export interface RegionTag {

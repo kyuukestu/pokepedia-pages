@@ -6,85 +6,85 @@ import WikiCallout from '@/components/wiki/WikiCallout.vue'
 // 1. Active Roleplay Sandbox Timeline Array (Custom Engineered Baseline)
 const sandboxTimeline = [
   {
-    era: 'Hisuian Era (Legends: Arceus)',
+    era: 'Hisui (Legends: Arceus)',
     marker: '~1868',
-    gapText: 'Chronological Zero Frame',
+    gapText: 'Earliest Game',
     icon: 'mdi-history',
     color: 'teal-darken-2',
     description:
-      "The foundational era of modern human-Pokémon relationships. Set in Sinnoh's distant past during the cultural shift corresponding to the Early Meiji period.",
+      "",
   },
   {
-    era: 'The Kanto & Hoenn Epoch (FRLG / ORAS)',
+    era: 'FRLG / ORAS',
     marker: '2005',
-    gapText: '137-Year Shift From PLA',
+    gapText: '137-Years From PLA',
     icon: 'mdi-clock-check-outline',
     color: 'green-darken-1',
     description:
-      'Simultaneous structural launch points. Contemporary Pokémon League operational grids kick off across the Kanto and Hoenn regions.',
+      '',
   },
   {
-    era: 'The Sinnoh & Johto Epoch (HGSS / Platinum)',
+    era: 'HGSS / Platinum',
     marker: '2008',
     gapText: '3 Years From Gen 1/3',
     icon: 'mdi-clock-plus-outline',
     color: 'green-darken-3',
     description:
-      'Parallel regional updates. Events unfold exactly three years following the original Kanto journey, anchored by synchronized Johto/Sinnoh developments.',
+      '',
   },
   {
-    era: 'Unova Crisis Phase I (Black & White)',
+    era: 'Black & White',
     marker: '2010',
     gapText: '2 Years From Gen 2/4',
     icon: 'mdi-shield-outline',
     color: 'light-blue-darken-2',
     description:
-      'Unova regional progression tracking. Caitlin shows visible signs of aging since her assignment as a Sinnoh Battle Frontier Brain.',
+      '',
   },
   {
-    era: 'Unova Phase II & Kalos Core (B2W2 / XY)',
+    era: 'B2W2 / XY',
     marker: '2012',
     gapText: '2 Years From BW',
     icon: 'mdi-shield-star-outline',
     color: 'indigo-darken-2',
     description:
-      'Simultaneous global timelines. Events occur exactly two years post-Black/White, tracking the regional stabilization of both Unova and Kalos.',
+      '',
   },
   {
-    era: 'Alola & Galar Horizon (USUM / SwSh)',
+    era: 'USUM / SwSh',
     marker: '2014',
     gapText: '2 Years From BW2/XY',
     icon: 'mdi-sword',
     color: 'purple-darken-2',
     description:
-      'Macro-anomaly threshold. Type: Null research files are compromised, leading to synthetic replication pipelines throughout Galar.',
+      '',
   },
   {
-    era: 'The Paldea Expedition (Scarlet & Violet)',
+    era: 'Scarlet & Violet',
     marker: '2016',
     gapText: '2 Years From SwSh',
     icon: 'mdi-crowd',
     color: 'deep-orange-darken-2',
     description:
-      'Paldean records. Occurs prior to the publication of the definitive "Galar: A History" manuscript found in the academy library.',
+      '',
   },
   {
-    era: 'Lumiose Redevelopment (Legends: Z-A)',
+    era: 'Legends: Z-A',
     marker: '2017',
     gapText: '1 Year From SV',
     icon: 'mdi-hexagon-multiple-outline',
     color: 'cyan-darken-3',
     description:
-      'Urban transformation protocols. Features direct structural links to former Galar champion data registers and Battle Tower logs.',
+      '',
   },
   {
-    era: 'Present Day (Active Sandbox Axis)',
+    era: 'Present Day',
     marker: '2022',
     gapText: '5 Years From Z-A',
     icon: 'mdi-calendar-star',
     color: 'amber-darken-4',
     description:
-      'The absolute sandbox narrative anchor point. All current roleplay threads, character positions, and plots automatically sync here.',
+      '',
   },
 ]
 
@@ -94,19 +94,19 @@ const officialLoreData = [
     era: 'Legends: Arceus',
     anchors: 'Sinnoh Past (~1868 Baseline)',
     deductions:
-      'Spiritomb bound 500 years ago (DP/BDSP). Vessa states it was bound "hundreds of years ago" (implying ≥200y). Establishes PLA at most 300 years prior to Gen 4.',
+      'Being established as taking place in Sinnoh\'s distant past (which culturally corresponds to the Early Meiji period that began in 1868 in the real world)',
   },
   {
     era: 'Gen 1 & Gen 3 Parallel',
     anchors: 'RGBY / FRLG == RSE / ORAS',
     deductions:
-      'Explicitly contemporaneous. The narrative arcs of Kanto and Hoenn execute across a single shared chronological frame.',
+      'Explicitly contemporaneous.',
   },
   {
     era: 'Gen 2 & Gen 4 Parallel',
     anchors: 'GSC / HGSS == DPPt / BDSP',
     deductions:
-      'Occurs exactly 3 years after Gen 1/3. Confirmed via game manuals and dev logs, despite local dialogue variations from Jasmine & Cynthia.',
+      'Pokémon Gold, Silver, Crystal, HeartGold, and SoulSilver take place three years after Pokémon Red, Green, Blue, Yellow, FireRed, and LeafGreen. Suggested to take place at the same time as Pokémon Diamond, Pearl, Platinum, Brilliant Diamond, and Shining Pearl, but in-game dialogue from Jasmine and Cynthia provides conflicting evidence on which games occur first.',
   },
   {
     era: 'Black & White',
@@ -118,10 +118,10 @@ const officialLoreData = [
     era: 'Black 2/White 2 & Gen 6',
     anchors: 'B2W2 == XY Parallel',
     deductions:
-      'Strictly locked exactly 2 years after the original Black & White campaign concludes.',
+      'Exactly 2 years after the original Black & White.',
   },
   {
-    era: 'Gen 7 Continuum',
+    era: 'Gen 7',
     anchors: 'SM / USUM',
     deductions:
       "Set 2 years after B2W2/XY. Verified by Grimsley's aging profile art and visibly aged appearances of legacy trainers Red and Blue.",
@@ -130,19 +130,19 @@ const officialLoreData = [
     era: 'Gen 8 / Galar Horizon',
     anchors: 'Sword & Shield',
     deductions:
-      'Vague but definitive post-Alola placement. Type: Null Pokedex records reference stolen research notes used to replicate additional models.',
+      'Placement is more vague, with little direct connection to previous games, though the Pokédex entry for Type: Null in Sword mentions that stolen research notes led to the creation of more Type: Null, which may imply that they take place after the events of Sun, Moon, Ultra Sun, and Ultra Moon, as only three Type: Null exist in those games.',
   },
   {
     era: 'Gen 9 / Paldea Baseline',
     anchors: 'Scarlet & Violet',
     deductions:
-      'Post-Sword & Shield placement. Verified by "Galar: A History" in the academy library and references to Leon as the former Galar Champion.',
+      'Pokémon Scarlet and Violet take place after the events of Pokémon Sword and Shield, as revealed by the presence of a copy of Galar: A History, which was published during the events of Sword and Shield, at Naranja AcademyS/Uva AcademyV, as well as Leon being referred to as the former Galar Champion in The Indigo Disk.',
   },
   {
     era: 'Legends: Z-A',
     anchors: 'Post-XY / Post-SwSh Intersection',
     deductions:
-      'Locked 5 years after XY and 3 years after SM/USUM. Because Leon is a former champion and the Galar Battle Tower exists, SwSh fits within this 3-year gap.',
+      'Takes place five years after the events of Pokémon X and Y. It also takes place some time after the events of Pokémon Sword and Shield, as Leon is mentioned to be the former Galar Champion and an NPC mentions the Galar Battle Tower (which was opened during the events of Sword and Shield). From this and the above points, it can be inferred that Pokémon Legends: Z-A takes place three years after Pokémon Sun, Moon, Ultra Sun, and Ultra Moon, and that Pokémon Sword and Shield take place during this three year gap (meaning the time between each of these games and Sword and Shield cannot be longer than three years).',
   },
 ]
 </script>
@@ -282,7 +282,7 @@ const officialLoreData = [
                     <div
                       class="font-mono text-caption font-weight-black text-blue-darken-2 text-uppercase mb-1"
                     >
-                      // ERA TARGET NODE
+                      // TIME PERIOD
                     </div>
                     <h4 class="text-subtitle-1 font-weight-bold text-high-emphasis tracking-tight">
                       {{ record.era }}
@@ -293,7 +293,7 @@ const officialLoreData = [
                     <div
                       class="font-mono text-caption font-weight-black text-disabled text-uppercase mb-1"
                     >
-                      SYNCHRONIZATION PROFILE
+                      CONCURRENT GAMES
                     </div>
                     <span class="font-mono text-caption text-medium-emphasis font-weight-bold">
                       {{ record.anchors }}
@@ -304,7 +304,7 @@ const officialLoreData = [
                     <div
                       class="font-mono text-caption font-weight-black text-disabled text-uppercase mb-1"
                     >
-                      CANONICAL EVIDENCE & DEDUCTIVE LOGIC
+                      REASONING
                     </div>
                     <p class="text-body-2 text-medium-emphasis font-mono-body mb-0">
                       {{ record.deductions }}
@@ -323,8 +323,7 @@ const officialLoreData = [
               >
                 <strong>Further Details:</strong>
                 <span
-                  >For a complete canonical breakdown, visit the official community
-                  documentation:</span
+                  >For a complete canonical breakdown, visit Bulbapedia:</span
                 >
                 <v-btn
                   href="https://bulbapedia.bulbagarden.net/wiki/History_of_the_Pok%C3%A9mon_world"

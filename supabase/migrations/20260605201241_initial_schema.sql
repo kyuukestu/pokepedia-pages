@@ -28,7 +28,7 @@ create table characters (
   slug text unique,
 
   origin_region_id text references regions(id),
-  current_region_id text references regions(id),
+  associated_region_id text references regions(id),
 
   category text not null,
 
@@ -47,7 +47,7 @@ create table characters (
   image_src text,
   image_type text,
 
-  external_sheet_url text
+  external_sheet_url text,
 );
 
 alter table characters enable row level security;
@@ -58,7 +58,7 @@ for select
 using (true);
 
 create index idx_characters_origin_region on characters(origin_region_id);
-create index idx_characters_current_region on characters(current_region_id);
+create index idx_characters_associated_region on characters(associated_region_id);
 
 -- =========================================
 -- TRAINER CLASSES
@@ -865,8 +865,8 @@ select
     origin.id   as origin_region_id,
     origin.name as origin_region_name,
 
-    current.id   as current_region_id,
-    current.name as current_region_name,
+    associated.id   as associated_region_id,
+    associated.name as associated_region_name,
 
     c.category,
 
@@ -939,12 +939,29 @@ select
          '[]'::jsonb
        )
        from (
-         select poh.*
+         select poh.id,
+             poh.pokemon_id,
+             p.full_name as pokemon_name,
+
+             poh.character_id,
+             ch.full_name as character_name,
+
+             poh.start_date,
+             poh.end_date
+         
          from pokemon_ownership_history poh
-         where poh.character_id = c.id
+         
+         join pokemon p
+         on p.id = poh.pokemon_id
+         
+         join characters ch
+         on ch.id = poh.character_id
+
+         where poh.character_id = ch.id
+        
          order by poh.start_date desc
        ) ordered
-  ) as pokemon_history,
+  ) as pokemon_history, -- Join on pokemon table to grab pokemon name and species to present instead of ids
 
   (
     select coalesce(jsonb_agg(to_jsonb(poa)), '[]'::jsonb)
@@ -1042,5 +1059,67 @@ from characters c
 left join regions origin 
 on origin.id = c.origin_region_id
 
-left join regions current
-on current.id = c.current_region_id;
+left join regions associated
+on associated.id = c.associated_region_id;
+
+create view pokemon_dashboard_view as
+select
+  p.*,
+
+  (
+      select coalesce(
+        jsonb_agg(
+          jsonb_build_object(
+            'id', pb.id,
+            'pokemon_id', pb.pokemon_id,
+            'name', pb.name,
+            'is_default', pb.is_default,
+            'level', pb.level,
+            'ability', pb.ability,
+            'held_item', pb.held_item,
+            'created_at', pb.created_at,
+    
+            'moves', (
+              select coalesce(
+                jsonb_agg(
+                  jsonb_build_object(
+                    'id', pbm.id,
+                    'build_id', pbm.build_id,
+                    'move', pbm.move,
+                    'slot_order', pbm.slot_order
+                  )
+                  order by pbm.slot_order
+                ),
+                '[]'::jsonb
+              )
+              from pokemon_build_moves pbm
+              where pbm.build_id = pb.id
+            )
+          )
+        ),
+        '[]'::jsonb
+      )
+      from pokemon_builds pb
+      where pb.pokemon_id = p.id
+  ) as builds,
+
+  (
+    select coalesce(
+      jsonb_agg(jsonb_build_object(
+        'id', poh.id,
+        'pokemon_id', poh.pokemon_id,
+        'pokemon_name', p.full_name,
+        'character_id', poh.character_id,
+        'character_name', c.full_name,
+        'start_date', poh.start_date,
+        'end_date', poh.end_date
+      )),
+      '[]'::jsonb
+    )
+    from pokemon_ownership_history poh
+    join pokemon p2 on p2.id = poh.pokemon_id
+    join characters c on c.id = poh.character_id
+    where poh.pokemon_id = p.id
+  ) as ownership_history
+
+from pokemon p;

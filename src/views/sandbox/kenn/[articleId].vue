@@ -5,9 +5,9 @@ import { getImageUrl } from '@/utils/path-resolvers'
 import { articles } from '@/data/kenn' // Your array of news data
 
 // 'unplugin-vue-router' provides typed routes
-const route = useRoute('/sandbox/kenn/[slug]')
+const route = useRoute('/sandbox/kenn/[articleId]')
 
-const article = computed(() => articles.find((a) => a.slug === route.params.slug))
+const article = computed(() => articles.find((a) => a.id === route.params.articleId))
 
 // A simple resolver that returns the correct tag or component logic
 const resolveBlockComponent = (type: string) => {

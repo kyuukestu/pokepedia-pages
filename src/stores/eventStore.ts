@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { eventInstances } from '@/data/event-list'
+import { eventInstances } from '@/data/events/instances'
 import { EventInstance } from '@/types/events'
 export const useEventStore = defineStore('events', {
   state: () => ({
@@ -10,15 +10,15 @@ export const useEventStore = defineStore('events', {
   getters: {
     // Events that have started or already finished
     pastAndCurrentEvents: (state) => {
-      return state.events.filter((e) => e.start <= state.currentRPDate)
+      return state.events.filter((e) => e.calendar.start <= state.currentRPDate)
     },
 
     // Events currently happening today
     activeEvents: (state) => {
       const today = state.currentRPDate
       return state.events.filter((event) => {
-        const start = event.start
-        const end = event.end || event.start
+        const start = event.calendar.start
+        const end = event.calendar.end || event.calendar.start
         return today >= start && today <= end
       })
     },
@@ -26,7 +26,7 @@ export const useEventStore = defineStore('events', {
     // Events strictly in the future
     upcomingEvents: (state) => {
       const today = state.currentRPDate
-      return state.events.filter((event) => event.start > today)
+      return state.events.filter((event) => event.calendar.start > today)
     },
   },
 
@@ -38,8 +38,8 @@ export const useEventStore = defineStore('events', {
     // Helper to check status of a specific event (used in Search/Wiki cards)
     isEventActive(event: EventInstance): boolean {
       const today = this.currentRPDate
-      const start = event.start
-      const end = event.end || event.start
+      const start = event.calendar.start
+      const end = event.calendar.end || event.calendar.start
       return today >= start && today <= end
     },
   },

@@ -65,8 +65,8 @@ function transform(raw: CharacterDashboardDTO): CharacterDashboard {
           name: raw.origin_region_name,
         },
         current: {
-          id: raw.current_region_id,
-          name: raw.current_region_name,
+          id: raw.associated_region_id,
+          name: raw.associated_region_name,
         },
       },
 

@@ -1,66 +1,120 @@
 // types/events.ts
-import { Region } from './region'
-
-export type EventCategories = 'tournament' | 'contest' | 'festival' | 'ecological' | 'competition' | 'other'
+import { AllRegions } from './region'
 
 export interface EventDefinition {
-  slug: string // 'indigo-conference'
+  id: string // 'indigo-conference'
   title: string
+
   category: EventCategories
-  region: Region
+  regions: AllRegions[]
+
+  description?: string
   image: string
-  generalDescription: string
+
   bulba?: string
 }
 
 export interface EventInstance {
   // Core Data
-  eventSlug: string
-  instanceId: string
-  start: string
-  end?: string
-  allDay: boolean
+  id: string
+  eventId: string // Linked Event Definition
+  title?: string
+
   location: string
-  status: 'upcoming' | 'ongoing' | 'completed' | 'postponed'
-  participants: Participant[] // Your existing type
-  image?: string
+  statusOverride?: EventStatusOverride
+  /** Event Participants
+   *
+   *  NOTE: An event participant is a super-group and distinct from CompetitionParticipant for competitions within the event */
+  members: Member[] | null
 
-  // New Narrative & Connection Fields
+  calendar: EventCalendarData
+
   threadUrl?: string // Link to the actual RP thread
-  hostId?: string // The character or NPC running the event
-  weatherCondition?: string // Atmosphere (e.g., "Heavy Rain", "Festive Lights")
+  image?: string
+  
+  description?: string
 
+  extras?: EventInstanceExtras
+}
+
+export interface EventInstanceExtras {
   // Modular Blocks (Optional)
+  host?: EventHost | null // The character or NPC running the event
+
   requirements?: EntryRequirements
-  competitions?: CompetitionDetails[] // For Tournaments/Contests/Races
+
+  competitions?: Competition[] // For Tournaments/Contests/Races
+
   rewards?: Reward[] // Items, Trophies, or Titles
+
   schedule?: ScheduleItem[] // For multi-day Festivals
+
   narrative?: NarrativeSummary // Post-RP "Historical" summary
+
   gallery?: EventMedia[]
 
   // Flexibility
   customDescription?: string
-  metadata?: Record<string, any> // For anything truly fringe
+
+  metadata?: Record<string, unknown> // For anything truly fringe
 }
 
-interface CompetitionDetails {
+export interface EventHost {
+  id: string
+  name: string
+  hostType?: HostTypes
+}
+
+export interface EventCalendarData {
+  start: string
+  end?: string
+  allDay: boolean
+}
+
+interface EventMedia {
+  url: string
+  caption?: string
+  credit?: string // Artist or Player name
+  isAI?: boolean
+  type: 'image' | 'video'
+}
+
+interface Competition {
   name?: string
-  type: 'bracket' | 'points' | 'timed' | 'judged'
-  standings?: {
-    rank: number //1, 2, 3... used for display order
-    participantId: string[]
-    score?: string | number // "12.5s", 450, DQ, DNF, etc.
-    notes?: string // e.g., "Eliminated in Round 2"
-  }[]
-  judges?: string[] // NPC or Player judges
+
+  type: CompetitionType
+  judgementType?: JudgementType
+  format?: CompetitionFormat
+
+  participants?: CompetitionParticipant[]
+  standings?: CompetitionStanding[]
+
+  judges?: CompetitionJudge[] // NPC or Player judges
   notes?: string
-  format?: string
+}
+
+interface CompetitionStanding {
+  rank: number //1, 2, 3... used for display order
+  participantId: string // CompeitionParticipant ID
+  score?: string | number // "12.5s", 450, DQ, DNF, etc.
+  notes?: string // e.g., "Eliminated in Round 2"
+}
+
+interface CompetitionJudge {
+  id: string
+  name?: string
+}
+
+export interface CompetitionParticipant {
+  id: string
+  members?: Member[] | null
+  name?: string // Mostly here for team name
 }
 
 interface Reward {
-  recipientId: string
-  rewardType: 'item' | 'currency' | 'ribbon' | 'badge' | 'title'
+  rewardType: RewardType
   name: string
+  value?: number
   isSecret?: boolean // For "Mystery Prizes"
 }
 
@@ -72,9 +126,9 @@ interface ScheduleItem {
   location?: string
 }
 
-interface Participant {
+interface Member {
+  characterId: string // Link to character profiles; This one is main, name is aesthetic override.
   name?: string
-  charId?: string // Link to character profiles
 }
 
 interface NarrativeSummary {
@@ -90,18 +144,35 @@ interface NarrativeSummary {
 }
 
 interface EntryRequirements {
-  levelRange?: [number, number]
   requiredItems?: string[]
   entryFee?: string
   rankRequired?: string // e.g., "Ace Trainer", "Master Coordinator"
   description?: string // e.g., "Must have at least 3 Kanto Badges"
-  metadata?: Record<string, any> // For anything truly fringe
+  metadata?: Record<string, unknown> // For anything truly fringe
 }
 
-interface EventMedia {
-  url: string
-  caption?: string
-  credit?: string // Artist or Player name
-  isAI?: boolean
-  type: 'image' | 'video'
-}
+export type EventStatus = 'upcoming' | 'ongoing' | 'completed' 
+
+export type EventStatusOverride =
+  | 'postponed'
+
+export type EventCategories =
+  | 'tournament'
+  | 'contest'
+  | 'conference'
+  | 'showcase'
+  | 'festival'
+  | 'ecological'
+  | 'competition'
+  | 'race'
+  | 'other'
+
+export type HostTypes = 'character' | 'organization'
+
+export type CompetitionType = 'tournament' | 'race' | 'contest' | 'other'
+
+export type CompetitionFormat = 'single' | 'double' | 'triple' | 'tag-team'
+
+export type JudgementType = 'bracket' | 'points' | 'timed' | 'judged'
+
+export type RewardType = 'item' | 'currency' | 'ribbon' | 'badge' | 'title'
