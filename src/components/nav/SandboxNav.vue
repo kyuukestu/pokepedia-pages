@@ -37,7 +37,6 @@ const groups: Array<{ label: string; items: SandboxNavItem[] }> = [
       { title: 'Academia', icon: 'mdi-book-open', to: '/sandbox/academia' },
       { title: 'Organizations', icon: 'mdi-trophy', to: '/sandbox/orgs' },
       { title: 'Technology', icon: 'mdi-star-circle', to: '/sandbox/tech' },
-      { title: 'Lore', icon: 'mdi-compass', to: '/sandbox/lore' },
       // { title: 'Characters', icon: 'mdi-account', to: '/sandbox/characters' },
     ],
   },

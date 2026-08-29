@@ -191,7 +191,6 @@ const clearFilters = () => {
                 :height="layoutMode === 'variable' && i === 0 ? 440 : 220"
                 cover
                 class="grayscale-filter visual-media"
-                crossorigin="anonymous"
               >
                 <div class="scanline-overlay"></div>
               </v-img>
