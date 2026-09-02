@@ -39,13 +39,9 @@ const filteredArticles = computed(() => {
   return articles.filter((article) => {
     const matchesTab =
       activeTab.value === 'all' ||
-      article.category.toLowerCase().includes(
-        activeTab.value.toLowerCase(),
-      )
+      article.category.toLowerCase().includes(activeTab.value.toLowerCase())
 
-    const matchesRegion =
-      !selectedRegion.value ||
-      article.regions.includes(selectedRegion.value)
+    const matchesRegion = !selectedRegion.value || article.regions.includes(selectedRegion.value)
 
     const query = search.value.toLowerCase().trim()
 
@@ -90,10 +86,22 @@ const clearFilters = () => {
       <v-card variant="flat" class="mb-8 notebook-filter-card pa-4">
         <v-row align="center" density="comfortable">
           <v-col cols="12" lg="4">
-            <v-tabs v-model="activeTab" color="success" density="compact" align-tabs="start" class="notebook-tabs">
-              <v-tab value="all" class="font-serif text-caption font-weight-bold text-none">All Entries</v-tab>
-              <v-tab value="breaking" class="font-serif text-caption font-weight-bold text-none">Urgent</v-tab>
-              <v-tab value="intel" class="font-serif text-caption font-weight-bold text-none">Classified</v-tab>
+            <v-tabs
+              v-model="activeTab"
+              color="success"
+              density="compact"
+              align-tabs="start"
+              class="notebook-tabs"
+            >
+              <v-tab value="all" class="font-serif text-caption font-weight-bold text-none"
+                >All Entries</v-tab
+              >
+              <v-tab value="breaking" class="font-serif text-caption font-weight-bold text-none"
+                >Urgent</v-tab
+              >
+              <v-tab value="intel" class="font-serif text-caption font-weight-bold text-none"
+                >Classified</v-tab
+              >
             </v-tabs>
           </v-col>
 
@@ -118,7 +126,7 @@ const clearFilters = () => {
               label="Region Filter"
               prepend-inner-icon="mdi-map-marker-radius-outline"
               color="success"
-              class="font-serif flex-grow-1 notebook-region-filter"
+              class="font-serif grow notebook-region-filter"
               density="compact"
               hide-details
             />
@@ -142,7 +150,12 @@ const clearFilters = () => {
               variant="outlined"
               class="notebook-toggle"
             >
-              <v-btn value="variable" size="small" icon="mdi-view-dashboard-outline" title="Lead Feature View" />
+              <v-btn
+                value="variable"
+                size="small"
+                icon="mdi-view-dashboard-outline"
+                title="Lead Feature View"
+              />
               <v-btn value="uniform" size="small" icon="mdi-grid" title="Uniform Grid View" />
             </v-btn-toggle>
           </v-col>
@@ -162,15 +175,21 @@ const clearFilters = () => {
             :class="{ 'featured-hero-card': layoutMode === 'variable' && i === 0 }"
             :to="!article?.toOverride ? `/sandbox/kenn/${article.id}` : article.toOverride"
           >
-            <v-row no-gutters :class="{ 'flex-row-reverse': layoutMode === 'variable' && i === 0 }" class="flex-grow-1">
-              
+            <v-row
+              no-gutters
+              :class="{ 'flex-row-reverse': layoutMode === 'variable' && i === 0 }"
+              class="grow"
+            >
               <v-col
                 v-if="article.image"
                 :cols="12"
                 :md="layoutMode === 'variable' && i === 0 ? 7 : 12"
                 class="position-relative overflow-hidden card-media-container"
               >
-                <div v-if="layoutMode === 'variable' && i === 0" class="featured-badge font-serif text-caption font-weight-bold">
+                <div
+                  v-if="layoutMode === 'variable' && i === 0"
+                  class="featured-badge font-serif text-caption font-weight-bold"
+                >
                   <v-icon size="x-small" class="me-1">mdi-star-outline</v-icon>
                   PRIMARY RECORD
                 </div>
@@ -181,11 +200,11 @@ const clearFilters = () => {
                   class="article-media-img"
                 />
               </v-col>
-              
+
               <v-col
                 :cols="12"
                 :md="article.image && layoutMode === 'variable' && i === 0 ? 5 : 12"
-                class="pa-6 d-flex flex-column justify-space-between flex-grow-1"
+                class="pa-6 d-flex flex-column justify-space-between grow"
               >
                 <div>
                   <div class="d-flex align-center justify-space-between mb-3 flex-wrap ga-2">
@@ -222,20 +241,30 @@ const clearFilters = () => {
                             </v-icon>
                           </span>
                         </template>
-                        
+
                         <div class="font-serif text-caption pa-1">
-                          <div class="font-weight-bold mb-1 border-b pb-1 text-success text-uppercase">
+                          <div
+                            class="font-weight-bold mb-1 border-b pb-1 text-success text-uppercase"
+                          >
                             TARGET REGIONS ({{ article.regions.length }})
                           </div>
-                          <div v-for="reg in article.regions" :key="reg" class="d-flex align-center py-0-5 text-uppercase">
-                            <v-icon size="10" class="me-1" color="success">mdi-chevron-right</v-icon>
+                          <div
+                            v-for="reg in article.regions"
+                            :key="reg"
+                            class="d-flex align-center py-0-5 text-uppercase"
+                          >
+                            <v-icon size="10" class="me-1" color="success"
+                              >mdi-chevron-right</v-icon
+                            >
                             {{ reg }}
                           </div>
                         </div>
                       </v-tooltip>
                     </div>
 
-                    <span class="text-caption font-serif text-medium-emphasis italic">{{ article.date }}</span>
+                    <span class="text-caption font-serif text-medium-emphasis italic">{{
+                      article.date
+                    }}</span>
                   </div>
 
                   <h2
@@ -253,7 +282,9 @@ const clearFilters = () => {
                   </p>
                 </div>
 
-                <div class="d-flex justify-space-between align-center border-t notebook-card-divider pt-4 mt-auto">
+                <div
+                  class="d-flex justify-space-between align-center border-t notebook-card-divider pt-4 mt-auto"
+                >
                   <div class="author-attribution font-serif d-inline-flex align-center">
                     <v-icon size="x-small" color="success" class="me-1 opacity-70">mdi-pen</v-icon>
                     <span class="author-label text-caption font-weight-bold text-uppercase">
@@ -261,7 +292,9 @@ const clearFilters = () => {
                     </span>
                   </div>
 
-                  <div class="d-flex align-center ga-1 text-success font-serif text-caption font-weight-bold read-link">
+                  <div
+                    class="d-flex align-center ga-1 text-success font-serif text-caption font-weight-bold read-link"
+                  >
                     <span>READ NOTE</span>
                     <v-icon size="small" class="arrow-icon">mdi-arrow-right</v-icon>
                   </div>
@@ -280,7 +313,13 @@ const clearFilters = () => {
         <p class="text-caption font-serif text-medium-emphasis mb-4 max-w-400 mx-auto">
           Try clearing search parameters or adjusting region settings to locate archives.
         </p>
-        <v-btn variant="tonal" color="success" size="small" class="font-serif text-none" @click="clearFilters">
+        <v-btn
+          variant="tonal"
+          color="success"
+          size="small"
+          class="font-serif text-none"
+          @click="clearFilters"
+        >
           Reset All Filters
         </v-btn>
       </div>
@@ -405,6 +444,7 @@ const clearFilters = () => {
 
 .line-clamp-3 {
   display: -webkit-box;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -412,6 +452,7 @@ const clearFilters = () => {
 
 .line-clamp-4 {
   display: -webkit-box;
+  line-clamp: 4;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;

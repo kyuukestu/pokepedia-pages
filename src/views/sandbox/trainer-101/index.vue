@@ -3,100 +3,91 @@ import WikiHero from '@/components/sections/WikiHero.vue'
 import WikiCard from '@/components/wiki/WikiCard.vue'
 import WikiCallout from '@/components/wiki/WikiCallout.vue'
 import FeatureGrid, { type FeatureItem } from '@/components/wiki/FeatureGrid.vue'
-import RuleList from '@/components/wiki/RuleList.vue'
+import { trainerPaths } from '@/data/trainer-classes'
 
-// FeatureGrid items
-const leagueServices: FeatureItem[] = [
-  { title: 'PokéMart', icon: 'mdi-store', description: 'Purchase items, gear, and Pokéballs.' },
+const whatWeOffer: FeatureItem[] = [
   {
-    title: 'PokéCenter',
-    icon: 'mdi-hospital',
-    description: 'Medical care and restoration for your team.',
+    title: 'Quest Board',
+    icon: 'mdi-clipboard-text-outline',
+    description:
+      'Take on Missions and PokéJobs, from lending a helping hand around the community to pursuing the trail of something far more sinister.',
+    color: 'blue',
   },
-  { title: 'Daycare', icon: 'mdi-egg', description: 'Long-term care and breeding services.' },
-  { title: 'Gyms', icon: 'mdi-dumbbell', description: 'Official Battle Challenge facilities.' },
   {
     title: 'Events',
-    icon: 'mdi-trophy',
-    description: 'League-sanctioned tournaments and showcases.',
-  },
-  {
-    title: 'PC Storage',
-    icon: 'mdi-monitor',
-    description: 'Digital Pokémon management and transfer.',
-  },
-]
-
-const idTypes: FeatureItem[] = [
-  {
-    title: 'Trainer Card',
-    icon: 'mdi-card-account-details',
-    description: 'The standard electronic card used for most League services.',
-    color: 'blue',
-    to: '/sandbox/trainer-101/ids#trainer-card',
-  },
-  {
-    title: 'Passport',
-    icon: 'mdi-passport',
-    description: 'Necessary for international travel between distant regions.',
-    color: 'blue',
-    to: '/sandbox/trainer-101/ids#trainer-passport',
-  },
-  {
-    title: 'League Card',
-    icon: 'mdi-cards',
-    description: 'A stylized, collectible card reflecting your personality.',
-    color: 'blue',
-    to: '/sandbox/trainer-101/ids#league-card',
-  },
-  {
-    title: 'Mobile Profile',
-    icon: 'mdi-passport-biometric',
-    description: 'Digital integration for Pokedex and Rotom-Phone apps.',
-    color: 'blue',
-    to: '/sandbox/trainer-101/ids#profile-app',
-  },
-]
-
-const permits: FeatureItem[] = [
-  {
-    title: 'Aviation Permit',
-    icon: 'mdi-feather',
-    description: 'For high-altitude flight and transportation.',
-    color: 'blue',
-    to: '/sandbox/trainer-101/permits/aviation',
-  },
-  {
-    title: 'Terrestrial Permit',
-    icon: 'mdi-paw',
-    description: 'For pokemon-mounted land travel.',
-    color: 'blue',
-    to: '/sandbox/trainer-101/permits/terrestrial',
-  },
-  {
-    title: 'Maritime Permit',
-    icon: 'mdi-waves',
-    description: 'For deep-sea delving and water-traversal.',
-    color: 'blue',
-    to: '/sandbox/trainer-101/permits/maritime',
-  },
-]
-
-// RuleList items
-const carryExceptions = [
-  {
-    icon: 'mdi-baby-face-outline',
-    color: 'blue',
-    title: 'Nurturing Proximity',
+    icon: 'mdi-trophy-outline',
     description:
-      'Young or newly hatched Pokémon who benefit from constant care may occasionally exceed the limit with league approval.',
+      'Participate in tournaments, festivals, races, competitions, and other activities that bring characters together.',
+    color: 'blue',
   },
   {
-    icon: 'mdi-medical-bag',
-    color: 'blue',
-    title: 'Service & Guide Pokémon',
+    title: 'Build a Career',
+    icon: 'mdi-briefcase-outline',
     description:
-      'Pokémon acting as registered medical or service capacity for their Trainers are not counted toward the six-slot battle party.',
+      'Pursue a Profession and carve out a place for your character. Become a Ranger, join InterPOL, rise to Gym Leader, or find a career of your own.',
+    color: 'blue',
+  },
+  {
+    title: "Tell the World's Story",
+    icon: 'mdi-newspaper-variant-outline',
+    description:
+      'Use KENN to report on events, write news articles, share character perspectives, or pen opinion pieces that become part of the ongoing story.',
+    color: 'blue',
+  },
+  {
+    title: 'Shape the Future',
+    icon: 'mdi-earth-plus',
+    description:
+      "Your character's accomplishments, relationships, careers, and actions can create new opportunities and influence the stories happening around them.",
+    color: 'blue',
+  },
+]
+
+const essentialLinks: FeatureItem[] = [
+  {
+    title: 'Obtaining Pokémon',
+    icon: 'mdi-pokeball',
+    description: 'Learn how Pokémon captures work and which Pokémon require an application and staff approval.',
+    color: 'blue',
+    to: '#obtaining-pokemon',
+  },
+  {
+    title: 'Pokémon Storage',
+    icon: 'mdi-pokeball-outline',
+    description: 'Understand the six-Pokémon carry limit and how additional Pokémon are stored.',
+    color: 'blue',
+    to: '#pokemon-storage',
+  },
+  {
+    title: 'PokéMart',
+    icon: 'mdi-store',
+    description: 'Browse the RP’s item catalogue and PokéMark prices for Poké Balls, medicine, equipment, and more.',
+    color: 'blue',
+    to: '/sandbox/pokemart',
+  },
+]
+
+const travelLinks: FeatureItem[] = [
+  {
+    title: 'Travel',
+    icon: 'mdi-map-marker-path',
+    description: 'Explore regions, travel between settlements, and make your way through the wider Pokémon world.',
+    color: 'blue',
+    to: '/sandbox/trainer-101/travel',
+  },
+  {
+    title: 'Transportation',
+    icon: 'mdi-train-car',
+    description: 'Learn about the different ways Trainers and their Pokémon can get around.',
+    color: 'blue',
+    to: '/sandbox/trainer-101/transportation',
+  },
+  {
+    title: 'Travel Permits',
+    icon: 'mdi-license',
+    description: 'Some forms of Pokémon-assisted travel require specialized permits.',
+    color: 'blue',
+    to: '/sandbox/trainer-101/permits',
   },
 ]
 </script>
@@ -105,19 +96,35 @@ const carryExceptions = [
   <v-container fluid class="pa-0">
     <WikiHero
       title="Trainer 101"
-      subtitle="The fundamental systems, IDs, and permits that define a Trainer's journey."
+      subtitle="A quick guide to getting started in the Pokémon RP."
       icon="mdi-account-star"
       pattern="dots"
     >
       <template #chips>
         <div class="mt-4 d-flex justify-center flex-wrap ga-2">
-          <v-chip color="blue-darken-2" variant="outlined" size="small" class="font-mono text-caption">
-            League Services
+          <v-chip
+            color="blue-darken-2"
+            variant="outlined"
+            size="small"
+            class="font-mono text-caption"
+          >
+            Getting Started
           </v-chip>
-          <v-chip color="blue-darken-2" variant="flat" size="small" class="font-mono text-caption">
-            Trainer IDs
+
+          <v-chip
+            color="blue-darken-2"
+            variant="flat"
+            size="small"
+            class="font-mono text-caption"
+          >
+            Trainer Basics
           </v-chip>
-          <v-chip variant="tonal" size="small" class="font-mono text-caption">
+
+          <v-chip
+            variant="tonal"
+            size="small"
+            class="font-mono text-caption"
+          >
             New Player Guide
           </v-chip>
         </div>
@@ -125,76 +132,220 @@ const carryExceptions = [
     </WikiHero>
 
     <v-container max-width="1200" class="py-10">
-      <!-- Section 1: Trainer Registry -->
-      <WikiCard title="The Trainer Registry" icon="mdi-account-check" color="blue">
-        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
-          A Pokémon Trainer is anyone who catches, trains, or cares for Pokémon. From the age of
-          ten, individuals are eligible to apply for official recognition. Registration grants
-          access to a global network of League services:
-        </p>
-
-        <FeatureGrid :items="leagueServices" :cols="3" default-color="blue" />
-      </WikiCard>
-
-      <!-- Section 2: Identification Systems -->
-      <WikiCard title="Identification Systems" icon="mdi-card-bulleted-settings" color="blue" class="mt-10">
-        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
-          Depending on your region and career path, you may carry different forms of identification.
-          These digital and physical assets track your progress, badges, and official records:
-        </p>
-
-        <FeatureGrid :items="idTypes" :cols="4" default-color="blue" />
-      </WikiCard>
-
-      <!-- Section 3: The Carry Limit -->
-      <WikiCard title="The Carry Limit" icon="mdi-briefcase-check" color="blue" class="mt-10">
+      <!-- Section 1: Explore the World -->
+      <!-- Section 1: Welcome -->
+      <WikiCard
+        title="Welcome to the Wonderful World of Pokémon"
+        icon="mdi-earth"
+        color="blue"
+      >
         <p class="text-body-1 lh-relaxed mb-4 text-high-emphasis">
-          To ensure the welfare of the Pokémon and the safety of the public, the League mandates a
-          standard carry limit of <strong class="text-blue-darken-2">six Pokémon</strong>. Any additional Pokémon are
-          automatically transferred to the Trainer's designated PC storage system.
+          <strong class="text-blue-darken-2">Pokémon Stories</strong> is a
+          Choose-Your-Own-Adventure-style RP where the Pokéverse is yours to explore.
+        </p>
+      
+        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
+          We've built the world so that you don't have to build the adventure yourself.
+          Quests, Events, competitions, organizations, and other systems give your
+          characters opportunities to get involved, while the sandbox leaves you free
+          to decide what stories you want to tell.
+        </p>
+      
+        <p class="text-h6 font-weight-bold text-high-emphasis mb-6">
+          More importantly, your character can become part of the world.
+        </p>
+      
+        <div class="text-overline text-medium-emphasis mb-4 d-flex align-center ga-2 font-mono">
+          <v-icon size="14" color="blue-darken-2">
+            mdi-star-four-points
+          </v-icon>
+          What We Offer
+        </div>
+      
+        <FeatureGrid
+          :items="whatWeOffer"
+          :cols="3"
+          default-color="blue"
+        />
+      </WikiCard>
+
+      <!-- Section 2: Trainer Paths -->
+      <WikiCard
+        title="Trainer Paths"
+        icon="mdi-directions-fork"
+        color="blue"
+        class="mt-10"
+      >
+        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
+          There are many ways for a character to participate in the Pokémon world.
+          These paths represent some of the careers, interests, and activities available
+          to Trainers.
         </p>
 
-        <div class="text-overline text-medium-emphasis mb-3 d-flex align-center ga-2 font-mono">
-          <v-icon size="14" color="blue-darken-2">mdi-shield-alert-outline</v-icon>
-          Authorized Exceptions
+        <FeatureGrid
+          :items="trainerPaths"
+          :cols="4"
+          default-color="blue"
+        />
+      </WikiCard>
+
+      <!-- Section 3: The Essentials -->
+      <WikiCard
+        title="The Essentials"
+        icon="mdi-toolbox-outline"
+        color="blue"
+        class="mt-10"
+      >
+        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
+          Once you know what your character wants to do, there are a few practical systems
+          worth understanding. These cover Pokémon ownership, storage, and the items you
+          can purchase during your adventures.
+        </p>
+
+        <FeatureGrid
+          :items="essentialLinks"
+          :cols="3"
+          default-color="blue"
+        />
+
+        <div
+          id="obtaining-pokemon"
+          class="pt-8"
+        >
+          <div class="text-overline text-medium-emphasis mb-3 d-flex align-center ga-2 font-mono">
+            <v-icon size="14" color="blue-darken-2">
+              mdi-pokeball
+            </v-icon>
+            Obtaining Pokémon
+          </div>
+
+          <p class="text-body-1 lh-relaxed mb-4 text-high-emphasis">
+            Characters may obtain Pokémon through ordinary in-world means such as catching
+            wild Pokémon, receiving them from others, or trading. The RP does not require
+            players to request approval for ordinary Pokémon captures.
+          </p>
+
+          <p class="text-body-1 lh-relaxed mb-4 text-high-emphasis">
+            Captures should still make reasonable sense within the setting. Pokémon are
+            not distributed randomly across the world, so encounters should take their
+            natural habitat and circumstances into account.
+          </p>
+
+          <WikiCallout
+            label="Approval Required"
+            icon="mdi-alert-circle-outline"
+            color="blue"
+            class="mb-6"
+          >
+            <strong>Legendary, Mythical, and Paradox Pokémon</strong> require an application
+            and staff approval before your character can obtain them.
+          </WikiCallout>
         </div>
 
-        <RuleList :rules="carryExceptions" class="mb-6" />
+        <v-divider class="my-8" />
 
-        <WikiCallout label="Venue Rules" icon="mdi-information-outline" color="blue">
-          While exceptions exist for personal travel, official tournaments and public facilities
-          strictly enforce the six-Pokémon limit for all competitive events.
-        </WikiCallout>
+        <div id="pokemon-storage">
+          <div class="text-overline text-medium-emphasis mb-3 d-flex align-center ga-2 font-mono">
+            <v-icon size="14" color="blue-darken-2">
+              mdi-pokeball-outline
+            </v-icon>
+            Pokémon Storage
+          </div>
+
+          <p class="text-body-1 lh-relaxed mb-0 text-high-emphasis">
+            Trainers may carry a maximum of <strong class="text-blue-darken-2">six Pokémon</strong>
+            as their active party. Additional Pokémon are transferred to the Trainer's
+            PC storage and can be exchanged as needed.
+          </p>
+        </div>
       </WikiCard>
 
-      <!-- Section 4: Travel Permits -->
-      <WikiCard title="Travel Permits" icon="mdi-map-check" color="blue" class="mt-10">
+      <!-- Section 4: Getting Around -->
+      <WikiCard
+        title="Getting Around"
+        icon="mdi-map-check"
+        color="blue"
+        class="mt-10"
+      >
         <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
-          Certain regions require specialized permits to navigate hazardous or protected
-          environments. These are usually earned by completing regional trials or attaining specific
-          milestones.
+          The Pokémon world is large, and Trainers have plenty of ways to move through it.
+          Routes, public transportation, Pokémon-assisted travel, and international
+          journeys all play a part in how characters explore the setting.
         </p>
 
-        <div class="d-flex justify-center my-8">
+        <FeatureGrid
+          :items="travelLinks"
+          :cols="3"
+          default-color="blue"
+        />
+      </WikiCard>
+
+      <!-- Section 5: PokéMarks & Shopping -->
+      <WikiCard
+        title="PokéMarks & Shopping"
+        icon="mdi-cash-multiple"
+        color="blue"
+        class="mt-10"
+      >
+        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
+          The RP maintains its own economy and establishes its own prices for Pokémon
+          items and Trainer supplies. Canon game prices are not treated as binding,
+          allowing the catalogue to better reflect the setting and its economy.
+        </p>
+
+        <div class="d-flex justify-center">
           <v-btn
-            prepend-icon="mdi-license"
+            prepend-icon="mdi-store"
             color="blue-darken-2"
             variant="flat"
             size="large"
-            to="/sandbox/trainer-101/permits"
+            to="/sandbox/pokemart"
             class="font-mono font-weight-bold"
             elevation="2"
           >
-            Transit Permits Hub
+            Visit the PokéMart
           </v-btn>
         </div>
+      </WikiCard>
 
-        <FeatureGrid :items="permits" :cols="3" default-color="blue" />
+      <!-- Section 6: Trainer Identification -->
+      <WikiCard
+        title="Trainer Identification"
+        icon="mdi-card-account-details"
+        color="blue"
+        class="mt-10"
+      >
+        <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">
+          Trainers interact with the world through a variety of official identification
+          systems. These records can establish a character's identity, credentials,
+          achievements, and access to League services.
+        </p>
 
-        <WikiCallout label="Mechanics Note" icon="mdi-cog-outline" color="blue" class="mt-6">
-          Permits are primarily used for flavor and narrative progression. They are not strictly
-          enforced by moderators unless specified in a particular event thread.
-        </WikiCallout>
+        <div class="d-flex justify-center">
+          <v-btn
+            prepend-icon="mdi-open-in-new"
+            color="blue-darken-2"
+            variant="tonal"
+            to="/sandbox/trainer-101/ids"
+            class="font-mono font-weight-bold"
+          >
+            Trainer Identification Guide
+          </v-btn>
+        </div>
+      </WikiCard>
+
+      <!-- Section 7: Where to Go Next -->
+      <WikiCard
+        title="Where to Go Next"
+        icon="mdi-compass"
+        color="blue"
+        class="mt-10"
+      >
+        <p class="text-body-1 lh-relaxed mb-0 text-high-emphasis">
+          Trainer 101 only covers the basics. The rest of the site contains the detailed
+          rules, systems, locations, organizations, and lore that make up the wider world.
+          Use it as a starting point, then explore whatever interests you.
+        </p>
       </WikiCard>
     </v-container>
   </v-container>

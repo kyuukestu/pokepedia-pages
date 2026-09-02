@@ -305,7 +305,7 @@ function clearFilters() {
                   ID: #{{ quest.id }}
                 </span>
                 <span class="inspect-link text-caption d-flex align-center ga-1">
-                  Read Note <v-icon size="14">mdi-arrow-right</v-icon>
+                  Read More <v-icon size="14">mdi-arrow-right</v-icon>
                 </span>
               </div>
             </div>
@@ -388,7 +388,7 @@ function clearFilters() {
         <v-icon size="64" color="amber-lighten-3" class="mb-4">mdi-book-search-outline</v-icon>
         <h3 class="handwritten-title text-h5 mb-2">No Quests Found</h3>
         <p class="handwritten-text text-body-1 mb-6">
-          No entries found matching queries.
+          No Quests found.
         </p>
         <v-btn
           variant="outlined"
@@ -396,7 +396,7 @@ function clearFilters() {
           class="font-weight-bold"
           @click="clearFilters"
         >
-          Clear Quest Search
+          Clear Search
         </v-btn>
       </div>
     </v-container>
@@ -434,7 +434,7 @@ function clearFilters() {
         <div class="dialog-body py-6">
           <div v-if="getLocationDetails(selectedQuest).length > 0" class="mb-6">
             <h3 class="handwritten-label text-subtitle-1 mb-2">
-              🧭 Location Breakdown
+              🧭 Location
             </h3>
             <div class="d-flex flex-wrap ga-2">
               <span v-for="(detail, idx) in getLocationDetails(selectedQuest)" :key="idx" class="location-chip">
@@ -445,7 +445,7 @@ function clearFilters() {
 
           <div class="mb-6">
             <h3 class="handwritten-label text-subtitle-1 mb-2">
-              📜 Field Notes
+              📜 Notes
             </h3>
             <p class="handwritten-text text-body-1">
               {{ selectedQuest.description }}
@@ -493,7 +493,7 @@ function clearFilters() {
             class="font-weight-bold"
             @click="dialogOpen = false"
           >
-            Close Journal Entry
+            Close Quest Entry
           </v-btn>
         </div>
       </div>
