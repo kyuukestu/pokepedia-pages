@@ -6,7 +6,7 @@ import { routes } from 'vue-router/auto-routes'
 import Fuse from 'fuse.js'
 
 // Components
-import SandboxNav from '@/components/nav/SandboxNav.vue'
+import SandboxNav from '@/components/nav/SandboxNavItems.vue'
 
 // Store
 import { useEventStore } from '@/stores/eventStore'
@@ -18,7 +18,8 @@ const router = useRouter()
 const { mobile } = useDisplay()
 const eventStore = useEventStore()
 
-const drawer = ref(!mobile.value)
+// Controls collapsed/expanded rail state
+const isRail = ref(true)
 
 // ── Search Logic & Type Definitions ─────────────────────────────────────────
 const searchInput = ref('')
@@ -56,14 +57,10 @@ function flattenRoutes(
 
 const staticFlattenedRoutes = flattenRoutes([...routes])
 
-/**
- * Extrapolates dynamic routes into real paths using store data.
- */
 function extrapolateRoute(r: FlattenedRoute): SearchResultItem[] {
   const p = r.fullPath.toLowerCase()
   const results: SearchResultItem[] = []
 
-  // Helper to check if event is live
   const checkLive = (path: string) => {
     const activeEvent = eventStore.events.find((e: any) => {
       const normalize = (val: string) => val.replace(/\/+$/, '').toLowerCase()
@@ -73,9 +70,7 @@ function extrapolateRoute(r: FlattenedRoute): SearchResultItem[] {
     return activeEvent ? eventStore.isEventActive(activeEvent) : false
   }
 
-  // 1. Handle Characters ([slug] or :slug)
   if (p.includes('slug')) {
-    // If store has characters, expand them. If not, this loop just won't run.
     ;(eventStore as any).characters?.forEach((char: any) => {
       const path = r.fullPath.replace(/[:\[]slug[\]]?/gi, char.slug)
       results.push({
@@ -86,9 +81,7 @@ function extrapolateRoute(r: FlattenedRoute): SearchResultItem[] {
         isLive: checkLive(path),
       })
     })
-  }
-  // 2. Handle Regions ([regionId] or :regionId)
-  else if (p.includes('regionid')) {
+  } else if (p.includes('regionid')) {
     ;(eventStore as any).regions?.forEach((reg: any) => {
       const path = r.fullPath.replace(/[:\[]regionid[\]]?/gi, reg.id)
       results.push({
@@ -105,7 +98,7 @@ function extrapolateRoute(r: FlattenedRoute): SearchResultItem[] {
 }
 
 const searchIndex = computed(() => {
-  void eventStore.currentRPDate // Maintain reactivity
+  void eventStore.currentRPDate
 
   const index: SearchResultItem[] = []
 
@@ -113,13 +106,10 @@ const searchIndex = computed(() => {
     const p = r.fullPath.toLowerCase()
     if (p === '/' || p.startsWith('/sync')) return
 
-    // If route is dynamic, try to extrapolate.
-    // If extrapolation yields nothing (e.g. no data in store), we skip it to keep index clean.
     if (p.includes(':') || p.includes('[')) {
       const dynamicItems = extrapolateRoute(r)
       index.push(...dynamicItems)
     } else {
-      // Standard static route
       const pathParts = r.fullPath.split('/').filter(Boolean)
       const title =
         pathParts[pathParts.length - 1]
@@ -199,11 +189,7 @@ const topLinks = [
     icon: 'mdi-earth',
     to: '/',
     children: [
-      {
-        title: 'Levels in RP',
-        icon: 'mdi-trending-up',
-        to: '/level',
-      },
+      { title: 'Levels in RP', icon: 'mdi-trending-up', to: '/level' },
       { title: 'General Rules', icon: 'mdi-gavel', to: '/sandbox/rules' },
       { title: 'RP Setting', icon: 'mdi-map', to: '/sandbox/setting' },
     ],
@@ -220,14 +206,14 @@ const topLinks = [
 ]
 
 function handleNavigation() {
-  if (mobile.value) drawer.value = false
+  if (mobile.value) isRail.value = true
 }
 </script>
 
 <template>
-  <v-app-bar elevation="1" density="compact">
+  <v-app-bar :elevation="0" density="compact" class="notebook-app-bar">
     <template #prepend>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="isRail = !isRail" class="nav-toggle" />
       <v-btn
         v-if="route.path !== '/'"
         icon="mdi-chevron-left"
@@ -239,7 +225,7 @@ function handleNavigation() {
 
     <v-breadcrumbs
       :items="breadcrumbs"
-      class="pa-0 px-2 breadcrumb-nav text-truncate"
+      class="pa-0 px-2 breadcrumb-nav font-serif text-truncate"
       density="compact"
     >
       <template #divider><v-icon icon="mdi-chevron-right" size="small" /></template>
@@ -252,7 +238,7 @@ function handleNavigation() {
         v-model:search="searchInput"
         :items="searchResults"
         item-title="title"
-        placeholder="Search Database..."
+        placeholder="Search Field Notes..."
         prepend-inner-icon="mdi-magnify"
         variant="solo-filled"
         density="compact"
@@ -283,11 +269,12 @@ function handleNavigation() {
                   color="error"
                   variant="flat"
                   class="font-weight-bold pulse-animation"
-                  >LIVE</v-chip
                 >
-                <v-chip size="x-small" label variant="tonal" color="primary">{{
-                  item.raw.category
-                }}</v-chip>
+                  LIVE
+                </v-chip>
+                <v-chip size="x-small" label variant="tonal" color="success">
+                  {{ item.raw.category }}
+                </v-chip>
               </div>
             </template>
           </v-list-item>
@@ -300,118 +287,203 @@ function handleNavigation() {
         :icon="isDark ? 'mdi-weather-night' : 'mdi-weather-sunny'"
         variant="text"
         @click="isDark = !isDark"
+        class="theme-toggle"
       />
     </template>
   </v-app-bar>
 
-  <v-navigation-drawer v-model="drawer" :width="345" elevation="10">
-    <div class="drawer-banner">
-      <v-icon size="32" color="white" class="mb-1">mdi-pokeball</v-icon>
-      <span class="drawer-banner__title">Pokémon Stories</span>
-      <span class="drawer-banner__sub">Navigation</span>
+  <v-navigation-drawer
+    class="notebook-drawer"
+    :width="300"
+    :rail-width="64"
+    :rail="isRail"
+    expand-on-hover
+    permanent
+    border="none"
+  >
+    <!-- Field Journal Header -->
+    <div class="drawer-header pa-3 py-4">
+      <div class="d-flex align-center ga-3 overflow-hidden">
+        <div class="header-icon-box flex-shrink-0">
+          <v-icon color="green-darken-3" size="20">mdi-book-open-page-variant-outline</v-icon>
+        </div>
+        <div class="header-text-group text-no-wrap">
+          <h2 class="text-subtitle-1 font-weight-bold font-serif text-high-emphasis leading-none">
+            Nagivation
+          </h2>
+          <span class="text-caption text-medium-emphasis">Pokémon Roleplay</span>
+        </div>
+      </div>
     </div>
 
-    <v-toolbar flat border color="transparent" density="compact">
-      <v-spacer />
+    <!-- Top Links List (Native Vuetify Rail Support) -->
+    <v-list density="compact" nav class="px-2 py-0 bg-transparent">
       <template v-for="link in topLinks" :key="link.title">
-        <v-menu v-if="link.children" open-on-hover>
+        <v-menu v-if="link.children" open-on-hover location="right">
           <template #activator="{ props }">
-            <v-btn v-bind="props" variant="text" :prepend-icon="link.icon" class="text-none">
-              {{ link.title }} <v-icon end size="small">mdi-chevron-down</v-icon>
-            </v-btn>
+            <v-list-item
+              v-bind="props"
+              :prepend-icon="link.icon"
+              :title="link.title"
+              class="font-serif my-1"
+            >
+              <template #append>
+                <v-icon size="x-small" class="menu-arrow">mdi-chevron-right</v-icon>
+              </template>
+            </v-list-item>
           </template>
-          <v-list density="compact" nav>
+          <v-list density="compact" nav class="notebook-menu">
             <v-list-item
               v-for="sublink in link.children"
               :key="sublink.to"
               :to="sublink.to"
               :prepend-icon="sublink.icon"
               :title="sublink.title"
-              color="primary"
+              color="green-darken-2"
             />
           </v-list>
         </v-menu>
-        <v-btn v-else variant="text" :to="link.to" :prepend-icon="link.icon" class="text-none">{{
-          link.title
-        }}</v-btn>
+        <v-list-item
+          v-else
+          :to="link.to"
+          :prepend-icon="link.icon"
+          :title="link.title"
+          class="font-serif my-1"
+        />
       </template>
-    </v-toolbar>
+    </v-list>
 
-    <v-divider class="mx-3 mb-3" />
-    <div class="sub-nav-body px-2"><SandboxNav @navigate="handleNavigation" /></div>
+    <v-divider class="notebook-divider mx-3 my-2" />
 
-    <template #append>
-      <v-divider />
-      <div class="drawer-footer text-center py-2">
-        <span class="text-caption text-disabled">Pokémon RP Hub · v1.0</span>
+    <!-- Main Navigation List Container -->
+    <div class="sub-nav-body px-2">
+      <div class="sub-nav-container pa-1">
+        <SandboxNav @navigate="handleNavigation" />
       </div>
-    </template>
+    </div>
+
+    
   </v-navigation-drawer>
 
   <RouterView />
 </template>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,400&display=swap');
+
+.font-serif {
+  font-family: 'Lora', Georgia, serif !important;
+}
+
+.leading-none {
+  line-height: 1.2 !important;
+}
+
+/* App Bar Notebook Styling */
+.notebook-app-bar {
+  background: rgba(var(--v-theme-surface), 0.85) !important;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.06) !important;
+}
+
 .breadcrumb-nav {
   font-size: 0.875rem;
-  font-weight: 500;
 }
+
 :deep(.v-breadcrumbs-item--disabled) {
   opacity: 1;
-  color: rgb(var(--v-theme-primary)) !important;
+  color: rgb(var(--v-theme-green-darken-3)) !important;
   font-weight: 700;
 }
 
-.drawer-banner {
+.v-theme--dark :deep(.v-breadcrumbs-item--disabled) {
+  color: #81c784 !important;
+}
+
+/* Navigation Drawer Base */
+.notebook-drawer {
+  background-color: #faf8f5 !important;
+  border-right: 1px solid rgba(var(--v-theme-on-surface), 0.08) !important;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.v-theme--dark .notebook-drawer {
+  background-color: #1e1e1e !important;
+}
+
+.header-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(76, 175, 80, 0.12);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  padding: 20px 16px 18px;
-  background: rgb(var(--v-theme-error));
-  background-image:
-    radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='18' fill='none' stroke='%23ffffff' stroke-width='0.8' opacity='0.12'/%3E%3Cline x1='12' y1='30' x2='48' y2='30' stroke='%23ffffff' stroke-width='0.8' opacity='0.12'/%3E%3Ccircle cx='30' cy='30' r='5' fill='none' stroke='%23ffffff' stroke-width='0.8' opacity='0.12'/%3E%3C/svg%3E");
+  margin: 0 auto;
 }
-.drawer-banner__title {
-  color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1.2;
+
+.notebook-divider {
+  border-color: rgba(var(--v-theme-on-surface), 0.08) !important;
+  opacity: 1 !important;
 }
-.drawer-banner__sub {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+
+/* Direct CSS Overrides for Non-Native Text in Collapsed Rail Mode */
+:deep(.v-navigation-drawer--rail:not(.v-navigation-drawer--is-hovering)) {
+  .header-text-group,
+  .footer-text,
+  .menu-arrow,
+  .v-list-subheader {
+    display: none !important;
+  }
+}
+
+.header-text-group,
+.footer-text {
+  transition: opacity 0.2s ease;
 }
 
 .sub-nav-body {
   flex: 1;
   overflow-y: auto;
 }
+
+.sub-nav-container {
+  background: rgba(var(--v-theme-surface), 0.5);
+  border-radius: 10px;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.05);
+  overflow: hidden;
+}
+
+/* Search Bar Aesthetics */
 .search-container {
   width: 40px;
   transition: all 0.3s ease;
   margin-left: 8px;
 }
+
 .search-container--open {
-  width: 280px;
+  width: 260px;
 }
+
 @media (max-width: 600px) {
   .search-container--open {
-    width: 160px;
+    width: 150px;
   }
+}
+
+:deep(.search-bar .v-field) {
+  border-radius: 20px;
+  background: rgba(var(--v-theme-on-surface), 0.04) !important;
 }
 
 :deep(.search-bar .v-field__outline) {
   display: none;
 }
+
 .pulse-animation {
   animation: pulse 2s infinite;
 }
+
 @keyframes pulse {
   0%,
   100% {
@@ -421,15 +493,21 @@ function handleNavigation() {
     opacity: 0.5;
   }
 }
+
 .ga-2 {
   gap: 8px;
 }
 
-.v-navigation-drawer ::-webkit-scrollbar {
+.ga-3 {
+  gap: 12px;
+}
+
+.notebook-drawer ::-webkit-scrollbar {
   width: 4px;
 }
-.v-navigation-drawer ::-webkit-scrollbar-thumb {
-  background: rgba(128, 128, 128, 0.25);
-  border-radius: 2px;
+
+.notebook-drawer ::-webkit-scrollbar-thumb {
+  background: rgba(var(--v-theme-on-surface), 0.15);
+  border-radius: 4px;
 }
 </style>

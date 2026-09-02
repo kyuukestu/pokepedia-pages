@@ -4,10 +4,10 @@ import { useRoute } from 'vue-router'
 import { useCharacterDashboard } from '@/composables/useCharacterDashboard'
 import { useAchievements } from '@/composables/useAchievements'
 import { usePokemon } from '@/composables/usePokemon'
-import IdentityHeader from '@/components-new/IdentityHeader.vue'
-import SnapshotGrid from '@/components-new/SnapShotGrid.vue'
-import PokemonPanel from '@/components-new/PokemonPanel.vue'
-import AchievementPanel from '@/components-new/AchievementPanel.vue'
+import IdentityHeader from '@/components/IdentityHeader.vue'
+import SnapshotGrid from '@/components/SnapShotGrid.vue'
+import PokemonPanel from '@/components/PokemonPanel.vue'
+import AchievementPanel from '@/components/AchievementPanel.vue'
 
 const route = useRoute()
 const slug = computed(() => route.params as string) // Some params goes here

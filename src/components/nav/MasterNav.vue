@@ -3,17 +3,12 @@ import { ref, watch } from 'vue'
 import { useTheme, useDisplay } from 'vuetify'
 import { useRoute } from 'vue-router'
 
-const drawer = ref(false)
+// Controls collapsed/expanded state (starts collapsed as a rail)
+const isRail = ref(true)
 const theme = useTheme()
 const route = useRoute()
 const { mobile } = useDisplay()
 const icon = ref('mdi-weather-sunny')
-const navPage = ref(0)
-
-// const length = ref(2)
-
-// Navigation page titles for better UX
-// const navTitles = ['Sandbox Navigation', 'Sync Navigation']
 const navTitles = ['Pokémon Stories']
 
 watch(
@@ -27,29 +22,24 @@ const toggleTheme = () => {
   theme.global.name.value = theme.global.name.value === 'dark' ? 'light' : 'dark'
 }
 
-// function next() {
-//   navPage.value = navPage.value + 1 >= length.value ? 0 : navPage.value + 1
-// }
-
-// function prev() {
-//   navPage.value = navPage.value - 1 < 0 ? length.value - 1 : navPage.value - 1
-// }
-
-// Auto-close drawer on mobile after navigation
+// Auto-collapse rail on mobile after navigation
 const handleNavigation = () => {
   if (mobile.value) {
-    drawer.value = false
+    isRail.value = true
   }
 }
 </script>
 
 <template>
-  <v-app-bar :elevation="2" app density="compact" scroll-behavior="collapse" class="app-bar">
+  <v-app-bar :elevation="0" app density="compact" class="notebook-app-bar">
     <template v-slot:prepend>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="nav-toggle" />
+      <!-- Clicking toggles rail between collapsed (64px) and expanded (300px) -->
+      <v-app-bar-nav-icon @click.stop="isRail = !isRail" class="nav-toggle" />
     </template>
 
-    <v-toolbar-title class="app-title"> Pokémon RP Hub </v-toolbar-title>
+    <v-toolbar-title class="app-title font-serif">
+      Pokémon RP Hub
+    </v-toolbar-title>
 
     <v-spacer />
 
@@ -57,375 +47,190 @@ const handleNavigation = () => {
   </v-app-bar>
 
   <v-navigation-drawer
-    v-model="drawer"
-    class="navigation-drawer"
-    :width="320"
-    image="https://img4.gelbooru.com//samples/d5/81/sample_d581bdaadf5e192701fdbfa46680304b.jpg"
+    class="notebook-drawer"
+    :width="300"
+    :rail-width="64"
+    :rail="isRail"
+    expand-on-hover
+    permanent
+    border="none"
   >
-    <!-- Main Navigation Items -->
-    <div class="drawer-header">
-      <v-img
-        src="https://img4.gelbooru.com//samples/d5/81/sample_d581bdaadf5e192701fdbfa46680304b.jpg"
-        height="80"
-        cover
-        class="header-image"
-      >
-        <div class="header-overlay">
-          <v-icon color="white" size="large">mdi-pokeball</v-icon>
-          <span class="header-text">Navigation</span>
+    <!-- Journal Header -->
+    <div class="drawer-header pa-3 py-4">
+      <div class="d-flex align-center ga-3 overflow-hidden">
+        <div class="header-icon-box flex-shrink-0">
+          <v-icon color="green-darken-3" size="20">mdi-book-open-page-variant-outline</v-icon>
         </div>
-      </v-img>
+        <div class="header-text-group text-no-wrap">
+          <h2 class="text-subtitle-1 font-weight-bold font-serif text-high-emphasis leading-none">
+            Field Journal
+          </h2>
+          <span class="text-caption text-medium-emphasis">Navigation Directory</span>
+        </div>
+      </div>
     </div>
 
-    <v-list density="compact" class="main-nav-list">
+    <v-divider class="notebook-divider mx-3 mb-2" />
+
+    <!-- Main Navigation List -->
+    <v-list density="compact" nav class="main-nav-list px-2">
       <v-list-item
-        prepend-icon="mdi-home-city"
-        title="Home"
+        prepend-icon="mdi-home-outline"
+        title="Home Sandbox"
         value="home"
         to="/sandbox"
         :active="route.path === '/sandbox'"
-        class="nav-item main-nav-item"
+        class="nav-item"
         @click="handleNavigation"
       />
 
       <v-list-item
-        prepend-icon="mdi-chat-question"
-        title="Levels"
+        prepend-icon="mdi-chart-bar-stacked"
+        title="Levels Directory"
         value="level"
         to="/level"
         :active="route.path === '/level'"
-        class="nav-item main-nav-item"
+        class="nav-item"
         @click="handleNavigation"
       />
     </v-list>
 
-    <v-divider class="my-3" />
+    <v-divider class="notebook-divider mx-3 my-3" />
 
-    <!-- Sub-Navigation Controls -->
-    <!-- <div class="sub-nav-header"> -->
-    <!-- <h3 class="sub-nav-title">
-        <v-icon class="mr-2">mdi-view-dashboard</v-icon>
-        Game Worlds
-      </h3>
-
-      <div class="nav-controls">
-        <v-btn-group variant="outlined" density="comfortable" class="control-group">
-          <v-btn @click="prev" :disabled="navPage === 0" size="small" class="control-btn">
-            <v-icon>mdi-chevron-left</v-icon>
-            Prev
-          </v-btn>
-
-          <v-btn @click="next" :disabled="navPage === length - 1" size="small" class="control-btn">
-            Next
-            <v-icon>mdi-chevron-right</v-icon>
-          </v-btn>
-        </v-btn-group>
-      </div> -->
-
-    <!-- Page Indicator -->
-    <!-- <div class="page-indicator">
-        <v-chip
-          v-for="(title, index) in navTitles"
-          :key="index"
-          :color="navPage === index ? 'primary' : 'default'"
-          :variant="navPage === index ? 'elevated' : 'outlined'"
-          size="small"
-          class="indicator-chip"
-          @click="navPage = index"
-        >
-          {{ title.split(' ')[0] }}
-        </v-chip>
-      </div> -->
-    <!-- </div> -->
-
-    <!-- Sub-Navigation Window -->
-    <v-card class="sub-nav-card" elevation="2">
-      <v-card-title class="sub-nav-card-title">
-        <v-icon class="mr-2" :color="navPage === 0 ? 'orange' : 'blue'">
-          {{ navPage === 0 ? 'mdi-cube-outline' : 'mdi-sync' }}
-        </v-icon>
-        {{ navTitles[navPage] }}
-      </v-card-title>
-
-      <div class="nav-content">
-        <SyncNav @navigate="handleNavigation" />
+    <!-- Sub Navigation Section -->
+    <div class="px-2 overflow-hidden">
+      <div class="sub-nav-header px-2 py-2 d-flex align-center ga-3 text-no-wrap">
+        <v-icon size="18" color="green-darken-2" class="flex-shrink-0">mdi-compass-outline</v-icon>
+        <span class="sub-nav-title text-caption font-serif font-weight-bold text-medium-emphasis text-uppercase tracking-wide">
+          {{ navTitles[0] }}
+        </span>
       </div>
 
-      <!-- <v-window v-model="navPage" class="sub-nav-window" :touch="{ left: next, right: prev }">
-        <v-window-item :value="0" class="window-item">
-          <div class="nav-content">
-            <sandboxNav @navigate="handleNavigation" />
-          </div>
-        </v-window-item>
-
-        <v-window-item :value="1" class="window-item">
-          <div class="nav-content">
-            <SyncNav @navigate="handleNavigation" />
-          </div>
-        </v-window-item>
-      </v-window> -->
-    </v-card>
+      <div class="sub-nav-container pa-1">
+        <SyncNav @navigate="handleNavigation" />
+      </div>
+    </div>
 
     <!-- Footer -->
     <template v-slot:append>
-      <div class="drawer-footer">
-        <v-divider />
-        <v-list density="compact">
-          <v-list-item class="footer-item">
-            <v-list-item-title class="text-caption text-center">
-              Pokémon RP Hub v1.0
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
+      <div class="drawer-footer pa-3 overflow-hidden">
+        <v-divider class="notebook-divider mb-3" />
+        <div class="footer-text text-caption font-serif text-center text-medium-emphasis text-no-wrap">
+          Pokémon RP Hub &bull; v1.0
+        </div>
       </div>
     </template>
   </v-navigation-drawer>
 </template>
 
 <style scoped>
-.app-bar {
-  background: transparent;
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,400&display=swap');
+
+.font-serif {
+  font-family: 'Lora', Georgia, serif !important;
+}
+
+.tracking-wide {
+  letter-spacing: 0.05em !important;
+}
+
+.leading-none {
+  line-height: 1.2 !important;
+}
+
+/* App Bar Styling */
+.notebook-app-bar {
+  background: rgba(var(--v-theme-surface), 0.85) !important;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.06) !important;
 }
 
 .app-title {
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: rgba(var(--v-theme-on-surface), 0.9);
 }
 
-.nav-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+/* Drawer Paper & Rail Mechanics */
+.notebook-drawer {
+  background-color: #FAF8F5 !important;
+  border-right: 1px solid rgba(var(--v-theme-on-surface), 0.08) !important;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.theme-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.v-theme--dark .notebook-drawer {
+  background-color: #1E1E1E !important;
 }
 
-.navigation-drawer {
-  background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
-}
-
-.drawer-header {
-  position: relative;
-  margin-bottom: 1rem;
-}
-
-.header-image {
-  border-radius: 0 0 16px 16px;
-}
-
-.header-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+.header-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(76, 175, 80, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 0.5rem;
+  margin: 0 auto;
 }
 
-.header-text {
-  color: white;
-  font-weight: bold;
-  font-size: 1.1rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+.notebook-divider {
+  border-color: rgba(var(--v-theme-on-surface), 0.08) !important;
+  opacity: 1 !important;
 }
 
-.main-nav-list {
-  padding: 0 0.5rem;
+/* Hide extra text elements when drawer is in collapsed rail state */
+.v-navigation-drawer--rail:not(.v-navigation-drawer--is-hovering) .header-text-group,
+.v-navigation-drawer--rail:not(.v-navigation-drawer--is-hovering) .sub-nav-title,
+.v-navigation-drawer--rail:not(.v-navigation-drawer--is-hovering) .footer-text {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.main-nav-item {
-  background: linear-gradient(135deg, rgba(248, 249, 250, 0.85), rgba(233, 236, 239, 0.3));
+.header-text-group,
+.sub-nav-title,
+.footer-text {
+  transition: opacity 0.2s ease;
 }
 
+/* Nav Link Item Mechanics */
 .nav-item {
-  border-radius: 12px;
-  margin: 0.25rem 0;
-  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  color: rgba(var(--v-theme-on-surface), 0.8) !important;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .nav-item:hover {
-  background-color: rgba(25, 118, 210, 0.08) !important;
-  transform: translateX(4px);
+  background-color: rgba(var(--v-theme-on-surface), 0.04) !important;
 }
 
 .nav-item.v-list-item--active {
-  background: linear-gradient(
-    135deg,
-    rgba(25, 118, 210, 0.12),
-    rgba(25, 118, 210, 0.08)
-  ) !important;
-  border-left: 4px solid #1976d2;
-  font-weight: bold;
-}
-
-.sub-nav-header {
-  padding: 1rem;
-  background: linear-gradient(135deg, rgba(248, 249, 250, 0.65), rgba(233, 236, 239, 0.3));
-  margin: 0.5rem;
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.sub-nav-title {
-  font-size: 1rem;
+  background-color: rgba(76, 175, 80, 0.1) !important;
+  color: rgb(var(--v-theme-green-darken-3)) !important;
+  border-left: 3px solid rgb(var(--v-theme-green-darken-2));
   font-weight: 600;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-}
-
-.nav-controls {
-  margin-bottom: 1rem;
-}
-
-.control-group {
-  width: 100%;
-}
-
-.control-btn {
-  flex: 1;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.control-btn:hover:not(:disabled) {
-  background-color: rgba(25, 118, 210, 0.08);
-  transform: scale(1.02);
-}
-
-.control-btn:disabled {
-  opacity: 0.4;
-}
-
-.page-indicator {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-}
-
-.indicator-chip {
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.75rem;
-}
-
-.indicator-chip:hover {
-  transform: scale(1.05);
-}
-
-.sub-nav-card {
-  margin: 0.5rem;
-  border-radius: 16px;
-  overflow: hidden;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.sub-nav-card-title {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  font-size: 0.95rem;
-  font-weight: 600;
-  padding: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.sub-nav-window {
-  min-height: 200px;
-}
-
-.window-item {
-  height: 100%;
-}
-
-.nav-content {
-  padding: 1rem;
-  min-height: 200px;
-}
-
-.drawer-footer {
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.footer-item {
-  opacity: 0.7;
-}
-
-/* Dark theme adjustments */
-.v-theme--dark .navigation-drawer {
-  background: linear-gradient(180deg, #2d2d2d 0%, #242424 100%);
-}
-
-.v-theme--dark .sub-nav-header {
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.v-theme--dark .sub-nav-card {
-  background: #2d2d2d;
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.v-theme--dark .sub-nav-card-title {
-  background: linear-gradient(135deg, #3d3d3d, #333333);
-  border-bottom-color: rgba(255, 255, 255, 0.1);
-}
-
-.v-theme--dark .main-nav-item {
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
-}
-
-.v-theme--dark .nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 .v-theme--dark .nav-item.v-list-item--active {
-  background: linear-gradient(135deg, rgba(25, 118, 210, 0.2), rgba(25, 118, 210, 0.1)) !important;
+  background-color: rgba(129, 199, 132, 0.12) !important;
+  color: #A5D6A7 !important;
+  border-left-color: #81C784;
 }
 
-.v-theme--dark .drawer-footer {
-  background: rgba(0, 0, 0, 0.3);
+.sub-nav-container {
+  background: rgba(var(--v-theme-surface), 0.5);
+  border-radius: 10px;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.05);
+  overflow: hidden;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .navigation-drawer {
-    width: 280px !important;
-  }
-
-  .sub-nav-header {
-    padding: 0.75rem;
-  }
-
-  .nav-content {
-    padding: 0.75rem;
-  }
+/* Scrollbar Tweaks */
+.notebook-drawer ::-webkit-scrollbar {
+  width: 4px;
 }
 
-/* Animation for smooth transitions */
-.v-window-item {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Custom scrollbar for drawer */
-.navigation-drawer ::-webkit-scrollbar {
-  width: 6px;
-}
-
-.navigation-drawer ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.navigation-drawer ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-}
-
-.navigation-drawer ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+.notebook-drawer ::-webkit-scrollbar-thumb {
+  background: rgba(var(--v-theme-on-surface), 0.15);
+  border-radius: 4px;
 }
 </style>

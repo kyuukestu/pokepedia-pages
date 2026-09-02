@@ -8,7 +8,7 @@ import { AllRegions } from '@/types/region'
 // ── Display Mode ────────────────────────────────────────────────────────────
 const viewMode = ref<'grid' | 'board'>('board')
 
-// ── Reactive State ──────────────────────────────────────────────────────────
+// ── Filter State ────────────────────────────────────────────────────────────
 const activeTypeTab = ref<'all' | QuestType>('all')
 const selectedStatus = ref<QuestStatus | 'all'>('all')
 const selectedCategory = ref<QuestCategory | 'all'>('all')
@@ -19,7 +19,7 @@ const search = ref('')
 const dialogOpen = ref(false)
 const selectedQuest = ref<Quest | null>(null)
 
-// ── Location Helpers ────────────────────────────────────────────────────────
+// ── Helpers ────────────────────────────────────────────────────────────────
 function formatQuestLocation(quest: Quest): string {
   const loc = quest.location
   if (!loc) return 'Unknown Location'
@@ -43,41 +43,36 @@ function getLocationDetails(quest: Quest): string[] {
   return details
 }
 
-// ── Type Border Color Helper ────────────────────────────────────────────────
-function getTypeBorderClass(type: QuestType): string {
-  return type === 'mission' ? 'border-type-mission' : 'border-type-pokejob'
-}
-
-// ── Category Text/Chip Colors ──────────────────────────────────────────────
+// Category accent colors adapted for dark mode neon ink highlights
 const categoryColors: Record<QuestCategory, string> = {
-  combat: 'red-darken-2',
-  investigation: 'purple-darken-2',
-  exploration: 'teal-darken-2',
-  rescue: 'amber-darken-3',
-  escort: 'orange-darken-3',
-  delivery: 'blue-darken-2',
-  collection: 'lime-darken-4',
-  capture: 'pink-darken-2',
-  protection: 'indigo-darken-2',
-  research: 'cyan-darken-3',
-  training: 'deep-orange-darken-2',
-  social: 'purple-darken-1',
-  emergency: 'error',
-  miscellaneous: 'grey-darken-3',
+  combat: '#ef5350',
+  investigation: '#ab47bc',
+  exploration: '#26a69a',
+  rescue: '#ff7043',
+  escort: '#ffa726',
+  delivery: '#42a5f5',
+  collection: '#9ccc65',
+  capture: '#ec407a',
+  protection: '#5c6bc0',
+  research: '#26c6da',
+  training: '#ff7043',
+  social: '#ab47bc',
+  emergency: '#ef5350',
+  miscellaneous: '#8d6e63',
 }
 
 function getCategoryColor(category: QuestCategory): string {
-  return categoryColors[category] || 'primary'
+  return categoryColors[category] || '#90a4ae'
 }
 
 // ── Status Config ───────────────────────────────────────────────────────────
-const statusConfig: Record<QuestStatus, { label: string; color: string; icon: string }> = {
-  available: { label: 'Available', color: 'success', icon: 'mdi-check-circle-outline' },
-  taken: { label: 'In Progress', color: 'warning', icon: 'mdi-progress-clock' },
-  completed: { label: 'Completed', color: 'grey-darken-1', icon: 'mdi-check-all' },
+const statusConfig: Record<QuestStatus, { label: string; stampClass: string }> = {
+  available: { label: 'OPEN', stampClass: 'stamp-open' },
+  taken: { label: 'IN PROGRESS', stampClass: 'stamp-progress' },
+  completed: { label: 'SOLVED', stampClass: 'stamp-solved' },
 }
 
-// ── Dropdown Options ────────────────────────────────────────────────────────
+// ── Options ─────────────────────────────────────────────────────────────────
 const categoryOptions = [
   { title: 'All Categories', value: 'all' },
   { title: 'Combat', value: 'combat' },
@@ -103,7 +98,7 @@ const statusOptions = [
   { title: 'Completed', value: 'completed' },
 ]
 
-// ── Filtering Logic ─────────────────────────────────────────────────────────
+// ── Computed Properties ─────────────────────────────────────────────────────
 const filteredQuests = computed(() => {
   return quests.filter((quest) => {
     const matchesType = activeTypeTab.value === 'all' || quest.type === activeTypeTab.value
@@ -125,7 +120,6 @@ const filteredQuests = computed(() => {
   })
 })
 
-// ── Metrics ─────────────────────────────────────────────────────────────────
 const availableCount = computed(() => quests.filter((q) => q.status === 'available').length)
 const missionsCount = computed(() => quests.filter((q) => q.type === 'mission').length)
 const pokejobsCount = computed(() => quests.filter((q) => q.type === 'pokejob').length)
@@ -146,53 +140,37 @@ function clearFilters() {
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
-    <!-- Hero Header Assembly -->
+  <v-container fluid class="pa-0 notebook-wrapper-dark">
     <WikiHero
-      title="Quest Board"
-      subtitle="Discover active quests, missions, and PokéJobs."
-      icon="mdi-clipboard-text-multiple-outline"
+      title="Field Journal & Quest Notes"
+      subtitle="Hand-pinned notices, local requests, and research logs."
+      icon="mdi-notebook-edit-outline"
       pattern="pokeball"
     >
       <template #chips>
         <div class="d-flex justify-center align-center flex-wrap ga-3 w-100 px-4">
-          <v-card
-            variant="outlined"
-            class="pa-2 px-4 rounded-pill d-flex align-center flex-wrap ga-3 bg-surface"
-          >
-            <span
-              class="text-caption font-weight-bold text-uppercase text-medium-emphasis tracking-wider"
-            >
-              Overview:
-            </span>
-            <v-chip size="small" color="success" variant="outlined" class="font-weight-bold">
-              Available: {{ availableCount }}
-            </v-chip>
-            <v-chip size="small" color="primary" variant="outlined" class="font-weight-bold">
-              Missions: {{ missionsCount }}
-            </v-chip>
-            <v-chip size="small" color="warning" variant="outlined" class="font-weight-bold">
-              PokéJobs: {{ pokejobsCount }}
-            </v-chip>
-          </v-card>
+          <div class="journal-tag-strip d-flex align-center flex-wrap ga-3 pa-2 px-5">
+            <span class="handwritten-label">Summary:</span>
+            <span class="journal-pill open-pill">Total Quests: {{ availableCount }}</span>
+            <span class="journal-pill mission-pill">Missions: {{ missionsCount }}</span>
+            <span class="journal-pill job-pill">PokéJobs: {{ pokejobsCount }}</span>
+          </div>
         </div>
       </template>
     </WikiHero>
 
-    <!-- Main Content Layout -->
     <v-container max-width="1440" class="py-8">
-      <!-- Controls Bar -->
-      <v-card variant="outlined" class="mb-8 rounded-xl bg-surface pa-4">
+      <div class="notebook-filter-bar mb-8 pa-4">
         <v-row align="center" density="comfortable">
           <v-col cols="12" md="4" lg="4">
-            <v-tabs v-model="activeTypeTab" color="primary" density="compact" align-tabs="start">
-              <v-tab value="all" class="text-caption font-weight-bold">All Quests</v-tab>
-              <v-tab value="mission" class="text-caption font-weight-bold">
-                <v-icon start size="16">mdi-crosshairs-gps</v-icon>
+            <v-tabs v-model="activeTypeTab" color="amber-lighten-2" density="compact" align-tabs="start">
+              <v-tab value="all" class="handwritten-tab">All Quests</v-tab>
+              <v-tab value="mission" class="handwritten-tab">
+                <v-icon start size="16">mdi-target</v-icon>
                 Missions
               </v-tab>
-              <v-tab value="pokejob" class="text-caption font-weight-bold">
-                <v-icon start size="16">mdi-briefcase-outline</v-icon>
+              <v-tab value="pokejob" class="handwritten-tab">
+                <v-icon start size="16">mdi-briefcase-search-outline</v-icon>
                 PokéJobs
               </v-tab>
             </v-tabs>
@@ -202,12 +180,12 @@ function clearFilters() {
             <v-text-field
               v-model="search"
               prepend-inner-icon="mdi-magnify"
-              label="Search quests..."
+              label="Search..."
               variant="outlined"
               density="compact"
               hide-details
               clearable
-              rounded="lg"
+              class="notebook-input"
             />
           </v-col>
 
@@ -219,7 +197,7 @@ function clearFilters() {
               variant="outlined"
               density="compact"
               hide-details
-              rounded="lg"
+              class="notebook-input"
             />
           </v-col>
 
@@ -231,25 +209,19 @@ function clearFilters() {
               variant="outlined"
               density="compact"
               hide-details
-              class="flex-grow-1"
-              rounded="lg"
+              class="flex-grow-1 notebook-input"
             />
 
-            <!-- View Mode Toggle Switch -->
             <v-btn-toggle
               v-model="viewMode"
               mandatory
               variant="outlined"
               density="compact"
-              rounded="lg"
-              color="primary"
+              color="amber-lighten-2"
+              class="notebook-toggle"
             >
-              <v-btn
-                value="board"
-                icon="mdi-view-dashboard-variant-outline"
-                title="Variable Board View"
-              />
-              <v-btn value="grid" icon="mdi-view-grid-outline" title="Uniform Grid View" />
+              <v-btn value="board" icon="mdi-view-dashboard-variant-outline" title="Field Board" />
+              <v-btn value="grid" icon="mdi-view-grid-outline" title="Grid Log" />
             </v-btn-toggle>
 
             <v-btn
@@ -261,18 +233,16 @@ function clearFilters() {
                 selectedCategory !== 'all'
               "
               variant="outlined"
-              color="error"
-              icon="mdi-filter-off"
-              title="Clear Filters"
+              color="amber-lighten-3"
+              icon="mdi-eraser"
+              title="Clear Journal Search"
               @click="clearFilters"
             />
           </v-col>
         </v-row>
-      </v-card>
+      </div>
 
-      <!-- Quests Layout -->
       <div v-if="filteredQuests.length > 0">
-        <!-- MODE 1: Uniform Grid Layout -->
         <v-row v-if="viewMode === 'grid'">
           <v-col
             v-for="quest in filteredQuests"
@@ -282,421 +252,522 @@ function clearFilters() {
             lg="4"
             class="mb-4"
           >
-            <v-card
-              variant="outlined"
-              :class="[
-                'quest-paper-card',
-                'rounded-lg',
-                'h-100',
-                'd-flex',
-                'flex-column',
-                'cursor-pointer',
-                getTypeBorderClass(quest.type),
-              ]"
-              @click="openQuestModal(quest)"
-            >
-              <!-- Pin Indicator -->
-              <div class="pin-indicator" />
+            <div class="notebook-note-card cursor-pointer h-100 d-flex flex-column" @click="openQuestModal(quest)">
+              <div class="washi-tape" />
 
-              <div class="pa-4 d-flex align-center justify-space-between flex-wrap ga-2 border-b">
-                <div class="d-flex align-center ga-2">
-                  <v-chip
-                    size="x-small"
-                    variant="outlined"
-                    :color="quest.type === 'mission' ? 'primary' : 'warning'"
-                    label
-                    class="font-weight-bold text-uppercase"
-                  >
-                    {{ quest.type }}
-                  </v-chip>
-                  <v-chip
-                    size="x-small"
-                    variant="outlined"
-                    :color="getCategoryColor(quest.category)"
-                    label
-                    class="font-weight-bold text-uppercase"
-                  >
-                    {{ quest.category }}
-                  </v-chip>
-                </div>
-                <v-chip
-                  size="x-small"
-                  variant="outlined"
-                  :color="statusConfig[quest.status].color"
-                  class="font-weight-bold text-uppercase"
-                >
-                  {{ statusConfig[quest.status].label }}
-                </v-chip>
+              <div :class="['status-stamp', statusConfig[quest.status].stampClass]">
+                {{ statusConfig[quest.status].label }}
               </div>
 
-              <v-card-text class="pa-5 flex-grow-1 d-flex flex-column justify-space-between">
+              <div class="note-header border-b-dark pa-4 pt-6 d-flex align-center justify-space-between flex-wrap ga-2">
+                <div class="d-flex align-center ga-2">
+                  <span class="note-type-badge" :style="{ backgroundColor: quest.type === 'mission' ? '#b71c1c' : '#f57f17' }">
+                    {{ quest.type }}
+                  </span>
+                  <span class="note-category-badge" :style="{ borderColor: getCategoryColor(quest.category), color: getCategoryColor(quest.category) }">
+                    {{ quest.category }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="note-body pa-5 flex-grow-1 d-flex flex-column justify-space-between">
                 <div>
-                  <h3 class="text-h6 font-weight-bold mb-2 lh-tight text-high-emphasis">
+                  <h3 class="handwritten-title text-h6 font-weight-bold mb-2">
                     {{ quest.title }}
                   </h3>
-                  <p class="text-body-2 text-medium-emphasis line-clamp-3 mb-4">
+                  
+                  <div v-if="quest.issuer" class="issuer-stamp-card mb-3 d-inline-flex align-center ga-2 pa-1 px-3">
+                    <v-icon size="14" color="amber-lighten-3">mdi-account-edit-outline</v-icon>
+                    <span class="issuer-label">Issued by:</span>
+                    <span class="issuer-name">{{ quest.issuer.name }}</span>
+                  </div>
+
+                  <p class="handwritten-text text-body-2 line-clamp-3 mb-4">
                     {{ quest.description }}
                   </p>
                 </div>
 
-                <div class="pt-3 border-t">
-                  <div class="d-flex align-center justify-space-between text-caption">
-                    <span
-                      class="d-inline-flex align-center text-medium-emphasis font-weight-medium"
-                    >
-                      <v-icon size="16" start color="primary">mdi-map-marker-outline</v-icon>
+                <div class="pt-3 border-t-dashed">
+                  <div class="location-banner d-flex align-center justify-space-between pa-2 px-3">
+                    <span class="d-inline-flex align-center location-text">
+                      <v-icon size="16" start color="amber-lighten-2">mdi-compass-rose</v-icon>
                       {{ formatQuestLocation(quest) }}
                     </span>
-                    <span v-if="quest.repeatable" class="text-warning font-weight-bold">
-                      Repeatable
+                    <span v-if="quest.repeatable" class="repeat-tag">
+                      ★ Repeatable
                     </span>
                   </div>
                 </div>
-              </v-card-text>
+              </div>
 
-              <div
-                class="pa-3 px-5 border-t d-flex justify-space-between align-center bg-paper-subtle"
-              >
-                <span class="text-caption font-mono text-medium-emphasis">
-                  Objs: {{ quest.objectives.length }}
+              <div class="note-footer pa-3 px-5 d-flex justify-space-between align-center">
+                <span class="handwritten-mono text-caption">
+                  ID: #{{ quest.id }}
                 </span>
-                <span class="text-caption text-primary font-weight-bold d-flex align-center ga-1">
-                  Read Notice <v-icon size="14">mdi-arrow-right</v-icon>
+                <span class="inspect-link text-caption d-flex align-center ga-1">
+                  Read Note <v-icon size="14">mdi-arrow-right</v-icon>
                 </span>
               </div>
-            </v-card>
+            </div>
           </v-col>
         </v-row>
 
-        <!-- MODE 2: Variable Board Layout (Content-Driven Masonry) -->
         <div v-else class="quest-masonry-board">
           <div v-for="quest in filteredQuests" :key="quest.id" class="masonry-item mb-6">
-            <v-card
-              variant="outlined"
-              :class="[
-                'quest-paper-card',
-                'rounded-lg',
-                'cursor-pointer',
-                getTypeBorderClass(quest.type),
-              ]"
-              @click="openQuestModal(quest)"
-            >
-              <!-- Pin Indicator -->
-              <div class="pin-indicator" />
+            <div class="notebook-note-card cursor-pointer" @click="openQuestModal(quest)">
+              <div class="washi-tape" />
 
-              <!-- Card Header -->
-              <div class="pa-4 d-flex align-center justify-space-between flex-wrap ga-2 border-b">
-                <div class="d-flex align-center ga-2">
-                  <v-chip
-                    size="x-small"
-                    variant="outlined"
-                    :color="quest.type === 'mission' ? 'primary' : 'warning'"
-                    label
-                    class="font-weight-bold text-uppercase"
-                  >
-                    {{ quest.type }}
-                  </v-chip>
-                  <v-chip
-                    size="x-small"
-                    variant="outlined"
-                    :color="getCategoryColor(quest.category)"
-                    label
-                    class="font-weight-bold text-uppercase"
-                  >
-                    {{ quest.category }}
-                  </v-chip>
-                </div>
-                <v-chip
-                  size="x-small"
-                  variant="outlined"
-                  :color="statusConfig[quest.status].color"
-                  class="font-weight-bold text-uppercase"
-                >
-                  {{ statusConfig[quest.status].label }}
-                </v-chip>
+              <div :class="['status-stamp', statusConfig[quest.status].stampClass]">
+                {{ statusConfig[quest.status].label }}
               </div>
 
-              <!-- Main Card Body -->
-              <v-card-text class="pa-5">
-                <h3 class="text-h6 font-weight-bold mb-2 lh-tight text-high-emphasis">
+              <div class="note-header border-b-dark pa-4 pt-6 d-flex align-center justify-space-between flex-wrap ga-2">
+                <div class="d-flex align-center ga-2">
+                  <span class="note-type-badge" :style="{ backgroundColor: quest.type === 'mission' ? '#b71c1c' : '#f57f17' }">
+                    {{ quest.type }}
+                  </span>
+                  <span class="note-category-badge" :style="{ borderColor: getCategoryColor(quest.category), color: getCategoryColor(quest.category) }">
+                    {{ quest.category }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="note-body pa-5">
+                <h3 class="handwritten-title text-h6 font-weight-bold mb-2">
                   {{ quest.title }}
                 </h3>
-                <p class="text-body-2 text-medium-emphasis mb-4">
+
+                <div v-if="quest.issuer" class="issuer-stamp-card mb-3 d-inline-flex align-center ga-2 pa-1 px-3">
+                  <v-icon size="14" color="amber-lighten-3">mdi-account-edit-outline</v-icon>
+                  <span class="issuer-label">Issued by:</span>
+                  <span class="issuer-name">{{ quest.issuer.name }}</span>
+                </div>
+
+                <p class="handwritten-text text-body-2 mb-4">
                   {{ quest.description }}
                 </p>
 
-                <!-- Dynamic Objectives Preview List -->
-                <div
-                  v-if="quest.objectives.length > 0"
-                  class="mb-4 pa-3 rounded border border-dashed bg-paper-subtle"
-                >
-                  <div
-                    class="text-caption font-weight-bold text-uppercase text-medium-emphasis mb-2"
-                  >
-                    Objectives ({{ quest.objectives.length }})
+                <div v-if="quest.objectives.length > 0" class="journal-checklist mb-4 pa-3">
+                  <div class="handwritten-label text-caption mb-2">
+                    Objectives List:
                   </div>
-                  <ul class="text-caption text-medium-emphasis pl-4 mb-0">
+                  <ul class="text-caption pl-4 mb-0 handwritten-list">
                     <li v-for="obj in quest.objectives" :key="obj.id" class="mb-1">
                       {{ obj.description }}
                     </li>
                   </ul>
                 </div>
 
-                <!-- Location & Metadata -->
-                <div class="pt-3 border-t">
-                  <div class="d-flex align-center justify-space-between text-caption">
-                    <span
-                      class="d-inline-flex align-center text-medium-emphasis font-weight-medium"
-                    >
-                      <v-icon size="16" start color="primary">mdi-map-marker-outline</v-icon>
+                <div class="pt-3 border-t-dashed">
+                  <div class="location-banner d-flex align-center justify-space-between pa-2 px-3">
+                    <span class="d-inline-flex align-center location-text">
+                      <v-icon size="16" start color="amber-lighten-2">mdi-compass-rose</v-icon>
                       {{ formatQuestLocation(quest) }}
                     </span>
-                    <span v-if="quest.repeatable" class="text-warning font-weight-bold">
-                      Repeatable
+                    <span v-if="quest.repeatable" class="repeat-tag">
+                      ★ Repeatable
                     </span>
                   </div>
-                  <div v-if="quest.issuer" class="text-caption text-medium-emphasis mt-2">
-                    <span class="font-weight-medium">Issuer:</span> {{ quest.issuer.name }}
-                  </div>
                 </div>
-              </v-card-text>
+              </div>
 
-              <!-- Card Footer -->
-              <div
-                class="pa-3 px-5 border-t d-flex justify-space-between align-center bg-paper-subtle"
-              >
-                <span class="text-caption font-mono text-medium-emphasis">
+              <div class="note-footer pa-3 px-5 d-flex justify-space-between align-center">
+                <span class="handwritten-mono text-caption">
                   ID: #{{ quest.id }}
                 </span>
-                <span class="text-caption text-primary font-weight-bold d-flex align-center ga-1">
+                <span class="inspect-link text-caption d-flex align-center ga-1">
                   Inspect Notice <v-icon size="14">mdi-arrow-right</v-icon>
                 </span>
               </div>
-            </v-card>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Empty State -->
-      <v-card v-else variant="outlined" class="text-center py-16 rounded-xl bg-surface">
-        <v-icon size="64" color="medium-emphasis" class="mb-4">mdi-clipboard-search-outline</v-icon>
-        <h3 class="text-h5 font-weight-bold text-medium-emphasis mb-2">No Quests Found</h3>
-        <p class="text-body-1 text-medium-emphasis mb-6">
-          We couldn't find any quests matching your current filters.
+      <div v-else class="empty-journal-card text-center py-16 pa-6">
+        <v-icon size="64" color="amber-lighten-3" class="mb-4">mdi-book-search-outline</v-icon>
+        <h3 class="handwritten-title text-h5 mb-2">No Quests Found</h3>
+        <p class="handwritten-text text-body-1 mb-6">
+          No entries found matching queries.
         </p>
         <v-btn
           variant="outlined"
-          color="primary"
-          class="px-6 font-weight-bold"
-          rounded="lg"
+          color="amber-lighten-2"
+          class="font-weight-bold"
           @click="clearFilters"
         >
-          Clear All Filters
+          Clear Quest Search
         </v-btn>
-      </v-card>
+      </div>
     </v-container>
 
-    <!-- Modal Dialog -->
     <v-dialog v-model="dialogOpen" max-width="700">
-      <v-card
-        v-if="selectedQuest"
-        variant="outlined"
-        :class="[
-          'rounded-xl',
-          'overflow-hidden',
-          'bg-surface',
-          getTypeBorderClass(selectedQuest.type),
-        ]"
-      >
-        <div class="pa-6 border-b bg-paper-subtle">
+      <div v-if="selectedQuest" class="journal-dialog-card pa-6">
+        <div class="washi-tape dialog-tape" />
+
+        <div class="dialog-header pb-4 border-b-dark">
           <div class="d-flex align-center justify-space-between ga-2 mb-3">
             <div class="d-flex align-center ga-2">
-              <v-chip
-                size="small"
-                variant="outlined"
-                :color="selectedQuest.type === 'mission' ? 'primary' : 'warning'"
-                label
-                class="font-weight-bold text-uppercase"
-              >
+              <span class="note-type-badge" :style="{ backgroundColor: selectedQuest.type === 'mission' ? '#b71c1c' : '#f57f17' }">
                 {{ selectedQuest.type }}
-              </v-chip>
-              <v-chip
-                size="small"
-                variant="outlined"
-                :color="getCategoryColor(selectedQuest.category)"
-                label
-                class="font-weight-bold text-uppercase"
-              >
+              </span>
+              <span class="note-category-badge" :style="{ borderColor: getCategoryColor(selectedQuest.category), color: getCategoryColor(selectedQuest.category) }">
                 {{ selectedQuest.category }}
-              </v-chip>
+              </span>
             </div>
-            <v-chip
-              size="small"
-              variant="outlined"
-              :color="statusConfig[selectedQuest.status].color"
-              class="font-weight-bold text-uppercase"
-            >
+            <div :class="['status-stamp-dialog', statusConfig[selectedQuest.status].stampClass]">
               {{ statusConfig[selectedQuest.status].label }}
-            </v-chip>
+            </div>
           </div>
 
-          <h2 class="text-h4 font-weight-bold lh-tight mb-2">
+          <h2 class="handwritten-title text-h4 mb-2">
             {{ selectedQuest.title }}
           </h2>
 
-          <div
-            v-if="selectedQuest.issuer"
-            class="text-body-2 text-medium-emphasis d-flex align-center ga-1 mt-2"
-          >
-            <v-icon size="16" color="warning">mdi-account-circle</v-icon>
-            <span class="font-weight-medium">Issuer:</span> {{ selectedQuest.issuer.name }}
+          <div v-if="selectedQuest.issuer" class="issuer-stamp-card d-inline-flex align-center ga-2 pa-2 px-4 mt-2">
+            <v-icon size="18" color="amber-lighten-3">mdi-account-edit-outline</v-icon>
+            <span class="issuer-label">Issued By:</span>
+            <strong class="issuer-name text-body-1">{{ selectedQuest.issuer.name }}</strong>
           </div>
         </div>
 
-        <v-card-text class="pa-6">
-          <!-- Detailed Location Hierarchy via getLocationDetails -->
+        <div class="dialog-body py-6">
           <div v-if="getLocationDetails(selectedQuest).length > 0" class="mb-6">
-            <h3 class="text-subtitle-1 text-primary font-weight-bold d-flex align-center ga-2 mb-2">
-              <v-icon size="20">mdi-map-marker-radius-outline</v-icon>
-              Location Breakdown
+            <h3 class="handwritten-label text-subtitle-1 mb-2">
+              🧭 Location Breakdown
             </h3>
             <div class="d-flex flex-wrap ga-2">
-              <v-chip
-                v-for="(detail, idx) in getLocationDetails(selectedQuest)"
-                :key="idx"
-                size="small"
-                variant="outlined"
-                color="primary"
-                class="font-weight-medium"
-              >
+              <span v-for="(detail, idx) in getLocationDetails(selectedQuest)" :key="idx" class="location-chip">
                 {{ detail }}
-              </v-chip>
+              </span>
             </div>
           </div>
 
           <div class="mb-6">
-            <h3 class="text-subtitle-1 text-primary font-weight-bold d-flex align-center ga-2 mb-2">
-              <v-icon size="20">mdi-text-box-outline</v-icon>
-              Description
+            <h3 class="handwritten-label text-subtitle-1 mb-2">
+              📜 Field Notes
             </h3>
-            <p class="text-body-1 text-medium-emphasis lh-relaxed">
+            <p class="handwritten-text text-body-1">
               {{ selectedQuest.description }}
             </p>
           </div>
 
           <div v-if="selectedQuest.objectives.length > 0" class="mb-6">
-            <h3 class="text-subtitle-1 text-primary font-weight-bold d-flex align-center ga-2 mb-3">
-              <v-icon size="20">mdi-checkbox-marked-circle-outline</v-icon>
-              Objectives ({{ selectedQuest.objectives.length }})
+            <h3 class="handwritten-label text-subtitle-1 mb-3">
+              ✏️ Tasks & Checklist ({{ selectedQuest.objectives.length }})
             </h3>
-            <v-card variant="outlined" class="pa-3 rounded-lg bg-paper-subtle">
+            <div class="journal-checklist pa-4">
               <div
                 v-for="obj in selectedQuest.objectives"
                 :key="obj.id"
-                class="d-flex align-start ga-3 py-2 border-b last-no-border"
+                class="d-flex align-start ga-3 py-2 border-b-dashed last-no-border"
               >
-                <v-icon size="20" color="primary" class="mt-0-5">
-                  {{
-                    obj.optional
-                      ? 'mdi-checkbox-blank-circle-outline'
-                      : 'mdi-checkbox-marked-circle'
-                  }}
+                <v-icon size="18" color="amber-lighten-2" class="mt-0-5">
+                  {{ obj.optional ? 'mdi-checkbox-blank-outline' : 'mdi-checkbox-marked-outline' }}
                 </v-icon>
-                <div class="text-body-1">
+                <div class="handwritten-text text-body-1">
                   <span>{{ obj.description }}</span>
-                  <v-chip
-                    v-if="obj.optional"
-                    size="x-small"
-                    color="warning"
-                    variant="outlined"
-                    class="ms-2 font-weight-bold"
-                  >
-                    Optional
-                  </v-chip>
+                  <span v-if="obj.optional" class="optional-tag ml-2">(Optional Task)</span>
                 </div>
               </div>
-            </v-card>
-          </div>
-
-          <div v-if="selectedQuest.rewards.length > 0" class="mb-6">
-            <h3 class="text-subtitle-1 text-success font-weight-bold d-flex align-center ga-2 mb-3">
-              <v-icon size="20">mdi-gift-outline</v-icon>
-              Rewards
-            </h3>
-            <div class="d-flex flex-wrap ga-2">
-              <v-chip
-                v-for="reward in selectedQuest.rewards"
-                :key="reward.id"
-                variant="outlined"
-                color="success"
-                class="font-weight-bold px-4 py-2"
-                size="large"
-              >
-                {{ reward.description }}
-              </v-chip>
             </div>
           </div>
-        </v-card-text>
 
-        <v-card-actions class="pa-4 border-t d-flex justify-end">
+          <div v-if="selectedQuest.rewards.length > 0" class="mb-4">
+            <h3 class="handwritten-label text-subtitle-1 mb-3">
+              🎁 Offered Rewards
+            </h3>
+            <div class="d-flex flex-wrap ga-2">
+              <span v-for="reward in selectedQuest.rewards" :key="reward.id" class="reward-tag">
+                {{ reward.description }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialog-footer pt-4 border-t-dark d-flex justify-space-between align-center">
+          <span class="handwritten-mono text-caption">ID: #{{ selectedQuest.id }}</span>
           <v-btn
             variant="outlined"
-            color="primary"
-            class="px-6 font-weight-bold"
-            rounded="lg"
+            color="amber-lighten-2"
+            class="font-weight-bold"
             @click="dialogOpen = false"
           >
-            Close Notice
+            Close Journal Entry
           </v-btn>
-        </v-card-actions>
-      </v-card>
+        </div>
+      </div>
     </v-dialog>
   </v-container>
 </template>
 
 <style scoped>
-/* ── Quest Type Border Styling ────────────────────────────────────────────── */
-.border-type-mission {
-  border-color: rgba(var(--v-theme-primary), 0.85) !important;
+/* Dark Mode Base Wrapper */
+.notebook-wrapper-dark {
+  background-color: #121212;
+  color: #e0e0e0;
 }
 
-.border-type-pokejob {
-  border-color: rgba(var(--v-theme-warning), 0.85) !important;
+/* Typography Overrides */
+.handwritten-title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #f5f0eb;
 }
 
-/* ── Paper Board Style & Pin Details ─────────────────────────────────────── */
-.quest-paper-card {
+.handwritten-text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #d1c7bd;
+  line-height: 1.6;
+}
+
+.handwritten-label {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: bold;
+  color: #ffb74d;
+}
+
+.handwritten-mono {
+  font-family: 'Courier New', Courier, monospace;
+  color: #a0958a;
+}
+
+/* Header Strip */
+.journal-tag-strip {
+  background: #1e1e1e;
+  border: 1px dashed #444;
+  border-radius: 4px;
+}
+
+.journal-pill {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.open-pill { background: #1b3820; color: #81c784; border: 1px solid #2e7d32; }
+.mission-pill { background: #3e1b1b; color: #e57373; border: 1px solid #c62828; }
+.job-pill { background: #3a3013; color: #ffd54f; border: 1px solid #f57f17; }
+
+/* Dark Filter Bar */
+.notebook-filter-bar {
+  background-color: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0px #080808;
+}
+
+.notebook-input :deep(.v-field) {
+  background-color: #242424 !important;
+  border-radius: 4px;
+}
+
+/* Dark Notebook Cards */
+.notebook-note-card {
   position: relative;
-  background-color: var(--v-theme-surface);
-  border-width: 2px !important;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+  background-color: #1e1e1e;
+  /* Ruled Dark Lines Effect */
+  background-image: repeating-linear-gradient(#1e1e1e, #1e1e1e 27px, #2a2a2a 28px);
+  border: 1px solid #3d332a;
+  box-shadow: 4px 4px 0px #0a0a0a;
+  border-radius: 2px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.quest-paper-card:hover {
+.notebook-note-card:hover {
   transform: translateY(-4px) rotate(-0.5deg);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 6px 8px 0px #000000;
+  border-color: #ffb74d;
 }
 
-.pin-indicator {
+/* Dark Washi Tape Effect */
+.washi-tape {
   position: absolute;
-  top: -6px;
+  top: -10px;
   left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: rgba(var(--v-theme-on-surface), 0.25);
-  border: 2px solid var(--v-theme-surface);
+  transform: translateX(-50%) rotate(-1deg);
+  width: 90px;
+  height: 20px;
+  background-color: rgba(90, 80, 65, 0.7);
+  border: 1px dashed #6d5d4d;
+  z-index: 2;
 }
 
-.bg-paper-subtle {
-  background-color: rgba(var(--v-theme-on-surface), 0.02);
+.dialog-tape {
+  top: -12px;
+  width: 140px;
+  height: 24px;
 }
 
-/* ── Masonry Column Layout (Variable Height Mode) ────────────────────────── */
+/* Dark Rubber Stamps */
+.status-stamp {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  padding: 2px 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  border: 2px solid;
+  border-radius: 4px;
+  transform: rotate(8deg);
+  opacity: 0.9;
+}
+
+.status-stamp-dialog {
+  padding: 4px 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  border: 2px solid;
+  border-radius: 4px;
+  transform: rotate(-4deg);
+}
+
+.stamp-open { color: #81c784; border-color: #81c784; }
+.stamp-progress { color: #ff8a65; border-color: #ff8a65; }
+.stamp-solved { color: #b0bec5; border-color: #b0bec5; }
+
+/* Badges & Stamps */
+.note-type-badge {
+  color: #fff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.65rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.note-category-badge {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.65rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border: 1px solid;
+  border-radius: 2px;
+  background-color: #121212;
+}
+
+/* Issuer Styling */
+.issuer-stamp-card {
+  background-color: #14110f;
+  border: 1px dashed #5c4731;
+  border-radius: 4px;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.issuer-label {
+  font-size: 0.75rem;
+  color: #a08c78;
+  font-style: italic;
+}
+
+.issuer-name {
+  font-size: 0.8rem;
+  color: #ffcc80;
+  font-weight: bold;
+}
+
+/* Location Highlight Banner */
+.location-banner {
+  background-color: #171513;
+  border-left: 3px solid #ffb74d;
+  border-radius: 0 4px 4px 0;
+}
+
+.location-text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 600;
+  color: #e0d6cc;
+}
+
+.repeat-tag {
+  color: #ffd54f;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+.inspect-link {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: bold;
+  color: #ffb74d;
+}
+
+/* Dark Checklist */
+.journal-checklist {
+  background-color: #171614;
+  border: 1px dashed #3a342c;
+  border-radius: 4px;
+}
+
+.border-b-dark {
+  border-bottom: 1px solid #2d2925;
+}
+
+.border-t-dark {
+  border-top: 1px solid #2d2925;
+}
+
+.border-t-dashed {
+  border-top: 1px dashed #3a342c;
+}
+
+.border-b-dashed {
+  border-bottom: 1px dashed #3a342c;
+}
+
+.last-no-border:last-child {
+  border-bottom: none !important;
+}
+
+/* Dialog Container */
+.journal-dialog-card {
+  position: relative;
+  background-color: #1a1a1a;
+  border: 2px solid #3d332a;
+  box-shadow: 8px 8px 0px #000000;
+  border-radius: 4px;
+}
+
+.location-chip {
+  background-color: #24201c;
+  border: 1px solid #524436;
+  color: #ffcc80;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+}
+
+.reward-tag {
+  background-color: #1b331e;
+  border: 1px solid #2e7d32;
+  color: #a5d6a7;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.optional-tag {
+  font-size: 0.75rem;
+  color: #ffb74d;
+  font-style: italic;
+}
+
+.empty-journal-card {
+  background-color: #181818;
+  border: 2px dashed #333;
+  border-radius: 8px;
+}
+
+/* Layout Utilities */
 .quest-masonry-board {
   column-count: 1;
   column-gap: 1.5rem;
@@ -720,10 +791,6 @@ function clearFilters() {
   width: 100%;
 }
 
-.font-mono {
-  font-family: 'JetBrains Mono', monospace;
-}
-
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -731,19 +798,7 @@ function clearFilters() {
   overflow: hidden;
 }
 
-.lh-tight {
-  line-height: 1.25;
-}
-
-.lh-relaxed {
-  line-height: 1.6;
-}
-
 .mt-0-5 {
   margin-top: 2px;
-}
-
-.last-no-border:last-child {
-  border-bottom: none !important;
 }
 </style>

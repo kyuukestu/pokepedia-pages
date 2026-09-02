@@ -1,7 +1,7 @@
 import type { EventDefinition } from '@/types/events'
 
 export default {
-  id: 'tour-de-alto-mare',
+  id: 'tour-de-alto-mare', // TODO general water races? combine w/ Valley Basin Flush
   title: 'Tour de Alto Mare',
   category: 'race',
   regions: ['johto'],
