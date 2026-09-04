@@ -107,6 +107,55 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/sandbox/getting-started/': RouteRecordInfo<
+      '/sandbox/getting-started/',
+      '/sandbox/getting-started',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/getting-started/ids/': RouteRecordInfo<
+      '/sandbox/getting-started/ids/',
+      '/sandbox/getting-started/ids',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/getting-started/permits/': RouteRecordInfo<
+      '/sandbox/getting-started/permits/',
+      '/sandbox/getting-started/permits',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/getting-started/permits/aviation/': RouteRecordInfo<
+      '/sandbox/getting-started/permits/aviation/',
+      '/sandbox/getting-started/permits/aviation',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/getting-started/permits/maritime/': RouteRecordInfo<
+      '/sandbox/getting-started/permits/maritime/',
+      '/sandbox/getting-started/permits/maritime',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/getting-started/permits/terrestrial/': RouteRecordInfo<
+      '/sandbox/getting-started/permits/terrestrial/',
+      '/sandbox/getting-started/permits/terrestrial',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/getting-started/trainer-paths': RouteRecordInfo<
+      '/sandbox/getting-started/trainer-paths',
+      '/sandbox/getting-started/trainer-paths',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/sandbox/kenn/': RouteRecordInfo<
       '/sandbox/kenn/',
       '/sandbox/kenn',
@@ -408,58 +457,16 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/sandbox/setting/timeline': RouteRecordInfo<
+      '/sandbox/setting/timeline',
+      '/sandbox/setting/timeline',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/sandbox/tech/': RouteRecordInfo<
       '/sandbox/tech/',
       '/sandbox/tech',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/trainer-101/': RouteRecordInfo<
-      '/sandbox/trainer-101/',
-      '/sandbox/trainer-101',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/trainer-101/ids/': RouteRecordInfo<
-      '/sandbox/trainer-101/ids/',
-      '/sandbox/trainer-101/ids',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/trainer-101/permits/': RouteRecordInfo<
-      '/sandbox/trainer-101/permits/',
-      '/sandbox/trainer-101/permits',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/trainer-101/permits/aviation/': RouteRecordInfo<
-      '/sandbox/trainer-101/permits/aviation/',
-      '/sandbox/trainer-101/permits/aviation',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/trainer-101/permits/maritime/': RouteRecordInfo<
-      '/sandbox/trainer-101/permits/maritime/',
-      '/sandbox/trainer-101/permits/maritime',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/trainer-101/permits/terrestrial/': RouteRecordInfo<
-      '/sandbox/trainer-101/permits/terrestrial/',
-      '/sandbox/trainer-101/permits/terrestrial',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/sandbox/trainer-paths/': RouteRecordInfo<
-      '/sandbox/trainer-paths/',
-      '/sandbox/trainer-paths',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -630,6 +637,48 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/events/calendar/index.vue': {
       routes:
         | '/sandbox/events/calendar/'
+      views:
+        | never
+    }
+    'src/views/sandbox/getting-started/index.vue': {
+      routes:
+        | '/sandbox/getting-started/'
+      views:
+        | never
+    }
+    'src/views/sandbox/getting-started/ids/index.vue': {
+      routes:
+        | '/sandbox/getting-started/ids/'
+      views:
+        | never
+    }
+    'src/views/sandbox/getting-started/permits/index.vue': {
+      routes:
+        | '/sandbox/getting-started/permits/'
+      views:
+        | never
+    }
+    'src/views/sandbox/getting-started/permits/aviation/index.vue': {
+      routes:
+        | '/sandbox/getting-started/permits/aviation/'
+      views:
+        | never
+    }
+    'src/views/sandbox/getting-started/permits/maritime/index.vue': {
+      routes:
+        | '/sandbox/getting-started/permits/maritime/'
+      views:
+        | never
+    }
+    'src/views/sandbox/getting-started/permits/terrestrial/index.vue': {
+      routes:
+        | '/sandbox/getting-started/permits/terrestrial/'
+      views:
+        | never
+    }
+    'src/views/sandbox/getting-started/trainer-paths.vue': {
+      routes:
+        | '/sandbox/getting-started/trainer-paths'
       views:
         | never
     }
@@ -891,51 +940,15 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/views/sandbox/setting/timeline.vue': {
+      routes:
+        | '/sandbox/setting/timeline'
+      views:
+        | never
+    }
     'src/views/sandbox/tech/index.vue': {
       routes:
         | '/sandbox/tech/'
-      views:
-        | never
-    }
-    'src/views/sandbox/trainer-101/index.vue': {
-      routes:
-        | '/sandbox/trainer-101/'
-      views:
-        | never
-    }
-    'src/views/sandbox/trainer-101/ids/index.vue': {
-      routes:
-        | '/sandbox/trainer-101/ids/'
-      views:
-        | never
-    }
-    'src/views/sandbox/trainer-101/permits/index.vue': {
-      routes:
-        | '/sandbox/trainer-101/permits/'
-      views:
-        | never
-    }
-    'src/views/sandbox/trainer-101/permits/aviation/index.vue': {
-      routes:
-        | '/sandbox/trainer-101/permits/aviation/'
-      views:
-        | never
-    }
-    'src/views/sandbox/trainer-101/permits/maritime/index.vue': {
-      routes:
-        | '/sandbox/trainer-101/permits/maritime/'
-      views:
-        | never
-    }
-    'src/views/sandbox/trainer-101/permits/terrestrial/index.vue': {
-      routes:
-        | '/sandbox/trainer-101/permits/terrestrial/'
-      views:
-        | never
-    }
-    'src/views/sandbox/trainer-paths/index.vue': {
-      routes:
-        | '/sandbox/trainer-paths/'
       views:
         | never
     }

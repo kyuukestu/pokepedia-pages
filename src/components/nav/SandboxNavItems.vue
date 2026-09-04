@@ -25,11 +25,18 @@ const groups: Array<{ label: string; items: SandboxNavItem[] }> = [
   {
     label: 'Getting Started',
     items: [
-      { title: 'Trainer 101', icon: 'mdi-school-outline', to: '/sandbox/trainer-101' },
+      { title: 'Getting Started', icon: 'mdi-school-outline', to: '/sandbox/getting-started' },
       { title: 'Regions', icon: 'mdi-compass-rose', to: '/sandbox/regions' },
-      { title: 'Trainer Paths', icon: 'mdi-map-marker-path', to: '/sandbox/trainer-paths' },
     ],
   },
+  {
+    label: 'Events',
+    items: [
+      { title: 'Event Library', icon: 'mdi-bookshelf', to: '/sandbox/events' },
+      { title: 'Calendar View', icon: 'mdi-calendar-month', to: '/sandbox/events/calendar' },
+    ],
+  },
+  
   {
     label: 'World Lore',
     items: [

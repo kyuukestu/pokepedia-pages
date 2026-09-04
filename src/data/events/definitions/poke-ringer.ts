@@ -1,6 +1,6 @@
 import type { EventDefinition } from '@/types/events'
 
-export const pokeringer = {
+export default {
   id: 'poke-ringer',
   title: 'Poké-Ringer',
   category: 'competition',

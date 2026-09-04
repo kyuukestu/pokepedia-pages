@@ -11,15 +11,16 @@ import SandboxNav from '@/components/nav/SandboxNavItems.vue'
 // Store
 import { useEventStore } from '@/stores/eventStore'
 
-// ── Initialization ──────────────────────────────────────────────────────────
 const theme = useTheme()
 const route = useRoute()
 const router = useRouter()
 const { mobile } = useDisplay()
 const eventStore = useEventStore()
 
-// Controls collapsed/expanded rail state
 const isRail = ref(true)
+
+// Tracks whether the hover drawer is currently expanded
+const isHovering = ref(false)
 
 // ── Search Logic & Type Definitions ─────────────────────────────────────────
 const searchInput = ref('')
@@ -99,7 +100,6 @@ function extrapolateRoute(r: FlattenedRoute): SearchResultItem[] {
 
 const searchIndex = computed(() => {
   void eventStore.currentRPDate
-
   const index: SearchResultItem[] = []
 
   staticFlattenedRoutes.forEach((r) => {
@@ -184,25 +184,8 @@ const breadcrumbs = computed(() => {
 
 const topLinks = [
   { title: 'Home', icon: 'mdi-home-outline', to: '/' },
-  {
-    title: 'About',
-    icon: 'mdi-earth',
-    to: '/',
-    children: [
-      { title: 'Levels in RP', icon: 'mdi-trending-up', to: '/level' },
-      { title: 'General Rules', icon: 'mdi-gavel', to: '/sandbox/rules' },
-      { title: 'RP Setting', icon: 'mdi-map', to: '/sandbox/setting' },
-    ],
-  },
-  {
-    title: 'Events',
-    icon: 'mdi-calendar-star',
-    to: '/sandbox/events',
-    children: [
-      { title: 'Event Library', icon: 'mdi-bookshelf', to: '/sandbox/events' },
-      { title: 'Calendar View', icon: 'mdi-calendar-month', to: '/sandbox/events/calendar' },
-    ],
-  },
+  { title: 'Rules', icon: 'mdi-gavel', to: '/sandbox/rules' },
+  
 ]
 
 function handleNavigation() {
@@ -300,23 +283,22 @@ function handleNavigation() {
     expand-on-hover
     permanent
     border="none"
+    @update:is-hovering="isHovering = $event"
   >
-    <!-- Field Journal Header -->
     <div class="drawer-header pa-3 py-4">
       <div class="d-flex align-center ga-3 overflow-hidden">
         <div class="header-icon-box flex-shrink-0">
-          <v-icon color="green-darken-3" size="20">mdi-book-open-page-variant-outline</v-icon>
+          <v-icon color="amber-lighten-2" size="20">mdi-book-open-page-variant-outline</v-icon>
         </div>
         <div class="header-text-group text-no-wrap">
-          <h2 class="text-subtitle-1 font-weight-bold font-serif text-high-emphasis leading-none">
-            Nagivation
+          <h2 class="text-subtitle-1 font-weight-bold font-serif leading-none header-title">
+            Navigation
           </h2>
-          <span class="text-caption text-medium-emphasis">Pokémon Roleplay</span>
+          <span class="text-caption header-subtitle">Pokémon Roleplay</span>
         </div>
       </div>
     </div>
 
-    <!-- Top Links List (Native Vuetify Rail Support) -->
     <v-list density="compact" nav class="px-2 py-0 bg-transparent">
       <template v-for="link in topLinks" :key="link.title">
         <v-menu v-if="link.children" open-on-hover location="right">
@@ -332,14 +314,14 @@ function handleNavigation() {
               </template>
             </v-list-item>
           </template>
-          <v-list density="compact" nav class="notebook-menu">
+          <v-list density="compact" nav class="notebook-menu pa-2">
             <v-list-item
               v-for="sublink in link.children"
               :key="sublink.to"
               :to="sublink.to"
               :prepend-icon="sublink.icon"
               :title="sublink.title"
-              color="green-darken-2"
+              color="amber-lighten-2"
             />
           </v-list>
         </v-menu>
@@ -355,106 +337,76 @@ function handleNavigation() {
 
     <v-divider class="notebook-divider mx-3 my-2" />
 
-    <!-- Main Navigation List Container -->
     <div class="sub-nav-body px-2">
       <div class="sub-nav-container pa-1">
-        <SandboxNav @navigate="handleNavigation" />
+        <SandboxNav
+          :is-rail-collapsed="isRail && !isHovering"
+          @navigate="handleNavigation"
+        />
       </div>
     </div>
-
-    
   </v-navigation-drawer>
 
   <RouterView />
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,400&display=swap');
+/* Dark Mode Base Aesthetics */
+.notebook-drawer {
+  background-color: #1a1a1a !important;
+  border-right: 1px solid #2d2925 !important;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.notebook-app-bar {
+  background: rgba(18, 18, 18, 0.85) !important;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #2d2925 !important;
+}
+
+.header-title {
+  color: #f5f0eb;
+}
+
+.header-subtitle {
+  color: #ffb74d;
+  font-style: italic;
+}
+
+.header-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background: #28221b;
+  border: 1px solid #524436;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notebook-divider {
+  border-color: #3a342c !important;
+  opacity: 1 !important;
+}
+
+.notebook-menu {
+  background-color: #1e1e1e !important;
+  border: 1px solid #3d332a !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
 
 .font-serif {
-  font-family: 'Lora', Georgia, serif !important;
+  font-family: 'Georgia', serif !important;
 }
 
 .leading-none {
   line-height: 1.2 !important;
 }
 
-/* App Bar Notebook Styling */
-.notebook-app-bar {
-  background: rgba(var(--v-theme-surface), 0.85) !important;
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.06) !important;
-}
-
 .breadcrumb-nav {
   font-size: 0.875rem;
 }
 
-:deep(.v-breadcrumbs-item--disabled) {
-  opacity: 1;
-  color: rgb(var(--v-theme-green-darken-3)) !important;
-  font-weight: 700;
-}
-
-.v-theme--dark :deep(.v-breadcrumbs-item--disabled) {
-  color: #81c784 !important;
-}
-
-/* Navigation Drawer Base */
-.notebook-drawer {
-  background-color: #faf8f5 !important;
-  border-right: 1px solid rgba(var(--v-theme-on-surface), 0.08) !important;
-  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-.v-theme--dark .notebook-drawer {
-  background-color: #1e1e1e !important;
-}
-
-.header-icon-box {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(76, 175, 80, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-}
-
-.notebook-divider {
-  border-color: rgba(var(--v-theme-on-surface), 0.08) !important;
-  opacity: 1 !important;
-}
-
-/* Direct CSS Overrides for Non-Native Text in Collapsed Rail Mode */
-:deep(.v-navigation-drawer--rail:not(.v-navigation-drawer--is-hovering)) {
-  .header-text-group,
-  .footer-text,
-  .menu-arrow,
-  .v-list-subheader {
-    display: none !important;
-  }
-}
-
-.header-text-group,
-.footer-text {
-  transition: opacity 0.2s ease;
-}
-
-.sub-nav-body {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.sub-nav-container {
-  background: rgba(var(--v-theme-surface), 0.5);
-  border-radius: 10px;
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.05);
-  overflow: hidden;
-}
-
-/* Search Bar Aesthetics */
 .search-container {
   width: 40px;
   transition: all 0.3s ease;
@@ -473,7 +425,7 @@ function handleNavigation() {
 
 :deep(.search-bar .v-field) {
   border-radius: 20px;
-  background: rgba(var(--v-theme-on-surface), 0.04) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
 :deep(.search-bar .v-field__outline) {
@@ -485,21 +437,29 @@ function handleNavigation() {
 }
 
 @keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.ga-2 { gap: 8px; }
+.ga-3 { gap: 12px; }
+
+:deep(.v-navigation-drawer--rail:not(.v-navigation-drawer--is-hovering)) {
+  .header-text-group,
+  .menu-arrow {
+    display: none !important;
   }
 }
 
-.ga-2 {
-  gap: 8px;
+.sub-nav-body {
+  flex: 1;
+  overflow-y: auto;
 }
 
-.ga-3 {
-  gap: 12px;
+.sub-nav-container {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  border: 1px dashed #3a342c;
 }
 
 .notebook-drawer ::-webkit-scrollbar {
@@ -507,7 +467,7 @@ function handleNavigation() {
 }
 
 .notebook-drawer ::-webkit-scrollbar-thumb {
-  background: rgba(var(--v-theme-on-surface), 0.15);
+  background: #3d332a;
   border-radius: 4px;
 }
 </style>

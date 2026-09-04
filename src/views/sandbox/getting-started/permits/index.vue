@@ -11,7 +11,7 @@ const permitCategories: FeatureItem[] = [
     description:
       'Governed by the AAA. Required for aerial transit, spanning from personal flight to public Corviknight-Taxis.',
     image: 'https://www.serebii.net/swordshield/pokemon/823.png', // Corviknight
-    to: '/sandbox/trainer-101/permits/aviation',
+    to: '/sandbox/getting-started/permits/aviation',
     color: 'blue',
   },
   {
@@ -19,7 +19,7 @@ const permitCategories: FeatureItem[] = [
     description:
       'Governed by the MMM. Covers surface surfing and deep-sea diving across international waters.',
     image: 'https://www.serebii.net/swordshield/pokemon/131.png', // Lapras
-    to: '/sandbox/trainer-101/permits/maritime',
+    to: '/sandbox/getting-started/permits/maritime',
     color: 'cyan',
   },
   {
@@ -27,7 +27,7 @@ const permitCategories: FeatureItem[] = [
     description:
       'Governed by the TTT. Regulations for high-speed land mounts and heavy-load mountain traversal.',
     image: 'https://www.serebii.net/swordshield/pokemon/750.png', // Mudsdale
-    to: '/sandbox/trainer-101/permits/terrestrial',
+    to: '/sandbox/getting-started/permits/terrestrial',
     color: 'amber',
   },
 ]

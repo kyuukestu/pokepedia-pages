@@ -18,7 +18,7 @@ export const loreArticles: LoreArticle[] = [
     lastUpdated: '04/15/2026',
     summary: 'Administrative infrastructure: outlines Trainer IDs, Pokemon Ride Permits, etc.',
     tags: ['Permits', 'Trainer Class', 'ID Baseline'],
-    to: '/sandbox/trainer-101',
+    to: '/sandbox/getting-started',
   },
   {
     id: 'LORE-002',

@@ -194,7 +194,7 @@ const maintenanceRules = [
           color="blue-darken-1"
           variant="elevated"
           size="large"
-          to="/sandbox/trainer-101/permits"
+          to="/sandbox/getting-started/permits"
           rounded="lg"
           elevation="4"
         >

@@ -7,7 +7,7 @@ export default {
   category: 'LORE',
   loreCategory: 'MECHANIC',
 
-  title: 'Trainer 101: Baseline Systems',
+  title: 'Trainer 101: Getting Started',
   author: 'KENN Archives',
 
   icon: 'mdi-book-open-variant',
@@ -15,9 +15,9 @@ export default {
   lastUpdated: '04/15/2026',
 
   summary:
-    'Administrative infrastructure: outlines Trainer IDs, Pokemon Ride Permits, etc.',
+    'A quick introduction to the RP!',
 
   tags: ['Permits', 'Trainer Class', 'ID Baseline'],
 
-  toOverride: '/sandbox/trainer-101',
+  toOverride: '/sandbox/getting-started',
 } satisfies Article
