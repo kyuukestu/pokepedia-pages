@@ -54,7 +54,7 @@ const notableProjects: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Devon Corporation"
       subtitle="Innovation for a sustainable future. Hoenn's premier leader in Pokémon technology and advanced engineering."

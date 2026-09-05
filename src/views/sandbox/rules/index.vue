@@ -33,7 +33,7 @@ const rules: Rule[] = useSandboxRules().rules
       </template>
     </WikiHero>
 
-    <v-container max-width="1200" class="py-10">
+    <v-container class="py-10">
       <!-- Overview Section -->
       <WikiCard title="Overview" icon="mdi-information-outline" color="red">
         <p class="text-body-1 lh-relaxed mb-6 text-high-emphasis">

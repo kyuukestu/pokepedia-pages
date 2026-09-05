@@ -39,7 +39,7 @@ const wantedList = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Most Wanted: High-Priority Targets"
       subtitle="The International Police Global Watchlist. Authorized for Rank 4 Trainers and law enforcement personnel only."

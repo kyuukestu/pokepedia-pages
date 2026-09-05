@@ -1,7 +1,7 @@
 import type { Article } from '@/types/kenn'
 
 export default {
-  id: 'FACT-001',
+  id: 'FACT-002',
   date: '2026-05-11',
   regions: [],
   category: 'LORE',
@@ -19,5 +19,5 @@ export default {
 
   tags: ['Government', 'Silph Co', 'Criminal Elements'],
 
-  toOverride: '/sandbox/orgs',
+  routeOverride: '/sandbox/orgs',
 } satisfies Article

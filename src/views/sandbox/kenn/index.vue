@@ -82,7 +82,7 @@ const clearFilters = () => {
       </template>
     </WikiHero>
 
-    <v-container max-width="1440" class="pb-12 pt-2">
+    <v-container class="pb-12 pt-2">
       <v-card variant="flat" class="mb-8 notebook-filter-card pa-4">
         <v-row align="center" density="comfortable">
           <v-col cols="12" lg="4">
@@ -173,7 +173,7 @@ const clearFilters = () => {
             variant="flat"
             class="notebook-article-card h-100 d-flex flex-column"
             :class="{ 'featured-hero-card': layoutMode === 'variable' && i === 0 }"
-            :to="!article?.toOverride ? `/sandbox/kenn/${article.id}` : article.toOverride"
+            :to="!article?.routeOverride ? `/sandbox/kenn/${article.id}` : article.routeOverride"
           >
             <v-row
               no-gutters

@@ -5,7 +5,7 @@ defineProps({
 })
 </script>
 <template>
-  <v-container fluid class="mb-8 section-container">
+  <v-container class="mb-8 section-container">
     <v-row dense>
       <v-col :cols="12">
         <h3 class="text-h5 font-weight-bold mb-2 section-header section-title">{{ title }}</h3>

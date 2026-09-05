@@ -60,7 +60,7 @@ const missingPersonnel: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Team Rocket"
       subtitle="The Syndicate of the Red 'R': Analyzing the historical impact and modern-day remnants of the world's first organized criminal team."

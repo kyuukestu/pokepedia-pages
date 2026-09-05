@@ -54,7 +54,7 @@ const committeeLeadership: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Pokémon Activities Committee"
       subtitle="The governing body celebrating the artistic soul of Pokémon culture through Contests and Showcases."

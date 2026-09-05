@@ -43,7 +43,7 @@ const keyFeatures = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <!-- Hero Section -->
     <v-card
       class="mx-auto mb-8"

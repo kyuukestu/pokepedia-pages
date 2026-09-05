@@ -60,7 +60,7 @@ const safetyStats: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Athletics Board (AB)"
       subtitle="Beyond the Battle: Standardizing international competitive sports, endurance races, and physical mastery."

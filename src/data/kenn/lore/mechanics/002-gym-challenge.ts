@@ -19,5 +19,5 @@ export default {
 
   tags: ['Gyms', 'League Rules', 'Challenge Format'],
 
-  toOverride: '/sandbox/gym-battles',
+  routeOverride: '/sandbox/gym-battles',
 } satisfies Article

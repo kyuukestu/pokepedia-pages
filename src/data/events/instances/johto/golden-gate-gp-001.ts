@@ -1,7 +1,7 @@
 import type { EventInstance } from '@/types/events'
 
 export default {
-  id: 'goldengate-gp-2026',
+  id: 'fire-rescue-grand-prix-001',
   eventId: 'fire-rescue-grand-prix',
 
   location: 'Goldengate, Johto',

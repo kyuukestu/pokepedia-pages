@@ -1,5 +1,6 @@
 import type { Institution } from '@/types/institutions'
 import { johtoAcademyMap } from '@/data/institution-maps/johto-academy'
+//Convert to Article
 
 export const institutionData: Institution[] = [
   {

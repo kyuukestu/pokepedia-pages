@@ -103,7 +103,7 @@ const interpolRanks = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="InterPol"
       subtitle="The International Police Organization dedicated to maintaining peace and justice across the Pokémon world."

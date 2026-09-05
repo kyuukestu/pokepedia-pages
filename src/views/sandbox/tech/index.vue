@@ -70,7 +70,7 @@ const livingTech = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="World Technologies"
       subtitle="The devices and digital systems that power the modern Pokémon Trainer's journey."

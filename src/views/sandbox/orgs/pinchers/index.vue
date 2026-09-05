@@ -53,7 +53,7 @@ const technologicalRemnants: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Societea & Pokémon Pinchers"
       subtitle="The technological exploiters of Oblivia: Monitoring the fallout of the Sky Fortress containment."

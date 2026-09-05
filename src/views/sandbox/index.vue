@@ -139,7 +139,7 @@ const formatGroupDate = (dateVal?: string | Date): string => {
     <!-- ───────────────────────────────────── -->
     <!-- MAIN WORKSPACE -->
     <!-- ───────────────────────────────────── -->
-    <v-container max-width="1400" class="py-8">
+    <v-container class="py-8">
       <section class="wiki-board-card">
         <!-- HEADER -->
         <header class="wiki-board-header">

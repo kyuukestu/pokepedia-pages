@@ -104,7 +104,7 @@ onMounted(() => {
 <template>
   <v-app>
     <!-- Enhanced Hero Section -->
-    <v-container fluid class="hero-section pa-0">
+    <v-container class="hero-section pa-0">
       <v-row no-gutters align="center" class="fill-height">
         <v-col cols="12">
           <div class="hero-content text-center py-16">

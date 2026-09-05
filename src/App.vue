@@ -4,10 +4,6 @@ import AppLayout from './layouts/AppLayout.vue'
 
 <template>
   <v-app>
-    <v-main>
-      <v-container fluid class="py-1 px-1">
-        <AppLayout />
-      </v-container>
-    </v-main>
+    <AppLayout />
   </v-app>
 </template>

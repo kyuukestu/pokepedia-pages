@@ -73,7 +73,6 @@ const appFeatures: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
     <WikiHero
       title="Trainer Identification"
       subtitle="Credentials, passports, and digital profiles used to verify League status across regions."
@@ -192,7 +191,6 @@ const appFeatures: FeatureItem[] = [
         </v-row>
       </WikiCard>
     </v-container>
-  </v-container>
 </template>
 
 <style scoped>

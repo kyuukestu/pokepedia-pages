@@ -37,7 +37,7 @@ const roster = computed(() =>
       </div>
     </v-img>
 
-    <v-container max-width="1200" class="py-12">
+    <v-container class="py-12">
       <v-row>
         <!-- Main Content -->
         <v-col cols="12" md="8">

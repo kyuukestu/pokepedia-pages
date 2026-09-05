@@ -78,7 +78,7 @@ const notableFigures: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Team Flare"
       subtitle="Once a cult of luxury and extinction, now a diaspora of survivors integrated into the heart of Lumiose City."

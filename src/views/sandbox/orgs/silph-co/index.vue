@@ -62,7 +62,7 @@ const iconicInnovations: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Silph Co."
       subtitle="Engineering the Future of the Pokémon League: Innovations in capture, care, and discovery."

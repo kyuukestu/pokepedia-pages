@@ -64,14 +64,14 @@ export interface Article {
   content?: ContentBlock[]
   image?: string
   tags?: string[]
-  toOverride?: string;
-  links?: { label: string; link: string }[]
-  
+  routeOverride?: string
+  links?: { label: string; icon?: string; image?: string; link: string }[]
+
   // ── Lore Specific Extensions (Optional) ──────────────────────────────────
   loreCategory?: LoreCategoryId
-  icon?: string           // Custom icon override (e.g. MDI icon name)
-  color?: string          // Custom accent color string
-  lastUpdated?: string    // Lore specific timestamp tracking
+  icon?: string // Custom icon override (e.g. MDI icon name)
+  color?: string // Custom accent color string
+  lastUpdated?: string // Lore specific timestamp tracking
   trainerTiers?: TrainerTier[] // Structured trainer mechanics / roster data
 }
 

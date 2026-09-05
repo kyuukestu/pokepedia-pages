@@ -54,7 +54,7 @@ const conservationProjects: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Aether Foundation"
       subtitle="The premier conservation and research organization of the Alola region, operating from the artificial paradise."

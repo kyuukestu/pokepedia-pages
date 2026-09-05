@@ -53,7 +53,7 @@ const historicalNotes: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Lysandre Labs"
       subtitle="The nexus of Kalosian innovation, pioneering holographic communication and advanced urban energy solutions."

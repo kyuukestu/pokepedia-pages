@@ -67,7 +67,7 @@ const pokeJobCategories = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Macro Cosmos"
       subtitle="Connecting Galar: From high-speed transport to the energy that fuels every home."

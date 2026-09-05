@@ -12,7 +12,7 @@ const institutionStore = useInstitutionStore()
 </script>
 
 <template>
-  <v-container fluid class="pa-0 bg-background">
+  <v-container class="pa-0 bg-background">
     <!-- Header Section -->
     <v-sheet color="surface" class="pa-10 border-b-sm">
       <div class="d-flex align-center ga-4">
@@ -26,7 +26,7 @@ const institutionStore = useInstitutionStore()
       </div>
     </v-sheet>
 
-    <v-container max-width="1400" class="py-12">
+    <v-container class="py-12">
       <!-- Institutional Blocks -->
       <div v-for="inst in institutionStore.allInstitutions" :key="inst.id" class="mb-16">
         <v-row>

@@ -159,7 +159,7 @@ function clearFilters() {
       </template>
     </WikiHero>
 
-    <v-container max-width="1440" class="py-8">
+    <v-container class="py-8">
       <div class="notebook-filter-bar mb-8 pa-4">
         <v-row align="center" density="comfortable">
           <v-col cols="12" md="4" lg="4">

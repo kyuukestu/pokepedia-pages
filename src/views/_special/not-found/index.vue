@@ -6,7 +6,7 @@ const router = useRouter()
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <v-container max-width="600" class="py-16 text-center">
       <v-icon size="80" color="grey-lighten-1" class="mb-6">mdi-pokeball</v-icon>
       <h1 class="text-h4 font-weight-bold mb-3">Page Not Found</h1>

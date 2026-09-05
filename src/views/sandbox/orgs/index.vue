@@ -215,7 +215,7 @@ const underground: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0 notebook-page">
+  <v-container class="pa-0 notebook-page">
     <WikiHero
       title="Global Organizations Directory"
       subtitle="A field notes index detailing the civil governance, private enterprises, and clandestine syndicates operating across the world."

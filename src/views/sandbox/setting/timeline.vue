@@ -148,7 +148,7 @@ const officialLoreData = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0 sandbox-timeline-dashboard text-high-emphasis">
+  <v-container class="pa-0 sandbox-timeline-dashboard text-high-emphasis">
     <!-- Header Hero Banner Profile -->
     <WikiHero
       title="Setting & Timeline"

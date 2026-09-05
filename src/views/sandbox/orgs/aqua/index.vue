@@ -47,7 +47,7 @@ const commandStructure: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Team Aqua"
       subtitle="Sociopathic eco-terrorists seeking the total extermination of human life to return the world to the Pokémon."

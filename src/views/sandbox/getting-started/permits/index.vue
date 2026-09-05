@@ -55,7 +55,7 @@ const globalTenets: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Regional Permit Hub"
       subtitle="The central authority for Aviation, Maritime, and Terrestrial transport regulations."

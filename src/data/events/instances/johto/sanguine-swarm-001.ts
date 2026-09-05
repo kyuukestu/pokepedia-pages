@@ -2,7 +2,8 @@ import type { EventInstance } from '@/types/events'
 
 export default {
   id: 'sanguine-swarm',
-  eventId: 'sanguine-swarm',
+  eventId: 'ecological-disaster',
+  title: 'Sanguine Swarm',
 
   location: 'Northern Johto',
 

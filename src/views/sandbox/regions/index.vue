@@ -174,7 +174,7 @@ const travelMethods = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="World Regions"
       subtitle="From the forests of Kanto to the academies of Paldea — explore the Pokémon world."

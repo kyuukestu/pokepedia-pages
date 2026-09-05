@@ -55,7 +55,7 @@ const notableSites: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Altru Inc. (Reformed)"
       subtitle="From the brink of regional catastrophe to a cornerstone of Almia's reclamation and energy stability."

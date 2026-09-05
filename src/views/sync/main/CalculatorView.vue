@@ -5,7 +5,7 @@ import CatchRateCalc from '@/components/calculators/CatchRateCalc.vue'
 </script>
 
 <template>
-  <v-container fluid>
+  <v-container>
     <v-row justify="center" align="center">
       <v-col cols="12" class="text-center">
         <FMoveCalc />

@@ -54,7 +54,7 @@ const oceanicHazards: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Maritime Movement Ministry"
       subtitle="The international authority on aquatic transit, diving safety, and the preservation of the World's Oceans."

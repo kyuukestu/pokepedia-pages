@@ -21,7 +21,7 @@ const resolveImg = (src: string) => {
 }
 </script>
 <template>
-  <v-container fluid class="pa-4">
+  <v-container class="pa-4">
     <!-- Use v-masonry or a simple column count approach -->
     <div class="gallery-masonry">
       <div v-for="(image, index) in images" :key="index" class="masonry-item">

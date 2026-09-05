@@ -62,7 +62,7 @@ const leadership: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Team Plasma (Ex-Faction)"
       subtitle="The Path of Atonement: Sheltering the displaced and pursuing the dream of a world where Pokémon and humans are truly equal."

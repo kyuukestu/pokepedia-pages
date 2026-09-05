@@ -1,7 +1,7 @@
 import type { EventInstance } from '@/types/events'
 
 export default {
-  id: 'rikishii-sumo-2026',
+  id: 'rikishii-sumo-001',
   eventId: 'sumo-conference',
 
   location: 'Rikishii Town, Johto',

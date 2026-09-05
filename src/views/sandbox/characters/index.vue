@@ -16,14 +16,14 @@ const regions = [
 </script>
 
 <template>
-  <v-container fluid>
+  <v-container>
     <WikiHero
       title="Character Directory"
       subtitle="Registry of all known entities"
       icon="mdi-account-details"
     />
 
-    <v-container max-width="1200">
+    <v-container >
       <!-- Filters -->
       <v-row>
         <v-col cols="12" md="6">

@@ -54,7 +54,7 @@ const currentThreats = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Team Cipher (Remnants)"
       subtitle="Once the masters of Orre, now a fractured insurgency obsessed with the forbidden science of the heart."

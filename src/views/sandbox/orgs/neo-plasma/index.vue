@@ -61,7 +61,7 @@ const primaryFugitives = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Neo Plasma"
       subtitle="Classified Briefing: Monitoring the fragmented extremist cells and high-priority fugitives following the Unova Crisis."

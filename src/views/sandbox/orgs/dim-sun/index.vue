@@ -62,7 +62,7 @@ const leadership: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Team Dim Sun"
       subtitle="The defunct syndicate that sought to plunge Almia into eternal subservience through hypnotic technology."

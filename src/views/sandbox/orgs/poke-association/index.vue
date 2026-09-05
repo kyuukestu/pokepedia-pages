@@ -79,7 +79,7 @@ const regionalOffices = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="The Pokémon Association"
       subtitle="The supreme legislative authority overseeing the professional League circuit and global tournament standards."

@@ -54,7 +54,7 @@ const safetyProtocols: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Terrestrial Transport Tribunal"
       subtitle="The global governing body for safe, regulated, and ethical land-based transportation across the Pokémon world."

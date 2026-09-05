@@ -33,7 +33,7 @@ const travelLinks: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Settings"
       subtitle="The rules, systems, and conventions that shape Pokémon Stories."

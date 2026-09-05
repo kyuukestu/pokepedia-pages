@@ -53,7 +53,7 @@ const commandStructure: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Team Magma"
       subtitle="Technological supremacists seeking the eradication of Pokémon life to pave the way for ceaseless human progress."

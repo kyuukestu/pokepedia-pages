@@ -65,6 +65,13 @@ declare module 'vue-router/auto-routes' {
       { institutionId: ParamValue<false> },
       | never
     >,
+    '/sandbox/articles/pokemon-association': RouteRecordInfo<
+      '/sandbox/articles/pokemon-association',
+      '/sandbox/articles/pokemon-association',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/sandbox/characters/': RouteRecordInfo<
       '/sandbox/characters/',
       '/sandbox/characters',
@@ -601,6 +608,12 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/academia/[institutionId].vue': {
       routes:
         | '/sandbox/academia/[institutionId]'
+      views:
+        | never
+    }
+    'src/views/sandbox/articles/pokemon-association.vue': {
+      routes:
+        | '/sandbox/articles/pokemon-association'
       views:
         | never
     }

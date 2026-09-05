@@ -53,7 +53,7 @@ const commandRemnants: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Team Galactic"
       subtitle="A fractured syndicate of nihilists seeking the end of the world through the mastery of space and time."

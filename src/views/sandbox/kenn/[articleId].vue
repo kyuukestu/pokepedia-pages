@@ -69,7 +69,7 @@ const getBlockClass = (block: any) => {
 
 <template>
   <div v-if="article" class="kenn-article-detail-page">
-    <v-container max-width="1100" class="py-10">
+    <v-container class="py-10">
       
       <!-- Top Action Navigation -->
       <div class="d-flex align-center justify-space-between mb-6">

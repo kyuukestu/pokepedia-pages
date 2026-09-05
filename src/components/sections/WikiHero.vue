@@ -101,6 +101,7 @@ const heroStyles = computed(() => {
 </script>
 
 <template>
+<v-container fluid>
   <div
     ref="heroRef"
     class="wiki-hero mb-8"
@@ -118,7 +119,7 @@ const heroStyles = computed(() => {
     <div class="wiki-hero__glow" aria-hidden="true" />
 
     <!-- Main Content Container -->
-    <v-container max-width="1200" class="wiki-hero__content py-10 py-md-14 text-center">
+    <v-container class="wiki-hero__content py-10 py-md-14 text-center">
       <!-- Field Journal Badge Frame -->
       <div class="d-inline-flex position-relative mb-5">
         <div class="hero-badge-frame">
@@ -149,6 +150,7 @@ const heroStyles = computed(() => {
       <div class="wiki-hero__ruled-line" />
     </div>
   </div>
+</v-container>
 </template>
 
 <style scoped>

@@ -84,7 +84,7 @@ const operationalGuidelines: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Terrestrial Permits (TP)"
       subtitle="The governing standard for land-based mount transit under the Terrestrial Licensing Authority."

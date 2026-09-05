@@ -19,5 +19,5 @@ export default {
 
   tags: ['Permits', 'Trainer Class', 'ID Baseline'],
 
-  toOverride: '/sandbox/getting-started',
+  routeOverride: '/sandbox/getting-started',
 } satisfies Article

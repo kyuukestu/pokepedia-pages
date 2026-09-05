@@ -2909,7 +2909,7 @@ const rollTeam = (upperBound: number, gymId: number) => {
 </script>
 
 <template>
-  <v-container fluid class="py-6">
+  <v-container class="py-6">
     <v-row align="center" justify="center" class="g-4">
       <v-col cols="12" md="4" lg="3" v-for="gym in visiblePokemonByGym" :key="gym.id">
         <v-card

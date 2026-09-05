@@ -1,7 +1,7 @@
 import type { EventInstance } from '@/types/events'
 
 export default {
-  id: 'palmpona-run-2026',
+  id: 'running-of-the-tauros-001',
   eventId: 'running-of-the-tauros',
 
   location: 'Palmpona Streets, Johto',

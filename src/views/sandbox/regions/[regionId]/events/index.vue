@@ -59,7 +59,7 @@ const checkActiveStatus = (event: any) => {
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       :title="`${displayName} Events`"
       :subtitle="`Explore festivals, competitions, and gatherings in the ${displayName} region.`"

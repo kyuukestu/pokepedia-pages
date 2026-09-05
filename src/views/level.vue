@@ -86,7 +86,7 @@ const activeCategory = computed(() => {
 </script>
 
 <template>
-  <v-container fluid class="pa-0 tactical-level-directory">
+  <v-container class="pa-0 tactical-level-directory">
     <WikiHero
       title="Levels within the RP"
       subtitle="Using baseline in-game levels as an out-of-character tool to measure Pokémon strength."
@@ -132,7 +132,7 @@ const activeCategory = computed(() => {
       </template>
     </WikiHero>
 
-    <v-container max-width="1200" class="py-12 position-relative z-index-2">
+    <v-container class="py-12 position-relative z-index-2">
       <!-- ── CONCEPT PHILOSOPHY BLOCK ── -->
       <v-row class="ma-0 mb-12">
         <v-col cols="12" class="pa-2">

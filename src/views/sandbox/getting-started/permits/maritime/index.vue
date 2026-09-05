@@ -117,7 +117,7 @@ const operationalGuidelines: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Water Mount Licensing (WMOL)"
       subtitle="The International Standard for Maritime Movement Permits under the MMM."

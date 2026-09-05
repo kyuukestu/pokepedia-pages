@@ -54,7 +54,7 @@ function handleNodeClick({ node }: NodeMouseEvent) {
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Pokémon Rangers"
       subtitle="Guardians of the wild and protectors of the natural balance between humans and Pokémon."

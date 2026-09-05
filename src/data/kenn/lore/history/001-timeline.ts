@@ -19,5 +19,5 @@ export default {
 
   tags: ['Timeline', 'Canon History', 'Galar'],
 
-  toOverride: '/sandbox/setting',
+  routeOverride: '/sandbox/setting',
 } satisfies Article

@@ -53,7 +53,7 @@ const inspectorRoles: FeatureItem[] = [
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0">
     <WikiHero
       title="Pokémon Inspection Agency"
       subtitle="The regulatory authority ensuring the integrity, strength, and ethics of the Regional Gym circuit."

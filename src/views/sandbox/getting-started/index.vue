@@ -7,7 +7,6 @@ import { charmPoints } from '@/data/charm-points'
 </script>
 
 <template>
-  <v-container fluid class="pa-0">
     <WikiHero
       title="Getting Started"
       subtitle="A quick guide to getting started in the Pokémon RP."
@@ -41,7 +40,7 @@ import { charmPoints } from '@/data/charm-points'
       </template>
     </WikiHero>
 
-    <v-container max-width="1200" class="py-10">
+    <v-container class="py-10">
       <!-- Section 1: Welcome -->
       <WikiCard
         title="Welcome to the Wonderful World of Pokémon"
@@ -173,7 +172,6 @@ import { charmPoints } from '@/data/charm-points'
         </div>
       </WikiCard>
     </v-container>
-  </v-container>
 </template>
 
 <style scoped>

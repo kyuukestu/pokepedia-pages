@@ -19,5 +19,5 @@ export default {
 
   tags: ['Contests', 'Showcases', 'Style Metrics'],
 
-  toOverride: '/sandbox/contests',
+  routeOverride: '/sandbox/contests',
 } satisfies Article

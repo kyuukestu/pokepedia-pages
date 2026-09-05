@@ -30,7 +30,7 @@ const { activeParty, box, history, activeCount, ownedCount } = usePokemon(pokemo
 </script>
 
 <template>
-  <v-container max-width="1200" class="py-6 wiki-dashboard-view">
+  <v-container class="py-6 wiki-dashboard-view">
     <!-- SYNCING LOADING BOUNDARY -->
     <div v-if="loading" class="d-flex flex-column align-center justify-center py-16">
       <v-progress-circular indeterminate size="40" color="primary" class="mb-4" />
