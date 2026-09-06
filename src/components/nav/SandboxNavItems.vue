@@ -8,6 +8,7 @@ type SandboxNavItem = {
   icon?: string
 }
 
+
 const emit = defineEmits<{ navigate: [] }>()
 
 function nav() {
@@ -78,7 +79,6 @@ const groups: Array<{ label: string; items: SandboxNavItem[] }> = [
                 width: '18px',
                 height: '18px',
                 maskImage: `url(${getImageUrl(item.customIcon)})`,
-                webkitMaskImage: `url(${getImageUrl(item.customIcon)})`,
               }"
             ></div>
           </v-icon>

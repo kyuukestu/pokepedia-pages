@@ -2,8 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Article } from '@/types/kenn'
-
-const props = defineProps<{
+defineProps<{
   meta: Article
   fluid?: boolean
 }>()
