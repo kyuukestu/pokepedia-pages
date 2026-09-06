@@ -3,6 +3,8 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'mareep-festival-001',
   eventId: 'mareep-festival',
+  region: ['johto'],
+  title: 'Mareep Festival',
 
   location: 'Mariko Village, Johto',
   members: [

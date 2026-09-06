@@ -3,7 +3,8 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'exeggutor-isle-001',
   eventId: 'contest',
-
+  title: 'Exeggutor Isle Contest',
+  region: ['alola'],
   location: 'Exeggutor Island',
 
   members: [

@@ -3,6 +3,8 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'silver-conference-001',
   eventId: 'conference',
+  region: ['johto'],
+  title: 'Silver Conference',
 
   members: null,
 

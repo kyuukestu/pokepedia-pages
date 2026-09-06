@@ -1,0 +1,239 @@
+// src/assets/styles/components/fullcalendar.scss
+
+.pokemon-calendar {
+  // FullCalendar v7 CSS Variable Theme Overrides
+  --fc-border-color: rgba(var(--v-theme-on-surface), 0.12);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: rgba(var(--v-theme-on-surface), 0.02);
+  --fc-today-bg-color: rgba(var(--v-theme-amber), 0.08);
+  --fc-highlight-color: rgba(var(--v-theme-amber), 0.15);
+
+  --fc-button-bg-color: rgba(var(--v-theme-surface-variant), 0.4);
+  --fc-button-border-color: rgba(var(--v-theme-on-surface), 0.15);
+  --fc-button-text-color: rgb(var(--v-theme-on-surface));
+  --fc-button-hover-bg-color: rgba(var(--v-theme-amber), 0.2);
+  --fc-button-hover-border-color: rgb(var(--v-theme-amber-lighten-2));
+  --fc-button-active-bg-color: rgb(var(--v-theme-amber-darken-2));
+  --fc-button-active-border-color: rgb(var(--v-theme-amber-darken-2));
+
+  font-family: 'Lexend Deca', sans-serif;
+
+  // ----------------------------------------
+  // Header Toolbar & Buttons Direct Override
+  // ----------------------------------------
+  .fc-header-toolbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 1.25rem !important;
+    gap: 0.75rem !important;
+    flex-wrap: wrap !important;
+
+    .fc-toolbar-title {
+      font-family: 'Grenze Gotisch', serif !important;
+      font-size: 1.85rem !important;
+      font-weight: 600 !important;
+      color: rgb(var(--v-theme-on-surface)) !important;
+      letter-spacing: 0.03em !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+    }
+
+    .fc-toolbar-chunk {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+
+    // Direct, aggressive styling on FullCalendar button primitives
+    .fc-button,
+    .fc-button-primary,
+    button {
+      all: unset !important; // Clears Vuetify / User Agent button resets
+      box-sizing: border-box !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background-color: rgba(var(--v-theme-surface-variant), 0.4) !important;
+      color: rgb(var(--v-theme-on-surface)) !important;
+      border: 1px solid rgba(var(--v-theme-on-surface), 0.15) !important;
+      text-transform: uppercase !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      padding: 0.4rem 0.85rem !important;
+      height: 34px !important;
+      border-radius: 6px !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      user-select: none !important;
+
+      &:hover:not(:disabled) {
+        background-color: rgba(var(--v-theme-amber), 0.2) !important;
+        border-color: rgb(var(--v-theme-amber-lighten-2)) !important;
+        color: rgb(var(--v-theme-amber-lighten-2)) !important;
+      }
+
+      &:active,
+      &.fc-button-active,
+      &[aria-pressed='true'] {
+        background-color: rgb(var(--v-theme-amber-darken-2)) !important;
+        border-color: rgb(var(--v-theme-amber-darken-2)) !important;
+        color: rgb(var(--v-theme-on-primary)) !important;
+        box-shadow: 0 0 8px rgba(var(--v-theme-amber), 0.4) !important;
+      }
+
+      &:disabled {
+        opacity: 0.4 !important;
+        cursor: not-allowed !important;
+      }
+
+      // Hide default FullCalendar icon shadows/borders
+      .fc-icon {
+        font-size: 1rem !important;
+        vertical-align: middle !important;
+      }
+    }
+
+    // Button group border handling (prevents double borders)
+    .fc-button-group {
+      display: inline-flex !important;
+      gap: 2px !important;
+
+      .fc-button {
+        border-radius: 6px !important;
+      }
+    }
+  }
+
+  // ----------------------------------------
+  // Calendar Grid & Cell Overrides
+  // ----------------------------------------
+  .fc-scrollgrid {
+    border: 1px solid var(--fc-border-color) !important;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .fc-col-header-cell {
+    background: rgba(var(--v-theme-on-surface), 0.03);
+    border-bottom: 1px solid var(--fc-border-color) !important;
+  }
+
+  .fc-col-header-cell-cushion {
+    padding: 0.65rem 0.5rem;
+    color: rgba(var(--v-theme-on-surface), 0.6);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+  }
+
+  .fc-daygrid-day {
+    transition: background-color 0.15s ease;
+
+    &.fc-day-today {
+      background-color: var(--fc-today-bg-color) !important;
+
+      .fc-daygrid-day-number {
+        color: rgb(var(--v-theme-amber-lighten-2));
+        font-weight: 800;
+      }
+    }
+
+    &.fc-highlight-range {
+      background-color: rgba(var(--v-theme-amber), 0.12) !important;
+    }
+  }
+
+  .fc-daygrid-day-frame {
+    min-height: 105px;
+  }
+
+  .fc-daygrid-day-number {
+    padding: 0.4rem 0.6rem;
+    color: rgba(var(--v-theme-on-surface), 0.5);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
+
+  .fc-day-sat,
+  .fc-day-sun {
+    background: rgba(var(--v-theme-on-surface), 0.012);
+  }
+
+  // Dot Event Pills Styling
+  .fc-daygrid-event {
+    background: transparent !important;
+    border: none !important;
+    margin: 2px 4px !important;
+  }
+
+  .custom-dot-wrapper {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .dot-event-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 3px 6px;
+    border-radius: 4px;
+    background: rgba(var(--v-theme-surface-variant), 0.6);
+    border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(var(--v-theme-amber), 0.18);
+      border-color: rgb(var(--v-theme-amber-lighten-2));
+      transform: translateY(-1px);
+    }
+
+    .dot-core {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: rgb(var(--v-theme-amber-lighten-2));
+      flex-shrink: 0;
+      box-shadow: 0 0 6px rgba(var(--v-theme-amber), 0.6);
+    }
+
+    .dot-label {
+      font-family: 'Lexend Deca', sans-serif;
+      font-size: 0.725rem;
+      font-weight: 600;
+      color: rgb(var(--v-theme-on-surface));
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .end-dot-indicator {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: rgba(var(--v-theme-on-surface), 0.4);
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+  }
+
+  .fc-daygrid-more-link {
+    color: rgb(var(--v-theme-amber-lighten-2));
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 2px 4px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

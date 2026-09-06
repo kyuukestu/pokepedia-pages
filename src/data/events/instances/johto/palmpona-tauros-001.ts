@@ -3,6 +3,9 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'palmpona-tauros-2026',
   eventId: 'one-on-one-tauros-competition',
+  region: ['johto'],
+  title: 'Palmpona Tauros Duels',
+  
 
   location: 'Palmpona, Johto',
 

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { eventInstances } from '@/data/events/instances'
 import { EventInstance } from '@/types/events'
+
 export const useEventStore = defineStore('events', {
   state: () => ({
     events: eventInstances as EventInstance[], // Type assertion for better IDE support

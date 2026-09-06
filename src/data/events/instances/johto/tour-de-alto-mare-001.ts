@@ -4,7 +4,9 @@ export default {
   id: 'tour-de-alto-mare-001',
   eventId: 'tour-de-alto-mare',
 
-  location: 'Alto Mare, Johto',
+  location: 'Alto Mare',
+  region: ['johto'],
+  title: 'Tour de Alto Mare',
 
   members: [
     {

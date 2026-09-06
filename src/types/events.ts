@@ -1,6 +1,27 @@
 // types/events.ts
 import { AllRegions } from './region'
 
+export interface HydratedEvent {
+  id: string
+  eventSlug: string
+  title: string
+  location: string
+  regions: AllRegions[]
+  regionDisplay: string
+  image: string
+  category: string
+  description: string
+  internalPath: string
+  rawStart: string
+  rawEnd: string
+  start: string
+  end?: string
+  allDay?: boolean
+  durationDays: number
+  classNames?: string[]
+  extendedProps?: Record<string, any>
+}
+
 export interface EventDefinition {
   id: string // 'indigo-conference'
   title: string
@@ -19,7 +40,7 @@ export interface EventInstance {
   id: string
   eventId: string // Linked Event Definition
   title?: string
-
+  region?: AllRegions[]
   location: string
   statusOverride?: EventStatusOverride
   /** Event Participants

@@ -3,8 +3,10 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'hustle-001',
   eventId: 'hustle',
+  region: ['sinnoh'],
+  title: 'Greenstation Hustle',
 
-  location: 'Greenstation Town, Sinnoh',
+  location: 'Greenstation Town',
 
   members: [],
 

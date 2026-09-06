@@ -114,6 +114,27 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/sandbox/events/components/EventDetailsDialog': RouteRecordInfo<
+      '/sandbox/events/components/EventDetailsDialog',
+      '/sandbox/events/components/EventDetailsDialog',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/events/components/EventFeedCard': RouteRecordInfo<
+      '/sandbox/events/components/EventFeedCard',
+      '/sandbox/events/components/EventFeedCard',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/sandbox/events/components/EventTemporalHeader': RouteRecordInfo<
+      '/sandbox/events/components/EventTemporalHeader',
+      '/sandbox/events/components/EventTemporalHeader',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/sandbox/getting-started/': RouteRecordInfo<
       '/sandbox/getting-started/',
       '/sandbox/getting-started',
@@ -650,6 +671,24 @@ declare module 'vue-router/auto-routes' {
     'src/views/sandbox/events/calendar/index.vue': {
       routes:
         | '/sandbox/events/calendar/'
+      views:
+        | never
+    }
+    'src/views/sandbox/events/components/EventDetailsDialog.vue': {
+      routes:
+        | '/sandbox/events/components/EventDetailsDialog'
+      views:
+        | never
+    }
+    'src/views/sandbox/events/components/EventFeedCard.vue': {
+      routes:
+        | '/sandbox/events/components/EventFeedCard'
+      views:
+        | never
+    }
+    'src/views/sandbox/events/components/EventTemporalHeader.vue': {
+      routes:
+        | '/sandbox/events/components/EventTemporalHeader'
       views:
         | never
     }

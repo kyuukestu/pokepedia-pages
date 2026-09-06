@@ -4,6 +4,8 @@ export default {
   id: 'balloon-race-001',
   eventId: 'balloon-race',
   location: 'Route 39 — North of Olivine City',
+  title: 'Balloon Race',
+  region: ['johto'],
 
   members: [],
 

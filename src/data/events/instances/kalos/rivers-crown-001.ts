@@ -2,9 +2,11 @@ import type { EventInstance } from '@/types/events'
 
 export default {
   id: 'rivers-crown-001',
-  eventId: 'rivers-crown',
+  eventId: 'medieval-festival',
+  title: 'Rivers Crown Festival',
 
   location: 'Loire de Fleuve Isle, Off the Coast of Cyllage',
+  region: ['kalos'],
 
   members: [],
 

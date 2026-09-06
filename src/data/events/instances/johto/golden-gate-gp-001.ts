@@ -3,8 +3,10 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'fire-rescue-grand-prix-001',
   eventId: 'fire-rescue-grand-prix',
+  region: ['johto'],
+  title: 'Fire Rescue Grand Prix',  
 
-  location: 'Goldengate, Johto',
+  location: 'Goldengate',
   
   members: null,
 

@@ -3,7 +3,8 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'indigo-conference-001',
   eventId: 'conference',
-
+  title: 'Indigo Conference',
+  region: ['kanto'],
   members: null,
 
   location: 'Indigo Plateau',

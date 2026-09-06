@@ -4,8 +4,9 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'heahea-001',
   eventId: 'contest',
-
+  title: 'Heahea Contest',
   location: 'Heahea City Contest Hall, Alola',
+  region: ['alola'],
 
   members: [
     { characterId: 'G' },

@@ -3,6 +3,8 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'hisui-festival-001',
   eventId: 'hisui-festival',
+  region: ['sinnoh'],
+  title: 'Hisui Festival',
 
   location: 'Canalave, Sinnoh',
 

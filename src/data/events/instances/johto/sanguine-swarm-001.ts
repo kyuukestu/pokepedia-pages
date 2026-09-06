@@ -4,6 +4,7 @@ export default {
   id: 'sanguine-swarm',
   eventId: 'ecological-disaster',
   title: 'Sanguine Swarm',
+  region: ['johto'],
 
   location: 'Northern Johto',
 

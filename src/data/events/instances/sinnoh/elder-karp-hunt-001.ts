@@ -3,6 +3,8 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'elder-karp-hunt',
   eventId: 'elder-karp-hunt',
+  region: ['sinnoh'],
+  title: 'Hunt for the Elder Karp',
 
   location: '',
 

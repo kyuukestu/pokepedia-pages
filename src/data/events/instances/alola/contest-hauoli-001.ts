@@ -4,8 +4,9 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'hauoli-001',
   eventId: 'contest',
-
+  title: 'Hau\'oli Contest',
   location: "Hau'oli City",
+  region: ['alola'],  
 
   members: null,
 

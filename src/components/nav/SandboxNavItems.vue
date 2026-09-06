@@ -67,6 +67,7 @@ const groups: Array<{ label: string; items: SandboxNavItem[] }> = [
         active-class="sandbox-nav-item--active"
         class="sandbox-nav-item my-1"
         @click="nav"
+        exact
       >
         <template v-slot:prepend>
           <!-- Custom Asset Mask Icon -->

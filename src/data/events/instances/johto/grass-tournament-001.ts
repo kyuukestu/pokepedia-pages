@@ -3,6 +3,9 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'grass-tournament-001',
   eventId: 'grass-tournament',
+  region: ['johto'],
+  title: 'The Verdant Crown',
+  
 
   location: 'Route 37, Johto',
 

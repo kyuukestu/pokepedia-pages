@@ -3,6 +3,9 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'running-of-the-tauros-001',
   eventId: 'running-of-the-tauros',
+  region: ['johto'],
+  title: 'Running of the Tauros',
+  
 
   location: 'Palmpona Streets, Johto',
 

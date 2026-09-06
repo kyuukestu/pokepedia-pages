@@ -3,8 +3,10 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'extreme-race-001',
   eventId: 'extreme-pokemon-race',
+  title: 'Extreme Pokémon Race',
+  region: ['johto'],
 
-  location: 'Eggseter, Johto',
+  location: 'Eggseter',
 
   members: [],
 

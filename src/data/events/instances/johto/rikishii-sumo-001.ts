@@ -3,6 +3,8 @@ import type { EventInstance } from '@/types/events'
 export default {
   id: 'rikishii-sumo-001',
   eventId: 'sumo-conference',
+  region: ['johto'],
+  title: 'Rikishii Town Sumo Conference',
 
   location: 'Rikishii Town, Johto',
   
