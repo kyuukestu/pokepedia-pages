@@ -2,7 +2,7 @@ import type { EventInstance } from '@/types/events'
 
 export default {
   id: 'hustle-001',
-  eventId: 'theme-race',
+  eventId: 'hustle',
   region: ['sinnoh'],
   title: 'Greenstation Hustle',
 

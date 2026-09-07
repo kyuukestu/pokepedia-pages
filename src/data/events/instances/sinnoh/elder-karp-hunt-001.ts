@@ -8,7 +8,7 @@ export default {
 
   location: '',
 
-  members: null,
+  participants: null,
 
   calendar: {
     start: '2022-08-01T00:00:00',

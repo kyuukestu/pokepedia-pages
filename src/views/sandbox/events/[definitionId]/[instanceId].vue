@@ -20,9 +20,7 @@ function openMedia(media: { url: string; caption?: string }) {
   mediaDialog.value = true
 }
 
-const instance = computed(() =>
-  getEventInstanceById(instanceId),
-)
+const instance = computed(() => getEventInstanceById(instanceId))
 
 const definition = computed(() => {
   const instanceEventId = instance.value?.eventId
@@ -32,7 +30,7 @@ const definition = computed(() => {
   if (definitionId !== instanceEventId) {
     console.warn(
       `Event instance "${instanceId}" belongs to "${instanceEventId}", ` +
-      `but URL specifies "${definitionId}".`,
+        `but URL specifies "${definitionId}".`,
     )
   }
 
@@ -45,45 +43,17 @@ function formatDate(dateString?: string) {
   return new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(new Date(dateString))
 }
 
-const sortedCompetitions = computed(() => {
-  const comps = instance.value?.extras?.competitions ?? []
-
-  return comps.map((comp) => ({
-    ...comp,
-    standings: comp.standings
-      ? [...comp.standings].sort((a, b) => a.rank - b.rank)
-      : [],
-  }))
-})
-
 const extras = computed(() => instance.value?.extras)
 
-const requirements = computed(
-  () => extras.value?.requirements,
-)
+const requirements = computed(() => extras.value?.requirements)
 
-const rewards = computed(
-  () => extras.value?.rewards ?? [],
-)
+const rewards = computed(() => extras.value?.rewards ?? [])
 
-const schedule = computed(
-  () => extras.value?.schedule ?? [],
-)
+const schedule = computed(() => extras.value?.schedule ?? [])
 
-const narrative = computed(
-  () => extras.value?.narrative,
-)
+const narrative = computed(() => extras.value?.narrative)
 
-const gallery = computed(
-  () => extras.value?.gallery ?? [],
-)
-
-function getRankColor(rank: number) {
-  if (rank === 1) return 'amber-lighten-4'
-  if (rank === 2) return 'grey-lighten-3'
-  if (rank === 3) return 'orange-lighten-4'
-  return 'transparent'
-}
+const gallery = computed(() => extras.value?.gallery ?? [])
 </script>
 
 <template>
@@ -136,7 +106,9 @@ function getRankColor(rank: number) {
               class="pa-3 border bg-on-surface-variant d-flex justify-space-between align-center"
             >
               <div>
-                <div class="text-subtitle-2 font-weight-black text-uppercase">{{ moment.title }}</div>
+                <div class="text-subtitle-2 font-weight-black text-uppercase">
+                  {{ moment.title }}
+                </div>
                 <div class="text-caption text-medium-emphasis">{{ moment.description }}</div>
               </div>
               <v-btn
@@ -175,7 +147,9 @@ function getRankColor(rank: number) {
                 >
                   {{ item.date || 'DATE TBD' }}
                 </div>
-                <div class="bg-on-surface-variant grow d-flex flex-column align-center justify-center py-3">
+                <div
+                  class="bg-on-surface-variant grow d-flex flex-column align-center justify-center py-3"
+                >
                   <v-icon size="16" class="mb-1 opacity-60">mdi-clock-outline</v-icon>
                   <div class="mono-font text-caption font-weight-black">
                     {{ item.time || '00:00' }}
@@ -189,7 +163,13 @@ function getRankColor(rank: number) {
                   <div class="text-subtitle-2 font-weight-black text-uppercase leading-tight">
                     {{ item.activity }}
                   </div>
-                  <v-chip v-if="item.isKeyMoment" color="red" size="x-small" variant="flat" class="font-weight-black">
+                  <v-chip
+                    v-if="item.isKeyMoment"
+                    color="red"
+                    size="x-small"
+                    variant="flat"
+                    class="font-weight-black"
+                  >
                     KEY MOMENT
                   </v-chip>
                 </div>
@@ -209,112 +189,6 @@ function getRankColor(rank: number) {
               Timeline entries for this instance have not been logged.
             </div>
           </div>
-        </section>
-
-        <!-- COMPETITIVE ARCHIVE SECTION -->
-        <section v-if="sortedCompetitions.length" class="mb-16">
-          <div class="grid-section-header">Competitive Archive</div>
-          <v-expansion-panels variant="accordion" class="custom-panels">
-            <v-expansion-panel
-              v-for="(comp, idx) in sortedCompetitions"
-              :key="idx"
-              class="border rounded-0 mb-2 overflow-hidden"
-            >
-              <v-expansion-panel-title class="bg-grey-lighten-4 pa-0 overflow-hidden">
-                <template #default="{ expanded }">
-                  <div class="d-flex align-center w-100">
-                    <div
-                      class="vertical-label bg-grey-darken-3 text-white text-overline font-weight-black d-flex align-center justify-center"
-                    >
-                      {{ comp.type }}
-                    </div>
-
-                    <v-row no-gutters class="align-center px-5 py-3">
-                      <v-col cols="12" :sm="expanded ? 12 : 7" class="text-center text-sm-start">
-                        <div
-                          class="text-subtitle-1 font-weight-black text-uppercase letter-spacing-1 leading-tight"
-                        >
-                          {{ comp.name || 'UNNAMED TOURNAMENT' }}
-                        </div>
-                        <div class="d-flex align-center justify-center justify-sm-start ga-2 mt-1">
-                          <v-chip
-                            size="x-small"
-                            variant="flat"
-                            class="font-weight-bold mono-font px-2"
-                            color="primary"
-                            label
-                          >
-                            ROSTER: {{ comp.standings.length }}
-                          </v-chip>
-                          <v-chip v-if="comp.format" size="x-small" variant="outlined" class="text-uppercase font-weight-bold">
-                            {{ comp.format }}
-                          </v-chip>
-                        </div>
-                      </v-col>
-
-                      <!-- WINNER DISPLAY -->
-                      <v-col
-                        v-if="!expanded && comp.standings[0]"
-                        cols="12"
-                        sm="5"
-                        class="text-center text-sm-right mt-3 mt-sm-0"
-                      >
-                        <div class="d-inline-flex align-center ga-2">
-                          <div class="text-right">
-                            <div
-                              class="text-uppercase text-grey-darken-1 font-weight-black mb-n1"
-                              style="font-size: 0.65rem; letter-spacing: 0.5px"
-                            >
-                              Tournament Winner
-                            </div>
-                            <div class="text-body-2 font-weight-black text-uppercase text-primary">
-                              {{ comp.standings[0].participantId }}
-                            </div>
-                          </div>
-                          <v-icon size="20" color="amber-darken-1">mdi-trophy-variant</v-icon>
-                        </div>
-                      </v-col>
-                    </v-row>
-                  </div>
-                </template>
-              </v-expansion-panel-title>
-
-              <v-expansion-panel-text class="pa-0">
-                <v-table density="comfortable" class="standings-table border-t">
-                  <thead>
-                    <tr class="bg-white">
-                      <th class="text-center font-weight-black" style="width: 80px">POS</th>
-                      <th class="font-weight-black">PARTICIPANT / TEAM ID</th>
-                      <th class="text-right font-weight-black">RESULT</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="entry in comp.standings" :key="entry.participantId">
-                      <td
-                        class="text-center font-weight-black border-e"
-                        :class="`bg-${getRankColor(entry.rank)}`"
-                      >
-                        {{ entry.rank }}
-                      </td>
-                      <td class="mono-font text-body-2 py-4">
-                        {{ entry.participantId }}
-                        <div
-                          v-if="entry.notes"
-                          class="text-disabled italic"
-                          style="font-size: 0.7rem"
-                        >
-                          {{ entry.notes }}
-                        </div>
-                      </td>
-                      <td class="text-right font-weight-bold text-primary">
-                        {{ entry.score || '---' }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </v-table>
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-          </v-expansion-panels>
         </section>
 
         <!-- MEDIA RECON SECTION -->
@@ -355,7 +229,11 @@ function getRankColor(rank: number) {
         <aside class="sticky-sidebar">
           <!-- CARD IMAGE & HOST -->
           <v-card variant="outlined" class="rounded-0 mb-8 overflow-hidden">
-            <v-img :src="getImageUrl(instance.image || definition.image || '')" height="300" cover />
+            <v-img
+              :src="getImageUrl(instance.image || definition.image || '')"
+              height="300"
+              cover
+            />
             <div v-if="extras?.host" class="pa-4 bg-grey-lighten-4 border-t">
               <div class="text-overline text-grey leading-tight mb-1">Host Entity</div>
               <div class="text-subtitle-1 font-weight-black mono-font text-uppercase">
@@ -376,12 +254,19 @@ function getRankColor(rank: number) {
             </div>
             <div class="mb-4">
               <div class="text-caption text-grey">Time Signature</div>
-              <div class="text-body-2 font-weight-bold">{{ formatDate(instance.calendar.start) }}</div>
+              <div class="text-body-2 font-weight-bold">
+                {{ formatDate(instance.calendar.start) }}
+              </div>
             </div>
             <div v-if="requirements">
               <div class="text-caption text-grey">Requirements</div>
               <div class="text-body-2 font-weight-bold">
-                {{ requirements.rankRequired || requirements.entryFee || requirements.description || 'None' }}
+                {{
+                  requirements.rankRequired ||
+                  requirements.entryFee ||
+                  requirements.description ||
+                  'None'
+                }}
               </div>
             </div>
           </v-card>
@@ -391,18 +276,18 @@ function getRankColor(rank: number) {
             <div class="d-flex align-center justify-space-between mb-4">
               <div class="grid-section-header mb-0 w-100">Roster</div>
               <div class="text-caption mono-font ms-2">
-                [{{ instance.members?.length || 0 }}]
+                [{{ instance.participants?.length || 0 }}]
               </div>
             </div>
             <div class="d-flex flex-column ga-2 mt-4">
-              <template v-if="instance.members?.length">
+              <template v-if="instance.participants?.length">
                 <div
-                  v-for="m in instance.members"
-                  :key="m.characterId"
+                  v-for="m in instance.participants"
+                  :key="m.name"
                   class="personnel-row border-s-lg border-primary bg-grey-darken-4 text-white pa-2 px-4 d-flex justify-space-between align-center"
                 >
                   <span class="mono-font text-caption font-weight-black text-uppercase">
-                    {{ m.name || m.characterId }}
+                    {{ m.name }}
                   </span>
                   <v-icon size="12" color="primary">mdi-chevron-right</v-icon>
                 </div>
@@ -423,7 +308,9 @@ function getRankColor(rank: number) {
                 <span class="text-caption font-weight-black text-uppercase">
                   {{ reward.isSecret ? '??? (Mystery Prize)' : reward.name }}
                 </span>
-                <div class="text-xxs text-disabled text-uppercase font-weight-bold">{{ reward.rewardType }}</div>
+                <div class="text-xxs text-disabled text-uppercase font-weight-bold">
+                  {{ reward.rewardType }}
+                </div>
               </div>
               <v-icon size="16" color="primary">mdi-package-variant-closed</v-icon>
             </div>

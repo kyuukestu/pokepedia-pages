@@ -8,7 +8,7 @@ export default {
 
   location: 'Canalave, Sinnoh',
 
-  members: [
+  participants: [
     {
       characterId: 'merciless_medic',
       name: 'Naka',

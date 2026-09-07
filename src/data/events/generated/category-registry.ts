@@ -1,8 +1,10 @@
 // AUTO-GENERATED FILE
 // Do not edit manually.
 
+import conference from '../categories/conference'
 import contest from '../categories/contest/contests'
 import ecological_disaster from '../categories/ecology/disaster'
+import other from '../categories/other'
 import pokemon_festival from '../categories/festivals/pokemon'
 import showcase from '../categories/showcase'
 import standard_race from '../categories/race/standard'
@@ -14,8 +16,10 @@ import theme_tournament from '../categories/tournaments/theme'
 import type_tournament from '../categories/tournaments/type'
 
 export const eventCategories = [
+  conference,
   contest,
   ecological_disaster,
+  other,
   pokemon_festival,
   showcase,
   standard_race,
@@ -28,8 +32,10 @@ export const eventCategories = [
 ] as const
 
 export type EventCategoryId =
+  | 'conference'
   | 'contest'
   | 'ecological-disaster'
+  | 'other'
   | 'pokemon-festival'
   | 'showcase'
   | 'standard-race'

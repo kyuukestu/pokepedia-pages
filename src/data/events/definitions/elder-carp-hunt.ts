@@ -3,7 +3,7 @@ import type { EventDefinition } from "@/types/events";
 export default {
   id: "elder-karp-hunt",
   title: "Great Hunt for The Elder Karp",
-  category: "competition",
+  category: "other",
   regions: ["sinnoh"],
   image: "https://i.imgur.com/ROUaI8A.png",
   description:

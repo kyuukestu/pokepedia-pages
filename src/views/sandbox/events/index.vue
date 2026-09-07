@@ -3,13 +3,14 @@ import { ref, computed } from 'vue'
 import { eventDefinitions } from '@/data/events/definitions'
 import { getImageUrl } from '@/utils/path-resolvers'
 import { AllRegions } from '@/types/region'
-import { EventCategories, EventDefinition } from '@/types/events'
+import { EventDefinition } from '@/types/events'
+import { type EventCategoryId } from '@/data/events/generated/category-registry'
 import WikiHero from '@/components/sections/WikiHero.vue'
 import RegionFilter from '@/components/RegionFilter.vue'
 
 const searchQuery = ref('')
 const selectedRegion = ref<AllRegions | null>(null)
-const selectedCategory = ref<EventCategories | null>(null)
+const selectedCategory = ref<EventCategoryId | null>(null)
 
 function getEventRegions(event: EventDefinition): string[] {
   if (Array.isArray(event.regions)) return event.regions
@@ -276,7 +277,7 @@ const clearFilters = () => {
             <!-- Card Image Box -->
             <div class="event-image-wrapper">
               <v-img
-                :src="getImageUrl(event.image)"
+                :src="getImageUrl(event.image ?? '')"
                 height="220"
                 cover
                 crossorigin="anonymous"

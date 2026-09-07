@@ -8,7 +8,7 @@ export default {
   region: ['johto'],
   title: 'Tour de Alto Mare',
 
-  members: [
+  participants: [
     {
       characterId: 'kyuukestu',
       name: 'Esther',
@@ -18,31 +18,5 @@ export default {
   calendar: {
     start: '',
     allDay: true,
-  },
-
-  extras: {
-    competitions: [
-      {
-        name: 'Tour de Alto Mare',
-        type: 'race',
-        judgementType: 'timed',
-        format: 'single',
-        participants: [
-          {
-            id: 'kyuukestu',
-            members: [
-              {
-                characterId: 'kyuukestu',
-                name: 'Esther',
-              },
-            ],
-            name: 'Esther',
-          },
-        ],
-        notes:
-          'Trainers race through the canals of Alto Mare on floating platforms pulled by their Pokémon. The course includes numerous turns through the city waterways, with security measures in place to keep the race course clear of other water traffic.',
-      },
-    ],
-   
   },
 } satisfies EventInstance
