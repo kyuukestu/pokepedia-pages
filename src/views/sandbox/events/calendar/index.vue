@@ -88,7 +88,7 @@ const calendarOptions = computed(() => ({
     :upcoming-count="activeEvents.filter((e) => getStatus(e, currentRPDate) === 'upcoming').length"
   />
 
-  <v-container class="py-10 px-4 position-relative z-index-2">
+  <v-container class="py-10 px-2 position-relative z-index-2">
     <v-row class="ma-0 ga-y-6 fill-height align-stretch">
       <!-- Interactive Schedule Grid -->
       <v-col cols="12" lg="8" class="pa-2 d-flex flex-column">

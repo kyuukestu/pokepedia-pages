@@ -20,6 +20,21 @@ a,
     background-color: hsla(160, 100%, 37%, 0.2);
   }
 }
+
+/* In your global styles (e.g., src/assets/main.css) */
+.v-container:not(.v-container--fluid) {
+  /* Cap container at 92% to 95% of screen width instead of fixed pixels */
+  max-width: 90vw !important;
+  
+  /* Dynamic gutters: minimum 16px, scales up with viewport width */
+  padding-left: clamp(1rem, 3vw, 4rem) !important;
+  padding-right: clamp(1rem, 3vw, 4rem) !important;
+  
+  /* Ensure centering */
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 /*
 @media (min-width: 1024px) {
   body {
