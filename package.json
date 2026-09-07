@@ -16,7 +16,8 @@
     "lint": "run-s lint:*",
     "format": "prettier --write src/",
     "predeploy": "bun run build && cp dist/index.html dist/404.html",
-    "deploy": "node deploy.js"
+    "deploy": "node deploy.js",
+    "generate:events": "bun src/scripts/generate-event-registries/categories.ts && bun src/scripts/generate-event-registries/definitions.ts && bun src/scripts/generate-event-registries/instances.ts"
   },
   "dependencies": {
     "@fullcalendar/core": "6",

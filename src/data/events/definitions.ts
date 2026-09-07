@@ -2,7 +2,7 @@
 import type { EventDefinition } from '@/types/events'
 
 const definitionModules = import.meta.glob<EventDefinition>(
-  './definitions/*.ts',
+  './definitions/**/*.ts',
   {
     eager: true,
     import: 'default',

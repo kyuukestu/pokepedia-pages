@@ -6,22 +6,14 @@ export default {
   eventId: 'contest',
   title: 'Hau\'oli Contest',
   location: "Hau'oli City",
-  region: ['alola'],  
-
-  members: null,
+  region: ['alola'],
+  image: 'https://pbs.twimg.com/media/DtsvNtaUUAAfWae.jpg', 
+  participants: null,
 
   calendar: {
     start: '2022-08-23T00:00:00',
     allDay: true,
   },
 
-  extras: {
-    competitions: [
-      {
-        type: 'contest',
-        judgementType: 'judged',
-        standings: [],
-      },
-    ],
-  },
+
 } satisfies EventInstance

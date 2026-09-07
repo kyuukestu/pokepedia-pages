@@ -8,7 +8,7 @@ export default {
 
   location: 'Fortuna Town, Johto',
 
-  members: [],
+  participants: [],
 
   calendar: {
     start: '',

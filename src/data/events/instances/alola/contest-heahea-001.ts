@@ -6,9 +6,10 @@ export default {
   eventId: 'contest',
   title: 'Heahea Contest',
   location: 'Heahea City Contest Hall, Alola',
+  image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT63gkKgUJ7FaqFrio3AKNRMiCQUlRkcBUoRJ14t5QtRbp4i63R_gmkOVk&s=10',
   region: ['alola'],
 
-  members: [
+  participants: [
     { characterId: 'G' },
     { characterId: 'James' },
   ],
@@ -18,29 +19,5 @@ export default {
     allDay: false,
   },
 
-  extras: {
-    competitions: [
-      {
-        name: 'Heahea Singles Brilliant Stage',
-        type: 'contest',
-        judgementType: 'judged',
-        format: 'single',
-        notes:
-          'Standard Singles Format. Consists of the Performance Stage (Appeal) followed by the Battle Stage.',
-      },
-    ],
-
-    rewards: [
-      {
-        rewardType: 'ribbon',
-        name: 'Heahea Ribbon',
-        isSecret: false,
-      },
-    ],
-
-    requirements: {
-      description:
-        'Singles Format only. Entrants must present their Contest Pass upon registration.',
-    },
-  },
+  
 } satisfies EventInstance

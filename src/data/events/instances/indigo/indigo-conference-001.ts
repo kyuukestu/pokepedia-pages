@@ -5,7 +5,10 @@ export default {
   eventId: 'conference',
   title: 'Indigo Conference',
   region: ['kanto'],
-  members: null,
+  image:
+    'https://cdna.artstation.com/p/assets/images/images/026/733/310/large/ahmed-albastaki-pokemon-final.jpg?1589563198',
+
+  participants: null,
 
   location: 'Indigo Plateau',
 
@@ -13,20 +16,5 @@ export default {
     start: '2022-12-05T00:00:00',
     end: '2022-12-22T00:00:00',
     allDay: true,
-  },
-
-  extras: {
-    competitions: [
-      {
-        name: 'Indigo Conference - 2022',
-        type: 'tournament',
-        judgementType: 'bracket',
-        format: 'single',
-        participants: [],
-        standings: [],
-        judges: [],
-        notes: '',
-      },
-    ],
   },
 } satisfies EventInstance

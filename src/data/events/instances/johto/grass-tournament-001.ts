@@ -5,23 +5,23 @@ export default {
   eventId: 'grass-tournament',
   region: ['johto'],
   title: 'The Verdant Crown',
-  
-
+  image:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYilteon7tHU95qBq3t8YGdganpk6zzruARwt8YMFkPh5OZ4QXm2FuPGf8&s=10',
+  description:
+    'A one-on-one Pokémon tournament in which each competitor is permitted to enter only a single Grass-type Pokémon.',
   location: 'Route 37, Johto',
 
-  members: [
+  participants: [
     {
-      characterId: 'hecotoro',
-      name: 'Reina',
+      characterId: 'Reina',
     },
     {
-      characterId: 'merciless_medic',
-      name: 'Naka',
+      characterId: 'Nakano Saito',
     },
   ],
 
   calendar: {
-    start: '',
+    start: '2022-09-04T00:00:00',
     allDay: true,
   },
 
@@ -36,36 +36,5 @@ export default {
       description:
         'Competitors may enter only one Grass-type Pokémon. Matches are conducted as one-on-one battles.',
     },
-
-    competitions: [
-      {
-        name: 'Grass Tournament',
-        type: 'tournament',
-        judgementType: 'bracket',
-        format: 'single',
-        participants: [
-          {
-            id: 'hecotoro',
-            name: 'Reina',
-            members: [
-              {
-                characterId: 'hecotoro',
-                name: 'Reina',
-              },
-            ],
-          },
-          {
-            id: 'merciless_medic',
-            name: 'Naka',
-            members: [
-              {
-                characterId: 'merciless_medic',
-                name: 'Naka',
-              },
-            ],
-          },
-        ],
-      },
-    ],
   },
 } satisfies EventInstance

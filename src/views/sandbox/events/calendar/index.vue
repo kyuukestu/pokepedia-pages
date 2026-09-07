@@ -29,7 +29,8 @@ const selectedEvent = ref<HydratedEvent | null>(null)
 function handleEventClick(clickInfo: EventClickArg) {
   const { title, id, extendedProps: props } = clickInfo.event
   const rawStart = props.rawStart || clickInfo.event.startStr.split('T')[0]
-  const rawEnd = props.rawEnd || (clickInfo.event.endStr ? clickInfo.event.endStr.split('T')[0] : rawStart)
+  const rawEnd =
+    props.rawEnd || (clickInfo.event.endStr ? clickInfo.event.endStr.split('T')[0] : rawStart)
 
   selectedEvent.value = {
     ...props,
@@ -87,37 +88,54 @@ const calendarOptions = computed(() => ({
     :upcoming-count="activeEvents.filter((e) => getStatus(e, currentRPDate) === 'upcoming').length"
   />
 
-  <v-container class="py-10 px-4 position-relative z-index-2" max-width="1500">
-    <v-row class="ma-0 ga-y-6">
-      <!-- Interactive Schedule Grid (Spacious Layout) -->
-      <v-col cols="12" lg="8" class="pa-2">
-        <WikiCard title="Event Calendar" icon="mdi-calendar-month" color="amber">
-          <div class="notebook-calendar-container pa-5">
+  <v-container class="py-10 px-4 position-relative z-index-2">
+    <v-row class="ma-0 ga-y-6 fill-height align-stretch">
+      <!-- Interactive Schedule Grid -->
+      <v-col cols="12" lg="8" class="pa-2 d-flex flex-column">
+        <WikiCard
+          title="Event Calendar"
+          icon="mdi-calendar-month"
+          color="amber"
+          class="flex-grow-1"
+        >
+          <div class="notebook-calendar-container pa-5 h-100">
             <FullCalendar :options="calendarOptions" />
           </div>
         </WikiCard>
       </v-col>
 
       <!-- Active & Upcoming Event Feed -->
-      <v-col cols="12" lg="4" class="pa-2">
-        <WikiCard title="Active & Upcoming Feed" icon="mdi-bulletin-board" color="amber">
-          <div class="feed-scroll pr-1">
-            <template v-if="activeEvents.length > 0">
-              <EventFeedCard
-                v-for="item in activeEvents"
-                :key="item.id"
-                :item="item"
-                :status="getStatus(item, currentRPDate)"
-                :status-config="statusConfig"
-              />
-            </template>
+      <v-col cols="12" lg="4" class="pa-2 d-flex flex-column">
+        <WikiCard
+          title="Active & Upcoming Feed"
+          icon="mdi-bulletin-board"
+          color="amber"
+          class="flex-grow-1"
+        >
+          <div class="feed-scroll-wrapper">
+            <div class="feed-masonry-container pr-1 h-100">
+              <template v-if="activeEvents.length > 0">
+                <EventFeedCard
+                  v-for="item in activeEvents"
+                  :key="item.id"
+                  :item="item"
+                  :status="getStatus(item, currentRPDate)"
+                  :status-config="statusConfig"
+                />
+              </template>
 
-            <div v-else class="text-center pa-8 notebook-empty-box">
-              <v-icon size="32" color="amber-lighten-2" class="mb-2">
-                mdi-calendar-blank-outline
-              </v-icon>
-              <div class="font-mono text-caption font-weight-bold text-uppercase text-medium-emphasis">
-                No active or upcoming events recorded.
+              <div
+                v-else
+                class="text-center pa-8 notebook-empty-box h-100 d-flex flex-column align-center justify-center"
+              >
+                <v-icon size="32" color="amber-lighten-2" class="mb-2">
+                  mdi-calendar-blank-outline
+                </v-icon>
+                <div
+                  class="font-mono text-caption font-weight-bold text-uppercase text-medium-emphasis"
+                >
+                  No active or upcoming events recorded.
+                </div>
               </div>
             </div>
           </div>
@@ -134,20 +152,48 @@ const calendarOptions = computed(() => ({
   background: #141414;
   border: 1px solid #3d332a;
   border-radius: 4px;
+  container-type: inline-size; /* Enables container-query units for calendar elements */
+  display: flex;
+  flex-direction: column;
 }
 
-.feed-scroll {
-  max-height: 820px;
+.feed-scroll-wrapper {
+  max-height: clamp(500px, 70vh, 1200px);
   overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+  width: 100%;
 }
 
-.feed-scroll::-webkit-scrollbar {
+.feed-masonry-container {
+  /* Dynamic 2-column or 1-column layout based on width */
+  column-count: 1;
+  column-gap: 16px;
+  width: 100%;
+}
+
+.feed-masonry-container::-webkit-scrollbar {
   width: 4px;
 }
 
-.feed-scroll::-webkit-scrollbar-thumb {
+.feed-masonry-container::-webkit-scrollbar-thumb {
   background: #3d332a;
   border-radius: 2px;
+}
+
+@media (min-width: 600px) {
+  .feed-masonry-container {
+    column-count: 2;
+  }
+}
+
+/* Prevent cards from breaking across columns */
+:deep(.notebook-feed-card) {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 16px;
 }
 
 .notebook-empty-box {
@@ -177,13 +223,13 @@ const calendarOptions = computed(() => ({
 
 /* Spacious Cell Heights & Padding */
 :deep(.fc .fc-daygrid-day-frame) {
-  min-height: 110px;
+  min-height: clamp(80px, 8cqw, 180px);
   padding: 4px;
 }
 
 :deep(.fc .fc-daygrid-day-number) {
   font-family: monospace;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 0.9cqw, 1.1rem);
   padding: 4px 6px;
 }
 
@@ -194,7 +240,7 @@ const calendarOptions = computed(() => ({
   color: #121212 !important;
   font-weight: 600;
   font-family: monospace;
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 0.75cqw, 0.9rem);
   border-radius: 2px;
   padding: 2px 5px;
   margin-top: 3px;

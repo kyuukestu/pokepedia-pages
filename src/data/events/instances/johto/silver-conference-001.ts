@@ -6,9 +6,11 @@ export default {
   region: ['johto'],
   title: 'Silver Conference',
 
-  members: null,
+  participants: null,
 
   location: 'Indigo Plateau',
+
+  image: 'https://i.redd.it/zvrl9l60jkvz.jpg',
 
   calendar: {
     start: '2022-10-10T00:00:00',
@@ -16,18 +18,4 @@ export default {
     allDay: true,
   },
 
-  extras: {
-    competitions: [
-      {
-        name: 'Silver Conference - 2022',
-        type: 'tournament',
-        judgementType: 'bracket',
-        format: 'single',
-        participants: [],
-        standings: [],
-        judges: [],
-        notes: '',
-      },
-    ],
-  },
 } satisfies EventInstance

@@ -6,8 +6,9 @@ export default {
   title: 'Exeggutor Isle Contest',
   region: ['alola'],
   location: 'Exeggutor Island',
-
-  members: [
+  image:
+    'https://pbs.twimg.com/media/FqNSDUoXgAA3XE4?format=jpg&name=large',
+  participants:  [
     { characterId: 'esther' },
     { characterId: 'altair' },
     { characterId: 'laurie' },
@@ -26,71 +27,5 @@ export default {
   threadUrl:
     'https://www.rpnation.com/threads/pokemon-exeggutor-island-contest-ended.549374/',
 
-  image:
-    'https://pbs.twimg.com/media/FqNSDUoXgAA3XE4?format=jpg&name=large',
-
-  extras: {
-    competitions: [
-      {
-        type: 'contest',
-        judgementType: 'judged',
-
-        standings: [
-          {
-            participantId: 'heizou',
-            rank: 1,
-            score: '4W',
-          },
-          {
-            participantId: 'altair',
-            rank: 2,
-            score: '3W-2L',
-            notes: 'Runner-up',
-          },
-          {
-            participantId: 'esther',
-            rank: 3,
-            score: '3W-2L',
-            notes: "Loser's Bracket runner-up",
-          },
-          {
-            participantId: 'laurie',
-            rank: 4,
-            score: '2W-2L',
-          },
-          {
-            participantId: 'anju',
-            rank: 5,
-            score: '1W-2L',
-          },
-          {
-            participantId: 'G',
-            rank: 6,
-            score: '1W-2L',
-          },
-          {
-            participantId: 'nua',
-            rank: 7,
-            score: '2L',
-          },
-          {
-            participantId: 'saga',
-            rank: 8,
-            score: '2L',
-          },
-        ],
-
-        participants: [
-              { id: 'heizou', members: [{ characterId: 'heizou' }] },
-              { id: 'altair', members: [{ characterId: 'altair' }] },
-              { id: 'esther', members: [{ characterId: 'esther' }] },
-              { id: 'laurie', members: [{ characterId: 'laurie' }] },
-              { id: 'anju', members: [{ characterId: 'anju' }] },
-              { id: 'G', members: [{ characterId: 'G' }] },
-              { id: 'nua', members: [{ characterId: 'nua' }] },
-              { id: 'saga', members: [{ characterId: 'saga' }] },
-            ],
-      },
-    ],
-  },
+  
 } satisfies EventInstance

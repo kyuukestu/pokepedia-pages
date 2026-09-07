@@ -11,7 +11,6 @@ defineProps<{
   statusConfig: Record<EventStatus, { label: string; color: string; icon: string }>
 }>()
 </script>
-
 <template>
   <RouterLink :to="item.internalPath" class="feed-card-link">
     <v-card class="notebook-feed-card mb-4 overflow-hidden" elevation="0">
@@ -56,8 +55,12 @@ defineProps<{
           </div>
         </div>
 
-        <!-- Image Canvas -->
-        <v-img :src="getImageUrl(item.image)" height="180" cover class="align-end card-image">
+        <!-- Full Aspect Image (No fixed height, natural scaling) -->
+        <v-img
+          :src="getImageUrl(item.image)"
+          width="100%"
+          class="align-end card-image"
+        >
           <div class="card-scrim pa-3 w-100">
             <div
               class="font-mono text-caption font-weight-bold text-uppercase tracking-wider mb-1"
@@ -86,6 +89,7 @@ defineProps<{
     </v-card>
   </RouterLink>
 </template>
+
 <style scoped>
 .feed-card-link {
   text-decoration: none;
@@ -121,8 +125,9 @@ defineProps<{
   border-radius: 2px;
 }
 
+/* Subtle, tight gradient so the image isn't heavily obscured */
 .card-scrim {
-  background: linear-gradient(to top, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.6) 70%, transparent 100%);
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.4) 60%, transparent 100%);
 }
 
 .lh-tight {

@@ -2,35 +2,18 @@ import type { EventInstance } from '@/types/events'
 
 export default {
   id: 'hustle-001',
-  eventId: 'hustle',
+  eventId: 'theme-race',
   region: ['sinnoh'],
   title: 'Greenstation Hustle',
 
   location: 'Greenstation Town',
 
-  members: [],
+  participants: [],
+
+  image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1cRKBMUggRgQiqRaebv_LvOjJGAuKzwGkIonRmPidQA&s=10',
 
   calendar: {
     start: '',
     allDay: true,
-  },
-
-  extras: {
-    host: {
-      id: 'kyuukestu',
-      name: 'Kyuukestu',
-      hostType: 'character',
-    },
-
-    competitions: [
-      {
-        name: 'Pokémon Hustle',
-        type: 'other',
-        judgementType: 'timed',
-        format: 'single',
-        notes:
-          'Each Trainer competes alongside one Pokémon of their choice. Competitors must work in tandem to navigate multiple stages of an obstacle course within the allotted time. Trainers who are knocked from the obstacle course are disqualified.',
-      },
-    ],
-  },
+  }
 } satisfies EventInstance

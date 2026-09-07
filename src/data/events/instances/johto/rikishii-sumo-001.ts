@@ -8,7 +8,7 @@ export default {
 
   location: 'Rikishii Town, Johto',
   
-  members: null,
+  participants: null,
 
   calendar: {
     start: '2026-05-12T09:00:00Z',
@@ -17,16 +17,6 @@ export default {
 
   extras: {
     host: null,
-
-    competitions: [
-      {
-        name: 'Rikishii Town Sumo Conference',
-        type: 'tournament',
-        judgementType: 'bracket',
-        notes:
-          'Standard Sumo Rules. Ring-outs and ground-touches result in immediate elimination.',
-      },
-    ],
 
     requirements: {
       description:

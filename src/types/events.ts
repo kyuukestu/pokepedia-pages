@@ -1,5 +1,7 @@
 // types/events.ts
 import { AllRegions } from './region'
+import type { EventDefinitionId } from '@/data/events/generated/definition-registry'
+import type { EventCategoryId } from '@/data/events/generated/category-registry'
 
 export interface HydratedEvent {
   id: string
@@ -26,19 +28,27 @@ export interface EventDefinition {
   id: string // 'indigo-conference'
   title: string
 
-  category: EventCategories
+  category: EventCategoryId
   regions: AllRegions[]
 
   description?: string
-  image: string
+  image?: string
 
   bulba?: string
+}
+
+export type EventCategory = {
+  id: string
+  name: string
+  description?: string
 }
 
 export interface EventInstance {
   // Core Data
   id: string
-  eventId: string // Linked Event Definition
+  parentId?: string
+  eventId: EventDefinitionId // Linked Event Definition
+
   title?: string
   region?: AllRegions[]
   location: string
@@ -46,14 +56,17 @@ export interface EventInstance {
   /** Event Participants
    *
    *  NOTE: An event participant is a super-group and distinct from CompetitionParticipant for competitions within the event */
-  members: Member[] | null
+  participants: EventParticipant[] | null
 
   calendar: EventCalendarData
 
   threadUrl?: string // Link to the actual RP thread
   image?: string
-  
+  bulba?: string
+
   description?: string
+
+  standings?: EventStanding[]
 
   extras?: EventInstanceExtras
 }
@@ -63,8 +76,6 @@ export interface EventInstanceExtras {
   host?: EventHost | null // The character or NPC running the event
 
   requirements?: EntryRequirements
-
-  competitions?: Competition[] // For Tournaments/Contests/Races
 
   rewards?: Reward[] // Items, Trophies, or Titles
 
@@ -100,36 +111,29 @@ interface EventMedia {
   type: 'image' | 'video'
 }
 
-interface Competition {
-  name?: string
-
-  type: CompetitionType
-  judgementType?: JudgementType
-  format?: CompetitionFormat
-
-  participants?: CompetitionParticipant[]
-  standings?: CompetitionStanding[]
-
-  judges?: CompetitionJudge[] // NPC or Player judges
-  notes?: string
-}
-
-interface CompetitionStanding {
+interface EventStanding {
   rank: number //1, 2, 3... used for display order
   participantId: string // CompeitionParticipant ID
   score?: string | number // "12.5s", 450, DQ, DNF, etc.
   notes?: string // e.g., "Eliminated in Round 2"
 }
 
-interface CompetitionJudge {
-  id: string
+export type EventParticipant = Individual | Team
+
+export interface Individual {
+  characterId: string
   name?: string
 }
 
-export interface CompetitionParticipant {
+export interface Team {
   id: string
-  members?: Member[] | null
-  name?: string // Mostly here for team name
+  name: string
+  members: TeamMember[]
+}
+
+export interface TeamMember {
+  characterId: string
+  name?: string
 }
 
 interface Reward {
@@ -145,11 +149,6 @@ interface ScheduleItem {
   activity: string
   isKeyMoment: boolean // Highlighting the "Grand Finale"
   location?: string
-}
-
-interface Member {
-  characterId: string // Link to character profiles; This one is main, name is aesthetic override.
-  name?: string
 }
 
 interface NarrativeSummary {
@@ -172,21 +171,12 @@ interface EntryRequirements {
   metadata?: Record<string, unknown> // For anything truly fringe
 }
 
-export type EventStatus = 'upcoming' | 'ongoing' | 'completed' 
+export type EventStatus = 'upcoming' | 'ongoing' | 'completed'
 
-export type EventStatusOverride =
-  | 'postponed'
+export type EventStatusOverride = 'postponed'
 
-export type EventCategories =
-  | 'tournament'
-  | 'contest'
-  | 'conference'
-  | 'showcase'
-  | 'festival'
-  | 'ecological'
-  | 'competition'
-  | 'race'
-  | 'other'
+
+  
 
 export type HostTypes = 'character' | 'organization'
 

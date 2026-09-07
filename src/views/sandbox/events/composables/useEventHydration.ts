@@ -27,7 +27,7 @@ export function useEventHydration() {
         location: instance.location,
         regions: instance.region || [],
         regionDisplay: formatEventRegions(instance.region),
-        image: definition?.image || '',
+        image: instance?.image || definition?.image || '',
         category: definition?.category || 'other',
         description: instance.description || definition?.description || 'No Description.',
         internalPath: `/sandbox/events/${instance.eventId}/${instance.id}`,

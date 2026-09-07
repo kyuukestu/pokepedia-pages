@@ -9,7 +9,7 @@ export default {
 
   location: 'Palmpona Streets, Johto',
 
-  members: null,
+  participants: null,
 
   calendar: {
     start: '2026-05-07T18:00:00Z',
@@ -17,15 +17,6 @@ export default {
   },
 
   extras: {
-    competitions: [
-      {
-        name: 'The Palmpona Dash',
-        type: 'race',
-        judgementType: 'timed',
-        notes:
-          'Objective: Be the first to touch a Tauros horn. Participants must navigate the herd without being trampled.',
-      },
-    ],
 
     rewards: [
       {
